@@ -12,28 +12,20 @@
 #include "FacadeServeurJeu.h"
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\ControllerServeurJeu.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetChatMessage.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetUserStatus.h"
 #include "..\Reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameStatus.h"
-#include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
-#include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
 #include <stdexcept>
 #include <time.h>
 #include "GameManager.h"
 #include "RazerGameUtilities.h"
-#include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
 #include "..\Reseau\PaquetRunnableServeurJeu.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetPortal.h"
+#include "UsinePaquet.h"
 
 void InitDLLServeurJeu()
 {
-    NETWORK_LOG_FILE_NAME = "GAME_SVR_LOG_";
-    NETWORK_PACKET_FILE_NAME = "GAME_SVR_PACKET_";
+    NETWORK_LOG_FILE_NAME =         "SVRGAME_LOG_";
+    NETWORK_PACKET_SENT_FILE_NAME = "SVRGAME_PACKET_SENT_";
+    NETWORK_PACKET_RECV_FILE_NAME = "SVRGAME_PACKET_RECV_";
 
     // Initialisation du GestionnaireReseau
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
@@ -50,17 +42,17 @@ void InitDLLServeurJeu()
     
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-    wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_STATUS, new PacketHandlerGameStatus, new UsinePaquetGameStatus);
-    //wGestionnaireReseau->ajouterOperationReseau(AUTHENTIFICATION_SERVEUR_JEU, new PacketHandlerAuthentificationServeurJeu, new UsinePaquetAuthentificationServeurJeu);
-    wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
-    wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
-    wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
-    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
+
+
+
+
+
+
+
+
+
+
+
 
     // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
     FacadeServeurJeu::getInstance();
@@ -74,7 +66,7 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
         GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
         wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 
-        PaquetEvent* wPaquet = (PaquetEvent*)wGestionnaireReseau->creerPaquet(EVENT);
+        PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
         wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
         wPaquet->setMessage("");
 

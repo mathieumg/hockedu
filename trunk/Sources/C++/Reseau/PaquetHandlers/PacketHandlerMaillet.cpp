@@ -1,8 +1,6 @@
 
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetMaillet.h"
+#include "PaquetMaillet.h"
 
 
 void PacketHandlerMaillet::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)

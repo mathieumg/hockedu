@@ -30,6 +30,7 @@
 #include "Paquets\PaquetGameCreation.h"
 #include "VisiteurCollision.h"
 #include "NodeBonus.h"
+#include "GestionnaireReseau.h"
 
 
 #ifdef LINUX
@@ -150,6 +151,7 @@ int PaquetRunnable::RunnableGameCreationClient( Paquet* pPaquet )
         wPaquetConnexion->setGameId(wPaquet->getGameId());
         wPaquetConnexion->setGameServerId(wPaquet->getServerId());
         wPaquetConnexion->setPassword(FacadeModele::getInstance()->getGameCreationPassword());
+        wPaquetConnexion->setUsername(GestionnaireReseau::obtenirInstance()->getPlayerName());
 
         wSocketGameServer->setOnConnectionCallback([wPaquetConnexion]()->void{ GestionnaireReseau::obtenirInstance()->envoyerPaquet("GameServer", wPaquetConnexion, TCP); });
 

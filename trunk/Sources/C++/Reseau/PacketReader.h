@@ -3,21 +3,22 @@
 #include <stdint.h>
 #include <iostream>
 #include <stdio.h>
+
+#if PACKET_DECRYPTOR
+#include <fstream>
+#endif
+
 #ifndef byte
 typedef unsigned char byte;
 #endif
+
 
 #ifdef LINUX
 #include <string.h>
 #endif
 
-#ifdef WINDOWS
-enum ByteOrder;
-#elif defined(LINUX)
-enum ByteOrder : uint8_t;
-#else
-typedef uint8_t ByteOrder;
-#endif
+#include "NetworkEnums.h"
+
 
 class PacketReader
 {
@@ -74,8 +75,18 @@ public:
     void setArrayStart( uint8_t* arrayStart, size_t arraySize);
     void append ( size_t pNewSize, uint8_t* pDataToAdd);
     void setSize (size_t size) { mSize = size; }
+    /// Accessors of mArrStart
+    inline const uint8_t* getBuffer() const { return mArrStart; }
 
     void clearBuffer();
+
+
+
+#if PACKET_DECRYPTOR
+    bool mPrintingToOut;
+    std::ifstream mInputFile;
+    std::ofstream* mOutputFile;
+#endif
 
 private:
 	// Boolean which determines whether data's bytes should be switched or not.
@@ -90,6 +101,8 @@ private:
 
 	// Pointer to the start of the array
 	uint8_t* mArrStart;
+
+
 
     // Stores current position in the array
     size_t mCurrentPosition; // Doit etre de type au moins aussi grand que mSize pour pouvoir donner la position
@@ -144,16 +157,15 @@ T PacketReader::swapBytes( T& pValueToSwap )
 template<class T>
 T PacketReader::readData( )
 {
-    size_t wDataSize = sizeof(T);
-    int8_t* wBytes = new int8_t[wDataSize];
-    memset(wBytes, 0, wDataSize);
-
-    memcpy_s(wBytes, wDataSize, mArrStart+mCurrentPosition, wDataSize);
-
-    mCurrentPosition += wDataSize;
-
-    T wDataRead = *((T*)wBytes);
-    delete wBytes;
+    T wDataRead = 0;
+#if PACKET_DECRYPTOR
+    mInputFile.read((char*)&wDataRead,sizeof(T));
+    std::cout << mInputFile.tellg() << std::endl;
+    if(mPrintingToOut && mOutputFile)(*mOutputFile )<< " " << wDataRead;
+#else
+    memcpy_s(&wDataRead, sizeof(T), mArrStart+mCurrentPosition, sizeof(T));
+    mCurrentPosition += sizeof(T);
+#endif
 
     return mSwapBytes ? swapBytes(wDataRead) : wDataRead;
 }

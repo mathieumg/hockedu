@@ -1,8 +1,5 @@
-
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetRondelle.h"
+#include "PaquetRondelle.h"
 
 
 void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)

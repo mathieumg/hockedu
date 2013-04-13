@@ -1,9 +1,5 @@
 #include "PacketHandler.h"
-#include <iostream>
-#include <sstream>
 #include "../Paquets/PaquetConnAutomatique.h"
-#include <sstream>
-#include "../GestionnaireReseau.h"
 
 void PacketHandlerConnAutomatique::handlePacketReceptionSpecific( PacketReader& pPacketReader, PaquetRunnableFunc pRunnable /* = NULL*/ )
 {

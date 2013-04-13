@@ -38,8 +38,9 @@ GameServer::~GameServer()
 {
     for(auto it = mGamesList.begin(); it != mGamesList.end(); ++it)
     {
-        removeGame(it->first);
+        delete it->second;
     }
+    mGamesList.clear();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -130,11 +131,9 @@ void GameServer::removeGame( int pGameId )
 {
     auto it = mGamesList.find(pGameId);
 
-    if(it == mGamesList.end())
+    if(it != mGamesList.end())
     {
-        throw ExceptionReseau("The specified game ID doesn't exist on this server.");
+        delete (*it).second;
+        mGamesList.erase((*it).first);
     }
-
-    delete (*it).second;
-    mGamesList.erase((*it).first);
 }

@@ -10,6 +10,7 @@
 #ifdef WINDOWS
 #include <WinSock2.h>
 #endif
+#include "NetworkEnums.h"
 #include "GestionnaireReseau.h"
 #include <strstream>
 #include <algorithm>
@@ -35,7 +36,6 @@
 #pragma comment( lib, "ws2_32.lib" )
 #endif
 
-ByteOrder GestionnaireReseau::NATIVE_BYTE_ORDER = UNKNOWN;
 
 // Initialisations automatiques
 SINGLETON_DECLARATION_CPP(GestionnaireReseau);
@@ -57,13 +57,16 @@ int GestionnaireReseau::communicationUDPPortClientLourd = GestionnaireReseau::co
 int GestionnaireReseau::communicationUDPPortServeurJeu = GestionnaireReseau::communicationPortMasterServer;
 
 std::ofstream errorLogHandle;
-std::ofstream PacketLogHandle;
+std::ofstream PacketSentLogHandle;
+std::ofstream PacketRecvLogHandle;
 bool bLogCreated = false;
 bool bPacketLogCreated = false;
+bool bPacketRecvLogCreated = false;
 
 /// ne pas rename, utis/ comme extern ailleur
-std::string NETWORK_LOG_FILE_NAME = "NETWORK_LOG_";
-std::string NETWORK_PACKET_FILE_NAME = "PACKET_LOG_";
+std::string NETWORK_LOG_FILE_NAME = "GAME_LOG_";
+std::string NETWORK_PACKET_SENT_FILE_NAME = "GAME_PACKET_SENT_LOG_";
+std::string NETWORK_PACKET_RECV_FILE_NAME = "GAME_PACKET_RECV_LOG_";
 
 // Network Log setup
 // Methode pour creer le fichier de log
@@ -83,7 +86,7 @@ void logSetup()
     }
 }
 
-void PacketlogSetup()
+void PacketSentlogSetup()
 {
     if(!bPacketLogCreated)
     {
@@ -92,12 +95,26 @@ void PacketlogSetup()
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
-        wFilename << "logs/"<< NETWORK_PACKET_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
-        PacketLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
+        wFilename << "logs/"<< NETWORK_PACKET_SENT_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
+        PacketSentLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
         bPacketLogCreated = true;
     }
 }
 
+void PacketRecvlogSetup()
+{
+    if(!bPacketRecvLogCreated)
+    {
+        FacadePortability::createDirectory("logs");
+        time_t wTime = time(0);
+        struct tm wTimeNow;
+        localtime_s( &wTimeNow, &wTime );
+        std::stringstream wFilename;
+        wFilename << "logs/"<< NETWORK_PACKET_RECV_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
+        PacketRecvLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
+        bPacketRecvLogCreated = true;
+    }
+}
 
 
 
@@ -114,7 +131,7 @@ void PacketlogSetup()
 GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
 {
     mCommunicateurReseau = new CommunicateurReseau();
-    getNativeByteOrder();
+    determineNativeByteOrder();
 
 	FacadePortability::createMutex(mMutexListeSockets);
 }
@@ -137,7 +154,7 @@ GestionnaireReseau::~GestionnaireReseau()
 		errorLogHandle.close();
 	}
 
-    
+
     delete mCommunicateurReseau;
 
 #ifdef WINDOWS
@@ -768,16 +785,18 @@ void GestionnaireReseau::sendMessageToLog(const char* File, int Line, const char
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::PacketSendToLog( const char* pMessage )
+void GestionnaireReseau::PacketSendToLog( const char* pMessage , int length )
 {
-    PacketlogSetup();
+    PacketSentlogSetup();
 
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
-    if(!PacketLogHandle.fail())
+    if(!PacketSentLogHandle.fail())
     {
-        PacketLogHandle<<1;
-        PacketLogHandle<<pMessage;
-        PacketLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
+        unsigned int t = time(0); // trunk it
+        PacketSentLogHandle.write((const char*)&t,4);
+        PacketSentLogHandle.put(1);  //sending packet token
+        PacketSentLogHandle.write(pMessage,length);
+        PacketSentLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
     }
 }
 
@@ -792,16 +811,18 @@ void GestionnaireReseau::PacketSendToLog( const char* pMessage )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireReseau::PacketReceivedToLog( const char* pMessage )
+void GestionnaireReseau::PacketReceivedToLog( const char* pMessage, int length )
 {
-    logSetup();
+    PacketRecvlogSetup();
 
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
-    if(!PacketLogHandle.fail())
+    if(!PacketRecvLogHandle.fail())
     {
-        PacketLogHandle<<0;
-        PacketLogHandle<<pMessage;
-        PacketLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
+        unsigned int t = time(0); // trunk it
+        PacketRecvLogHandle.write((const char*)&t,4);
+        PacketRecvLogHandle.put(0); //receiving packet token
+        PacketRecvLogHandle.write(pMessage,length);
+        PacketRecvLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
     }
 }
 

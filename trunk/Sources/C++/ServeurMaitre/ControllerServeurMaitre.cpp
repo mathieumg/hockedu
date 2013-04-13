@@ -65,48 +65,54 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
         }
     case GAME_SERVER_AUTHENTICATION_REQUEST:
         {
-#if !SHIPPING
-            std::cout << "Game server authentication request" << std::endl;
-#endif
+            NETWORK_LOG("Game server authentication request");
+            /// TODO:: A refactor, il faut un lien entre le paquet recu et le socket pour pouvoir le renvoyer de ou il vient
+
+            bool serverFound = false;
             for(auto i = GameServerManager::getAddedGameServersAmount() + 1; i <= GameServerManager::getLatestGameServerId(); ++i)
             {
                 std::ostringstream wIdentificationStringstream;
                 wIdentificationStringstream << "GameServer" << i;
                 std::string wIdentificationString = wIdentificationStringstream.str();
                 SPSocket wAssociatedSocket = GestionnaireReseau::obtenirInstance()->getSocket(wIdentificationString, TCP);
-                std::string wServerIP = wAssociatedSocket->getAdresseDestination();
-                GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
+                if(wAssociatedSocket)
+                {
+                    serverFound = true;
+                    std::string wServerIP = wAssociatedSocket->getAdresseDestination();
+                    GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
 
-                PaquetEvent* wReplyPacket = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
-                wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
-                std::stringstream message;
-                message << i;
-                wReplyPacket->setMessage(message.str());
-#if !SHIPPING
-                std::cout << "Replying to server id " << i << ". The server's IP is: " << wAssociatedSocket->getAdresseDestination() << std::endl;
-#endif
-                GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
+                    PaquetEvent* wReplyPacket = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
+                    wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
+                    std::stringstream message;
+                    message << i;
+                    wReplyPacket->setMessage(message.str());
+                    NETWORK_LOG("Replying to server id %d. The server's IP is: %s",i,wAssociatedSocket->getAdresseDestination().c_str());
+                    GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
+                }
+            }
+            if(!serverFound)
+            {
+                NETWORK_LOG("Game Server authentification : server not found in socket list");
             }
             break;
         }
     case SERVER_USER_CONNECTING:
         {
-            std::cout << "Event: Tentative de connexion de " << va_arg(pListeElems,char*) << std::endl;
+            char* name = va_arg(pListeElems,char*);
+            NETWORK_LOG("Event: Tentative de connexion de %s", name);
             break;
         }
     case GAMES_LIST_REQUEST:
         {
             std::string wPlayerName(va_arg(pListeElems,char*));
-#if !SHIPPING
-            std::cout << "Games list requested" << std::endl;
-#endif
+            NETWORK_LOG("Games list requested");
             auto wGameServersContainer = GameServerManager::obtenirInstance()->getGameServersContainer();
             for(auto wGameServerIt = wGameServersContainer.begin(); wGameServerIt != wGameServersContainer.end(); ++wGameServerIt)
             {
                 auto wGamesContainer = wGameServerIt->second->getGamesContainer();
                 for(auto wGameIt = wGamesContainer.begin(); wGameIt != wGamesContainer.end(); ++wGameIt)
                 {
-                    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+                    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
                     wPaquet->setEventCode(GAME_ADDED);
                     std::stringstream message("");
                     auto wGame = wGameIt->second;
@@ -123,35 +129,30 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 }
             }
         }
+        break;
     default:
-        std::cout << "EventCode: " << pEventCode << std::endl;
+        NETWORK_LOG("Unhandled EventCode: %d", pEventCode);
         break;
     };
 }
 
 void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
 {
-    std::string wSocketIdentifier(GestionnaireReseau::obtenirInstance()->getConnectionId(pSocket));
-#if !SHIPPING
-    std::cout << wSocketIdentifier << " disconnected" << std::endl;
-#endif
+    const SocketIdentifer& wSocketIdentifier = pSocket->getId();
+    NETWORK_LOG("Handle Disconnect Detection : %s", wSocketIdentifier.ToCString());
     GestionnaireReseau::obtenirInstance()->removeSocket(pSocket);
     if(wSocketIdentifier.find("GameServer") != std::string::npos)
     {
         std::string wServerIdString = wSocketIdentifier.substr(10);
         unsigned int wServerId = atoi(wServerIdString.c_str());
-#if !SHIPPING
-        std::cout << "Disconnection server " << wServerId << std::endl;
-#endif
+        NETWORK_LOG("Disconnecting server : %s", wSocketIdentifier.ToCString());
         try
         {
         	GameServerManager::obtenirInstance()->removeGameServer(wServerId);
         }
         catch (ExceptionReseau& e)
         {
-#if !SHIPPING
-            std::cout << "Couldn't find server id " << wServerId;
-#endif
+            NETWORK_LOG("Couldn't find server id : %d from server : %s", wServerId, wSocketIdentifier.ToCString());
         }
     }
 }

@@ -27,7 +27,7 @@ struct HeaderPaquet
 
 class PacketHandler {
 public:
-#define getPacketHeaderSize() (Paquet::sequenceIdentificationLength + sizeof(PacketTypes) + sizeof(int) + sizeof(int))
+#define getPacketHeaderSize() (sizeof(unsigned int) + sizeof(int) + sizeof(int) + sizeof(int))
 
     static HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base

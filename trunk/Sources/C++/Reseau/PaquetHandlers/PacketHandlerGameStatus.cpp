@@ -1,6 +1,6 @@
 
 #include "PacketHandler.h"
-#include "../Paquets/PaquetGameStatus.h"
+#include "PaquetGameStatus.h"
 
 
 void PacketHandlerGameStatus::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)

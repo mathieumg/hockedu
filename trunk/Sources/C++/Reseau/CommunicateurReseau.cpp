@@ -42,6 +42,7 @@ struct ArgsConnectionThread {
 void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket wSocket )
 {
     PacketBuilder wPacketBuilder;
+    wPacketBuilder.setCurrentByteOrder(BO_LITTLE_ENDIAN);
 
     PacketHandler* wPacketHandler = PaquetHandlersArray[wPaquetAEnvoyer->getOperation()];
 
@@ -565,7 +566,10 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
     CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
     QueueThreadSafe<PaquetAEnvoyer*>* listeAEnvoyer = wCommunicateurReseau->getSendingList();
     PacketBuilder wPacketBuilder;
+    wPacketBuilder.setCurrentByteOrder(BO_LITTLE_ENDIAN);
+
     int nbBytesEnvoye = 0;
+
     PaquetAEnvoyer* wPaquetAEnvoyer = NULL;
     while (!exitSendingThreadRoutine)
     {
@@ -625,14 +629,18 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 
                 try
                 {
-                    PacketHandler* wPacketHandler = PaquetHandlersArray[wPaquetAEnvoyer->paquet->getOperation()];
+                    PacketTypes type = wPaquetAEnvoyer->paquet->getOperation();
+                    PacketHandler* wPacketHandler = PaquetHandlersArray[type];
                 
                     // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
                     wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
                     wPacketHandler->handlePacketPreparation(wPaquet, wPacketBuilder);
                 
 #if !SHIPPING
-                    PACKETS_SEND_LOG((const char*)wPacketBuilder.getPacketString());
+                    if(type != MAILLET && type != RONDELLE)
+                    {
+                        PACKETS_SEND_LOG((const char*)wPacketBuilder.getPacketString(),wPacketBuilder.getPacketLength());
+                    }
 #endif //!SHIPPING
                     // On essaie d'envoyer la chaine, envoi bloquant
                     wSocket->send( wPacketBuilder.getPacketString(),  wPacketBuilder.getPacketLength(), true);
@@ -691,6 +699,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
     CommunicateurReseau* wCommunicateurReseau = (CommunicateurReseau*) arg;
     uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
     PacketReader wPacketReader;
+    wPacketReader.setCurrentByteOrder(BO_LITTLE_ENDIAN);
     while(!exitReceivingThreadRoutine)
     {
         auto it = wCommunicateurReseau->getFirstSocketEcoute();
@@ -743,6 +752,23 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                 wReceivedBytes = wSocket->recv(readBuffer, getPacketHeaderSize()); // Pas besoin de lui passer d'arguments
                                 if (wReceivedBytes != 0)
                                 {
+                                    /// TODO:: s'assurer de lire le header au complet
+                                    {
+                                        int wTailleRestanteALire = (int) (getPacketHeaderSize() - wReceivedBytes);
+                                        int wNbTries = 0;
+                                        while (wTailleRestanteALire>0)
+                                        {
+                                            wReceivedBytes += wSocket->recv(readBuffer+wReceivedBytes, wTailleRestanteALire);
+                                            wTailleRestanteALire = (int) (getPacketHeaderSize() - wReceivedBytes);
+                                            ++wNbTries;
+                                            if(wNbTries > 100) // Prevent infinite loop
+                                            {
+                                                readBuffer[wReceivedBytes]=0;
+                                                NETWORK_LOG("Error content %s",(const char*)readBuffer);
+                                                throw ExceptionReseau("Erreur de reception du header. Loop infinie");
+                                            }
+                                        }
+                                    }
 
                                     wPacketReader.setArrayStart(readBuffer, wReceivedBytes);
                                     HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(wPacketReader);
@@ -752,28 +778,37 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                     //checkf(wTaillePaquetValide, "Probleme avec lecture du header du paquet"); // Si trigger, probleme avec lecture du header du paquet (big trouble)
                                     if( !wTaillePaquetValide )
                                     {
-                                        throw ExceptionReseauParametreInvalide("La taille du paquet reçu était inférieure à la taille du header des paquets");
+                                        readBuffer[wReceivedBytes]=0;
+                                        NETWORK_LOG("Error content %s",(const char*)readBuffer);
+                                        throw ExceptionReseauParametreInvalide("Reception d'un paquet vide ou ne respectant pas la sequence d'identification");
                                     }
-                                    int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
-                                    int wNbTries = 0;
-                                    while (wTailleRestanteALire>0)
+
                                     {
-                                        wReceivedBytes += wSocket->recv(readBuffer, wTailleRestanteALire);
-                                        wPacketReader.append(wReceivedBytes, readBuffer);
-                                        wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
-                                        ++wNbTries;
-                                        if(wNbTries > 100) // Prevent infinite loop
+                                        int wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
+                                        int wNbTries = 0;
+                                        while (wTailleRestanteALire>0)
                                         {
-                                            throw ExceptionReseau("Erreur de reception du message. Loop infinie");
+                                            wReceivedBytes += wSocket->recv(readBuffer, wTailleRestanteALire);
+                                            wPacketReader.append(wReceivedBytes, readBuffer);
+                                            wTailleRestanteALire = (int) (wPacketHeader.taillePaquet - wReceivedBytes);
+                                            ++wNbTries;
+                                            if(wNbTries > 100) // Prevent infinite loop
+                                            {
+                                                throw ExceptionReseau("Erreur de reception du message. Loop infinie");
+                                            }
                                         }
-                                    }
 
 #if !SHIPPING
-                                    PACKETS_RECEIVE_LOG((const char*)readBuffer);
+                                        if(wPacketHeader.type != MAILLET && wPacketHeader.type != RONDELLE)
+                                        {
+                                            PACKETS_RECEIVE_LOG((const char*)wPacketReader.getBuffer(),wReceivedBytes);
+                                        }
 #endif //!SHIPPING
 
-                                    PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
-                                    wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
+                                        PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
+                                        wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
+
+                                    }
                                 }
                                 wPacketReader.clearBuffer();
                             }
@@ -783,7 +818,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                 }
                 catch(ExceptionReseauSocketDeconnecte&)
                 {
-                    NETWORK_LOG("Socket disconnected");
+                    NETWORK_LOG("Socket disconnected %s",wSocket->getId().ToCString());
                     wSocket->disconnect();
                     wCommunicateurReseau->terminerIterationListeSocketEcoute();
                     GestionnaireReseau::obtenirInstance()->getController()->handleDisconnectDetection(wSocket);
@@ -795,6 +830,10 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                     // Timeout
                     // Just wait and skip this iteration (should not happend here)
                     // Va etre utile pour la detection de connection en UDP
+                }
+                catch(ExceptionReseauParametreInvalide&)
+                {
+                    // simplement dropper le packet
                 }
                 catch(ExceptionReseau&)
                 {
@@ -1147,6 +1186,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
 
     uint8_t readBuffer[GestionnaireReseau::TAILLE_BUFFER_RECEPTION_ENVOI];
     PacketReader wPacketReader;
+    wPacketReader.setCurrentByteOrder(BO_LITTLE_ENDIAN);
 
     std::hash_map<std::string, int> wMapNoSequence;
 

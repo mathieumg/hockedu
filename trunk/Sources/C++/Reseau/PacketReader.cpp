@@ -1,5 +1,5 @@
 #include "PacketReader.h"
-#include "GestionnaireReseau.h"
+#include "NetworkEnums.h"
 
 
 PacketReader::PacketReader()
@@ -34,13 +34,14 @@ void PacketReader::setCurrentByteOrder( ByteOrder pNewByteOrder )
 {
 	mCurrentByteOrder = pNewByteOrder;
 
-	if(mCurrentByteOrder != NATIVE && mCurrentByteOrder != GestionnaireReseau::NATIVE_BYTE_ORDER)
+	if(mCurrentByteOrder != NATIVE && mCurrentByteOrder != NATIVE_BYTE_ORDER)
 	{
 		mSwapBytes = true;
-		return;
 	}
-
-	mSwapBytes = false;
+    else
+    {
+        mSwapBytes = false;
+    }
 }
 
 void PacketReader::append ( size_t pNewSize, uint8_t* pDataToAdd)
@@ -78,6 +79,22 @@ void PacketReader::clearBuffer()
 
 void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
 {
+#if PACKET_DECRYPTOR
+    if(pStringLength > 1)
+    {
+#if HANDLE_CHARACTERE_0
+        mInputFile.get((char*)pReturnString,pStringLength+1);
+#else
+        mInputFile.get((char*)pReturnString,pStringLength);
+#endif
+    }
+    else
+    {
+        pReturnString[0] = 0;
+    }
+    mInputFile.seekg(1,std::ios::cur);
+    std::cout << mInputFile.tellg() << std::endl;
+#else
 #if HANDLE_CHARACTERE_0
     memset(pReturnString, 0, pStringLength+1);
 #else
@@ -87,10 +104,17 @@ void PacketReader::readString(uint8_t* pReturnString, uint32_t pStringLength)
     memcpy_s(pReturnString, pStringLength, mArrStart+mCurrentPosition, pStringLength);
 
     mCurrentPosition += pStringLength;
+
+#endif
 #if HANDLE_CHARACTERE_0
     // Ajout du caractère 0.
     pReturnString[pStringLength] = 0x00;
 #endif
+
+#if PACKET_DECRYPTOR
+    if(mPrintingToOut&& mOutputFile )(*mOutputFile )<< " \"" << pReturnString <<"\"";
+#endif
+
 }
 
 /*

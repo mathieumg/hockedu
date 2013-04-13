@@ -1,3 +1,3 @@
 #include <string>
 
-int mainServeurJeu(std::string pMasterServerIp);
+int mainServeurJeu(const char* pMasterServerIp);

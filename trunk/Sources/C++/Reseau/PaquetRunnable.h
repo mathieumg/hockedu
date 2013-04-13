@@ -1,7 +1,8 @@
 
 #pragma once
 
-typedef int (*PaquetRunnableFunc) (class Paquet*);
+#include "NetworkEnums.h"
+
 class Paquet;
 
 namespace PaquetRunnable

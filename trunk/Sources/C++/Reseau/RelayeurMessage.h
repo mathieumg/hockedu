@@ -11,6 +11,7 @@
 #include "Singleton.h"
 #include <string>
 #include "Paquets/Paquet.h"
+#include <set>
 
 
 ///////////////////////////////////////////////////////////////////////////

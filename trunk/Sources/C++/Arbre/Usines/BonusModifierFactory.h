@@ -15,6 +15,12 @@ class NodeBonus;
 #include "Enum_Declarations.h"
 #include <string>
 
+class FactoryBonusModifier;
+
+// extern pour s'assurer d'allouer la memoire a 1 seule place et une seule fois
+extern const std::string BonusNamesArray[NB_BONUS_TYPE];
+extern FactoryBonusModifier* BonusFactories[NB_BONUS_TYPE];
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class BonusModifierFactory
 /// @brief Classe de base abstraite des usines qui seront utilisées pour
@@ -59,9 +65,7 @@ DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierBlockGoal);
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierFan);
 DEFAULT_BONUS_FACTORY_DECLARATION(BonusModifierChangeZone);
 
-// extern pour s'assurer d'allouer la memoire a 1 seule place et une seule fois
-extern const std::string BonusNamesArray[NB_BONUS_TYPE];
-extern FactoryBonusModifier* BonusFactories[NB_BONUS_TYPE];
+
 
 #endif // __BONUS_MODIFIER_FACTORY_H__
 

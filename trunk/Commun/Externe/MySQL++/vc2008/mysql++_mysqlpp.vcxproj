@@ -180,7 +180,7 @@
       <SuppressStartupBanner>true</SuppressStartupBanner>
     </Bscmake>
     <Lib>
-      <AdditionalDependencies>libmysql.lib</AdditionalDependencies>
+      <AdditionalDependencies>libmysql_x64.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>..\..\MySQL\lib\</AdditionalLibraryDirectories>
       <OutputFile>$(OutDir)\$(TargetName)$(TargetExt)</OutputFile>
     </Lib>

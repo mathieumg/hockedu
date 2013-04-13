@@ -6,15 +6,10 @@
 
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )
 {
-    char wStringIdentification[Paquet::sequenceIdentificationLength];
-#if HANDLE_CHARACTERE_0
-    pPacketReader.readString((uint8_t*)wStringIdentification, Paquet::sequenceIdentificationLength - 1);
-#else
-    pPacketReader.readString((uint8_t*)wStringIdentification, Paquet::sequenceIdentificationLength);
-#endif
+    unsigned int seqId = pPacketReader.readUnsignedInteger();
+//     if ( Paquet::sequenceIdentification != seqId)
+//         return HeaderPaquet();
 
-    if ( Paquet::sequenceIdentification != wStringIdentification)
-        return HeaderPaquet();
     HeaderPaquet wHeaderPaquet;
     wHeaderPaquet.type = (PacketTypes)pPacketReader.readInteger();
     wHeaderPaquet.numeroPaquet = pPacketReader.readInteger();
@@ -24,11 +19,10 @@ HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketRe
 
 void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPacketBuilder )
 {
-    pPacketBuilder.includeStringLength(false);
     PacketTypes wType = pPaquet->getOperation();
-    pPacketBuilder << Paquet::sequenceIdentification << wType;
+    // cast le type en int pour s'assurer d'utiliser 4 octet et que la lecture de l'autre cote soit cohérente
+    pPacketBuilder << Paquet::sequenceIdentification << (int)wType;
     pPacketBuilder << pPaquet->getNumeroPaquet() << getPacketSize(pPaquet);
-    pPacketBuilder.includeStringLength(true);
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);
 }
 

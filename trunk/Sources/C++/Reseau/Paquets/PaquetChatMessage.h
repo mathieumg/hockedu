@@ -10,6 +10,7 @@
 
 #pragma once
 #include "Paquet.h"
+#include <stdint.h>
 
 class UsinePaquetChatMessage;
 

@@ -1,15 +1,13 @@
 
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetMaillet.h"
+#include "PaquetMaillet.h"
 
 
 void PacketHandlerMaillet::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
     if(pRunnable)
     {
-        PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+        PaquetMaillet* wPaquet = (PaquetMaillet*) UsinePaquet::creerPaquet(MAILLET);
 
         wPaquet->setGameId(pPacketReader.readInteger());
 

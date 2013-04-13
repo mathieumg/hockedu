@@ -9,8 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "Paquet.h"
-#include <sstream>
-#include <iostream>
 #include <time.h>
 #ifdef LINUX
 #include <limits.h>
@@ -40,8 +38,6 @@ int obtenirNumeroInitHazard()
 
 // Numero des paquets (unique)
 int Paquet::CompteurNumeroPaquet = obtenirNumeroInitHazard();
-
-const std::string Paquet::sequenceIdentification = "LindseyStirling";
 
 ////////////////////////////////////////////////////////////////////////
 ///

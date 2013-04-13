@@ -2,7 +2,7 @@
 
 
 PaquetGameConnection::PaquetGameConnection()
-    :mUsername(GestionnaireReseau::obtenirInstance()->getPlayerName())
+    :mUsername("")
 {
     mConnectionState = GAME_CONNECTION_PENDING;
 }

@@ -41,7 +41,7 @@ int CallbackGameUpdateServeurJeu(int pGameId, GameStatus pGameStatus)
     if(wGame && wGame->isNetworkServerGame())
     {
         // On envoie les infos au serveur maitre
-        PaquetGameStatus* wPaquet = (PaquetGameStatus*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_STATUS);
+        PaquetGameStatus* wPaquet = (PaquetGameStatus*) UsinePaquet::creerPaquet(GAME_STATUS);
         PartieServeurs* wPartie = wGame->buildPartieServeurs();
         wPaquet->setGameInfos(wPartie); // S'occupe du delete
         GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
@@ -50,7 +50,7 @@ int CallbackGameUpdateServeurJeu(int pGameId, GameStatus pGameStatus)
     else if(wGame && wGame->isNetworkClientGame() && pGameStatus == GAME_ENDED)
     {
         // On signal au serveur jeu qu'on quitte la partie
-        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
         wPaquet->setGameId(wGame->getUniqueGameId());
         wPaquet->setEvent(GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED);
         wPaquet->setEventOnPlayerLeft(wGame->obtenirNomJoueurGauche() == GestionnaireReseau::obtenirInstance()->getPlayerName());
@@ -303,7 +303,7 @@ bool GameManager::getGameReady(int pGameId)
         if(wPartie->isNetworkClientGame())
         {
             // Dans ce cas avant de demarrer la partie, on envoie un message au serveur jeu pour dire que le client est pret et il va nous dire quand demarrer
-            PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+            PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
             wPaquet->setGameId(pGameId);
             wPaquet->setEvent(GAME_EVENT_READY);
             wPaquet->setEventOnPlayerLeft(GestionnaireReseau::obtenirInstance()->getPlayerName() == wPartie->obtenirNomJoueurGauche());

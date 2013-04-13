@@ -43,12 +43,12 @@ int main(array<System::String ^> ^args)
     ManagedStartMapDownload delegateDownload = &FonctionAppelDownload;
     SetStartMapDownloadCallback(delegateDownload);
 
-    if(args->Length > 1)
+    if(args->Length > 0)
     {
-        char* str = (char*) Marshal::StringToHGlobalAnsi(args[1]).ToPointer();
+        char* str = (char*) Marshal::StringToHGlobalAnsi(args[0]).ToPointer();
         std::string ret(str);
         Marshal::FreeHGlobal(IntPtr(str));
-        mainServeurJeu(ret);
+        mainServeurJeu(ret.c_str());
     }
     else
     {

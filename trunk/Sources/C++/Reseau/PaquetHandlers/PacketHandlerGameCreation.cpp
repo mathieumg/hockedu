@@ -1,5 +1,5 @@
 #include "PacketHandler.h"
-#include "../Paquets/PaquetGameCreation.h"
+#include "PaquetGameCreation.h"
 
 void PacketHandlerGameCreation::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {

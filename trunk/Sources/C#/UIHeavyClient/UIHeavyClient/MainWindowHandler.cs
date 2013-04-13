@@ -477,27 +477,47 @@ namespace UIHeavyClient
 
         public static void StartServers()
         {
-            if ( ServeurJeuProcess != null )
-            {
-                ServeurJeuProcess.Close();
-            }
-            if ( MainServerProcess != null )
-            {
-                MainServerProcess.Close();
-            }
-
             ProcessStartInfo start = new ProcessStartInfo();
             start.Arguments = "local";
             string gameServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurJeuLauncher.exe";
             start.FileName = gameServerPath;
             start.WindowStyle = ProcessWindowStyle.Minimized;
             start.CreateNoWindow = false;
-            MainWindowHandler.ServeurJeuProcess = Process.Start( start );
-
-            string mainServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurMaitre_x86.exe";
+            Process[] pGameServer = Process.GetProcessesByName( "ServeurJeuLauncher" );
+            if(pGameServer.Count() == 0)
+            {
+                try
+                {
+                    MainWindowHandler.ServeurJeuProcess = Process.Start( start );
+                }
+                catch
+                {
+                    Console.WriteLine( "Error launching game server at {0}", gameServerPath );
+                }
+            }
+            else
+            {
+                MainWindowHandler.ServeurJeuProcess = pGameServer[0];
+            }
+            string mainServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurMaitre.exe";
             start.Arguments = "";
             start.FileName = mainServerPath;
-            MainWindowHandler.MainServerProcess = Process.Start( start );
+            Process[] pMainServer = Process.GetProcessesByName( "ServeurMaitre" );
+            if ( pMainServer.Count() == 0 )
+            {
+                try
+                {
+                    MainWindowHandler.MainServerProcess = Process.Start( start );
+                }
+                catch
+                {
+                    Console.WriteLine( "Error launching main server at {0}", mainServerPath );
+                }
+            }
+            else
+            {
+                MainWindowHandler.MainServerProcess = pMainServer[0];
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////

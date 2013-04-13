@@ -16,7 +16,8 @@ typedef void (*ManagedStartMapDownload)(int pUserId, int pMapId, CallbackDone pC
 
 /// ne pas rename, utis/ comme extern ailleur
 extern std::string NETWORK_LOG_FILE_NAME;
-extern std::string NETWORK_PACKET_FILE_NAME;
+extern std::string NETWORK_PACKET_SENT_FILE_NAME;
+extern std::string NETWORK_PACKET_RECV_FILE_NAME;
 extern "C" 
 {
 

@@ -1,12 +1,6 @@
 
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "../Paquets/PaquetChatMessage.h"
-#include "../RelayeurMessage.h"
-#include <time.h>
-#include <sstream>
-#include <iomanip>
+#include "PaquetChatMessage.h"
 
 
 void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
@@ -44,11 +38,6 @@ void PacketHandlerChatMessage::handlePacketReceptionSpecific(PacketReader& pPack
 void PacketHandlerChatMessage::handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder)
 {
     PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
-    if("" == wPaquet->getOrigin())
-    {
-        throw ExceptionReseau("Le champ origine du PaquetChatMessage est necessaire.");
-    }
 
     pPacketBuilder << wPaquet->getMessage()
         << wPaquet->getTimestamp()

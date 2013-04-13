@@ -87,7 +87,7 @@ void PartieSyncer::tick()
         // Envoie des infos de maillet
         if(mPlayer1 && mPlayer1->getControlingMallet())
         {
-            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+            PaquetMaillet* wPaquet = (PaquetMaillet*) UsinePaquet::creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer1->getControlingMallet()->getPosition());
             wPaquet->setEstAGauche(mPlayer1->getControlingMallet()->estAGauche());
             wPaquet->setGameId(mGameId);
@@ -107,7 +107,7 @@ void PartieSyncer::tick()
 
         if(mPlayer2 && mPlayer2->getControlingMallet())
         {
-            PaquetMaillet* wPaquet = (PaquetMaillet*) GestionnaireReseau::obtenirInstance()->creerPaquet(MAILLET);
+            PaquetMaillet* wPaquet = (PaquetMaillet*) UsinePaquet::creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer2->getControlingMallet()->getPosition());
             wPaquet->setEstAGauche(mPlayer2->getControlingMallet()->estAGauche());
             wPaquet->setGameId(mGameId);
@@ -134,7 +134,7 @@ void PartieSyncer::tick()
                 NoeudRondelle* wPuck = wGame->getField()->getPuck();
                 if(wPuck)
                 {
-                    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+                    PaquetRondelle* wPaquet = (PaquetRondelle*) UsinePaquet::creerPaquet(RONDELLE);
 
                     wPaquet->setGameId(mGameId);
                     wPaquet->setPosition(wPuck->getPosition());

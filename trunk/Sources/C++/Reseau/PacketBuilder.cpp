@@ -1,15 +1,15 @@
 #include "PacketBuilder.h"
+#include "NetworkEnums.h"
 
 PacketBuilder::PacketBuilder()
 :mCurrentByteOrder(NATIVE), mSwapBytes(false), mAddStringLength(true)
 {
 	mArrStart = NULL;
-	mArrSize = new uint16_t(0);
+	mArrSize = 0;
 }
 
 PacketBuilder::~PacketBuilder(void)
 {
-	delete mArrSize;
 	free(mArrStart);
 }
 
@@ -28,7 +28,7 @@ void PacketBuilder::setCurrentByteOrder( ByteOrder pNewByteOrder )
 {
 	mCurrentByteOrder = pNewByteOrder;
 
-	if(mCurrentByteOrder != NATIVE && mCurrentByteOrder != GestionnaireReseau::NATIVE_BYTE_ORDER)
+	if(mCurrentByteOrder != NATIVE && mCurrentByteOrder != NATIVE_BYTE_ORDER)
 	{
 		mSwapBytes = true;
 		return;
@@ -74,7 +74,7 @@ PacketBuilder& PacketBuilder::operator=( PacketBuilder& pPacket )
 	{
 		free(mArrStart);
 		mArrStart = (uint8_t*)realloc(mArrStart, pPacket.getPacketLength());
-		*mArrSize = pPacket.getPacketLength();
+		mArrSize = pPacket.getPacketLength();
 
 		memcpy_s(getPacketString(), getPacketLength(), pPacket.getPacketString(), pPacket.getPacketLength());
 
@@ -105,11 +105,11 @@ void PacketBuilder::addString( const uint8_t* pStringToAdd, uint32_t pStringLeng
     {
         addInteger(pStringLength);
     }
-    mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + pStringLength);
+    mArrStart = (uint8_t*)realloc(mArrStart, mArrSize + pStringLength);
 
-	memcpy_s(mArrStart + *mArrSize, pStringLength, pStringToAdd, pStringLength);
+	memcpy_s(mArrStart + mArrSize, pStringLength, pStringToAdd, pStringLength);
 
-    *mArrSize = *mArrSize + pStringLength;
+    mArrSize += pStringLength;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -125,18 +125,17 @@ void PacketBuilder::addString( const uint8_t* pStringToAdd, uint32_t pStringLeng
 ////////////////////////////////////////////////////////////////////////
 void PacketBuilder::addChar( int8_t pCharToAdd )
 {
-	mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + 1);
+	mArrStart = (uint8_t*)realloc(mArrStart, mArrSize + 1);
 
-	memcpy_s(mArrStart + *mArrSize, 1, &pCharToAdd, 1);
+	memcpy_s(mArrStart + mArrSize, 1, &pCharToAdd, 1);
 
-	*mArrSize = *mArrSize + 1;
+	++mArrSize;
 }
 
 void PacketBuilder::clearBuffer()
 {
-    delete mArrSize;
     free(mArrStart);
-    mArrSize = new uint16_t(0);
+    mArrSize = 0;
     mArrStart = NULL;
 }
 

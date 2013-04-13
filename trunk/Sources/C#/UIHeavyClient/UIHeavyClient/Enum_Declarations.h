@@ -86,7 +86,7 @@ typedef enum
         USER_DID_NOT_SEND_NAME_ON_CONNECTION,
         USER_CONNECTED,
         USER_DISCONNECTED,
-        INVALID_USERNAME = USER_DISCONNECTED, // Pour eviter d'avoia changer le handling pour le prototype. Mettre 2 enums separes pour la version finale
+        INVALID_USERNAME,
         CONNECTION_CANCELED,
         SEND_PASSWORD_REQUEST,
         RECONNECTION_TIMEOUT,
@@ -320,6 +320,38 @@ typedef enum
 FieldModificationStrategyType
 #endif
 ;
+
+
+/// Arrays dependant de l'enum
+/// UsinePaquet* PaquetFactories[NB_PACKET_TYPES] =
+/// PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES];
+#if CSHARP
+public enum PacketTypes
+#else
+typedef enum
+#endif
+{
+    CONN_AUTOMATIQUE,
+    EVENT,
+    LOGIN_INFO,
+    CHAT_MESSAGE,
+    USER_STATUS,
+    GAME_STATUS,
+    GAME_CREATION_REQUEST,
+    GAME_CONNECTION,
+    MAILLET,
+    RONDELLE,
+    GAME_EVENT,
+    PORTAL,
+    BONUS,
+
+    NB_PACKET_TYPES
+}
+#if !CSHARP
+PacketTypes
+#endif
+;
+
 
 #if CSHARP
 }

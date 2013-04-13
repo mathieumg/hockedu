@@ -19,6 +19,7 @@
 #include <fstream>
 #include <set>
 #include "ControllerInterface.h"
+#include "NetworkEnums.h"
 
 #ifdef LINUX
 #include <sys/socket.h>
@@ -30,29 +31,17 @@
 #define NETWORK_LOG(...) GestionnaireReseau::obtenirInstance()->sendMessageToLog(__FILE__, __LINE__, ##__VA_ARGS__);
 
 #if !SHIPPING
-#define PACKETS_SEND_LOG(content) GestionnaireReseau::obtenirInstance()->PacketSendToLog(content);
-#define PACKETS_RECEIVE_LOG(content) GestionnaireReseau::obtenirInstance()->PacketReceivedToLog(content);
+#define PACKETS_SEND_LOG(content,l) GestionnaireReseau::obtenirInstance()->PacketSendToLog(content,l);
+#define PACKETS_RECEIVE_LOG(content,l) GestionnaireReseau::obtenirInstance()->PacketReceivedToLog(content,l);
 #else
-#define PACKETS_SEND_LOG(content)
-#define PACKETS_RECEIVE_LOG(content)
+#define PACKETS_SEND_LOG(content,l)
+#define PACKETS_RECEIVE_LOG(content,l)
 #endif
 
 class PacketHandler;
 class UsinePaquet;
 // Typedef pour la liste de sockets
 typedef std::map<std::pair<std::string, ConnectionType>, SPSocket> ListeSockets;
-
-enum NetworkMode {CLIENT, SERVER, NOT_DEFINED};
-
-#ifdef WINDOWS
-enum ByteOrder
-#elif defined(LINUX)
-enum ByteOrder : uint8_t
-#endif
-    {NATIVE, BO_LITTLE_ENDIAN, BO_BIG_ENDIAN, UNKNOWN};
-
-enum ExceptionTypes {GLOBALE, PARAMETRE_INVALIDE, SOCKET_DECONNECTE, TIMEOUT, TYPE_NOT_DEFINED, AUCUNE_ERREUR};
-
 
 
 struct ConnectionStateEvent
@@ -199,8 +188,8 @@ public:
 	// Methode pour ecrire une erreur dans le log de reseautique
     static void sendMessageToLog(const std::string& pMessage);
     static void sendMessageToLog(const char* File, int Line, const char* Format="", ... );
-    static void PacketSendToLog(const char* pMessage);
-    static void PacketReceivedToLog(const char* pMessage);
+    static void PacketSendToLog(const char* pMessage, int length);
+    static void PacketReceivedToLog(const char* pMessage, int length);
 
 
     // Methode pour throw une exception du bon type
@@ -231,8 +220,6 @@ public:
     bool isAGameServerConnected() const;
 
 
-    //Contains the operating system's byte order.
-	static ByteOrder NATIVE_BYTE_ORDER;
 private:
 
     // Methode d'initialisation (initialise notamment Winsock)

@@ -2587,14 +2587,14 @@
 1362245572 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/sha1.cpp
 	"sha1.h"
 
-1362727149 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.cpp
+1364680644 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseau.cpp
 	"../GestionnaireReseau.h"
 	<strstream>
 	<algorithm>
 	<sstream>
 	<ctime>
 
-1364231543 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.h
+1365810915 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.h
 	<string>
 	"ExceptionsReseau/ExceptionReseau.h"
 	"FacadePortability.h"
@@ -2605,7 +2605,7 @@
 	<fstream>
 	<set>
 	"ControllerInterface.h"
-	"../../Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
+	"NetworkEnums.h"
 	<sys/socket.h>
 	<netinet/in.h>
 	<arpa/inet.h>
@@ -2627,9 +2627,9 @@
 	<list>
 	<string>
 
-1363120102 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Singleton.h
+1365542172 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Singleton.h
 
-1363915973 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.h
+1365802916 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.h
 	<memory>
 	<winsock2.h>
 	<ws2tcpip.h>
@@ -2641,8 +2641,10 @@
 	<stdint.h>
 	<stdexcept>
 	"FacadePortability.h"
+	<functional>
+	"NetworkEnums.h"
 
-1363915973 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.h
+1365538253 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.h
 	<string>
 	<queue>
 	"Socket.h"
@@ -2651,17 +2653,17 @@
 	"QueueThreadSafe.h"
 	"FacadePortability.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/QueueThreadSafe.h
+1365537255 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/QueueThreadSafe.h
 	<queue>
 	"../../Sources/C++/Reseau/FacadePortability.h"
 
-1364172844 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.h
+1364498245 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.h
 	<hash_map>
 	<ext/hash_map>
 	"Socket.h"
 	"../../C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h"
 
-1364229763 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
+1365830910 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C#/UIHeavyClient/UIHeavyClient/Enum_Declarations.h
 
 1360770230 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ExceptionsReseau/ExceptionReseauGlobale.cpp
 	"ExceptionReseauGlobale.h"
@@ -2700,90 +2702,81 @@
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/JoueurServeurs.h
 	<string>
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
+1365126585 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.cpp
 	"PartieServeurs.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
+1365373289 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ObjetsGlobaux/PartieServeurs.h
 	<time.h>
 	<string>
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp
-	<iostream>
-	<sstream>
+1365803155 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerChatMessage.cpp
 	"PacketHandler.h"
-	"../Paquets/PaquetChatMessage.h"
-	"../RelayeurMessage.h"
-	<time.h>
-	<sstream>
-	<iomanip>
-	"../GestionnaireReseauClientLourd.h"
+	"PaquetChatMessage.h"
 
-1363915973 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
-	"../PacketBuilder.h"
-	"../PacketReader.h"
-	"../GestionnaireReseau.h"
+1365834512 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.h
+	"PacketBuilder.h"
+	"PacketReader.h"
+	"UsinePaquet.h"
 	<string>
+	"PaquetRunnable.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.h
+1365807777 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
 	<string.h>
+	"NetworkEnums.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.h
+1365836495 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.h
 	<stdint.h>
 	<iostream>
 	<stdio.h>
+	<fstream>
 	<string.h>
+	"NetworkEnums.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
+1365803024 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetChatMessage.h
 	"Paquet.h"
+	<stdint.h>
 
-1363134832 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/Paquet.h
+1365839399 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/Paquet.h
 	<string>
-	"../GestionnaireReseau.h"
 	<time.h>
+	"UsinePaquet.h"
+	"NetworkEnums.h"
 
-1363134832 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/RelayeurMessage.h
+1365811141 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/RelayeurMessage.h
 	"Singleton.h"
 	<string>
 	"Paquets/Paquet.h"
+	<set>
 
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseauClientLourd.h
 	"GestionnaireReseau.h"
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
+1365801964 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerConnAutomatique.cpp
 	"PacketHandler.h"
-	<iostream>
-	<sstream>
 	"../Paquets/PaquetConnAutomatique.h"
-	<sstream>
-	"../GestionnaireReseau.h"
 
 1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetConnAutomatique.h
 	"Paquet.h"
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp
+1365801995 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameStatus.cpp
 	"PacketHandler.h"
-	"../Paquets/PaquetGameStatus.h"
+	"PaquetGameStatus.h"
 
-1363326260 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
+1365126585 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.h
 	"Paquet.h"
 	"../ObjetsGlobaux/PartieServeurs.h"
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
-	<iostream>
-	<sstream>
+1365802059 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerLoginInfo.cpp
 	"PacketHandler.h"
-	"../Paquets/PaquetLoginInfo.h"
-	"Utilitaire.h"
-	"../ObjetsGlobaux/JoueurServeurs.h"
-	"../ServeurMaitre/FacadeServeurMaitre.h"
+	"PaquetLoginInfo.h"
 
 1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.h
 	"Paquet.h"
 
-1363487138 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Utilitaire.h
+1365419791 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Utilitaire.h
 	"Vecteur.h"
 	<sstream>
 
@@ -2792,7 +2785,7 @@
 	"Solution_Defines.h"
 	<math.h>
 
-1364271750 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
+1365211991 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.h
 	<cstdio>
 
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.h
@@ -2811,21 +2804,14 @@
 1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetTest.h
 	"Paquet.h"
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp
-	"../Paquets/PaquetUserStatus.h"
-	"../PacketBuilder.h"
+1365802166 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerUserStatus.cpp
+	"PaquetUserStatus.h"
 	"PacketHandler.h"
-	<time.h>
-	<stdlib.h>
-	<stdio.h>
-	<sstream>
-	<iomanip>
-	"../PacketReader.h"
 
 1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.h
 	"Paquet.h"
 
-1364231543 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
+1365845696 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/CommunicateurReseau.cpp
 	"CommunicateurReseau.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<iostream>
@@ -2844,6 +2830,7 @@
 	<sstream>
 	<time.h>
 	"../ServeurMaitre/ControllerServeurMaitre.h"
+	"../ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.h"
 
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/SocketTCPServeur.h
 	"Socket.h"
@@ -2859,14 +2846,14 @@
 1364172844 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/ControllerInterface.cpp
 	"ControllerInterface.h"
 
-1364231543 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
+1365847547 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseau.cpp
 	<WinSock2.h>
+	"NetworkEnums.h"
 	"GestionnaireReseau.h"
 	<strstream>
 	<algorithm>
 	<exception>
 	<map>
-	"UsinePaquets/UsinePaquet.h"
 	<iostream>
 	<ctime>
 	<sstream>
@@ -2878,10 +2865,9 @@
 	<stdexcept>
 	"CommunicateurReseau.h"
 	"PaquetHandlers/PacketHandler.h"
-	"UsinePaquets/UsinePaquetConnAutomatique.h"
-	"UsinePaquets/UsinePaquetTest.h"
 	<utility>
-	"UsinePaquets/UsinePaquetEvent.h"
+	"Paquets/Paquet.h"
+	"Paquets/PaquetEvent.h"
 
 1361289956 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/UsinePaquets/UsinePaquet.h
 	<string>
@@ -2903,18 +2889,13 @@
 1363133808 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.h
 	"Paquet.h"
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
+1365566168 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.cpp
 	"GestionnaireReseauServeurMaitre.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetUserStatus.h"
 	"PaquetHandlers/PacketHandler.h"
-	"UsinePaquets/UsinePaquetUserStatus.h"
 	"RelayeurMessage.h"
 	"PaquetHandlers/PacketHandler.h"
-	"UsinePaquets/UsinePaquetChatMessage.h"
-	"UsinePaquets/UsinePaquetGameStatus.h"
-	"PaquetHandlers/PacketHandler.h"
-	"UsinePaquets/UsinePaquetGameRegistration.h"
 
 1360770229 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/GestionnaireReseauServeurMaitre.h
 	"Singleton.h"
@@ -2936,28 +2917,28 @@
 	"UsinePaquet.h"
 	"../Paquets/PaquetGameCreation.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.h
+1365123947 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.h
 	"Paquet.h"
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.cpp
-	"GestionnaireReseau.h"
+1365807718 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketBuilder.cpp
 	"PacketBuilder.h"
+	"NetworkEnums.h"
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.cpp
+1365845892 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PacketReader.cpp
 	"PacketReader.h"
-	"GestionnaireReseau.h"
+	"NetworkEnums.h"
 
-1363133808 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.cpp
+1365841036 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandler.cpp
 	"PacketHandler.h"
 	"../PacketReader.h"
 	"../PacketBuilder.h"
 	"../Paquets/Paquet.h"
 
-1363133808 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.cpp
+1365801970 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerEvent.cpp
 	"PacketHandler.h"
-	"../Paquets/PaquetEvent.h"
+	"PaquetEvent.h"
 
-1364172844 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
+1365562061 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetRunnable.cpp
 	"PaquetRunnable.h"
 	"GestionnaireReseau.h"
 	"Paquets/PaquetEvent.h"
@@ -2970,28 +2951,24 @@
 	<sstream>
 	<iomanip>
 	"ObjetsGlobaux/JoueurServeurs.h"
-	"Paquets/PaquetTest.h"
 	"Paquets/PaquetGameStatus.h"
 	"Paquets/PaquetMaillet.h"
-	"Paquets/PaquetGameCreation.h"
 	<iostream>
 	"Paquets/PaquetGameConnection.h"
 	"Paquets/PaquetBonus.h"
-	"PaquetHandlers/PacketHandlerBonus.h"
 
-1364172844 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetRunnable.h
+1365803004 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetRunnable.h
+	"NetworkEnums.h"
 
 1363666045 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetMaillet.h
 	"Paquet.h"
 	"Vecteur.h"
 
-1363915973 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameConnection.h
+1365470612 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameConnection.h
 	"Paquet.h"
 
-1363326260 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
+1365834358 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/Paquet.cpp
 	"Paquet.h"
-	<sstream>
-	<iostream>
 	<time.h>
 	<limits.h>
 
@@ -3004,7 +2981,7 @@
 1363133808 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetEvent.cpp
 	"PaquetEvent.h"
 
-1361289956 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
+1365126585 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameStatus.cpp
 	"PaquetGameStatus.h"
 
 1360770229 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetLoginInfo.cpp
@@ -3016,10 +2993,11 @@
 1360770229 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetUserStatus.cpp
 	"PaquetUserStatus.h"
 
-1364231543 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
+1365811141 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/RelayeurMessage.cpp
 	"RelayeurMessage.h"
+	"GestionnaireReseau.h"
 
-1363915973 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.cpp
+1365629222 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Socket.cpp
 	<winsock2.h>
 	<Mswsock.h>
 	"Socket.h"
@@ -3029,17 +3007,20 @@
 	"Utilitaire.h"
 	"PacketBuilder.h"
 
-1362727148 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
+1364323331 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/SocketTCPServeur.cpp
 	"SocketTCPServeur.h"
 	"ExceptionsReseau/ExceptionReseau.h"
 	<string.h>
+	<netinet/in.h>
+	<arpa/inet.h>
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
+1365474290 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.cpp
 	"CommunicateurBD.h"
 	"ExceptionsReseau/ExceptionReseauBD.h"
 	"sha1.h"
+	<iosfwd>
 
-1363040401 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
+1365419791 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/CommunicateurBD.h
 	<string>
 	"Singleton.h"
 	"mysql++.h"
@@ -4099,7 +4080,7 @@
 	<arpa/inet.h>
 	"GestionnaireReseau.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.h
+1365539925 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.h
 	<WinSock2.h>
 	<windows.h>
 	<pthread.h>
@@ -4107,6 +4088,8 @@
 	<stdlib.h>
 	<unistd.h>
 	<sys/socket.h>
+	<sys/stat.h>
+	<errno.h>
 	<list>
 	<string>
 
@@ -4120,11 +4103,11 @@
 1361917902 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ExceptionsReseau/ExceptionReseauBD.cpp
 	"ExceptionReseauBD.h"
 
-1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
+1365373289 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/FacadeServeurMaitre.cpp
 	"FacadeServeurMaitre.h"
 	"CommunicateurBD.h"
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
+1365419791 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.cpp
 	"PaquetRunnableServeurMaitre.h"
 	"../ServeurMaitre/FacadeServeurMaitre.h"
 	"../Reseau/Paquets/PaquetLoginInfo.h"
@@ -4139,44 +4122,47 @@
 	<stdexcept>
 	"../Reseau/Paquets/PaquetGameStatus.h"
 	"../Reseau/Paquets/PaquetGameCreation.h"
-	"../Reseau/Paquets/PaquetGameRegistration.h"
 	"GameServerManager.h"
 	"GameServer.h"
+	"../reseau/Paquets/PaquetGameConnection.h"
+	<set>
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
+1365126585 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/PaquetRunnableServeurMaitre.h
 	"../Reseau/PaquetRunnable.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServerManager.h
+1365425916 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServerManager.h
 	"Singleton.h"
 	<ext/hash_map>
 	<hash_map>
+	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
 
-1363903983 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServer.h
+1365419791 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServer.h
 	<string>
 	<ext/hash_map>
 	<hash_map>
 
-1363666045 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
+1365845941 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/mainServeurMaitre.cpp
 	<iostream>
 	"../Reseau/GestionnaireReseauServeurMaitre.h"
 	"ControllerServeurMaitre.h"
 	"../Reseau/PaquetHandlers/PacketHandler.h"
-	"../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
 	"FacadeServeurMaitre.h"
 	"CommunicateurBD.h"
 
 1363040401 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/sha1.cpp
 	"sha1.h"
 
-1364271769 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.cpp
+1365373289 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Commun/Utilitaire/Solution_Defines.cpp
 	<Windows.h>
 	"Solution_Defines.h"
 	<string.h>
+	<string>
 	<vector>
 	<algorithm>
 	<stdarg.h>
+	<iostream>
 
-1364172844 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetBonus.h
+1365306473 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetBonus.h
 	"Paquet.h"
 	"Vecteur.h"
 
@@ -4186,7 +4172,7 @@
 	<ext/hash_map>
 	<hash_map>
 
-1364172844 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
+1365844703 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/ControllerServeurMaitre.cpp
 	"ControllerServeurMaitre.h"
 	"../Reseau/GestionnaireReseau.h"
 	"../Reseau/PaquetRunnable.h"
@@ -4197,24 +4183,33 @@
 	"../Reseau/Paquets/PaquetEvent.h"
 	"../Reseau/ObjetsGlobaux/PartieServeurs.h"
 	"GameServerManager.h"
+	"../Reseau/RelayeurMessage.h"
+	"GameServer.h"
+	<sstream>
 
 1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameRegistration.cpp
 	"PaquetGameRegistration.h"
 
-1364172844 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerBonus.cpp
+1365564361 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerBonus.cpp
+	<iostream>
+	<sstream>
+	"PacketHandler.h"
 	"../Paquets/PaquetBonus.h"
-	"PacketHandlerBonus.h"
 
 1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameRegistration.cpp
 	"PacketHandler.h"
 	"../Paquets/PaquetGameRegistration.h"
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServerManager.cpp
+1365425916 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServerManager.cpp
 	"GameServerManager.h"
 	"..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 	"GameServer.h"
+	"..\Reseau\ObjetsGlobaux\PartieServeurs.h"
+	<iostream>
+	"CommunicateurBD.h"
+	<limits>
 
-1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
+1365845549 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/ServeurMaitre/GameServer.cpp
 	"GameServer.h"
 	"..\Reseau\ExceptionsReseau\ExceptionReseau.h"
 	"..\Reseau\ObjetsGlobaux\PartieServeurs.h"
@@ -4338,4 +4333,68 @@
 
 1365090794 source:/media/sf_D_DRIVE/Ecole/LOG3900 - Projet de 3ème année/log3900-04/trunk/Sources/C++/Reseau/Paquets/PaquetGameConnection.cpp
 	"PaquetGameConnection.h"
+
+1365847118 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/NetworkEnums.h
+
+1365567224 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/UsinePaquet.h
+	<string>
+	"Enum_Declarations.h"
+
+1363903983 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/FacadePortability.cpp
+	"FacadePortability.h"
+	<ifaddrs.h>
+	<netinet/in.h>
+	<arpa/inet.h>
+	"GestionnaireReseau.h"
+
+1365801980 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameConnection.cpp
+	"PacketHandler.h"
+	"PaquetGameConnection.h"
+
+1365803111 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/PaquetHandlers/PacketHandlerGameCreation.cpp
+	"PacketHandler.h"
+	"PaquetGameCreation.h"
+
+1365802710 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameConnection.cpp
+	"PaquetGameConnection.h"
+
+1365803144 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameCreation.cpp
+	"PaquetGameCreation.h"
+
+1365470612 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/reseau/Paquets/PaquetGameConnection.h
+	"Paquet.h"
+
+1365839399 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/reseau/Paquets/Paquet.h
+	<string>
+	<time.h>
+	"UsinePaquet.h"
+	"NetworkEnums.h"
+
+1365567241 source:/mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/UsinePaquet.cpp
+	"UsinePaquet.h"
+	"PaquetChatMessage.h"
+	"PaquetConnAutomatique.h"
+	"PaquetEvent.h"
+	"PaquetLoginInfo.h"
+	"PaquetChatMessage.h"
+	"PaquetUserStatus.h"
+	"PaquetGameStatus.h"
+	"PaquetGameCreation.h"
+	"PaquetGameConnection.h"
+	"PaquetMaillet.h"
+	"PaquetRondelle.h"
+	"PaquetGameEvent.h"
+	"PaquetPortal.h"
+	"PaquetBonus.h"
+
+1363666045 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetRondelle.h
+	"Paquet.h"
+	"Vecteur.h"
+
+1365211648 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetGameEvent.h
+	"Paquet.h"
+
+1365231632 /mnt/D_Drive/Dropbox/Ecole_Polytechnique/Session_6/LOG3900/Projet/trunk/Sources/C++/Reseau/Paquets/PaquetPortal.h
+	"Paquet.h"
+	"Vecteur.h"
 

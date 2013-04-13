@@ -9,13 +9,7 @@ typedef unsigned char byte;
 #include <string.h>
 #endif
 
-#ifdef WINDOWS
-enum ByteOrder;
-#elif defined(LINUX)
-enum ByteOrder : uint8_t;
-#else
-typedef uint8_t ByteOrder;
-#endif
+#include "NetworkEnums.h"
 
 namespace
 {
@@ -59,7 +53,7 @@ public:
 	//Returns current byte order
 	ByteOrder getCurrentByteOrder() {return mCurrentByteOrder;}
 	//Returns packet length
-	uint16_t getPacketLength() { return *mArrSize; }
+	uint16_t getPacketLength() { return mArrSize; }
 	//Returns the string representing the packet
 	uint8_t* getPacketString() { return mArrStart; }
 
@@ -203,7 +197,7 @@ private:
 
 	//Variables used to stock the bytes.
 	uint8_t* mArrStart;
-	uint16_t* mArrSize;
+	int mArrSize;
 };
 
 
@@ -280,20 +274,20 @@ PacketBuilder& PacketBuilder::operator<<( T pDataToAdd )
 template<typename T>
 void PacketBuilder::addData( T& pDataToAdd )
 {
-	mArrStart = (uint8_t*)realloc(mArrStart, *mArrSize + sizeof(T));
+	mArrStart = (uint8_t*)realloc(mArrStart, mArrSize + sizeof(T));
 	if(mSwapBytes)
 	{
 		T result = swapBytes(pDataToAdd);
 
-        memcpy_s(mArrStart+ *mArrSize, sizeof(T), &result, sizeof(T));
+        memcpy_s(mArrStart+ mArrSize, sizeof(T), &result, sizeof(T));
 
-		*mArrSize = *mArrSize + sizeof(T);
+		mArrSize += sizeof(T);
 		return;
 	}
 
-	memcpy_s(mArrStart+ *mArrSize, sizeof(T), &pDataToAdd, sizeof(T));
+	memcpy_s(mArrStart+ mArrSize, sizeof(T), &pDataToAdd, sizeof(T));
 
-	*mArrSize = *mArrSize + sizeof(T);
+	mArrSize += sizeof(T);
 }
 
 ////////////////////////////////////////////////////////////////////////

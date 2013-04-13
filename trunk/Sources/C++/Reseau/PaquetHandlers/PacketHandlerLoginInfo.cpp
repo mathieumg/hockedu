@@ -1,14 +1,6 @@
 
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "../Paquets/PaquetLoginInfo.h"
-#include "Utilitaire.h"
-#include "../ObjetsGlobaux/JoueurServeurs.h"
-#ifdef SERVER
-#include "../ServeurMaitre/FacadeServeurMaitre.h"
-#endif
-
+#include "PaquetLoginInfo.h"
 
 void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
@@ -32,21 +24,6 @@ void PacketHandlerLoginInfo::handlePacketReceptionSpecific(PacketReader& pPacket
 
         wPaquet->setRunnable(pRunnable);
         wPaquet->run();
-
-        
-//     #ifdef SERVER
-//
-//         // On envoie un event au gestionnaire reseau
-//         GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTING, wPaquet->getUsername());
-//
-//         // On sauvearde le joueur
-//         JoueurServeurs* wJoueur = new JoueurServeurs(wPaquet->getUsername());
-//         FacadeServeurMaitre::obtenirInstance()->saveJoueurConnecting(wJoueur);
-//
-//         // On traite la demande avec la BD
-//
-//
-//     #endif
     }
 
 }

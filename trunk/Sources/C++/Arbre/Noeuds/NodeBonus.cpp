@@ -331,7 +331,7 @@ void NodeBonus::playTick( float temps)
             Partie* wGame = getField()->GetGame();
             if(wGame && wGame->isNetworkServerGame())
             {
-                PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+                PaquetBonus* wPaquet = (PaquetBonus*) UsinePaquet::creerPaquet(BONUS);
                 wPaquet->setGameId(wGame->getUniqueGameId());
                 wPaquet->setBonusType((BonusType)(mBonusType));
                 wPaquet->setBonusAction(BONUS_ACTION_SPAN);

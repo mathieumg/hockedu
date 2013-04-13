@@ -662,6 +662,12 @@
     <ClCompile Include="Interface\EtatSouris\SourisEtatPIEMode.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\UsinePaquet.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Reseau\NetworkEnums.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -919,9 +925,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetChatMessage.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetChatMessage.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\ControllerCSharp.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
@@ -930,9 +933,6 @@
     </ClInclude>
     <ClInclude Include="Environnement\RazerGameUtilities.h">
       <Filter>Sources Files\Environnement</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetUserStatus.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetUserStatus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
@@ -1033,9 +1033,6 @@
     <ClInclude Include="Arbre\Usines\UsineNoeud.h">
       <Filter>Sources Files\Arbre</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameStatus.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
@@ -1078,12 +1075,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetRondelle.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="reseau\UsinePaquets\UsinePaquetMaillet.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="reseau\UsinePaquets\UsinePaquetRondelle.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
@@ -1111,14 +1102,8 @@
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameCreation.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="reseau\UsinePaquets\UsinePaquetGameConnection.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Jeu\JoueurNetworkServeur.h">
       <Filter>Sources Files\Jeu</Filter>
@@ -1158,12 +1143,6 @@
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetBonus.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetBonus.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetGameEvent.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h">
       <Filter>Sources Files\Arbre\FieldModificationStrategy</Filter>
@@ -1234,14 +1213,17 @@
     <ClInclude Include="Reseau\Paquets\PaquetPortal.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetPortal.h">
-      <Filter>Sources Files\Reseau\UsinePaquets</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\FieldRunnableStructs.h">
       <Filter>Sources Files\Arbre\Edition</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatPIEMode.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\UsinePaquet.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Reseau\NetworkEnums.h">
+      <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

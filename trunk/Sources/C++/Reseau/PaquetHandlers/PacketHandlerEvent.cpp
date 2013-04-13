@@ -1,7 +1,7 @@
 
 
 #include "PacketHandler.h"
-#include "../Paquets/PaquetEvent.h"
+#include "PaquetEvent.h"
 
 
 void PacketHandlerEvent::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)

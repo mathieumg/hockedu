@@ -1380,7 +1380,7 @@ void Terrain::BeginContact( b2Contact* contact )
                 // Si partie en reseau, on doit envoyer un paquet game event pour dire de changer le last hitting mallet
                 if(maillet && rondelle && mGame->isNetworkServerGame())
                 {
-                    PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                    PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                     wPaquet->setGameId(mGame->getUniqueGameId());
                     wPaquet->setEvent(GAME_EVENT_CHANGE_LAST_MALLET);
                     wPaquet->setEventOnPlayerLeft(maillet->estAGauche());
@@ -1425,7 +1425,7 @@ void Terrain::BeginContact( b2Contact* contact )
                                 
                                 if(mGame->isNetworkServerGame())
                                 {
-                                    PaquetPortal* wPaquet = (PaquetPortal*) GestionnaireReseau::obtenirInstance()->creerPaquet(PORTAL);
+                                    PaquetPortal* wPaquet = (PaquetPortal*) UsinePaquet::creerPaquet(PORTAL);
                                     wPaquet->setGameId(mGame->getUniqueGameId());
                                     wPaquet->setPosition(portailDeSortie->getPosition());
                                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
@@ -1467,7 +1467,7 @@ void Terrain::BeginContact( b2Contact* contact )
 	
                 if(mGame->isNetworkServerGame())
                 {
-                    PaquetBonus* wPaquet = (PaquetBonus*) GestionnaireReseau::obtenirInstance()->creerPaquet(BONUS);
+                    PaquetBonus* wPaquet = (PaquetBonus*) UsinePaquet::creerPaquet(BONUS);
                     wPaquet->setGameId(mGame->getUniqueGameId());
                     wPaquet->setBonusType(bonus->getBonusType());
                     wPaquet->setBonusAction(BONUS_ACTION_EXECUTE);

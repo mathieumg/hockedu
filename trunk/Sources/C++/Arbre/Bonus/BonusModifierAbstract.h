@@ -29,6 +29,9 @@ public:
     // Default constructor
     BonusModifierAbstract(float timeToLive):mIsFinished(false),mOwner(0),mTimeToLive(timeToLive),mCreator(0)
     {
+#if MIKE_DEBUG_
+        mTimeToLive = 999;
+#endif
     }
 
     virtual ~BonusModifierAbstract(){}
@@ -77,6 +80,7 @@ public:
 
     inline NoeudAbstrait* getOwner() const { return mOwner; }
 
+    float mTimeToLive;
 protected:
     /// utility functions, attachs the modifier to the last hitting mallet
     bool AttachToLastHittingMallet(NoeudRondelle* pPuck);
@@ -87,7 +91,6 @@ protected:
 
     NoeudAbstrait* mOwner;
     
-    float mTimeToLive;
     float mBeginTime;
     NodeBonus* mCreator;
 private:

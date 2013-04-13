@@ -15,6 +15,7 @@
 #include <stdexcept>
 #include "FacadePortability.h"
 #include <functional>
+#include "NetworkEnums.h"
 
 #ifdef LINUX
 #define INVALID_SOCKET -1
@@ -22,8 +23,7 @@
 #endif
 
 enum InternetProtocol {IPv4 = AF_INET, IPv6 = AF_INET6, UNSPECIFIED = AF_UNSPEC};
-enum ConnectionType {UDP, TCP};
-enum ConnectionState {CONNECTED, CONNECTING, NOT_CONNECTED};
+
 
 
 /// lorsque changement pour ne plus deriver de string, cacher une string pour l'utilisation dans le logging debug

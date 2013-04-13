@@ -4,7 +4,6 @@
 #include "../Reseau/GestionnaireReseauServeurMaitre.h"
 #include "ControllerServeurMaitre.h"
 #include "../Reseau/PaquetHandlers/PacketHandler.h"
-#include "../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
 #include "FacadeServeurMaitre.h"
 #include "CommunicateurBD.h"
 
@@ -12,7 +11,8 @@ const char flagChar = '-';
 
 /// ne pas rename, utis/ comme extern ailleur
 extern std::string NETWORK_LOG_FILE_NAME;
-extern std::string NETWORK_PACKET_FILE_NAME;
+extern std::string NETWORK_PACKET_SENT_FILE_NAME;
+extern std::string NETWORK_PACKET_RECV_FILE_NAME;
 
 // Fonction pour les flags qui ont un string apres la flag
 // Ex: -m 192.168.0.0.1
@@ -37,8 +37,9 @@ int main(int argc, char* argv[])  {
 #ifdef LINUX
     //daemon(0,0);
 #endif
-    NETWORK_LOG_FILE_NAME = "MASTER_SVR_LOG_";
-    NETWORK_PACKET_FILE_NAME = "MASTER_SVR_PACKET_";
+    NETWORK_LOG_FILE_NAME =         "SVRMASTER_LOG_";
+    NETWORK_PACKET_SENT_FILE_NAME = "SVRMASTER_PACKET_SENT_";
+    NETWORK_PACKET_RECV_FILE_NAME = "SVRMASTER_PACKET_RECV_";
     std::cout << "--------- Serveur Maitre ---------" << std::endl << std::endl;
 
     //********** Liste des flags
@@ -99,7 +100,7 @@ int main(int argc, char* argv[])  {
     GestionnaireReseauServeurMaitre::obtenirInstance();
 	GestionnaireReseau* wGestReseau = GestionnaireReseau::obtenirInstance();
 
-    GestionnaireReseau::obtenirInstance()->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
+
     GestionnaireReseau::obtenirInstance()->setController(new ControllerServeurMaitre());
 
     FacadeServeurMaitre::obtenirInstance();

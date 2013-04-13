@@ -5,17 +5,11 @@
 #include "Terrain.h"
 #include "Tournoi.h"
 #include "GestionnaireHUD.h"
-#include "..\reseau\UsinePaquets\UsinePaquetMaillet.h"
-#include "..\reseau\UsinePaquets\UsinePaquetPortal.h"
 #include "..\reseau\PaquetHandlers\PacketHandler.h"
 #include "..\Reseau\Paquets\PaquetGameCreation.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameCreation.h"
 #include "..\reseau\Paquets\PaquetGameConnection.h"
-#include "..\reseau\UsinePaquets\UsinePaquetGameConnection.h"
-#include "..\reseau\UsinePaquets\UsinePaquetRondelle.h"
 #include "VisitorGatherProperties.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetGameEvent.h"
-#include "..\Reseau\UsinePaquets\UsinePaquetBonus.h"
+#include "UsinePaquet.h"
 #include "..\Achievements\AchievementsManager.h"
 #include "FacadeModele.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
@@ -26,6 +20,7 @@
 #include "Partie.h"
 #include "JoueurVirtuelRenforcement.h"
 #include <sstream>
+#include "..\Reseau\Paquets\PaquetRondelle.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -75,15 +70,15 @@ void InitDLL()
     wGestionnaireReseau->initClient();
 
     // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-    wGestionnaireReseau->ajouterOperationReseau(CHAT_MESSAGE, new PacketHandlerChatMessage, new UsinePaquetChatMessage);
-    wGestionnaireReseau->ajouterOperationReseau(USER_STATUS, new PacketHandlerUserStatus, new UsinePaquetUserStatus);
-    wGestionnaireReseau->ajouterOperationReseau(MAILLET, new PacketHandlerMaillet, new UsinePaquetMaillet);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_CREATION_REQUEST, new PacketHandlerGameCreation, new UsinePaquetGameCreation);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_CONNECTION, new PacketHandlerGameConnection, new UsinePaquetGameConnection);
-    wGestionnaireReseau->ajouterOperationReseau(RONDELLE, new PacketHandlerRondelle, new UsinePaquetRondelle);
-    wGestionnaireReseau->ajouterOperationReseau(GAME_EVENT, new PacketHandlerGameEvent, new UsinePaquetGameEvent);
-    wGestionnaireReseau->ajouterOperationReseau(BONUS, new PacketHandlerBonus, new UsinePaquetBonus);
-    wGestionnaireReseau->ajouterOperationReseau(PORTAL, new PacketHandlerPortal, new UsinePaquetPortal);
+
+
+
+
+
+
+
+
+
 
     AchievementsManager::obtenirInstance()->InitialiseAchievements();
 
@@ -120,7 +115,7 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
 ////////////////////////////////////////////////////////////////////////
 void DisconnectMasterServer(  )
 {
-    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
     wPaquet->setEventCode(USER_DISCONNECTED);
     wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     wPaquet->forceSendBrokenSocket();
@@ -134,7 +129,7 @@ void DisconnectMasterServer(  )
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) UsinePaquet::creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(false);
     wPaquet->setGroupName("lobby");
@@ -152,7 +147,7 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 
 void SendMessageGameDLL( char * pMessage )
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) GestionnaireReseau::obtenirInstance()->creerPaquet(CHAT_MESSAGE);
+    PaquetChatMessage* wPaquet = (PaquetChatMessage*) UsinePaquet::creerPaquet(CHAT_MESSAGE);
     wPaquet->setMessage(pMessage);
     wPaquet->setIsTargetGroup(false);
     wPaquet->setGroupName("ingame");
@@ -439,17 +434,20 @@ void connectServerGame( char* pServerIP )
 
 void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputPassword )
 {
-    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) UsinePaquet::creerPaquet(GAME_CONNECTION);
     wPaquet->setGameId(pGameId);
     wPaquet->setGameServerId(pServerId);
     wPaquet->setPassword(pInputPassword);
+    wPaquet->setUsername(GestionnaireReseau::obtenirInstance()->getPlayerName());
+
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
 void requestGameCreationServerGame( char* pGameName, char* pMapName, int pMapId, char* pPassword  )
 {
     FacadeModele::getInstance()->setGameCreationPassword(pPassword);
-    PaquetGameCreation* wPaquet = (PaquetGameCreation*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CREATION_REQUEST);
+    PaquetGameCreation* wPaquet = (PaquetGameCreation*) UsinePaquet::creerPaquet(GAME_CREATION_REQUEST);
+    wPaquet->setUsername(GestionnaireReseau::obtenirInstance()->getPlayerName());
     wPaquet->setGameName(pGameName);
     wPaquet->setMapName(pMapName);
     wPaquet->setPassword(pPassword);
@@ -840,7 +838,7 @@ void testConnexionUDPCSharp()
 
     FacadePortability::sleep(1000);
 
-    PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+    PaquetRondelle* wPaquet = (PaquetRondelle*) UsinePaquet::creerPaquet(RONDELLE);
     wPaquet->setGameId(9000);
     wPaquet->setPosition(Vecteur3(0.0f,1.0f,2.0f));
     wPaquet->setVelocite(Vecteur3(3.0f,4.0f,5.0f));
@@ -877,7 +875,7 @@ void SetAchievementUnlocked( AchievementUnlockCallBack callback )
 ////////////////////////////////////////////////////////////////////////
 void requestGamesList()
 {
-    PaquetEvent* wPaquet = (PaquetEvent*)GestionnaireReseau::obtenirInstance()->creerPaquet(EVENT);
+    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
     wPaquet->setEventCode(GAMES_LIST_REQUEST);
     wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
@@ -935,7 +933,7 @@ void AskForAIOpponentInNetworkGame()
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
     if(wGame)
     {
-        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
         wPaquet->setGameId(wGameId);
         wPaquet->setEvent(GAME_EVENT_ADD_AI);
         wPaquet->setPlayer1Name(GestionnaireReseau::obtenirInstance()->getPlayerName());
@@ -1007,10 +1005,11 @@ void SetDisplayMessageCallback( DisplayMessageCallback c )
 
 void requestMatchmaking(  )
 {
-    PaquetGameConnection* wPaquet = (PaquetGameConnection*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_CONNECTION);
+    PaquetGameConnection* wPaquet = (PaquetGameConnection*) UsinePaquet::creerPaquet(GAME_CONNECTION);
     wPaquet->setConnectionState(GAME_CONNECTION_MATCHMAKING_REQUEST);
     wPaquet->setGameId(-1);
     wPaquet->setGameServerId(0);
+    wPaquet->setUsername(GestionnaireReseau::obtenirInstance()->getPlayerName());
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 

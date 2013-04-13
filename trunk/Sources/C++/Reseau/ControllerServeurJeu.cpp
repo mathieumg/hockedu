@@ -115,7 +115,7 @@ void ControllerServeurJeu::handleEvent( EventCodes pEventCode, va_list pListeEle
             break;
         }
     default:
-        NETWORK_LOG("Unknown EventCode: %d", pEventCode);
+        NETWORK_LOG("Unhandled EventCode: %d", pEventCode);
         break;
     };
 }

@@ -1,15 +1,12 @@
-
-#include <iostream>
-#include <sstream>
 #include "PacketHandler.h"
-#include "..\Paquets\PaquetRondelle.h"
+#include "PaquetRondelle.h"
 
 
 void PacketHandlerRondelle::handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable/* = NULL*/)
 {
     if(pRunnable)
     {
-        PaquetRondelle* wPaquet = (PaquetRondelle*) GestionnaireReseau::obtenirInstance()->creerPaquet(RONDELLE);
+        PaquetRondelle* wPaquet = (PaquetRondelle*) UsinePaquet::creerPaquet(RONDELLE);
 
         wPaquet->setGameId(pPacketReader.readInteger());
         float wX = pPacketReader.readFloat();

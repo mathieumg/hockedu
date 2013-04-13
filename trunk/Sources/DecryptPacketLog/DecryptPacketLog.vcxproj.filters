@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="mainDecryptPacketLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\C++\Reseau\Paquets\Paquet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,21 +55,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetUserStatus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseau.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.cpp">
@@ -123,9 +105,19 @@
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\C++\Reseau\GestionnaireReseau.cpp">
+    <ClCompile Include="..\C++\Reseau\PacketReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\C++\Reseau\PacketBuilder.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C++\Reseau\UsinePaquet.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C++\Reseau\NetworkEnums.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="mainDecryptPacketLog.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\C++\Reseau\Paquets\Paquet.h">
@@ -212,21 +204,6 @@
     <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseau.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauGlobale.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -236,7 +213,7 @@
     <ClInclude Include="..\C++\Reseau\PaquetHandlers\PacketHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\C++\Reseau\GestionnaireReseau.h">
+    <ClInclude Include="..\C++\Reseau\PacketReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

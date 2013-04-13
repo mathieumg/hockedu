@@ -27,17 +27,14 @@
 #include "DebugRenderBox2D.h"
 #endif
 
-
-
 #ifndef __APPLE__
 #include "FacadeModele.h"
 #endif
+
 #include "Utilitaire.h"
 #include "EditionEventManager.h"
 
 #include "RazerGameUtilities.h"
-
-
 
 const float NoeudMaillet::DEFAULT_RADIUS = 10;
 
@@ -72,6 +69,8 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
         direction_[i] = false;
     }
     velocite_.remetAZero();
+
+
 
 
     ++mNbMalletCreated;
@@ -190,6 +189,7 @@ void NoeudMaillet::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::tick( const float& temps)
 {
+
    // Appel à la version de la classe de base pour l'animation des enfants.
    NoeudAbstrait::tick(temps);
    

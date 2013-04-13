@@ -205,7 +205,7 @@ void Partie::incrementerPointsJoueurGauche(bool pForceUpdate /*= false*/)
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
-        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
         wPaquet->setEventOnPlayerLeft(true);
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
@@ -246,7 +246,7 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
     if(isNetworkServerGame())
     {
         // Dans le cas, il faut envoyer un paquet aux 2 clients
-        PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+        PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
         wPaquet->setEventOnPlayerLeft(false);
         wPaquet->setGameId(mUniqueGameId);
         wPaquet->setEvent(GAME_EVENT_PLAYER_SCORED);
@@ -974,8 +974,7 @@ void Partie::animer( const float& temps )
         mField->appliquerPhysique(temps);
         mPartieSyncer.tick();
     }
-#if !MAT_DEBUG_
-    if(mGameStatus == GAME_WAITING)
+    else// if(mGameStatus == GAME_WAITING)
     {
         auto zamboni = mField->getZamboni();
         Vecteur3 pos = zamboni->getPosition();
@@ -985,8 +984,6 @@ void Partie::animer( const float& temps )
         direction[VY] = sin(angle);
         zamboni->setPosition(pos+direction);
     }
-#endif
-    
 }
 
 
@@ -1160,7 +1157,7 @@ void Partie::setGameStatus( GameStatus pStatus )
             /*if(isNetworkServerGame())
             {
                 // On veut s'assurer que les client ne hang pas en pause
-                PaquetGameEvent* wPaquet = (PaquetGameEvent*) GestionnaireReseau::obtenirInstance()->creerPaquet(GAME_EVENT);
+                PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                 wPaquet->setEvent(GAME_EVENT_START_GAME);
                 wPaquet->setGameId(mUniqueGameId);
                 wPaquet->setPlayer1Name(obtenirNomJoueurGauche());

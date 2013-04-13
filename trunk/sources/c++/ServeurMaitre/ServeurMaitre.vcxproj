@@ -1,25 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
-      <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|x64">
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Shipping|Win32">
-      <Configuration>Shipping</Configuration>
-      <Platform>Win32</Platform>
     </ProjectConfiguration>
     <ProjectConfiguration Include="Shipping|x64">
       <Configuration>Shipping</Configuration>
@@ -32,27 +20,12 @@
     <RootNamespace>ServeurMaitre</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>true</UseDebugLibraries>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
@@ -65,74 +38,31 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProp.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'" Label="PropertySheets">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="CommonProp.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'" Label="PropertySheets">
+    <Import Project="CommonProp.props" />
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../../Content/Exe/</OutDir>
-    <TargetName>$(ProjectName)_x86</TargetName>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../../Content/Exe/</OutDir>
-    <TargetName>$(ProjectName)_x64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../../Content/Release/</OutDir>
-    <TargetName>$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../../Content/Release/</OutDir>
-    <TargetName>$(ProjectName)_x64</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../../../Livrable final/Exe/</OutDir>
-    <TargetName>$(ProjectName)_x86</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../../../Livrable final/Exe/</OutDir>
-    <TargetName>$(ProjectName)_x64</TargetName>
   </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wsock32.lib;mysqlpp_x86_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
@@ -140,7 +70,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -150,27 +79,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>wsock32.lib;mysqlpp_x64_D.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wsock32.lib;mysqlpp_x86_R.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -194,27 +102,6 @@
       <AdditionalDependencies>wsock32.lib;mysqlpp_x64_R.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Win32'">
-    <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
-      <PreprocessorDefinitions>SHIPPING=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
-      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <MinimalRebuild>false</MinimalRebuild>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wsock32.lib;mysqlpp_x64_R.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-  </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <ClCompile>
       <PrecompiledHeader>
@@ -222,7 +109,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
       <PreprocessorDefinitions>SHIPPING=1;WIN32;_SERVER;_DEBUG;_CONSOLE;MYSQLPP_NO_DLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include</AdditionalIncludeDirectories>
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <MinimalRebuild>false</MinimalRebuild>
@@ -248,6 +134,7 @@
     <ClCompile Include="..\Reseau\FacadePortability.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseau.cpp" />
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp" />
+    <ClCompile Include="..\Reseau\NetworkEnums.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="..\Reseau\PacketBuilder.cpp" />
@@ -259,8 +146,12 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="..\reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerGameStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerMaillet.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerPortal.cpp" />
+    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerRondelle.cpp" />
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\Reseau\PaquetRunnable.cpp" />
     <ClCompile Include="..\Reseau\Paquets\Paquet.cpp" />
@@ -270,12 +161,17 @@
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="..\reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameCreation.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetGameEvent.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetLoginInfo.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetMaillet.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetPortal.cpp" />
+    <ClCompile Include="..\Reseau\Paquets\PaquetRondelle.cpp" />
     <ClCompile Include="..\Reseau\Paquets\PaquetUserStatus.cpp" />
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp" />
     <ClCompile Include="..\Reseau\Socket.cpp" />
     <ClCompile Include="..\Reseau\SocketTCPServeur.cpp" />
+    <ClCompile Include="..\Reseau\UsinePaquet.cpp" />
     <ClCompile Include="CommunicateurBD.cpp" />
     <ClCompile Include="ControllerServeurMaitre.cpp" />
     <ClCompile Include="ExceptionsReseau\ExceptionReseauBD.cpp" />
@@ -302,7 +198,6 @@
     <ClInclude Include="..\Reseau\PacketBuilder.h" />
     <ClInclude Include="..\Reseau\PacketReader.h" />
     <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="..\Reseau\PaquetHandlers\PacketHandlerBonus.h" />
     <ClInclude Include="..\Reseau\PaquetRunnable.h" />
     <ClInclude Include="..\Reseau\Paquets\Paquet.h" />
     <ClInclude Include="..\Reseau\Paquets\PaquetBonus.h" />
@@ -318,16 +213,7 @@
     <ClInclude Include="..\Reseau\RelayeurMessage.h" />
     <ClInclude Include="..\Reseau\Socket.h" />
     <ClInclude Include="..\Reseau\SocketTCPServeur.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquet.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetBonus.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetEvent.h" />
-    <ClInclude Include="..\reseau\UsinePaquets\UsinePaquetGameConnection.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
-    <ClInclude Include="..\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
+    <ClInclude Include="..\Reseau\UsinePaquet.h" />
     <ClInclude Include="CommunicateurBD.h" />
     <ClInclude Include="ControllerServeurMaitre.h" />
     <ClInclude Include="ExceptionsReseau\ExceptionReseauBD.h" />

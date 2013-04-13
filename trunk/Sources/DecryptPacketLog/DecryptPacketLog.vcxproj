@@ -1,13 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
-    <ProjectConfiguration Include="Debug|Win32">
+    <ProjectConfiguration Include="Debug|x64">
       <Configuration>Debug</Configuration>
-      <Platform>Win32</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|Win32">
-      <Configuration>Release</Configuration>
-      <Platform>Win32</Platform>
+      <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -16,74 +12,46 @@
     <RootNamespace>DecryptPacketLog</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
-    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PlatformToolset>v100</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\Content\Exe\logs\</OutDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <LinkIncremental>false</LinkIncremental>
-  </PropertyGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>PACKET_DECRYPTOR;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>../C++/Reseau;../C++/Reseau/Paquets;../C++/Reseau/ExceptionReseau;../C++/Reseau/ObjetsGlobaux;../C++/Reseau/PaquetHandlers;;./;../C#\UIHeavyClient\UIHeavyClient;..\..\Commun\Utilitaire\;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
+      <MinimalRebuild>false</MinimalRebuild>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-    </Link>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <ClCompile>
-      <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
-      <Optimization>MaxSpeed</Optimization>
-      <FunctionLevelLinking>true</FunctionLevelLinking>
-      <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-    </ClCompile>
-    <Link>
-      <SubSystem>Console</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
-      <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseau.cpp" />
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauGlobale.cpp" />
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.cpp" />
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.cpp" />
-    <ClCompile Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauTimeout.cpp" />
-    <ClCompile Include="..\C++\Reseau\GestionnaireReseau.cpp" />
+    <ClCompile Include="..\C++\Reseau\NetworkEnums.cpp" />
     <ClCompile Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\C++\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
+    <ClCompile Include="..\C++\Reseau\PacketBuilder.cpp" />
+    <ClCompile Include="..\C++\Reseau\PacketReader.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
@@ -112,17 +80,13 @@
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetPortal.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetRondelle.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetUserStatus.cpp" />
+    <ClCompile Include="..\C++\Reseau\UsinePaquet.cpp" />
     <ClCompile Include="mainDecryptPacketLog.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseau.h" />
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauGlobale.h" />
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauParametreInvalide.h" />
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauSocketDeconnecte.h" />
-    <ClInclude Include="..\C++\Reseau\ExceptionsReseau\ExceptionReseauTimeout.h" />
-    <ClInclude Include="..\C++\Reseau\GestionnaireReseau.h" />
     <ClInclude Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.h" />
     <ClInclude Include="..\C++\Reseau\ObjetsGlobaux\PartieServeurs.h" />
+    <ClInclude Include="..\C++\Reseau\PacketReader.h" />
     <ClInclude Include="..\C++\Reseau\PaquetHandlers\PacketHandler.h" />
     <ClInclude Include="..\C++\Reseau\Paquets\Paquet.h" />
     <ClInclude Include="..\C++\Reseau\Paquets\PaquetBonus.h" />

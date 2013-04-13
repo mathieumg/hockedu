@@ -10,9 +10,9 @@
 
 #pragma once
 #include <string>
-#include "GestionnaireReseau.h"
 #include <time.h>
 #include "UsinePaquet.h"
+#include "NetworkEnums.h"
 class UsinePaquet;
 
 
@@ -30,8 +30,7 @@ public:
 
 	virtual ~Paquet() = 0;
 
-    static const int sequenceIdentificationLength = 16;
-	static const std::string sequenceIdentification;
+    static const unsigned int sequenceIdentification = 0xBD7DFF6F;
     static int CompteurNumeroPaquet;
 
 	virtual PacketTypes getOperation() const = 0;
