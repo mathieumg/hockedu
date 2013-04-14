@@ -479,11 +479,11 @@ namespace UIHeavyClient
         {
             ProcessStartInfo start = new ProcessStartInfo();
             start.Arguments = "local";
-            string gameServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurJeuLauncher.exe";
+            string gameServerPath = AppDomain.CurrentDomain.BaseDirectory + "GameServerHockedu.exe";
             start.FileName = gameServerPath;
             start.WindowStyle = ProcessWindowStyle.Minimized;
             start.CreateNoWindow = false;
-            Process[] pGameServer = Process.GetProcessesByName( "ServeurJeuLauncher" );
+            Process[] pGameServer = Process.GetProcessesByName( "GameServerHockedu" );
             if(pGameServer.Count() == 0)
             {
                 try
@@ -499,10 +499,10 @@ namespace UIHeavyClient
             {
                 MainWindowHandler.ServeurJeuProcess = pGameServer[0];
             }
-            string mainServerPath = AppDomain.CurrentDomain.BaseDirectory + "ServeurMaitre.exe";
+            string mainServerPath = AppDomain.CurrentDomain.BaseDirectory + "MasterServerHockedu.exe";
             start.Arguments = "";
             start.FileName = mainServerPath;
-            Process[] pMainServer = Process.GetProcessesByName( "ServeurMaitre" );
+            Process[] pMainServer = Process.GetProcessesByName( "MasterServerHockedu" );
             if ( pMainServer.Count() == 0 )
             {
                 try

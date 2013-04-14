@@ -4204,6 +4204,10 @@
 		<row><td>ID_STRING1</td><td>1033</td><td/><td>0</td><td/><td>1243727339</td></row>
 		<row><td>ID_STRING2</td><td>1033</td><td>http://www.Hockedu.com</td><td>0</td><td/><td>1243704875</td></row>
 		<row><td>ID_STRING3</td><td>1033</td><td>RazorSharp Technologies</td><td>0</td><td/><td>1243735563</td></row>
+		<row><td>ID_STRING4</td><td>1033</td><td>Hockedu</td><td>0</td><td/><td>1914776385</td></row>
+		<row><td>ID_STRING5</td><td>1033</td><td>MASTER~1|Master Server</td><td>0</td><td/><td>1914794817</td></row>
+		<row><td>ID_STRING6</td><td>1033</td><td>GAMESE~1|Game Server</td><td>0</td><td/><td>1914770305</td></row>
+		<row><td>ID_STRING8</td><td>1033</td><td>Hockedu</td><td>0</td><td/><td>1914766049</td></row>
 		<row><td>IIDS_UITEXT_FeatureUninstalled</td><td>1033</td><td>This feature will remain uninstalled.</td><td>0</td><td/><td>1243725291</td></row>
 	</table>
 
@@ -4507,6 +4511,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col key="yes" def="s255">Condition</col>
 		<col def="l255">Description</col>
 		<row><td>DOTNETVERSION40CLIENT&gt;="#1"</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_DOTNETVERSION40CLIENT##</td></row>
+		<row><td>Intel &gt;= 5</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_PROCESSOR##</td></row>
+		<row><td>PhysicalMemory &gt;= 2048</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_RAM##</td></row>
+		<row><td>ScreenX &gt;= 1024 AND ScreenY &gt;= 768</td><td>##IDPROP_EXPRESS_LAUNCH_CONDITION_SCREEN##</td></row>
 	</table>
 
 	<table name="ListBox">
@@ -4904,6 +4911,9 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="L255">FileName</col>
 		<col def="s72">DirProperty</col>
 		<col def="i2">InstallMode</col>
+		<row><td>NewShortcut1</td><td>ISX_DEFAULTCOMPONENT9</td><td/><td>hockedu</td><td>2</td></row>
+		<row><td>NewShortcut2</td><td>ISX_DEFAULTCOMPONENT9</td><td/><td>hockedu</td><td>2</td></row>
+		<row><td>NewShortcut5</td><td>ISX_DEFAULTCOMPONENT9</td><td/><td>hockedu</td><td>2</td></row>
 	</table>
 
 	<table name="RemoveIniFile">
@@ -4989,6 +4999,10 @@ UwBpAG4AZwBsAGUASQBtAGEAZwBlAAEARQB4AHAAcgBlAHMAcwA=
 		<col def="S255">ISComments</col>
 		<col def="S255">ISShortcutName</col>
 		<col def="I4">ISAttributes</col>
+		<row><td>NewShortcut1</td><td>hockedu</td><td>##ID_STRING5##</td><td>ISX_DEFAULTCOMPONENT9</td><td>[EXE]MasterServerHockedu.exe</td><td/><td/><td/><td/><td/><td>1</td><td>EXE</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut2</td><td>hockedu</td><td>##ID_STRING6##</td><td>ISX_DEFAULTCOMPONENT9</td><td>[EXE]GameServerHockedu.exe</td><td/><td/><td/><td/><td/><td>1</td><td>EXE</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut5</td><td>hockedu</td><td>##ID_STRING8##</td><td>ISX_DEFAULTCOMPONENT9</td><td>[EXE]Hockedu.exe</td><td/><td/><td/><td/><td/><td>1</td><td>EXE</td><td/><td/><td/><td/><td/><td/><td/></row>
+		<row><td>NewShortcut51</td><td>DesktopFolder</td><td>##ID_STRING4##</td><td>ISX_DEFAULTCOMPONENT9</td><td>[EXE]Hockedu.exe</td><td/><td/><td/><td/><td/><td>1</td><td>EXE</td><td/><td/><td/><td/><td/><td/><td/></row>
 	</table>
 
 	<table name="Signature">

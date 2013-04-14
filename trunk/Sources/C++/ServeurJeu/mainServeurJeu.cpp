@@ -49,19 +49,21 @@ void DoNothing()
 
 void connect(std::string ip)
 {
-    CleanUp();
-    InitDLLServeurJeu();
     std::cout << "Connecting to master server on adress : " << ip << std::endl;
     ConnectMasterServer(ip);
 }
 
 void ReconnectDefaultMaster()
 {
+    CleanUp();
+    InitDLLServeurJeu();
     connect(wMasterServerIP);
 }
 
 void ManualConnect()
 {
+    CleanUp();
+    InitDLLServeurJeu();
     std::cout << "Enter ip adress : ";
     char wInput [256];
     fgets ( wInput, 256, stdin );
@@ -70,6 +72,8 @@ void ManualConnect()
 
 void ConnectLocal()
 {
+    CleanUp();
+    InitDLLServeurJeu();
     // Par defaut on essaie de mettre une adresse de l'ecole (132.xxx.xxx.xxx)
     // Apres on essaie de mettre une adresse residentielle (192.168.xxx.xxx)
     // Sinon on met 127.0.0.1 (on ne change rien)
@@ -120,8 +124,10 @@ int mainServeurJeu(const char* pMasterServerIp)  {
     {
         ConnectLocal();
     }
-    if(ipArg != "")
+    else if(ipArg != "")
     {
+        CleanUp();
+        InitDLLServeurJeu();
         connect(ipArg);
     }
     else

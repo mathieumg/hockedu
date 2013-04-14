@@ -56,14 +56,17 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>../../../Content/Exe/</OutDir>
     <IgnoreImportLibrary>true</IgnoreImportLibrary>
+    <TargetName>GameServerHockedu</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../../../Content/Release/</OutDir>
+    <TargetName>GameServerHockedu</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>../../../../Livrable final/Exe/</OutDir>
+    <TargetName>GameServerHockedu</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
