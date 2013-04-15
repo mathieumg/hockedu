@@ -8,9 +8,16 @@
 
 
 PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
-:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0)
+:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL)
 {
-
+    if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        mLeftLearningAi = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche);
+    }
+    else if(joueurDroit->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        mRightLearningAi = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit);
+    }
 }
 
 
@@ -21,7 +28,7 @@ PartieApprentissage::~PartieApprentissage(void)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn PartieApprentissage::animer()
+/// @fn PartieApprentissage::animerBase()
 ///
 /// Overridden function in order to handle learning AI behavior on each tick.
 ///
@@ -29,23 +36,21 @@ PartieApprentissage::~PartieApprentissage(void)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::animer(const float& pTime)
+void PartieApprentissage::animerBase(const float& pTime)
 {
     if( mField != NULL)
     {
         NoeudRondelle* wPuck = mField->getPuck();
         Vecteur3 wPuckPosition = wPuck->getPosition();
-        SPJoueurAbstrait wRightPlayer = obtenirJoueurDroit();
-        SPJoueurAbstrait wLeftPlayer = obtenirJoueurGauche();
         NoeudMaillet* wRightMallet = mField->getRightMallet();
         NoeudMaillet* wLeftMallet = mField->getLeftMallet();
-        if(wRightPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] < 0 && wPuckPosition[VX] >= 0))
+        if(mRightLearningAi && (mPreviousPuckPosition[VX] < 0 && wPuckPosition[VX] >= 0))
         {
-            handleLearningStart(wRightMallet, wPuck, wLeftMallet);
+            handleLearningStart(mRightLearningAi, wPuck, wLeftMallet);
         }
-        else if(wLeftPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT && (mPreviousPuckPosition[VX] > 0 && wPuckPosition[VX] <= 0))
+        else if(mLeftLearningAi && (mPreviousPuckPosition[VX] > 0 && wPuckPosition[VX] <= 0))
         {
-            handleLearningStart(wLeftMallet, wPuck, wRightMallet);
+            handleLearningStart(mLeftLearningAi, wPuck, wRightMallet);
         }
         mPreviousPuckPosition = wPuckPosition;
     }
@@ -113,18 +118,16 @@ void PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::handleGoalScored( SPJoueurAbstrait pPlayer, SPJoueurAbstrait pOpponent)
+void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer, SPJoueurVirtuelRenforcement pOpponent)
 {
-    if(pPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(pPlayer && pPlayer->isLearning())
     {
-        //TODO Make AILearner take a player object to save data
-        //((JoueurVirtuelRenforcement*)pPlayer.get())->
-        AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
+        pPlayer->setActionResult(AI_OUTPUT_BUT_COMPTE);
     }
 
-    if(pOpponent->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(pOpponent && pOpponent->isLearning())
     {
-        AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_BUT_COMPTE);
+         pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
     mGoalScored = true;
 }
@@ -143,7 +146,7 @@ void PartieApprentissage::handleGoalScored( SPJoueurAbstrait pPlayer, SPJoueurAb
 ////////////////////////////////////////////////////////////////////////
 void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= false*/ )
 {
-    handleGoalScored(obtenirJoueurGauche(), obtenirJoueurDroit());
+    handleGoalScored(mLeftLearningAi, mRightLearningAi);
     Partie::incrementerPointsJoueurGauche( pForceUpdate );
 }
 
@@ -160,38 +163,42 @@ void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= f
 ////////////////////////////////////////////////////////////////////////
 void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= false*/ )
 {
-    handleGoalScored(obtenirJoueurDroit(), obtenirJoueurGauche());
+    handleGoalScored(mRightLearningAi, mLeftLearningAi);
     Partie::incrementerPointsJoueurGauche( pForceUpdate );
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn PartieApprentissage::handleLearningStart( NoeudMaillet* pLearningMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet, Vecteur3 wPuckPosition )
+/// @fn PartieApprentissage::handleLearningStart( NoeudMaillet* pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet, Vecteur3 wPuckPosition )
 ///
 /// Handles the behavior to put the AI in learning mode.
 ///
-/// @param[in] NoeudMaillet * pLearningMallet
+/// @param[in] NoeudMaillet * pLearningPlayer
 /// @param[in] NoeudRondelle * pPuck
 /// @param[in] NoeudMaillet * pOpponentMallet
 ///
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::handleLearningStart( NoeudMaillet* pLearningMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
+void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
 {
-    if(!mGoalScored)
+    if(pLearningPlayer->isLearning())
     {
-        AILearner::obtenirInstance()->terminerSauvegardeNouvelleInfo(AI_OUTPUT_RIEN);
+        if(!mGoalScored)
+        {
+            pLearningPlayer->setActionResult(AI_OUTPUT_RIEN);
+        }
+        else
+        {
+            mGoalScored = false;
+        }
+        NoeudMaillet* wLearningMallet = pLearningPlayer->getControlingMallet();
+        Vecteur3 wAiPosition(wLearningMallet->getPosition()),
+                 wAiVelocity(wLearningMallet->obtenirVelocite()),
+                 wPuckPosition(pPuck->getPosition()),
+                 wPuckVelocity(pPuck->obtenirVelocite()),
+                 wOpponentPosition(pOpponentMallet->getPosition());
+        LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+        pLearningPlayer->startLearningFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
     }
-    else
-    {
-        mGoalScored = false;
-    }
-    Vecteur3 wAiPosition(pLearningMallet->getPosition()),
-        wAiVelocity(pLearningMallet->obtenirVelocite()),
-        wPuckPosition(pPuck->getPosition()),
-        wPuckVelocity(pPuck->obtenirVelocite()),
-        wOpponentPosition(pOpponentMallet->getPosition());
-    LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
-    AILearner::obtenirInstance()->sauvegarderNouvelleInfo(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
 }

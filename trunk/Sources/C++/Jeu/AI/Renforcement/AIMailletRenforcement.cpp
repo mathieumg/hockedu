@@ -69,11 +69,17 @@ AIMailletRenforcement::~AIMailletRenforcement()
 ////////////////////////////////////////////////////////////////////////
 void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 {
-    Partie* wGame = FacadeModele::getInstance()->obtenirPartieCourante();
+    Terrain* wField = maillet->getField();
+    Partie* wGame = NULL;
 
-    if(wGame && wGame->getField())
+    if(wField)
     {
-        NoeudRondelle* wPuck = wGame->getField()->getPuck();
+        wGame = wField->getGame();
+    }
+
+    if(wGame)
+    {
+        NoeudRondelle* wPuck = wField->getPuck();
 
         typeStrat wNextStrat = getNextStrat();
         if(wNextStrat != NBSTRAT)
@@ -100,7 +106,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 // On utilise la prediction pour trouver la position de la rondelle a x=60 environ
 
                 // Calcul d'une posX a frapper en fct de la vitesse de la rondelle
-                NoeudRondelle* wPuck = wGame->getField()->getPuck();
+                NoeudRondelle* wPuck = wField->getPuck();
 
                 float wVitRondelle = wPuck->obtenirVelocite().norme();
                 float wPourVitesse = wVitRondelle / 1000.0f;
@@ -143,13 +149,6 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
                 switch(wAction)
                 {
-                case AI_ACTION_DEFENDRE:
-#if !SHIPPING
-                    std::cout << "Action: Defendre" << std::endl;
-#endif
-                    changerStrat(DEFENSIVE);
-                    return; // Rien d'autre a set pour strat def
-                    break;
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
 #if !SHIPPING
                     std::cout << "Action: Attaquer Directement" << std::endl;
@@ -168,12 +167,13 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 #endif
                     changerStrat(OFFENSIVE_GAUCHE);
                     break;
+                case AI_ACTION_DEFENDRE:
                 default:
 #if !SHIPPING
                     std::cout << "Action: Defendre (error)" << std::endl;
 #endif
                     changerStrat(DEFENSIVE);
-                    return;
+                    return; // Rien d'autre a set pour strat def
                     break;
                 }
 

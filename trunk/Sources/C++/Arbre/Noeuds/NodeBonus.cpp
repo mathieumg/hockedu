@@ -298,7 +298,7 @@ void NodeBonus::playTick( float temps)
         auto field = getField();
         if(field)
         {
-            game = field->GetGame();
+            game = field->getGame();
         }
         if(!mCounting)
         {
@@ -328,7 +328,7 @@ void NodeBonus::playTick( float temps)
             activate(true);
 
 
-            Partie* wGame = getField()->GetGame();
+            Partie* wGame = getField()->getGame();
             if(wGame && wGame->isNetworkServerGame())
             {
                 PaquetBonus* wPaquet = (PaquetBonus*) UsinePaquet::creerPaquet(BONUS);

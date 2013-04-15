@@ -10,15 +10,18 @@
 
 #pragma once
 #include "Vecteur.h"
-#include "Singleton.h"
 #include <stdint.h>
 #include <fstream>
+#include <sstream>
 #include "..\Reseau\FacadePortability.h"
+#include <functional>
 
 #define AI_LEARNER_OUTPUT_BUFFER_SIZE 5000 // Taille du buffer d'input
 #define AI_LEARNER_MAX_VELOCITE_INPUT 100 // Velocite maximale en entree pour la conversion en uint8_t (ajuster en fonction des parametres de velocite passes)
 #define AI_LEARNER_RAW_DATA_EXTENSION ".airaw" // Extension des fichiers d'output
 #define AI_LEARNER_RUNTIME_DATA_EXTENSION ".ailogic" // Extension des fichiers d'output runtime
+
+enum PlayerSide;
 
 struct LearningInfosRaw {
     // Input
@@ -33,13 +36,14 @@ struct LearningInfosRaw {
     uint8_t resultat;
 };
 
-typedef int (*AiLearnerBuildReadyCallback)(bool pOperationSuccess);
+typedef std::function<int (bool)> AiLearnerBuildReadyCallback;
 class AILearner;
 struct AiLearnerConvertionThreadParams
 {
     AiLearnerBuildReadyCallback callback;
     std::string folderPath;
-    std::string outputFilename;
+    std::string outputFile;
+    std::string inputFile;
     AILearner* thisPtr;
 };
 
@@ -102,20 +106,15 @@ enum LearningAiOutput {AI_OUTPUT_BUT_COMPTE, AI_OUTPUT_RIEN, AI_OUTPUT_ADVERSAIR
 /// @author Mathieu Parent
 /// @date 2013-03-29
 ///////////////////////////////////////////////////////////////////////////
-class AILearner : public Singleton<AILearner>
+class AILearner
 {
-    SINGLETON_DECLARATION_CLASSE_SANS_CONSTRUCTEUR(AILearner);
 public:
-	// Steps pour conversion
-    static int mStepPosition;
-    static int mStepVelocite;
+    AILearner(const std::string& pAiName);
 
 	/// Destructeur
 	~AILearner();
 
-    // Init pour la classe. Mandatory
-    bool init(const std::string& pFilePath, const Vecteur2& pMapTopLeft, const Vecteur2& pMapBottomRight);
-
+    bool setupFile();
 
     // Methode pour changer le repertoire d'output
     bool changerRepertoireOutput(const std::string& pFilePath);
@@ -131,11 +130,11 @@ public:
 
 
     // Utilise les fichiers dans le dossier specifie pour construire les donnees utilisables pour jouer avec l'AI
-    static bool convertirDonneesRaw(const std::string& pFolderPath, const std::string& pOutputFilename, AiLearnerBuildReadyCallback pCallback);
+    bool convertirDonneesRaw(AiLearnerBuildReadyCallback pCallback);
 
     static int getPointsForResult(LearningAiOutput pResult);
     
-    static void convertirPositionUint8(const Vecteur2& pPositionAConvertir, Vecteur2i& pOut);
+    void convertirPositionUint8(const Vecteur2& pPositionAConvertir, Vecteur2i& pOut) const;
     static void convertirVelociteUint8(const Vecteur2& pVelociteAConvertir, Vecteur2i& pOut);
 
     inline const Vecteur2& getMapTopLeft() const { return mMapTopLeft; }
@@ -147,17 +146,26 @@ public:
     inline const Vecteur2& getMapDimensions() const { return mMapDimensions; }
     inline void setMapDimensions(const Vecteur2& val) { mMapDimensions = val; }
 
+    inline void setAISide(const PlayerSide& pAISide) { mAISide = pAISide; }
+    inline void setMapName(const std::string& pMapName) { mMapName = pMapName; }
+
+
 private:
 	
-    /// Constructeur
-    AILearner();
+    // Steps pour conversion
+    static int mStepPosition;
+    static int mStepVelocite;
+
+    PlayerSide mAISide;
+    std::string mMapName;
+    std::ostringstream mFilePath;
 
     /// Methodes
     //static void conversionThreadDone() {mHandleThreadConversion = NULL;}
 
     /// Threads
     // Code d'execution du thread de conversion des donnes raw en donnees utilisables
-    static void *convertirDonneesRawThread(void *arg);
+   static void* convertirDonneesRawThread(void *arg);
 
     /// Attributs
     bool mInitDone;
@@ -169,10 +177,7 @@ private:
     Vecteur2 mMapDimensions;
 
     std::ofstream mOutputStream;
-    static HANDLE_THREAD mHandleThreadConversion;
-
-    
-
+    HANDLE_THREAD mHandleThreadConversion;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

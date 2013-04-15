@@ -14,6 +14,12 @@
 #include "Renforcement\AIMailletRenforcement.h"
 #include <fstream>
 #include "Renforcement\AILearner.h"
+#include "NoeudMaillet.h"
+#include "NoeudPoint.h"
+#include "NoeudTable.h"
+#include "Terrain.h"
+#include "CompteurAffichage.h"
+#include "Utilitaire.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -29,11 +35,12 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLogicFilepath(pAiLogicFilepath)
+JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pMapName, const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLogicFilepath(pMapName), mAiLearner(nom), mIsLearning(isLearning)
 {
+    
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
-    chargerAiLogic(pAiLogicFilepath);
+    chargerAiLogic(pMapName);
     setAiMaillet(new AIMailletRenforcement(this));
 }
 
@@ -206,24 +213,7 @@ bool JoueurVirtuelRenforcement::chargerAiLogic( const std::string& pAiLogicFilep
 
 AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const
 {
-    AiRuntimeInfosInput wInfos;
-    Vecteur2i wVect8b;
-    AILearner::convertirPositionUint8(pPositionAi.convertir<2>(), wVect8b);
-    wInfos.positionAi[VX] = wVect8b[VX];
-    wInfos.positionAi[VY] = wVect8b[VY];
-    AILearner::convertirPositionUint8(pPositionJoueurAdverse.convertir<2>(), wVect8b);
-    wInfos.positionAdversaire[VX] = wVect8b[VX];
-    wInfos.positionAdversaire[VY] = wVect8b[VY];
-    AILearner::convertirPositionUint8(pPositionRondelle.convertir<2>(), wVect8b);
-    wInfos.positionRondelle[VX] = wVect8b[VX];
-    wInfos.positionRondelle[VY] = wVect8b[VY];
-
-    AILearner::convertirVelociteUint8(pVelociteAi.convertir<2>(), wVect8b);
-    wInfos.velociteAi[VX] = wVect8b[VX];
-    wInfos.velociteAi[VY] = wVect8b[VY];
-    AILearner::convertirVelociteUint8(pVelociteRondelle.convertir<2>(), wVect8b);
-    wInfos.velociteRondelle[VX] = wVect8b[VX];
-    wInfos.velociteRondelle[VY] = wVect8b[VY];
+    auto wInfos = convertInputData(pPositionAi, pPositionJoueurAdverse, pPositionRondelle, pVelociteAi, pVelociteRondelle);
 
     auto wIt = mActionMap.find(wInfos);
     if(wIt == mActionMap.end())
@@ -254,27 +244,102 @@ AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPo
 ////////////////////////////////////////////////////////////////////////
 bool JoueurVirtuelRenforcement::hasMapEntryFor( const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse ) const
 {
-    AiRuntimeInfosInput wInfos;
-    Vecteur2i wVect8b;
-    AILearner::convertirPositionUint8(pPositionAi.convertir<2>(), wVect8b);
-    wInfos.positionAi[VX] = wVect8b[VX];
-    wInfos.positionAi[VY] = wVect8b[VY];
-    AILearner::convertirPositionUint8(pPositionJoueurAdverse.convertir<2>(), wVect8b);
-    wInfos.positionAdversaire[VX] = wVect8b[VX];
-    wInfos.positionAdversaire[VY] = wVect8b[VY];
-    AILearner::convertirPositionUint8(pPositionRondelle.convertir<2>(), wVect8b);
-    wInfos.positionRondelle[VX] = wVect8b[VX];
-    wInfos.positionRondelle[VY] = wVect8b[VY];
-
-    AILearner::convertirVelociteUint8(pVelociteAi.convertir<2>(), wVect8b);
-    wInfos.velociteAi[VX] = wVect8b[VX];
-    wInfos.velociteAi[VY] = wVect8b[VY];
-    AILearner::convertirVelociteUint8(pVelociteRondelle.convertir<2>(), wVect8b);
-    wInfos.velociteRondelle[VX] = wVect8b[VX];
-    wInfos.velociteRondelle[VY] = wVect8b[VY];
+    auto wInfos = convertInputData(pPositionAi, pPositionJoueurAdverse, pPositionRondelle, pVelociteAi, pVelociteRondelle);
 
     auto wIt = mActionMap.find(wInfos);
     return wIt != mActionMap.end();
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn JoueurVirtuelRenforcement::setPlayerSide( PlayerSide val )
+///
+/// Overridden function in order to be able to give the right information to the AILearner object.
+///
+/// @param[in] PlayerSide val
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void JoueurVirtuelRenforcement::setPlayerSide( PlayerSide val )
+{
+    mAiLearner.setAISide(val);
+    JoueurAbstrait::setPlayerSide(val);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn JoueurVirtuelRenforcement::setControlingMallet( class NoeudMaillet* pMallet )
+///
+/// Overridden function in order to be able to give the right information to the AILearner object.
+///
+/// @param[in] class NoeudMaillet * pMallet
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
+{
+    if(pMallet)
+    {
+        Terrain* wField = pMallet->getField();
+        if(wField)
+        {
+            NoeudTable* wTable = wField->getTable();
+            auto wMapTopLeft = wTable->obtenirPoint(POSITION_HAUT_GAUCHE)->getPosition();
+            auto wMapBottomRight = wTable->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
+            float wDimensions[2];
+            wTable->calculerHautLongMax(wDimensions);
+            wDimensions[0] *= utilitaire::ratioWorldToBox2D;
+            wDimensions[1] *= utilitaire::ratioWorldToBox2D;
+
+            mAiLearner.setMapTopLeft(wMapTopLeft.convertir<2>());
+            mAiLearner.setMapBottomRight(wMapBottomRight.convertir<2>());
+            mAiLearner.setMapDimensions(Vecteur2(wDimensions[0], wDimensions[1]));
+            std::string wFieldName = wField->getNom();
+            mAiLearner.setMapName(wFieldName.substr(wFieldName.find_last_of("/")+1));
+        }
+    }
+    JoueurAbstrait::setControlingMallet(pMallet);
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn JoueurVirtuelRenforcement::convertInputData( const Vecteur3 &pPositionAi, const Vecteur3 &pPositionJoueurAdverse, const Vecteur3 &pPositionRondelle, const Vecteur3 &pVelociteAi, const Vecteur3 &pVelociteRondelle ) const
+///
+/// Description
+///
+/// @param[in] const Vecteur3 & pPositionAi
+/// @param[in] const Vecteur3 & pPositionJoueurAdverse
+/// @param[in] const Vecteur3 & pPositionRondelle
+/// @param[in] const Vecteur3 & pVelociteAi
+/// @param[in] const Vecteur3 & pVelociteRondelle
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+AiRuntimeInfosInput JoueurVirtuelRenforcement::convertInputData( const Vecteur3 &pPositionAi, const Vecteur3 &pPositionJoueurAdverse, const Vecteur3 &pPositionRondelle, const Vecteur3 &pVelociteAi, const Vecteur3 &pVelociteRondelle ) const
+{
+    AiRuntimeInfosInput wInfos;
+    Vecteur2i wVect8b;
+    mAiLearner.convertirPositionUint8(pPositionAi.convertir<2>(), wVect8b);
+    wInfos.positionAi[VX] = wVect8b[VX];
+    wInfos.positionAi[VY] = wVect8b[VY];
+    mAiLearner.convertirPositionUint8(pPositionJoueurAdverse.convertir<2>(), wVect8b);
+    wInfos.positionAdversaire[VX] = wVect8b[VX];
+    wInfos.positionAdversaire[VY] = wVect8b[VY];
+    mAiLearner.convertirPositionUint8(pPositionRondelle.convertir<2>(), wVect8b);
+    wInfos.positionRondelle[VX] = wVect8b[VX];
+    wInfos.positionRondelle[VY] = wVect8b[VY];
+
+    mAiLearner.convertirVelociteUint8(pVelociteAi.convertir<2>(), wVect8b);
+    wInfos.velociteAi[VX] = wVect8b[VX];
+    wInfos.velociteAi[VY] = wVect8b[VY];
+    mAiLearner.convertirVelociteUint8(pVelociteRondelle.convertir<2>(), wVect8b);
+    wInfos.velociteRondelle[VX] = wVect8b[VX];
+    wInfos.velociteRondelle[VY] = wVect8b[VY];
+
+    return wInfos;
 }
 
 

@@ -118,7 +118,7 @@ void BonusModifierAbstract::Tick( float temps )
         auto field = mCreator->getField();
         if(field)
         {
-            auto game = field->GetGame();
+            auto game = field->getGame();
             if(game)
             {
                 mTimeToLive = 10 - (game->obtenirGameTime()->Elapsed_Time_sec() - mBeginTime);
@@ -152,7 +152,7 @@ void BonusModifierAbstract::Init( NodeBonus* creator )
     auto field = mCreator->getField();
     if(field)
     {
-        auto game = field->GetGame();
+        auto game = field->getGame();
         if(game)
         {
             mBeginTime = game->obtenirGameTime()->Elapsed_Time_sec();

@@ -1019,21 +1019,16 @@ bool learningCancelled = false;
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
     learningCancelled = false;
-    SPJoueurVirtuel wPlayer(new JoueurVirtuelRenforcement("", pReinforcementProfileName, pSpeed, pFailProb));
+    auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement("", pReinforcementProfileName, pSpeed, pFailProb)));
     SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", pSpeed, pFailProb));
 
     int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
-//    FacadeModele::getInstance()->setPartieCourante(wGameId);
     wGame->setMiseAuJeuDelai(0);
     wGame->getField()->creerTerrainParDefaut("");
     wGame->getReadyToPlay(false);
     wGame->miseAuJeu(true);
-
-    std::ostringstream wFileDirectory(pReinforcementProfileName);
-    wFileDirectory << "Data/";
-    FacadePortability::createDirectory(wFileDirectory.str().c_str());
 
     /*while(!learningCancelled)
     {
@@ -1064,7 +1059,9 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
             wGame->getField()->getPuck()->setPosition(Vecteur3());
         }
     }
-    AILearner::obtenirInstance()->dump();
+
+    wPlayer->dumpLearnedData();
+    wPlayer->convertLearnedData();
 }
 
 void cancelLearningAI()

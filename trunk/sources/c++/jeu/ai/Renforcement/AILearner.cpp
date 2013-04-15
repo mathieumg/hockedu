@@ -11,16 +11,11 @@
 #include "AILearner.h"
 #include "DirectoySearch.h"
 #include <map>
-
-HANDLE_THREAD AILearner::mHandleThreadConversion = NULL;
+#include "JoueurAbstrait.h"
+#include <sstream>
 
 int AILearner::mStepVelocite = 20;
 int AILearner::mStepPosition = 100;
-
-
-
-// Initialisations automatiques
-SINGLETON_DECLARATION_CPP(AILearner);
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -31,10 +26,25 @@ SINGLETON_DECLARATION_CPP(AILearner);
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-AILearner::AILearner()
-    : mInitDone(false), mBufferCount(0)
+AILearner::AILearner(const std::string& pAiName)
+    : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL), mFilePath("./AIData/")
 {
+    FacadePortability::createDirectory("AIData");
+    mFilePath << pAiName; // Path = AIData/AI Name
+    FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
+}
 
+
+bool AILearner::setupFile()
+{
+    //File name = mawName_AISide.airaw
+    mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
+    //Change output directory.
+    if(changerRepertoireOutput(mFilePath.str()))
+    {
+        mInitDone = true;
+    }
+    return mInitDone;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -54,28 +64,6 @@ AILearner::~AILearner()
     }
 
 }
-
-
-
-
-
-
-bool AILearner::init( const std::string& pFilePath, const Vecteur2& pMapTopLeft, const Vecteur2& pMapBottomRight)
-{
-    if(changerRepertoireOutput(pFilePath))
-    {
-        // largeur et hauteur de la map
-        mMapDimensions = Vecteur2(pMapBottomRight[VX]-pMapTopLeft[VX], pMapTopLeft[VY]-pMapBottomRight[VY]);
-        mMapTopLeft = pMapTopLeft;
-        mMapBottomRight = pMapBottomRight;
-        mInitDone = true;
-        return true;
-    }
-    return false;
-}
-
-
-
 
 bool AILearner::changerRepertoireOutput( const std::string& pFilePath )
 {
@@ -173,21 +161,16 @@ void AILearner::terminerSauvegardeNouvelleInfo( LearningAiOutput pOutput )
 
 
 
-void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vecteur2i& pOut )
+void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vecteur2i& pOut ) const
 {
     // Convertir la position en coordonnee (0-255, 0-255) grid
     // La map est separee en 255 cases en X et 255 en Y. De cette facon, on peut utiliser des uint8_t pour sauvegarder les positions
-    AILearner* wInstance = AILearner::obtenirInstance();
 
-    Vecteur2 wMapTopLeft     = wInstance->getMapTopLeft();
-    Vecteur2 wMapBottomRight = wInstance->getMapBottomRight();
-    Vecteur2 wMapDimensions  = wInstance->getMapDimensions();
+    // Si la dimension est nulle, c'est louche
+    checkf(mMapDimensions[VX] > 1.0f && mMapDimensions[VY] > 1.0f);
 
-    // Si la dimension est nulle, c'est louche (probablement pas loader la map)
-    checkf(wMapDimensions[VX] > 1.0f && wMapDimensions[VY] > 1.0f);
-
-    pOut[VX] = (int) (AILearner::mStepPosition*(pPositionAConvertir[VX]-wMapTopLeft[VX])/wMapDimensions[VX]);
-    pOut[VY] = (int) (AILearner::mStepPosition*(wMapTopLeft[VY]-pPositionAConvertir[VY])/wMapDimensions[VY]);
+    pOut[VX] = (int) (AILearner::mStepPosition*(pPositionAConvertir[VX]-mMapTopLeft[VX])/mMapDimensions[VX]);
+    pOut[VY] = (int) (AILearner::mStepPosition*(mMapTopLeft[VY]-pPositionAConvertir[VY])/mMapDimensions[VY]);
 
 
 }
@@ -219,7 +202,7 @@ void AILearner::convertirVelociteUint8( const Vecteur2& pVelociteAConvertir, Vec
 }
 
 
-bool AILearner::convertirDonneesRaw( const std::string& pFolderPath, const std::string& pOutputFilename, AiLearnerBuildReadyCallback pCallback)
+bool AILearner::convertirDonneesRaw( AiLearnerBuildReadyCallback pCallback)
 {
     DWORD returnValue;
     GetExitCodeThread(mHandleThreadConversion,&returnValue);
@@ -230,11 +213,12 @@ bool AILearner::convertirDonneesRaw( const std::string& pFolderPath, const std::
     }
 
     AiLearnerConvertionThreadParams* wParams = new AiLearnerConvertionThreadParams;
-    wParams->thisPtr = AILearner::obtenirInstance();
-    wParams->folderPath = pFolderPath;
+    std::string wFilePath(mFilePath.str());
+    wParams->thisPtr = this;
+    //wParams->folderPath = wFilePath.substr(2, wFilePath.find_last_not_of("/"));
     wParams->callback = pCallback;
-    wParams->outputFilename = pOutputFilename;
-
+    wParams->outputFile = wFilePath.replace(wFilePath.find(AI_LEARNER_RAW_DATA_EXTENSION)+1, strlen(AI_LEARNER_RAW_DATA_EXTENSION), AI_LEARNER_RUNTIME_DATA_EXTENSION);
+    wParams->inputFile = wFilePath;
     FacadePortability::createThread(mHandleThreadConversion, convertirDonneesRawThread, wParams);
     GetExitCodeThread(mHandleThreadConversion,&returnValue);
     if(returnValue != STILL_ACTIVE)
@@ -254,31 +238,32 @@ void * AILearner::convertirDonneesRawThread( void *arg )
 
 
     // Faire la conversion
-    std::string wOutputFilename = wParams->outputFilename;
-    size_t wIndexExtension = wOutputFilename.find(AI_LEARNER_RUNTIME_DATA_EXTENSION);
+    std::string wOutputFile = wParams->outputFile;
+    size_t wIndexExtension = wOutputFile.find(AI_LEARNER_RUNTIME_DATA_EXTENSION);
     if(wIndexExtension == std::string::npos)
     {
         // Pas d'extension, on en met une
-        size_t wDotIndex = wOutputFilename.find(".");
+        size_t wDotIndex = wOutputFile.find(".");
         if(wDotIndex == std::string::npos)
         {
-            wOutputFilename += AI_LEARNER_RUNTIME_DATA_EXTENSION;
+            wOutputFile += AI_LEARNER_RUNTIME_DATA_EXTENSION;
         }
         else
         {
-            wOutputFilename = wOutputFilename.substr(0, wDotIndex) + AI_LEARNER_RUNTIME_DATA_EXTENSION;
+            wOutputFile = wOutputFile.substr(0, wDotIndex) + AI_LEARNER_RUNTIME_DATA_EXTENSION;
         }
     }
 
     std::ofstream wOutput;
-    wOutput.open(wParams->folderPath + "/" + wOutputFilename);
-
+//    wOutput.open(wParams->folderPath + "/" + wOutputFile);
+    wOutput.open(wOutputFile);
     if(wOutput.fail())
     {
         wParams->callback(false);
     }
     else
     {
+/*
         // Conversion
         std::vector<std::string> wFilesList;
         std::map<std::string, bool> wExtMap;
@@ -290,18 +275,19 @@ void * AILearner::convertirDonneesRawThread( void *arg )
             wParams->callback(false);
         }
         else
-        {
+        {*/
             // Pas d'erreur, on continue
 
             // On se cree une hashmap pour sauvegarder les points des differentes entrees
             std::map<AiRuntimeInfos, AiLearningComputingValue*> wMapData;
 
             // Lecture des infos de chaque fichier
-            for(auto it = wFilesList.begin(); it!=wFilesList.end(); ++it)
-            {
+//            for(auto it = wFilesList.begin(); it!=wFilesList.end(); ++it)
+//            {
                 // On ouvre le fichier
                 std::ifstream wFichier;
-                wFichier.open((*it), std::ios_base::binary | std::ios_base::in);
+//                wFichier.open((*it), std::ios_base::binary | std::ios_base::in);
+                wFichier.open(wParams->inputFile, std::ios_base::binary | std::ios_base::in);
                 LearningInfosRaw wBuffer;
                 AiRuntimeInfos wBufferRuntime;
                 int wValueToAdd = 0;
@@ -335,8 +321,8 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                     }
 
                     // Lecture terminee, fichier suivant
-                }
-            }
+ //               }
+//            }
 
 
 
@@ -407,13 +393,13 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
     switch(pResult)
     {
     case AI_OUTPUT_BUT_COMPTE:
-        return 1;
+        return 10;
         break;
     case AI_OUTPUT_ADVERSAIRE_BUT_COMPTE:
-        return -1;
+        return -10;
         break;
     default:
-        return 0;
+        return -1;
         break;
     }
 }

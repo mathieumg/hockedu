@@ -325,7 +325,7 @@ public:
 
     /// Accessors of mGame
     inline const bool IsGameField() const { return !!mGame; }
-    inline Partie* GetGame() const {return mGame;}
+    inline Partie* getGame() const {return mGame;}
 
     NoeudMaillet* getLeftMallet() const;
     NoeudMaillet* getRightMallet() const;

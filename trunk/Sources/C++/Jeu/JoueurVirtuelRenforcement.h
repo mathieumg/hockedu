@@ -26,7 +26,7 @@ class JoueurVirtuelRenforcement : public JoueurVirtuel
 public:
     friend class AiLearnerTests;
 	/// Constructeur par paramètres
-	JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0);
+	JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0, bool isLearning = true);
 
 
 	/// Destructeur virtuel
@@ -43,21 +43,43 @@ public:
     /// Permet d'obtenir l'action a utiliser pour une certaine situation donnee
     AiRuntimeInfosOutput getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;
 
-
 	/// Questionne le AIMaillet sur la direction à prendre du maillet
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 
     inline std::string GetAiLogicFilepath() const {return mAiLogicFilepath;}
+
+    virtual void setControlingMallet(class NoeudMaillet* pVal);
+    virtual void setPlayerSide(PlayerSide val);
+
+    void dumpLearnedData() { mAiLearner.dump(); }
+
+    void startLearningFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse, LearningAiAction pAction)
+    {
+        mAiLearner.sauvegarderNouvelleInfo(pPositionAi, pVelociteAi, pPositionRondelle, pVelociteRondelle, pPositionJoueurAdverse, pAction);
+    }
+
+    void setActionResult(LearningAiOutput pResult) { mAiLearner.terminerSauvegardeNouvelleInfo(pResult); }
+
+    bool isLearning() const { return mIsLearning; }
+    void setIsLearning(const bool& pIsLearning) { mIsLearning = pIsLearning; }
+
+    void convertLearnedData() { mAiLearner.convertirDonneesRaw([&](bool pSuccess)->int { mIsConversionDone = true; return 0; }); }
 
 private:
     bool hasMapEntryFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;
 
     bool chargerAiLogic(const std::string& pAiLogicFilepath);
 
+    AiRuntimeInfosInput convertInputData( const Vecteur3 &pPositionAi, const Vecteur3 &pPositionJoueurAdverse, const Vecteur3 &pPositionRondelle, const Vecteur3 &pVelociteAi, const Vecteur3 &pVelociteRondelle ) const;
+
+    bool mIsConversionDone;
+
     std::map<AiRuntimeInfosInput, AiRuntimeInfosOutput> mActionMap;
 
     std::string mAiLogicFilepath;
 
+    AILearner mAiLearner;
+    bool mIsLearning;
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);

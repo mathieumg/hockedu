@@ -132,7 +132,8 @@ void AIMaillet::changerStrat( typeStrat strat )
 typeStrat AIMaillet::getNextStrat()
 {
     typeStrat wReturn = mNextStrat;
-    if(mNextStratValidator && mNextStratValidator(FacadeModele::getInstance()->obtenirPartieCourante(), jv_->getControlingMallet()))
+    NoeudMaillet* wControlledMallet = jv_->getControlingMallet();
+    if(mNextStratValidator && mNextStratValidator(wControlledMallet->getField()->getGame(), wControlledMallet))
     {
         mNextStrat = NBSTRAT;
         mNextStratValidator = NULL;

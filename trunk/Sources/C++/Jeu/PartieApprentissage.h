@@ -9,7 +9,7 @@ public:
     friend class GameManager;
     ~PartieApprentissage(void);
 
-    virtual void animer(const float& pTime);
+    virtual void animerBase(const float& pTime);
     /*
     /// Overriden setters to make sure we only accept JoueurHumain and JoueurVirtuelRenforcement player types
     virtual void modifierJoueurDroit(SPJoueurAbstrait pPlayer);
@@ -25,7 +25,10 @@ private:
     Vecteur3 mPreviousPuckPosition;
     bool mGoalScored;
 
-    void handleGoalScored( SPJoueurAbstrait pLearningPlayer, SPJoueurAbstrait pOpponent);
-    void handleLearningStart( NoeudMaillet* pLearningMallet, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet);
+    SPJoueurVirtuelRenforcement mLeftLearningAi;
+    SPJoueurVirtuelRenforcement mRightLearningAi;
+
+    void handleGoalScored( SPJoueurVirtuelRenforcement pLearningPlayer, SPJoueurVirtuelRenforcement pOpponent);
+    void handleLearningStart( SPJoueurVirtuelRenforcement pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet);
 };
 

@@ -49,14 +49,14 @@ public:
 
     /// Accessors of mControlingMallet
     inline class NoeudMaillet* getControlingMallet() const { return mControlingMallet; }
-    inline void setControlingMallet(class NoeudMaillet* pVal) { mControlingMallet = pVal; }
+    virtual void setControlingMallet(class NoeudMaillet* pVal) { mControlingMallet = pVal; }
 
     virtual bool isReady() {return true;}
     inline void setReady(const bool pReady) {mIsReady = pReady;}
 
-	/// Accesseur de mPlayerSide_
-	PlayerSide getPlayerSide() const { return mPlayerSide_; }
-	void setPlayerSide(PlayerSide val) { mPlayerSide_ = val; }
+    /// Accesseur de mPlayerSide_
+    PlayerSide getPlayerSide() const { return mPlayerSide_; }
+    virtual void setPlayerSide(PlayerSide val) { mPlayerSide_ = val; }
 
 protected:
 	/// Le type du joueur (humain ou virtuel)
@@ -67,6 +67,7 @@ protected:
 private:
 	/// Le cote du joueur
 	PlayerSide mPlayerSide_;
+
 	/// Le nom du joueur
 	std::string nom_;
 	/// Outils pour connaitre le nom d'un joueur contenu dans un noeud XML

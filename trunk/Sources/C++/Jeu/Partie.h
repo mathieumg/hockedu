@@ -102,8 +102,8 @@ public:
 	
 	/// Gestion de l'affichage du décompte de mise au jeu
 	void afficher();
-	virtual void animer( const float& temps);
-    void animerBase( const float& temps );
+	void animer( const float& temps);
+    virtual void animerBase( const float& temps );
 
 	void vider();
 
