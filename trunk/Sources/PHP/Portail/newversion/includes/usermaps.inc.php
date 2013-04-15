@@ -11,6 +11,12 @@
 // Title in the browser.
 //$Website->setBrowserTitle( 'Maps' );
 
+$Common = Common::getInstance();
+
+$mapsList = $Common->getMaps();
+
+$Website->getSmarty()->assign( 'MapsList', $mapsList );
+
 $Website->setTemplateToInclude( 'usermaps' );
 
  ?>

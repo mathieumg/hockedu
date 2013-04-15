@@ -241,10 +241,11 @@ class Common
                         $this->db->quoteIdentifier( 'last_modified_time' ),                                      
                         $this->db->quote( $modificationTime , 'integer' ),
                         
-                        $this->db->quoteIdentifier( 'map_id' ),
+                        $this->db->quoteIdentifier( 'id' ),
                         $this->db->quote( $mapId, 'integer' )
                        );
-        $this->db->query( $sql );
+        $this->db->setLimit( 1 );
+        $this->db->exec( $sql );
     }
     
     public function userAchievementExists( $userId, $achievementId )
@@ -386,6 +387,43 @@ class Common
                         $this->db->quoteIdentifier( 'id_user' ),
                         $this->db->quote( $userId, 'integer' ),
                         
+                        $this->db->quoteIdentifier( 'id_achievement' )
+                       );
+        $userAchievements = $this->db->queryAll( $sql );
+        
+        return $userAchievements;
+    }
+    
+    public function getUserAchievementProgress( $userId )
+    { 
+        $sql = 'SELECT %s, %s, %s, %s, %s, %s
+                FROM %s 
+                JOIN %s
+                LEFT JOIN %s ON %s = %s AND %s = %s
+                WHERE %s=%d
+                ORDER BY %s DESC, %s ASC';
+        $sql = sprintf( $sql,
+                        $this->db->quoteIdentifier( 'name' ),
+                        $this->db->quoteIdentifier( 'description' ),
+                        $this->db->quoteIdentifier( 'id_achievement' ),
+                        $this->db->quoteIdentifier( 'unlocked' ),
+                        $this->db->quoteIdentifier( 'progress_data' ),
+                        $this->db->quoteIdentifier( 'time' ),
+                           
+                        $this->db->quoteIdentifier( 'users'),
+                        
+                        $this->db->quoteIdentifier( 'achievements_list'),
+                        
+                        $this->db->quoteIdentifier( 'achievements_progress'),
+                        $this->db->quoteIdentifier( 'id_achievement' ),
+                        $this->db->quoteIdentifier( 'achievements_list') . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'users') . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quoteIdentifier( 'achievements_progress') . '.' . $this->db->quoteIdentifier( 'id_user' ),
+                        
+                        $this->db->quoteIdentifier( 'users') . '.' . $this->db->quoteIdentifier( 'id' ),
+                        $this->db->quote( $userId, 'integer' ),
+                        
+                        $this->db->quoteIdentifier( 'unlocked' ),
                         $this->db->quoteIdentifier( 'id_achievement' )
                        );
         $userAchievements = $this->db->queryAll( $sql );

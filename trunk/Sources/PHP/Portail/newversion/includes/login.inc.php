@@ -23,7 +23,7 @@ if( isset( $_POST['submit'] ) )
     {
         $Website = Website::getInstance();
         
-        $Website->changePage( $Website->getSetting('MainDomain') );
+        $Website->changePage( $Website->getSetting('MainDomain') . '/myaccount' );
     }
 }
 

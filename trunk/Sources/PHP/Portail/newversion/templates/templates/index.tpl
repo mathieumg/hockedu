@@ -7,7 +7,7 @@
     </head>
 
     <body>
-        <div id="topbar">{if isset($IsLoggedIn)}Logged in as: <a href="/user/{$UserInformation.id}"><strong>{$UserInformation.username}</strong></a> | <a href="/myaccount">My account</a> | <a href="/logout">Logout</a>{else}<a href="/login">Login</a> | <a href="/register">Register</a>{/if}</div>
+        <div id="topbar">{if isset($IsLoggedIn)}Logged in as: {*<a href="/user/{$UserInformation.id}">*}<strong>{$UserInformation.username}</strong>{*</a>*} | <a href="/myaccount">My account</a> | <a href="/logout">Logout</a>{else}<a href="/login">Login</a> | <a href="/register">Register</a>{/if}</div>
         <div id="logo"></div>
         <div id="container">
             {* Include the menu at the top *}

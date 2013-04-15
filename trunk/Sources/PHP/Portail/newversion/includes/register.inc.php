@@ -119,7 +119,7 @@ if( isset( $_POST['submit'] ) )
 		$Common->registerUser( $_POST['username'], $_POST['password'], $_POST['email'] );
 		
 		$Website->getSmarty()->assign( 'RegistrationSuccess', true );
-		mail('mathieumg@gmail.com', 'Hockedu registration', 'User: ' . $_POST['username'] . "\n" . 'Email: ' . $_POST['password'] . "\n" ); 
+		mail('mathieumg@gmail.com', 'Hockedu registration', 'User: ' . $_POST['username'] . "\n" . 'Email: ' . $_POST['email'] . "\n" ); 
 	
 	    // Let the template know that everything is done.
         $Website->getSmarty()->assign( 'FormCompleted', true );

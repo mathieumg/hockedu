@@ -19,12 +19,12 @@
 	{foreach item=user from=$UserRankings}
 		<tr>
 			<td>{$user@iteration}</td>
-            <td><a href="/user/{$user.id}">{$user.username}</a></td>
+            <td>{*<a href="/user/{$user.id}">*}{$user.username}{*</a>*}</td>
 			<td>{$user.win_count}</td>
 		</tr>
 	{foreachelse}
 		<tr>
-			<td colspan="2">No users were found.</td>
+			<td colspan="3">No users were found.</td>
 		</tr>
 	{/foreach}
 	</tbody>

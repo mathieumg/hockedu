@@ -24,6 +24,21 @@ body
     background-color: #7db9e8;
 }
 
+a:visited
+{
+	color: #235e9b;
+}
+
+a:active
+{
+	color: #c2e0ff;
+}
+
+a
+{
+	color: #235e9b;
+}
+
 table 
 {
     *border-collapse: collapse; /* IE7 and lower */
@@ -123,6 +138,36 @@ fieldset input, fieldset select
     margin-right: 20px;
 }
 
+.box
+{
+	background-color: #a0cfff;
+	border-color: #1e5799;
+	border-width: 2px;
+	border-style: solid;
+    margin-top: 10px;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -moz-box-shadow: 1px 1px black;
+    -webkit-box-shadow: 1px 1px black;
+    box-shadow: 1px 1px black;
+}
+
+.boxheader
+{
+    text-align: left;
+    padding: 8px;
+    background-color: #1864ca;
+    color: white;
+    font-weight: bold;
+    border-radius: 6px 6px 0 0;
+}
+
+.boxcontent
+{
+    padding: 8px;
+}
+
 .center
 {
     text-align: center;
@@ -160,13 +205,42 @@ input.error
     background-color: #ffffcc;
 }
 
-.achievement
+.disabled
+{
+    width: 300px;
+    height: 30px;
+    background-color: grey;
+}
+
+a.downloadcontainer
+{
+    text-decoration: none;
+    color: white;
+    text-shadow: 1px 1px black;
+}
+
+.download
+{
+    width: 300px;
+    height: 30px;
+    background-color: #2989d8;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.download:hover
+{
+    background-color: lime;
+}
+
+.glossy
 {
     margin: 20px;
     padding: 20px;
     padding-top: 12px;
     padding-bottom: 8px;
-    background-color: #2989d8;
+
     
     border: 1px solid rgba(0,0,0,0.5);
     border-bottom: 3px solid rgba(0,0,0,0.5);
@@ -202,6 +276,16 @@ input.error
         inset 0 10px rgba(255,255,255,0.2),
         inset 0 10px 20px rgba(255,255,255,0.25),
         inset 0 -15px 30px rgba(0,0,0,0.3);
+}
+
+.achievement
+{
+    background-color: #2989d8;
+}
+
+.achievement_completed
+{
+    background-color: orange;
 }
 
 .achievement_name
@@ -459,20 +543,7 @@ input.error
     box-shadow: 1px 1px black;
 }
 
-a:visited
-{
-	color: #235e9b;
-}
 
-a:active
-{
-	color: #c2e0ff;
-}
-
-a
-{
-	color: #235e9b;
-}
 
 .menu
 {

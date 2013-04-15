@@ -11,6 +11,14 @@
 // Title in the browser.
 //$Website->setBrowserTitle( 'Download' );
 
+$downloadId = $Website->getModules( 1 );
+
+if( $downloadId == '1' )
+{
+    header('Location: http://content.hockedu.com/HockeduInstallerv1.exe');
+}
+
+
 $Website->setTemplateToInclude( 'download' );
 
  ?>

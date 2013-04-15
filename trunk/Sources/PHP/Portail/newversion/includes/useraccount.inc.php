@@ -11,6 +11,16 @@
 // Title in the browser.
 //$Website->setBrowserTitle( 'My account' );
 
+$Common = Common::getInstance();
+
+$mapsList = $Common->getUserMaps( $_SESSION['userInformation']['id'], true );
+
+$Website->getSmarty()->assign( 'MapsList', $mapsList );
+
+$achievementsList = $Common->getUserAchievementProgress( $_SESSION['userInformation']['id'] );
+
+$Website->getSmarty()->assign( 'AchievementsList', $achievementsList );
+
 $Website->setTemplateToInclude( 'useraccount' );
 
  ?>
