@@ -183,7 +183,7 @@ void AILearner::convertirPositionUint8( const Vecteur2& pPositionAConvertir, Vec
     Vecteur2 wMapBottomRight = wInstance->getMapBottomRight();
     Vecteur2 wMapDimensions  = wInstance->getMapDimensions();
 
-    // Si la dimension est nulle, c'est louche
+    // Si la dimension est nulle, c'est louche (probablement pas loader la map)
     checkf(wMapDimensions[VX] > 1.0f && wMapDimensions[VY] > 1.0f);
 
     pOut[VX] = (int) (AILearner::mStepPosition*(pPositionAConvertir[VX]-wMapTopLeft[VX])/wMapDimensions[VX]);

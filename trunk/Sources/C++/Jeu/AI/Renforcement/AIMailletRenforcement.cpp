@@ -106,12 +106,12 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 float wPourVitesse = wVitRondelle / 1000.0f;
 
 
-                float wPosX = 60.0f + 30.0 * wPourVitesse;
+                float wPosX = 30.0f + 70.0 * wPourVitesse;
                 if(maillet->estAGauche())
                 {
                     wPosX *= -1.0f;
                 }
-                PuckProjection wPred = wGame->getPuckProjection(wPosX, 10000);
+                PuckProjection wPred = wGame->getPuckProjection(wPosX, 4000);
 
                 if(wPred.time == -1)
                 {
@@ -139,23 +139,39 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 }
 
                 //LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
-                LearningAiAction wAction = AI_ACTION_ATTAQUER_DIRECTEMENT;
+                // Tests:
+                LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
                 switch(wAction)
                 {
                 case AI_ACTION_DEFENDRE:
+#if !SHIPPING
+                    std::cout << "Action: Defendre" << std::endl;
+#endif
                     changerStrat(DEFENSIVE);
                     return; // Rien d'autre a set pour strat def
                     break;
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
+#if !SHIPPING
+                    std::cout << "Action: Attaquer Directement" << std::endl;
+#endif
                     changerStrat(OFFENSIVE_LIGNE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_DROITE:
+#if !SHIPPING
+                    std::cout << "Action: Attaquer Droite" << std::endl;
+#endif
                     changerStrat(OFFENSIVE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_GAUCHE:
+#if !SHIPPING
+                    std::cout << "Action: Attaquer Gauche" << std::endl;
+#endif
                     changerStrat(OFFENSIVE_GAUCHE);
                     break;
                 default:
+#if !SHIPPING
+                    std::cout << "Action: Defendre (error)" << std::endl;
+#endif
                     changerStrat(DEFENSIVE);
                     return;
                     break;

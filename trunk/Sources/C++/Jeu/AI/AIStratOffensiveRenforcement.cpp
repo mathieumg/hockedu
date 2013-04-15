@@ -79,7 +79,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
     {
         // On calcule une position "random" quand le tir fail
         Vecteur2 wPointImpactModifie = mPointImpact;
-        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
+        Vecteur3 wDir = (mPointImpact-mPointVise);
         Vecteur3 wDirNorm = wDir;
         wDirNorm.normaliser();
         if(!tirReussi_)
@@ -97,19 +97,20 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
         wDirRondelleNorm.normaliser();
 
-        Vecteur3 mMalletTargetPos = wPointImpactModifie.convertir<2>() + (wDirRondelleNorm * (maillet->getRadius() + rondelle->getRadius()));
+        Vecteur3 mMalletTargetPos = wPointImpactModifie.convertir<2>() + (wDirNorm * (maillet->getRadius() + rondelle->getRadius()));
 
         Vecteur3 wAjustement = wPointImpactModifie-mMalletTargetPos;
         wAjustement.normaliser();
 
-        AnimationFrame* frame[4];
+        AnimationFrame* frame[5];
         frame[0] = new AnimationFrame(0.0f, maillet->getPosition());
         frame[1] = new AnimationFrame(mTimeBeforeImpact*0.75f, wPoint1);
         frame[2] = new AnimationFrame(mTimeBeforeImpact*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
         frame[3] = new AnimationFrame((float)mTimeBeforeImpact, mMalletTargetPos);
+        frame[4] = new AnimationFrame((float)mTimeBeforeImpact * 1.01f, mMalletTargetPos - wDirNorm * 20.0f);
 
         Animation* animation = new Animation(BEZIER, true, false, false);
-        for(int i=0; i<4; i++)
+        for(int i=0; i<5; i++)
             animation->ajouterFrame(frame[i]);
         animation->ajouterObjet((ObjetAnimable*)maillet);
         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
