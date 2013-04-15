@@ -139,7 +139,7 @@
     </Link>
     <Lib>
       <AdditionalDependencies>RazerGame.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../../../Livrable final/Exe/</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../Content/Shipping</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
