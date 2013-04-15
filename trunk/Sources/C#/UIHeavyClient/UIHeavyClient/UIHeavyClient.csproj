@@ -72,7 +72,7 @@
     <ApplicationIcon>airhockey_72x72.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Shipping|x64'">
-    <OutputPath>..\..\..\..\..\Livrable final\Exe\</OutputPath>
+    <OutputPath>..\..\..\..\Content\Shipping\</OutputPath>
     <DefineConstants>TRACE;SHIPPING</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>

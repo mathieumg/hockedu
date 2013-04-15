@@ -63,7 +63,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>../../../../Livrable final/Exe/</OutDir>
+    <OutDir>../../../Content/Shipping/</OutDir>
     <TargetName>MasterServerHockedu</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

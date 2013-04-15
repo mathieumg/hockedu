@@ -72,7 +72,7 @@
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">true</LinkIncremental>
     <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">../../Content/Release/</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">../../../Livrable final/Exe/</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">../../Content/Shipping/</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(Platform)\$(Configuration)\</IntDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(Platform)\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
