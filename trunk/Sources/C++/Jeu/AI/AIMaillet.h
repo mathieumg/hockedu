@@ -15,6 +15,7 @@
 
 class NoeudMaillet;
 class JoueurVirtuel;
+class Partie;
 
 // Fonction de test pour savoir si la condition est respectee
 typedef bool (*StratChangerValidator) (Partie* pGame, NoeudMaillet* pMaillet);

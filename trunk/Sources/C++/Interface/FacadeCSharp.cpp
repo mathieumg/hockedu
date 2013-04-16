@@ -495,7 +495,7 @@ void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning, char* p
 {
     if(pIsLearning)
     {
-        SPJoueurAbstrait joueurRenforcement(new JoueurVirtuelRenforcement(std::string(pFilePath), pName, pSpeed, pFailProb));
+        SPJoueurAbstrait joueurRenforcement(new JoueurVirtuelRenforcement(pName, pSpeed, pFailProb));
         FacadeModele::getInstance()->ajouterJoueur(joueurRenforcement);
     }
     else
@@ -1019,7 +1019,7 @@ bool learningCancelled = false;
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
     learningCancelled = false;
-    auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement("", pReinforcementProfileName, pSpeed, pFailProb)));
+    auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
     SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", 5, 5));
 
     int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);

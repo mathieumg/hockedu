@@ -26,7 +26,7 @@ class JoueurVirtuelRenforcement : public JoueurVirtuel
 public:
     friend class AiLearnerTests;
 	/// Constructeur par paramètres
-	JoueurVirtuelRenforcement(const std::string& pAiLogicFilepath, const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0, bool isLearning = true);
+	JoueurVirtuelRenforcement(const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0, bool isLearning = true);
 
 
 	/// Destructeur virtuel
@@ -64,6 +64,10 @@ public:
     void setIsLearning(const bool& pIsLearning) { mIsLearning = pIsLearning; }
 
     void convertLearnedData() { mAiLearner.convertirDonneesRaw([&](bool pSuccess)->int { mIsConversionDone = true; return 0; }); }
+
+    void setupFinished();
+
+    virtual void modifierNom(const std::string nom);
 
 private:
     bool hasMapEntryFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;

@@ -24,6 +24,9 @@ public:
     inline void clearPuckPositionBuffer() {mPuckPositions = std::queue<Vecteur3>();}
 
     void dumpAndConvertPlayersData();
+
+    /// Overriden so we can setup the AILearner output file once mallets are assigned.
+    virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle);
 protected:
     PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 

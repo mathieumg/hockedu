@@ -35,12 +35,10 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& pMapName, const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLogicFilepath(pMapName), mAiLearner(nom), mIsLearning(isLearning)
+JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning)
 {
-    
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
-    chargerAiLogic(pMapName);
     setAiMaillet(new AIMailletRenforcement(this));
 }
 
@@ -340,6 +338,31 @@ AiRuntimeInfosInput JoueurVirtuelRenforcement::convertInputData( const Vecteur3 
     wInfos.velociteRondelle[VY] = wVect8b[VY];
 
     return wInfos;
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn JoueurVirtuelRenforcement::setupFinished()
+///
+/// Description
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void JoueurVirtuelRenforcement::setupFinished()
+{
+    mAiLearner.setupFile();
+    if(!isLearning())
+    {
+        chargerAiLogic(mAiLearner.getAiLogicFilePath());
+    }
+}
+
+void JoueurVirtuelRenforcement::modifierNom( const std::string nom )
+{
+    JoueurAbstrait::modifierNom(nom);
+    mAiLearner.setAINAme(nom);
 }
 
 

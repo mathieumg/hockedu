@@ -186,7 +186,7 @@ SPJoueurAbstrait JoueurAbstrait::usineJoueurXML( const XmlElement* element, Cont
                 }
             case JOUEUR_VIRTUEL_RENFORCEMENT:
             {
-                joueur = SPJoueurAbstrait(new JoueurVirtuelRenforcement("")); break;
+                joueur = SPJoueurAbstrait(new JoueurVirtuelRenforcement()); break;
             }
 			default: break;
 			}

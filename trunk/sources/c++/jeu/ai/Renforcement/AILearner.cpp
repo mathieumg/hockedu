@@ -27,18 +27,25 @@ int AILearner::mStepPosition = 100;
 ///
 ////////////////////////////////////////////////////////////////////////
 AILearner::AILearner(const std::string& pAiName)
-    : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL), mFilePath("./AIData/")
+    : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL)
 {
+    mFilePath << "./AIData/";
+#if !SHIPPING
+    std::cout << "Root path: " <<mFilePath.str() << std::endl;
+#endif
     FacadePortability::createDirectory("AIData");
-    mFilePath << pAiName; // Path = AIData/AI Name
-    FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
+    setAINAme(pAiName);
 }
-
 
 bool AILearner::setupFile()
 {
-    //File name = mawName_AISide.airaw
+    //File name = mapName_AISide.airaw
     mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
+
+#if !SHIPPING
+    std::cout << "Full path: " << mFilePath.str() << std::endl;
+#endif
+
     //Change output directory.
     if(changerRepertoireOutput(mFilePath.str()))
     {
@@ -217,8 +224,8 @@ bool AILearner::convertirDonneesRaw( AiLearnerBuildReadyCallback pCallback)
     wParams->thisPtr = this;
     //wParams->folderPath = wFilePath.substr(2, wFilePath.find_last_not_of("/"));
     wParams->callback = pCallback;
-    wParams->outputFile = wFilePath.replace(wFilePath.find(AI_LEARNER_RAW_DATA_EXTENSION)+1, strlen(AI_LEARNER_RAW_DATA_EXTENSION), AI_LEARNER_RUNTIME_DATA_EXTENSION);
-    wParams->inputFile = wFilePath;
+    wParams->outputFile = getAiLogicFilePath();
+    wParams->inputFile = mFilePath.str();
     FacadePortability::createThread(mHandleThreadConversion, convertirDonneesRawThread, wParams);
     GetExitCodeThread(mHandleThreadConversion,&returnValue);
     if(returnValue != STILL_ACTIVE)
@@ -430,6 +437,29 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
     default:
         return -1;
         break;
+    }
+}
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn AILearner::setAINAme( std::string pName )
+///
+/// Description
+///
+/// @param[in] std::string pName
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void AILearner::setAINAme( std::string pAiName )
+{
+    if(pAiName != "")
+    {
+        mFilePath << pAiName; // Path = AIData/AI Name
+#if !SHIPPING
+        std::cout << "Sub path: " <<mFilePath.str() << std::endl;
+#endif
+        FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
     }
 }
 
