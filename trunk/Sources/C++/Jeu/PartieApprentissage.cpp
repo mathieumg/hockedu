@@ -24,7 +24,7 @@ int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
 
 
 PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
-:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL)
+:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
@@ -93,6 +93,19 @@ void PartieApprentissage::animerBase(const float& pTime)
         }
     }
     Partie::animerBase(pTime);
+
+    if(mAnimationMailletRenforcement)
+    {
+        if(mAnimationMailletRenforcement->estTermine())
+        {
+            delete mAnimationMailletRenforcement;
+            mAnimationMailletRenforcement = 0;
+        }
+        else
+        {
+            mAnimationMailletRenforcement->animer(pTime * 1000.0f); // Prends temps en ms
+        }
+    }
 }
 
 /*
@@ -168,7 +181,7 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
 #if !SHIPPING
-    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirReferencePointsJoueurDroit();
+    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
 #endif
     mGoalScored = true;
 }

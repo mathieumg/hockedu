@@ -124,9 +124,9 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                     changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
                     return;
                 }
-#if !SHIPPING
-                std::cout << "Projection reussie " << wPred.position << std::endl;
-#endif //!SHIPPING
+// #if !SHIPPING
+//                 std::cout << "Projection reussie " << wPred.position << std::endl;
+// #endif //!SHIPPING
                 // Get good strat
                 // Get info for input
                 JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;
@@ -151,26 +151,30 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 {
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
 #if !SHIPPING
-                    std::cout << "Action: Attaquer Directement" << std::endl;
+                    if(!wJoueur->isLearning())
+                        std::cout << "Action: Attaquer Directement" << std::endl;
 #endif
                     changerStrat(OFFENSIVE_LIGNE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_DROITE:
 #if !SHIPPING
-                    std::cout << "Action: Attaquer Droite" << std::endl;
+                    if(!wJoueur->isLearning())
+                        std::cout << "Action: Attaquer Droite" << std::endl;
 #endif
                     changerStrat(OFFENSIVE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_GAUCHE:
 #if !SHIPPING
-                    std::cout << "Action: Attaquer Gauche" << std::endl;
+                    if(!wJoueur->isLearning())
+                        std::cout << "Action: Attaquer Gauche" << std::endl;
 #endif
                     changerStrat(OFFENSIVE_GAUCHE);
                     break;
                 case AI_ACTION_DEFENDRE:
                 default:
 #if !SHIPPING
-                    std::cout << "Action: Defendre (error)" << std::endl;
+                    if(!wJoueur->isLearning())
+                        std::cout << "Action: Defendre (error)" << std::endl;
 #endif
                     changerStrat(DEFENSIVE);
                     return; // Rien d'autre a set pour strat def

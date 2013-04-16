@@ -12,6 +12,7 @@
 #include "GestionnaireAnimations.h"
 #include "RazerGameTypeDef.h"
 #include "JoueurVirtuelRenforcement.h"
+#include "PartieApprentissage.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -119,7 +120,18 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         for(int i=0; i<6; i++)
             animation->ajouterFrame(frame[i]);
         animation->ajouterObjet((ObjetAnimable*)maillet);
-        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+
+
+        if(joueurVirtuel->isLearning())
+        {
+            ((PartieApprentissage*)joueurVirtuel->getControlingMallet()->getField()->getGame())->setAnimationMailletRenforcement(animation);
+        }
+        else
+        {
+            GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+        }
+
+
 
 
         /*

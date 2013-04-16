@@ -1,6 +1,7 @@
 #pragma once
 #include "Partie.h"
 #include <queue>
+#include "Animation.h"
 
 
 
@@ -25,6 +26,15 @@ public:
 
     void dumpAndConvertPlayersData();
 
+    inline void setAnimationMailletRenforcement(Animation* val)
+    {
+        if(mAnimationMailletRenforcement)
+        {
+            delete mAnimationMailletRenforcement;
+        }
+        mAnimationMailletRenforcement = val;
+    }
+
     /// Overriden so we can setup the AILearner output file once mallets are assigned.
     virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle);
 protected:
@@ -43,6 +53,7 @@ private:
 
     virtual bool getReadyToPlay( bool loadMapFile = true );
 
-
+    Animation* mAnimationMailletRenforcement;
+    
 };
 
