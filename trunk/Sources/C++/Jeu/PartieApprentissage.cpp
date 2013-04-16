@@ -181,7 +181,7 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
 #if !SHIPPING
-    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+    std::cout << /*"Goal scored - Score: " << */obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
 #endif
     mGoalScored = true;
 }
@@ -240,16 +240,20 @@ void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLear
     {
         if(!mGoalScored)
         {
-            pLearningPlayer->setActionResult(AI_OUTPUT_RIEN);
+            if (pPuck->getLastHittingMallet() == pLearningPlayer->getControlingMallet())
+            {
+                pLearningPlayer->setActionResult(AI_OUTPUT_ADVERSAIRE_PAS_TOUCHE);
+            }
+            else
+            {
+                pLearningPlayer->setActionResult(AI_OUTPUT_RIEN);
+            }
         }
         else
         {
             mGoalScored = false;
         }
-		if (pPuck->getLastHittingMallet() == pLearningPlayer->getControlingMallet())
-		{
-			return pLearningPlayer->setActionResult(AI_OUTPUT_ADVERSAIRE_PAS_TOUCHE);
-		}
+		
         NoeudMaillet* wLearningMallet = pLearningPlayer->getControlingMallet();
         Vecteur3 wAiPosition(wLearningMallet->getPosition()),
                  wAiVelocity(wLearningMallet->obtenirVelocite()),
@@ -306,13 +310,13 @@ bool PartieApprentissage::getReadyToPlay( bool loadMapFile /*= true */ )
     bool wTempValue = Partie::getReadyToPlay(loadMapFile);
 
     // Reset the flag for the learning players
-    if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mRightLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit_)->setIsLearning(true);
+        mRightLearningAi->setIsLearning(true);
     }
-    if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mLeftLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche_)->setIsLearning(true);
+        mLeftLearningAi->setIsLearning(true);
     }
     return wTempValue;
 }
