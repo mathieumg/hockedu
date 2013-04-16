@@ -12,6 +12,8 @@
 #include "JoueurVirtuel.h"
 #include <map>
 #include "Renforcement\AILearner.h"
+#include "BoiteEnvironnement.h"
+#include "Utilitaire.h"
 
 
 ///////////////////////////////////////////////////////////////////////////
@@ -63,7 +65,7 @@ public:
     bool isLearning() const { return mIsLearning; }
     void setIsLearning(const bool& pIsLearning) { mIsLearning = pIsLearning; }
 
-    void convertLearnedData() { mAiLearner.convertirDonneesRaw([&](bool pSuccess)->int { mIsConversionDone = true; return 0; }); }
+    void convertLearnedData() { mAiLearner.convertirDonneesRaw([&](bool pSuccess)->int { utilitaire::afficherErreur("Conversion terminee"); mIsConversionDone = true; return 0;  }); }
 
     void setupFinished();
 
