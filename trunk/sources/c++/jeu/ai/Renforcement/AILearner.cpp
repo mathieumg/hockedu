@@ -398,6 +398,9 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
     case AI_OUTPUT_ADVERSAIRE_BUT_COMPTE:
         return -10;
         break;
+	case AI_OUTPUT_ADVERSAIRE_PAS_TOUCHE:
+		return 1;
+		break;
     default:
         return -1;
         break;
