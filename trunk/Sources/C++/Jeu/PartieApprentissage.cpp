@@ -167,6 +167,9 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
     {
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
+#if !SHIPPING
+    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirReferencePointsJoueurDroit();
+#endif
     mGoalScored = true;
 }
 

@@ -38,6 +38,7 @@ bool AILearner::setupFile()
 {
     resetPathStringStream();
     //File name = mapName_AISide.airaw
+    
     mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
 
 #if !SHIPPING

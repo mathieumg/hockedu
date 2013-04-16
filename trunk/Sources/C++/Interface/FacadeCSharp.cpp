@@ -427,9 +427,6 @@ void connectServerGame( char* pServerIP )
 
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, TCP);
     GestionnaireReseau::obtenirInstance()->demarrerNouvelleConnection("GameServer", pServerIP, UDP);
-
-
-
 }
 
 void connectPartieServerGame( int pGameId, unsigned int pServerId, char* pInputPassword )
@@ -1013,6 +1010,33 @@ void requestMatchmaking(  )
 
 bool learningCancelled = false;
 
+struct ThreadInfos
+{
+    Partie* mGame;
+    SPJoueurVirtuelRenforcement mPlayer;
+};
+
+void* gameThreadFunction(void* pParams)
+{
+    ThreadInfos* ti = (ThreadInfos*)pParams;
+    Partie* wGame = ti->mGame;
+
+    wGame->setMiseAuJeuDelai(0);
+    wGame->getField()->creerTerrainParDefaut("");
+    wGame->getReadyToPlay(false);
+    wGame->miseAuJeu(true);
+
+    while(!wGame->partieTerminee())
+    {
+        wGame->animerBase(16.0f/1000.0f);
+    }
+
+    ti->mPlayer->dumpLearnedData();
+    ti->mPlayer->convertLearnedData();
+    delete ti;
+    return 0;
+}
+
 
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
@@ -1023,15 +1047,16 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
-    //wGame->setFieldName("map_apprentissage_ai.xml");
-    wGame->setMiseAuJeuDelai(0);
-    //wGame->getField()->creerTerrainParDefaut("");
-    //wGame->getReadyToPlay(false);
-    //wGame->miseAuJeu(true);
+    wGame->setFieldName("map_apprentissage_ai.xml");
 
-    FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
-    FacadeModele::getInstance()->setProchainePartie(wGameId);
+    ThreadInfos* ti = new ThreadInfos();
+    ti->mGame = wGame;
+    ti->mPlayer = wPlayer;
+    //FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
+    //FacadeModele::getInstance()->setProchainePartie(wGameId);
 
+    HANDLE_THREAD mThread;
+    FacadePortability::createThread(mThread, gameThreadFunction, ti);
 
 
     /*std::queue<Vecteur3> puckPositions;
@@ -1062,7 +1087,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     wPlayer->convertLearnedData();*/
 
     
-    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
+    //GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
 }
 
 void cancelLearningAI()
