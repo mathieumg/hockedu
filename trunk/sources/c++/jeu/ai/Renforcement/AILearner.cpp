@@ -293,6 +293,13 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                 int wValueToAdd = 0;
                 if(!wFichier.fail())
                 {
+                    // On trouve la taille totale du fichier
+                    wFichier.seekg(std::ios_base::end);
+                    int wFilesize = (int) wFichier.tellg();
+                    wFichier.seekg(std::ios_base::beg);
+                    int wPourcentage = 0;
+                    int wDataCount = 0;
+
                     // Ouverture reussie, on lit le fichier
                     while(!wFichier.eof())
                     {
@@ -318,6 +325,15 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                             it->second->somme += getPointsForResult((LearningAiOutput) wBuffer.resultat);
                             ++(it->second->nbEntrees);
                         }
+
+                        // On affiche le pourcentage
+                        int wNewPourcentage = wDataCount * sizeof(LearningInfosRaw) / wFilesize;
+                        if(wPourcentage != wNewPourcentage && wNewPourcentage % 5 == 0)
+                        {
+                            std::cout << "Conversion " << wParams->inputFile << " passe 1: " << wNewPourcentage << "%" << std::endl;
+                        }
+                        wPourcentage = wNewPourcentage;
+
                     }
 
                     // Lecture terminee, fichier suivant
@@ -329,6 +345,9 @@ void * AILearner::convertirDonneesRawThread( void *arg )
             // Pour chaque action, on trouve la meilleure action a effectuer
             AiRuntimeInfos wLastInfosChecked;
             AiRuntimeInfos wBufferCompare;
+            int wPourcentage2 = 0;
+            int wCount = 0;
+            int wNbObjects = (int) wMapData.size();
             for(auto it = wMapData.begin(); it!=wMapData.end(); ++it)
             {
                 // On teste pour voir si on vient de traiter l'entree avec seulement l'action differente
@@ -359,6 +378,13 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                     wOutput.write((char*) &wBufferCompare, sizeof(AiRuntimeInfos));
                 }
                 wLastInfosChecked = it->first;
+
+                int wNewPourcentage = wCount / wNbObjects;
+                if(wPourcentage2 != wNewPourcentage && wNewPourcentage % 5 == 0)
+                {
+                    std::cout << "Conversion " << wParams->inputFile << " passe 2: " << wNewPourcentage << "%" << std::endl;
+                }
+                wPourcentage2 = wNewPourcentage;
             }
 
             wOutput.flush();
