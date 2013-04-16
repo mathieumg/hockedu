@@ -571,7 +571,14 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             const Vecteur3& pos = getPosition();
             setTargetDestination(pos);
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
-            md.maxForce = 3000.0f * body->GetMass();
+            if(joueur_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            {
+                md.maxForce = 200.0f * body->GetMass();
+            }
+            else
+            {
+                md.maxForce = 3000.0f * body->GetMass();
+            }
             md.dampingRatio = 0;
             md.frequencyHz = 100;
             mMouseJoint = (b2MouseJoint*)world->CreateJoint(&md);
