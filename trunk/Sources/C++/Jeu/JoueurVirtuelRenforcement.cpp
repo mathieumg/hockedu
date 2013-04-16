@@ -36,7 +36,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning), mLearningCounter(0)
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     setAiMaillet(new AIMailletRenforcement(this));
@@ -202,19 +202,32 @@ bool JoueurVirtuelRenforcement::chargerAiLogic( const std::string& pAiLogicFilep
 
 
 
-AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const
+AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse)
 {
-    auto wInfos = convertInputData(pPositionAi, pPositionJoueurAdverse, pPositionRondelle, pVelociteAi, pVelociteRondelle);
-
-    auto wIt = mActionMap.find(wInfos);
-    if(wIt == mActionMap.end())
+    if(isLearning())
     {
-        // Si l'apprentissage ne permet pas de determiner une action a effectuer, on utilise une valeur aleatoire
-        return rand() % AI_ACTION_NB;
+        return (++mLearningCounter) % AI_ACTION_NB;
     }
     else
     {
-        return wIt->second;
+        auto wInfos = convertInputData(pPositionAi, pPositionJoueurAdverse, pPositionRondelle, pVelociteAi, pVelociteRondelle);
+
+        auto wIt = mActionMap.find(wInfos);
+        if(wIt == mActionMap.end())
+        {
+#if !SHIPPING
+            std::cout << "**** Pas d'apprentissage." << std::endl;
+#endif
+            // Si l'apprentissage ne permet pas de determiner une action a effectuer, on utilise une valeur aleatoire
+            return rand() % AI_ACTION_NB;
+        }
+        else
+        {
+#if !SHIPPING
+            std::cout << "**** Utilisation de l'apprentissage." << std::endl;
+#endif
+            return wIt->second;
+        }
     }
 }
 
@@ -281,12 +294,9 @@ void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
             auto wMapBottomRight = wTable->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
             float wDimensions[2];
             wTable->calculerHautLongMax(wDimensions);
-            //wDimensions[0] *= utilitaire::ratioWorldToBox2D;
-            //wDimensions[1] *= utilitaire::ratioWorldToBox2D;
-
             mAiLearner.setMapTopLeft(wMapTopLeft.convertir<2>());
             mAiLearner.setMapBottomRight(wMapBottomRight.convertir<2>());
-            mAiLearner.setMapDimensions(Vecteur2(wDimensions[0], wDimensions[1]));
+            mAiLearner.setMapDimensions(Vecteur2(wDimensions[1], wDimensions[0])*2.0f);
             std::string wFieldName = wField->getNom();
             mAiLearner.setMapName(wFieldName.substr(wFieldName.find_last_of("/")+1));
         }

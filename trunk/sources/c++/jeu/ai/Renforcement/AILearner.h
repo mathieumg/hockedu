@@ -18,7 +18,7 @@
 #include <iostream>
 
 #define AI_LEARNER_OUTPUT_BUFFER_SIZE 5000 // Taille du buffer d'input
-#define AI_LEARNER_MAX_VELOCITE_INPUT 100 // Velocite maximale en entree pour la conversion en uint8_t (ajuster en fonction des parametres de velocite passes)
+#define AI_LEARNER_MAX_VELOCITE_INPUT 1 // 100 Velocite maximale en entree pour la conversion en uint8_t (ajuster en fonction des parametres de velocite passes)
 #define AI_LEARNER_RAW_DATA_EXTENSION ".airaw" // Extension des fichiers d'output
 #define AI_LEARNER_RUNTIME_DATA_EXTENSION ".ailogic" // Extension des fichiers d'output runtime
 

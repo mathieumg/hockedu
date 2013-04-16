@@ -10,6 +10,8 @@
 #include "AnimationFrame.h"
 #include "Animation.h"
 #include "GestionnaireAnimations.h"
+#include "RazerGameTypeDef.h"
+#include "JoueurVirtuelRenforcement.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -68,7 +70,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         return Vecteur2(); // On doit return car on vient d'etre delete
     }
 
-    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(maillet->obtenirJoueur());
+    SPJoueurVirtuelRenforcement joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(maillet->obtenirJoueur());
     checkf(joueurVirtuel);
 	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 
@@ -82,7 +84,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         Vecteur3 wDir = (mPointImpact-mPointVise);
         Vecteur3 wDirNorm = wDir;
         wDirNorm.normaliser();
-        if(!tirReussi_)
+        if(!joueurVirtuel->isLearning() && !tirReussi_)
         {
 #if !SHIPPING   
             std::cout << "TIR RATE" << std::endl;

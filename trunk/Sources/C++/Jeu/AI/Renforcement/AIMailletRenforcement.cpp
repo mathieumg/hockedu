@@ -143,7 +143,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 {
                     wPosAdversaire = wGame->obtenirJoueurGauche()->getControlingMallet()->getPosition();
                 }
-
+                
                 LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
                 // Tests:
                 //LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);

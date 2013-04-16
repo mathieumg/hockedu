@@ -41,7 +41,7 @@ public:
 	virtual void genererAleatoirement();
 
     /// Permet d'obtenir l'action a utiliser pour une certaine situation donnee
-    AiRuntimeInfosOutput getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse) const;
+    AiRuntimeInfosOutput getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse);
 
 	/// Questionne le AIMaillet sur la direction à prendre du maillet
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
@@ -84,6 +84,8 @@ private:
 
     AILearner mAiLearner;
     bool mIsLearning;
+
+    unsigned int mLearningCounter;
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
