@@ -58,6 +58,8 @@ public:
     PlayerSide getPlayerSide() const { return mPlayerSide_; }
     virtual void setPlayerSide(PlayerSide val) { mPlayerSide_ = val; }
 
+    virtual void gameInit() {}
+
 protected:
 	/// Le type du joueur (humain ou virtuel)
 	TypeJoueur type_;

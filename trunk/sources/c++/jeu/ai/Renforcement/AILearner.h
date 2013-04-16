@@ -15,6 +15,7 @@
 #include <sstream>
 #include "..\Reseau\FacadePortability.h"
 #include <functional>
+#include <iostream>
 
 #define AI_LEARNER_OUTPUT_BUFFER_SIZE 5000 // Taille du buffer d'input
 #define AI_LEARNER_MAX_VELOCITE_INPUT 100 // Velocite maximale en entree pour la conversion en uint8_t (ajuster en fonction des parametres de velocite passes)
@@ -154,6 +155,15 @@ public:
         return wFilePath.replace(wFilePath.find(AI_LEARNER_RAW_DATA_EXTENSION), strlen(AI_LEARNER_RAW_DATA_EXTENSION), AI_LEARNER_RUNTIME_DATA_EXTENSION);
     }
 
+    inline void resetPathStringStream() {
+        mFilePath = std::ostringstream();
+        mFilePath << "./AIData/" << mPlayerName;
+        FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
+#if !SHIPPING
+        std::cout << "Root path: " <<mFilePath.str() << std::endl;
+#endif
+    }
+
     inline void setAINAme(std::string pAiName);
 private:
 	
@@ -164,6 +174,7 @@ private:
     PlayerSide mAISide;
     std::string mMapName;
     std::ostringstream mFilePath;
+    std::string mPlayerName;
 
     /// Methodes
     //static void conversionThreadDone() {mHandleThreadConversion = NULL;}

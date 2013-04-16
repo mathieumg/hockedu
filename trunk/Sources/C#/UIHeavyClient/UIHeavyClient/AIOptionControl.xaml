@@ -60,8 +60,6 @@
                 <Label Content="{Binding ElementName=mSpeedSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="297,15,0,8" Name="mSpeedDisplayLabel" Width="80" Grid.Row="1" Grid.Column="1" />
                 <Label Content="{Binding ElementName=mReflexSlider, Path=Value}" Foreground="#FF00D500" HorizontalAlignment="Left" Margin="297,9,0,15" Name="mReflexDisplayLabel" Width="80" Grid.Row="2" Grid.Column="1" />
                 <CheckBox Content="Reinforcement learning AI" Grid.Row="3" Height="16" HorizontalAlignment="Left" Margin="15,31,0,0" Name="mLearningCheckbox" VerticalAlignment="Top" Foreground="White" Grid.ColumnSpan="2" />
-                <TextBox Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="105,24,0,0" Name="mLearningTextbox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Grid.Column="1" />
-                <Button Content="Browse" Grid.Row="3" Height="23" HorizontalAlignment="Left" Margin="247,24,0,0" Name="mBrowseBotton" VerticalAlignment="Top" Width="89" Background="Black" Foreground="White" IsEnabled="{Binding ElementName=mLearningCheckbox, Path=IsChecked}" Click="mBrowseBotton_Click" Grid.Column="1" />
             </Grid>
         </GroupBox>
     </Grid>

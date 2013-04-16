@@ -95,14 +95,7 @@ bool JoueurVirtuelRenforcement::initialiser( const XmlElement* element )
 	if(!JoueurVirtuel::initialiser(element))
 		return false;
 	
-    std::string path;
-    if(XMLUtils::readAttribute(element,"path",path))
-    {
-        chargerAiLogic(path);
-    }
-
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
-	
 	return true;
 }
 
@@ -363,6 +356,14 @@ void JoueurVirtuelRenforcement::modifierNom( const std::string nom )
 {
     JoueurAbstrait::modifierNom(nom);
     mAiLearner.setAINAme(nom);
+}
+
+
+
+void JoueurVirtuelRenforcement::gameInit()
+{
+    setIsLearning(false);
+    setupFinished();
 }
 
 

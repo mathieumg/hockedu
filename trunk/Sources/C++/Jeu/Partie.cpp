@@ -942,6 +942,15 @@ bool Partie::getReadyToPlay( bool loadMapFile /*= true*/ )
         return false;
     }
 
+    if(joueurDroit_)
+    {
+        joueurDroit_->gameInit();
+    }
+    if(joueurGauche_)
+    {
+        joueurGauche_->gameInit();
+    }
+
     mField->setTableItemsSelection(false);
     mField->setTableControlPointVisible(false);
     mFieldSimulation->setTableItemsSelection(false);

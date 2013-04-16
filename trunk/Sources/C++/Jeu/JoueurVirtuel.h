@@ -61,7 +61,7 @@ public:
 	virtual Vecteur2 obtenirDirectionAI(NoeudMaillet* maillet);
 	/// Accesseur de aiMaillet_
 	AIMaillet* getAiMaillet() const { return aiMaillet_; }
-	void setAiMaillet(AIMaillet* val);
+	virtual void setAiMaillet(AIMaillet* val);
 
 
 private:

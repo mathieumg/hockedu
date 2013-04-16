@@ -29,16 +29,14 @@ int AILearner::mStepPosition = 100;
 AILearner::AILearner(const std::string& pAiName)
     : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL)
 {
-    mFilePath << "./AIData/";
-#if !SHIPPING
-    std::cout << "Root path: " <<mFilePath.str() << std::endl;
-#endif
     FacadePortability::createDirectory("AIData");
     setAINAme(pAiName);
+    resetPathStringStream();
 }
 
 bool AILearner::setupFile()
 {
+    resetPathStringStream();
     //File name = mapName_AISide.airaw
     mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
 
@@ -301,9 +299,9 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                 if(!wFichier.fail())
                 {
                     // On trouve la taille totale du fichier
-                    wFichier.seekg(std::ios_base::end);
+                    wFichier.seekg(0, std::ios::end);
                     int wFilesize = (int) wFichier.tellg();
-                    wFichier.seekg(std::ios_base::beg);
+                    wFichier.seekg(0, std::ios::beg);
                     int wPourcentage = 0;
                     int wDataCount = 0;
 
@@ -334,8 +332,9 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                         }
 
                         // On affiche le pourcentage
-                        int wNewPourcentage = wDataCount * sizeof(LearningInfosRaw) / wFilesize;
-                        if(wPourcentage != wNewPourcentage && wNewPourcentage % 5 == 0)
+                        wDataCount++;
+                        int wNewPourcentage = wDataCount * 100 * sizeof(LearningInfosRaw) / wFilesize;
+                        if(wPourcentage != wNewPourcentage)
                         {
                             std::cout << "Conversion " << wParams->inputFile << " passe 1: " << wNewPourcentage << "%" << std::endl;
                         }
@@ -347,7 +346,7 @@ void * AILearner::convertirDonneesRawThread( void *arg )
  //               }
 //            }
 
-
+            std::cout << std::endl << std::endl;
 
             // Pour chaque action, on trouve la meilleure action a effectuer
             AiRuntimeInfos wLastInfosChecked;
@@ -386,8 +385,9 @@ void * AILearner::convertirDonneesRawThread( void *arg )
                 }
                 wLastInfosChecked = it->first;
 
-                int wNewPourcentage = wCount / wNbObjects;
-                if(wPourcentage2 != wNewPourcentage && wNewPourcentage % 5 == 0)
+                wCount++;
+                int wNewPourcentage = wCount * 100 / wNbObjects;
+                if(wPourcentage2 != wNewPourcentage)
                 {
                     std::cout << "Conversion " << wParams->inputFile << " passe 2: " << wNewPourcentage << "%" << std::endl;
                 }
@@ -453,14 +453,16 @@ int AILearner::getPointsForResult(LearningAiOutput pResult)
 ////////////////////////////////////////////////////////////////////////
 void AILearner::setAINAme( std::string pAiName )
 {
-    if(pAiName != "")
-    {
-        mFilePath << pAiName; // Path = AIData/AI Name
-#if !SHIPPING
-        std::cout << "Sub path: " <<mFilePath.str() << std::endl;
-#endif
-        FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
-    }
+    mPlayerName = pAiName;
+    // Maintenant dans resetPathStringStream()
+//     if(pAiName != "")
+//     {
+//         mFilePath << pAiName; // Path = AIData/AI Name
+// #if !SHIPPING
+//         std::cout << "Sub path: " <<mFilePath.str() << std::endl;
+// #endif
+//         FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
+//     }
 }
 
 

@@ -282,3 +282,21 @@ void PartieApprentissage::assignerControlesMaillet( NoeudMaillet* mailletGauche,
         mLeftLearningAi->setupFinished();
     }
 }
+
+
+
+bool PartieApprentissage::getReadyToPlay( bool loadMapFile /*= true */ )
+{
+    bool wTempValue = Partie::getReadyToPlay(loadMapFile);
+
+    // Reset the flag for the learning players
+    if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit_)->setIsLearning(true);
+    }
+    if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche_)->setIsLearning(true);
+    }
+    return wTempValue;
+}

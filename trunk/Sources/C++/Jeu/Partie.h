@@ -118,7 +118,7 @@ public:
     void setTempsJeu(float pElapsedTime) {tempsJeu_.adjustTime(pElapsedTime * 1000.0f);}
 
     void SignalGameOver();
-    bool getReadyToPlay(bool loadMapFile = true);
+    virtual bool getReadyToPlay(bool loadMapFile = true);
 
 	inline void setUpdateCallback(const std::vector<GameUpdateCallback>& pCallbacks) {mUpdateCallbacks.insert(mUpdateCallbacks.end(), pCallbacks.begin(), pCallbacks.end());}
 
@@ -174,11 +174,13 @@ protected:
     /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
 
-/// Attributs
-private:
-	/// Les deux joueurs qui s'affrontent
+    /// Les deux joueurs qui s'affrontent
 	SPJoueurAbstrait joueurGauche_;
 	SPJoueurAbstrait joueurDroit_;
+
+/// Attributs
+private:
+	
     int mMiseAuJeuDelai;
 
 	/// Les points des deux joueurs

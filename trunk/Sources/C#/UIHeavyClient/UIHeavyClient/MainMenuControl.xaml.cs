@@ -317,7 +317,7 @@ namespace UIHeavyClient
 
             for (int i = 0; i < nbrProfiles; ++i)
             {
-                profiles[i] = new AIProfile(new string('s', 255), 1, 0, false, new string('s', 255));
+                profiles[i] = new AIProfile(new string('s', 255), 1, 0, false);
             }
 
             GetPlayers(profiles, nbrProfiles);

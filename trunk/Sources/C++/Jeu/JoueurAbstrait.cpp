@@ -109,7 +109,7 @@ XmlElement* JoueurAbstrait::creerNoeudXML() const
 ////////////////////////////////////////////////////////////////////////
 bool JoueurAbstrait::initialiser( const XmlElement* element )
 {
-	nom_ = extraireNomXmlNode(element);
+	modifierNom(extraireNomXmlNode(element));
 	
 	return nom_ != "";
 }

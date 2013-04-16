@@ -491,7 +491,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
     GameManager::obtenirInstance()->setAdversaire(player);
 }
 
-void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning, char* pFilePath)
+void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning)
 {
     if(pIsLearning)
     {
@@ -541,7 +541,6 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
             pProfiles[i].IsLearning = false;
 
-            strcpy_s(pProfiles[i].FilePath, 255, "");
 
             ++i;
 	    }
@@ -556,7 +555,6 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
             pProfiles[i].IsLearning = true;
 
-            strcpy_s(pProfiles[i].FilePath, 255, joueurRenforcement->GetAiLogicFilepath().c_str());
 
             ++i;
 	    }

@@ -41,6 +41,8 @@ private:
     void handleGoalScored( SPJoueurVirtuelRenforcement pLearningPlayer, SPJoueurVirtuelRenforcement pOpponent);
     void handleLearningStart( SPJoueurVirtuelRenforcement pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet);
 
+    virtual bool getReadyToPlay( bool loadMapFile = true );
+
 
 };
 

@@ -87,6 +87,9 @@ private:
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+    
+    virtual void gameInit();
+
 };
 
 
