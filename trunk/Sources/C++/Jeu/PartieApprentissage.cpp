@@ -240,16 +240,20 @@ void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLear
     {
         if(!mGoalScored)
         {
-            pLearningPlayer->setActionResult(AI_OUTPUT_RIEN);
+            if (pPuck->getLastHittingMallet() == pLearningPlayer->getControlingMallet())
+            {
+                pLearningPlayer->setActionResult(AI_OUTPUT_ADVERSAIRE_PAS_TOUCHE);
+            }
+            else
+            {
+                pLearningPlayer->setActionResult(AI_OUTPUT_RIEN);
+            }
         }
         else
         {
             mGoalScored = false;
         }
-		if (pPuck->getLastHittingMallet() == pLearningPlayer->getControlingMallet())
-		{
-			return pLearningPlayer->setActionResult(AI_OUTPUT_ADVERSAIRE_PAS_TOUCHE);
-		}
+		
         NoeudMaillet* wLearningMallet = pLearningPlayer->getControlingMallet();
         Vecteur3 wAiPosition(wLearningMallet->getPosition()),
                  wAiVelocity(wLearningMallet->obtenirVelocite()),

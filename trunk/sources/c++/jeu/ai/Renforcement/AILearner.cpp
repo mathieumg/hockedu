@@ -27,7 +27,7 @@ int AILearner::mStepPosition = 100;
 ///
 ////////////////////////////////////////////////////////////////////////
 AILearner::AILearner(const std::string& pAiName)
-    : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL)
+    : mInitDone(false), mBufferCount(0), mHandleThreadConversion(NULL), mSavingData(false)
 {
     FacadePortability::createDirectory("AIData");
     setAINAme(pAiName);
@@ -152,15 +152,20 @@ void AILearner::sauvegarderNouvelleInfo( const Vecteur3& pPositionAi, const Vect
 
     mOutputBuffer[mBufferCount].action = (int) pAction;
     
+    mSavingData = true;
 }
 
 
 void AILearner::terminerSauvegardeNouvelleInfo( LearningAiOutput pOutput )
 {
-    mOutputBuffer[mBufferCount].resultat = pOutput;
+    if(mSavingData)
+    {
+        mOutputBuffer[mBufferCount].resultat = pOutput;
 
-    // Incrementer le compteur pour que le prochaine sauvegarde se fasse dans le prochain objet
-    ++mBufferCount;
+        // Incrementer le compteur pour que le prochaine sauvegarde se fasse dans le prochain objet
+        ++mBufferCount;
+    }
+    mSavingData = false;
 }
 
 

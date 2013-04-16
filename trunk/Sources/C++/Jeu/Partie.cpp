@@ -38,7 +38,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 9999;
+const int Partie::POINTAGE_GAGNANT = 20000;
 
 
 ////////////////////////////////////////////////////////////////////////

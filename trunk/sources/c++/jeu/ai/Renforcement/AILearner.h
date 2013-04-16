@@ -191,6 +191,7 @@ private:
     Vecteur2 mMapTopLeft;
     Vecteur2 mMapBottomRight;
     Vecteur2 mMapDimensions;
+    bool mSavingData;
 
     std::ofstream mOutputStream;
     HANDLE_THREAD mHandleThreadConversion;
