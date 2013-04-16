@@ -31,7 +31,7 @@ public:
 	/// Accesseur pour le nom
 	std::string obtenirNom() const;
 	/// Modificateur pour le nom
-	void modifierNom(const std::string nom);
+	virtual void modifierNom(const std::string nom);
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 	/// Permet de generer des informations aleatoire pour un joueur,

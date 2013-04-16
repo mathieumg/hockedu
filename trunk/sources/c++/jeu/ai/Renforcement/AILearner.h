@@ -149,7 +149,12 @@ public:
     inline void setAISide(const PlayerSide& pAISide) { mAISide = pAISide; }
     inline void setMapName(const std::string& pMapName) { mMapName = pMapName; }
 
+    std::string getAiLogicFilePath() { 
+        std::string wFilePath = mFilePath.str(); 
+        return wFilePath.replace(wFilePath.find(AI_LEARNER_RAW_DATA_EXTENSION), strlen(AI_LEARNER_RAW_DATA_EXTENSION), AI_LEARNER_RUNTIME_DATA_EXTENSION);
+    }
 
+    inline void setAINAme(std::string pAiName);
 private:
 	
     // Steps pour conversion

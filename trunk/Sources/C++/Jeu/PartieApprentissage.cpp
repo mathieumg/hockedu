@@ -202,7 +202,7 @@ void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= f
 void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= false*/ )
 {
     handleGoalScored(mRightLearningAi, mLeftLearningAi);
-    Partie::incrementerPointsJoueurGauche( pForceUpdate );
+    Partie::incrementerPointsJoueurDroit( pForceUpdate );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -253,24 +253,32 @@ void PartieApprentissage::animer( const float& temps )
     animerBase(temps);
 }
 
-
-
 void PartieApprentissage::dumpAndConvertPlayersData()
 {
-    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
-    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
-    if(wJoueurDroit && wJoueurDroit->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mRightLearningAi)
     {
-        
-        SPJoueurVirtuelRenforcement wJd = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wJoueurDroit);
-        wJd->dumpLearnedData();
-        wJd->convertLearnedData();
+        mRightLearningAi->dumpLearnedData();
+        mRightLearningAi->convertLearnedData();
     }
 
-    if(wJoueurGauche && wJoueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mLeftLearningAi)
     {
-        SPJoueurVirtuelRenforcement wJg = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wJoueurGauche);
-        wJg->dumpLearnedData();
-        wJg->convertLearnedData();
+        mLeftLearningAi->dumpLearnedData();
+        mLeftLearningAi->convertLearnedData();
+    }
+}
+
+void PartieApprentissage::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle )
+{
+    Partie::assignerControlesMaillet(mailletGauche, mailletDroit, rondelle);
+
+    if(mRightLearningAi)
+    {
+        mRightLearningAi->setupFinished();
+    }
+
+    if(mLeftLearningAi)
+    {
+        mLeftLearningAi->setupFinished();
     }
 }
