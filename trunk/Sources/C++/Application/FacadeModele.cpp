@@ -1082,7 +1082,7 @@ bool FacadeModele::passageModeJeu()
             return false;
         }
     }
-    // Jeu en reseau
+    // Jeu en reseau (probablement)
     else
     {
         partieCourante_ = prochainePartie_;
@@ -1094,7 +1094,17 @@ bool FacadeModele::passageModeJeu()
         {
             return false;
         }
-        GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
+        if(GameManager::obtenirInstance()->getGame(partieCourante_)->isNetworkClientGame())
+        {
+            GestionnaireHUD::obtenirInstance()->setForeverAloneVisibility(true);
+        }
+        else
+        {
+            if(!GameManager::obtenirInstance()->startGame(partieCourante_))
+            {
+                return false;
+            }
+        }
     }
 
     

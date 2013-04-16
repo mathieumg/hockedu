@@ -28,7 +28,7 @@ public:
 	/// Retourne la direction à prendre pour le maillet selon une stratégie offensive
 	virtual Vecteur2 appliquerStrategie( NoeudMaillet* maillet );
 
-    virtual void calculateTagetPos() = 0;
+    virtual void calculateTargetPos() = 0;
 
 	/// Attributs
 protected:

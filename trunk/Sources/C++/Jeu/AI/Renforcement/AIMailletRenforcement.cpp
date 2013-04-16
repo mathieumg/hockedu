@@ -112,7 +112,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 float wPourVitesse = wVitRondelle / 1000.0f;
 
 
-                float wPosX = 30.0f + 70.0 * wPourVitesse;
+                float wPosX = 30.0f + 70.0f * wPourVitesse;
                 if(maillet->estAGauche())
                 {
                     wPosX *= -1.0f;
@@ -181,7 +181,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 AIStratOffensiveRenforcement* wStrat = (AIStratOffensiveRenforcement*) strategie_;
                 wStrat->setPointImpact(wPred.position);
                 wStrat->setTimeBeforeImpact(wPred.time);
-                wStrat->calculateTagetPos();
+                wStrat->calculateTargetPos();
             }
             else if(maillet->estAGauche() && maillet->getPosition()[VX] > wPuck->getPosition()[VX] || !maillet->estAGauche() && maillet->getPosition()[VX] < wPuck->getPosition()[VX])
             {

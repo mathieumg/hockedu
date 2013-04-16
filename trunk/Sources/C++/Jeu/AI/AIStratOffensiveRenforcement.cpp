@@ -24,7 +24,7 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratOffensiveRenforcement::AIStratOffensiveRenforcement( const AIMaillet& context):AIStrat(context)
 {
-	tirReussi_ = (unsigned int)(rand() % 100 + 1) > context_.obtenirJv()->obtenirProbabiliteEchec();
+	tirReussi_ = (unsigned int)(rand() % 50 + 1) > context_.obtenirJv()->obtenirProbabiliteEchec();
 	mMalletTargetPos = Vecteur2();
     mCalculEffectue = false;
     mAttackMode = false;
@@ -84,10 +84,13 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         wDirNorm.normaliser();
         if(!tirReussi_)
         {
+#if !SHIPPING   
+            std::cout << "TIR RATE" << std::endl;
+#endif
             // Induire une erreur dans le calcul
             float wRayonMaillet = maillet->getRadius();
-             int wSens = rand() % 1;
-            Vecteur2 wErreur = Vecteur2(wDirNorm[VY], -wDirNorm[VX])*(wSens == 0 ? (1) : (-1))*2.0f*wRayonMaillet;
+            int wSens = rand() % 1;
+            Vecteur2 wErreur = Vecteur2(wDirNorm[VY], -wDirNorm[VX])*(wSens == 0 ? (1.0f) : (-1.0f))*2.0f*wRayonMaillet;
 
             wPointImpactModifie += wErreur;
         }

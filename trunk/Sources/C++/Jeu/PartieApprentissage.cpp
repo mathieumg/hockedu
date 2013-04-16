@@ -5,6 +5,22 @@
 #include <iostream>
 #include "JoueurVirtuelRenforcement.h"
 #include "..\Arbre\Noeuds\NoeudMaillet.h"
+#include <memory>
+#include "RazerGameTypeDef.h"
+#include "GameManager.h"
+
+
+int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
+{
+    PartieApprentissage* wGame = (PartieApprentissage*) GameManager::obtenirInstance()->getGame(pGameId);
+
+    if(wGame && pGameStatus == GAME_ENDED)
+    {
+        wGame->dumpAndConvertPlayersData();
+    }
+
+    return 0;
+}
 
 
 PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
@@ -18,6 +34,9 @@ PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joue
     {
         mRightLearningAi = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit);
     }
+    std::vector<GameUpdateCallback> wCallbacks;
+    wCallbacks.push_back(CallbackGameApprentissageStatusUpdate);
+    setUpdateCallback(wCallbacks);
 }
 
 
@@ -53,6 +72,25 @@ void PartieApprentissage::animerBase(const float& pTime)
             handleLearningStart(mLeftLearningAi, wPuck, wRightMallet);
         }
         mPreviousPuckPosition = wPuckPosition;
+
+        // Code pour eviter que la puck soit stuck dans un coin
+        if(getGameStatus()==GAME_STARTED)
+        {
+            mPuckPositions.push(wPuck->getPosition());
+            if(mPuckPositions.size() > 50)
+            {
+                mPuckPositions.pop();
+                Vecteur3 wFront = mPuckPositions.front();
+                Vecteur3 wBack = mPuckPositions.back();
+                Vecteur3 wDifference = wFront-wBack;
+                if(wDifference.norme() < 15.0f)
+                {
+                    clearPuckPositionBuffer();
+                    miseAuJeu(false);
+                    //wGame->getField()->getPuck()->setPosition(Vecteur3());
+                }
+            }
+        }
     }
     Partie::animerBase(pTime);
 }
@@ -200,5 +238,35 @@ void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLear
                  wOpponentPosition(pOpponentMallet->getPosition());
         LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
         pLearningPlayer->startLearningFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
+    }
+    clearPuckPositionBuffer();
+}
+
+
+
+void PartieApprentissage::animer( const float& temps )
+{
+    animerBase(temps);
+}
+
+
+
+void PartieApprentissage::dumpAndConvertPlayersData()
+{
+    SPJoueurAbstrait wJoueurDroit = obtenirJoueurDroit();
+    SPJoueurAbstrait wJoueurGauche = obtenirJoueurGauche();
+    if(wJoueurDroit && wJoueurDroit->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        
+        SPJoueurVirtuelRenforcement wJd = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wJoueurDroit);
+        wJd->dumpLearnedData();
+        wJd->convertLearnedData();
+    }
+
+    if(wJoueurGauche && wJoueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    {
+        SPJoueurVirtuelRenforcement wJg = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wJoueurGauche);
+        wJg->dumpLearnedData();
+        wJg->convertLearnedData();
     }
 }

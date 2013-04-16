@@ -34,7 +34,7 @@ private:
 public:
 	virtual typeStrat obtenirType() { return OFFENSIVE_LIGNE_DROITE; }
 
-    virtual void calculateTagetPos();
+    virtual void calculateTargetPos();
 
 };
 

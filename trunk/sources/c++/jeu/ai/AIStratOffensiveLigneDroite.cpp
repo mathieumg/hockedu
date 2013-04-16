@@ -48,10 +48,10 @@ AIStratOffensiveLigneDroite::~AIStratOffensiveLigneDroite()
 {
 }
 
-void AIStratOffensiveLigneDroite::calculateTagetPos()
+void AIStratOffensiveLigneDroite::calculateTargetPos()
 {
     NoeudBut* wButs[2];
-    FacadeModele::getInstance()->obtenirPartieCourante()->getField()->getGoals(wButs);
+    context_.obtenirJv()->getControlingMallet()->getField()->getGoals(wButs);
     if(context_.obtenirJv()->getPlayerSide() == PLAYER_SIDE_LEFT)
     {
         setPointVise(wButs[1]->getPosition().convertir<2>());

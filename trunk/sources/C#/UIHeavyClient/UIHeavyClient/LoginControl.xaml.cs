@@ -706,6 +706,17 @@ namespace UIHeavyClient
                     });
                     break;
                 }
+#if !SHIPPING
+                // Test pour AI
+                case EventCodes.GAME_CONNECTION_RESPONSE_SUCCESS:
+                {
+                    MainWindowHandler.mTaskManager.ExecuteTask(() =>
+                    {
+                        MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
+                    });
+                }
+                break;
+#endif
                 default: break;
                 }
             }

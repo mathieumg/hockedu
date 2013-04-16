@@ -1020,30 +1020,29 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
     learningCancelled = false;
     auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement("", pReinforcementProfileName, pSpeed, pFailProb)));
-    SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", 5, 5));
 
     int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
+    //wGame->setFieldName("map_apprentissage_ai.xml");
     wGame->setMiseAuJeuDelai(0);
-    wGame->getField()->creerTerrainParDefaut("");
-    wGame->getReadyToPlay(false);
-    wGame->miseAuJeu(true);
+    //wGame->getField()->creerTerrainParDefaut("");
+    //wGame->getReadyToPlay(false);
+    //wGame->miseAuJeu(true);
 
-    /*while(!learningCancelled)
-    {
-        wGame->animer(16);
-        if(wGame->partieTerminee())
-        {
-            wGame->reinitialiserPartie();
-            AILearner::obtenirInstance()->dump();
-        }
-    }*/
+    FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
+    FacadeModele::getInstance()->setProchainePartie(wGameId);
 
-    std::queue<Vecteur3> puckPositions;
+
+
+    /*std::queue<Vecteur3> puckPositions;
     while(!wGame->partieTerminee())
     {
-        wGame->animer(16);
+        wGame->animerBase(16.0f/1000.0f);
+#if !SHIPPING
+        std::cout << "PuckPos: " << wGame->getField()->getPuck()->getPosition() << std::endl;
+#endif
         puckPositions.push(wGame->getField()->getPuck()->getPosition());
         if(puckPositions.size() > 50)
         {
@@ -1054,14 +1053,18 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
         Vecteur3 wBack = puckPositions.back();
         Vecteur3 wDifference = wFront-wBack;
 
-        if(wDifference.norme() < 30)
+        if(wDifference.norme() < 30.0f)
         {
-            wGame->getField()->getPuck()->setPosition(Vecteur3());
+            //wGame->miseAuJeu(false);
+            //wGame->getField()->getPuck()->setPosition(Vecteur3());
         }
     }
 
     wPlayer->dumpLearnedData();
-    wPlayer->convertLearnedData();
+    wPlayer->convertLearnedData();*/
+
+    
+    GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
 }
 
 void cancelLearningAI()

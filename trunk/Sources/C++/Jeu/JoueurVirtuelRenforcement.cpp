@@ -290,8 +290,8 @@ void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
             auto wMapBottomRight = wTable->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
             float wDimensions[2];
             wTable->calculerHautLongMax(wDimensions);
-            wDimensions[0] *= utilitaire::ratioWorldToBox2D;
-            wDimensions[1] *= utilitaire::ratioWorldToBox2D;
+            //wDimensions[0] *= utilitaire::ratioWorldToBox2D;
+            //wDimensions[1] *= utilitaire::ratioWorldToBox2D;
 
             mAiLearner.setMapTopLeft(wMapTopLeft.convertir<2>());
             mAiLearner.setMapBottomRight(wMapBottomRight.convertir<2>());
