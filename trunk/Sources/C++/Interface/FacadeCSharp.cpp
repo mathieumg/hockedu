@@ -1012,13 +1012,26 @@ struct ThreadInfos
 {
     Partie* mGame;
     SPJoueurVirtuelRenforcement mPlayer;
+    SPJoueurVirtuelRenforcement mOpponent;
 };
 
 void* gameThreadFunction(void* pParams)
 {
     ThreadInfos* ti = (ThreadInfos*)pParams;
     Partie* wGame = ti->mGame;
+    SPJoueurVirtuelRenforcement wPlayer = ti->mPlayer;
+    /*SPJoueurVirtuelRenforcement wOpponent = ti->mOpponent;
 
+
+    // If opponent is set, that means we need to wait for both AIs to be done with their preliminary learning
+    if(wOpponent)
+    {
+        while(false)
+        {
+            FacadePortability::sleep(1000);
+        }
+    }
+    */
     wGame->getField()->setIsSimulation(true);
     wGame->setMiseAuJeuDelai(0);
     wGame->getReadyToPlay(true);
@@ -1038,17 +1051,17 @@ void* gameThreadFunction(void* pParams)
 
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
-    auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
-    SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", 5, 5));
+    SPJoueurVirtuelRenforcement wPlayerRight(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponentLeft(new JoueurVirtuel("AILeft", 5, 5));
 
-    int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponent, wPlayer, false, true);
+    int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponentLeft, wPlayerRight, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
     wGame->setFieldName("map_apprentissage_ai.xml");
 
     ThreadInfos* ti = new ThreadInfos();
     ti->mGame = wGame;
-    ti->mPlayer = wPlayer;
+    ti->mPlayer = wPlayerRight;
     //FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
     //FacadeModele::getInstance()->setProchainePartie(wGameId);
 
@@ -1056,22 +1069,24 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     FacadePortability::createThread(mThread, gameThreadFunction, ti);
 
     /* Tests pour runner 2 games en même temps */
-    auto wPlayer2 = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
-    SPJoueurVirtuel wOpponent2(new JoueurVirtuel("AIRight", 5, 5));
+    SPJoueurVirtuelRenforcement wPlayerLeft(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponentRight(new JoueurVirtuel("AIRight", 5, 5));
 
-    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayer2, wOpponent2, false, true);
+    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayerLeft, wOpponentRight, false, true);
 
-    Partie* wGame2 = GameManager::obtenirInstance()->getGame(wGameId);
-    wGame2->setFieldName("map_apprentissage_ai.xml");
+    wGame = GameManager::obtenirInstance()->getGame(wGameId);
+    wGame->setFieldName("map_apprentissage_ai.xml");
 
     ThreadInfos* ti2 = new ThreadInfos();
-    ti2->mGame = wGame2;
-    ti2->mPlayer = wPlayer2;
+    ti2->mGame = wGame;
+    ti2->mPlayer = wPlayerLeft;
     //FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
     //FacadeModele::getInstance()->setProchainePartie(wGameId);
 
     HANDLE_THREAD mThread2;
     FacadePortability::createThread(mThread2, gameThreadFunction, ti2);/**/
+
+
     /*std::queue<Vecteur3> puckPositions;
     while(!wGame->partieTerminee())
     {
@@ -1096,8 +1111,8 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
         }
     }
 
-    wPlayer->dumpLearnedData();
-    wPlayer->convertLearnedData();*/
+    wPlayerRight->dumpLearnedData();
+    wPlayerRight->convertLearnedData();*/
 
     
     //GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
