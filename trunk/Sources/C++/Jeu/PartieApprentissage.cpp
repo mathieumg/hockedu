@@ -181,7 +181,7 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
 #if !SHIPPING
-    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+    std::cout << /*"Goal scored - Score: " << */obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
 #endif
     mGoalScored = true;
 }
@@ -310,13 +310,13 @@ bool PartieApprentissage::getReadyToPlay( bool loadMapFile /*= true */ )
     bool wTempValue = Partie::getReadyToPlay(loadMapFile);
 
     // Reset the flag for the learning players
-    if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mRightLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit_)->setIsLearning(true);
+        mRightLearningAi->setIsLearning(true);
     }
-    if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mLeftLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche_)->setIsLearning(true);
+        mLeftLearningAi->setIsLearning(true);
     }
     return wTempValue;
 }

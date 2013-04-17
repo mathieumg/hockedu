@@ -14,8 +14,8 @@
 #include "JoueurAbstrait.h"
 #include <sstream>
 
-int AILearner::mStepVelocite = 20;
-int AILearner::mStepPosition = 100;
+int AILearner::mStepVelocite = 5;//20
+int AILearner::mStepPosition = 8;//100
 
 ////////////////////////////////////////////////////////////////////////
 ///

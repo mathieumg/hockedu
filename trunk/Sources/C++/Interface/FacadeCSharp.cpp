@@ -1008,8 +1008,6 @@ void requestMatchmaking(  )
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 
-bool learningCancelled = false;
-
 struct ThreadInfos
 {
     Partie* mGame;
@@ -1022,8 +1020,7 @@ void* gameThreadFunction(void* pParams)
     Partie* wGame = ti->mGame;
 
     wGame->setMiseAuJeuDelai(0);
-    wGame->getField()->creerTerrainParDefaut("");
-    wGame->getReadyToPlay(false);
+    wGame->getReadyToPlay(true);
     wGame->miseAuJeu(true);
 
     while(!wGame->partieTerminee())
@@ -1040,7 +1037,6 @@ void* gameThreadFunction(void* pParams)
 
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
-    learningCancelled = false;
     auto wPlayer = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
     SPJoueurVirtuel wOpponent(new JoueurVirtuel("AILeft", 5, 5));
 
@@ -1058,7 +1054,23 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     HANDLE_THREAD mThread;
     FacadePortability::createThread(mThread, gameThreadFunction, ti);
 
+    /* Tests pour runner 2 games en même temps
+    auto wPlayer2 = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
+    SPJoueurVirtuel wOpponent2(new JoueurVirtuel("AIRight", 5, 5));
 
+    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayer2, wOpponent2, false, true);
+
+    Partie* wGame2 = GameManager::obtenirInstance()->getGame(wGameId);
+    wGame2->setFieldName("map_apprentissage_ai.xml");
+
+    ThreadInfos* ti2 = new ThreadInfos();
+    ti2->mGame = wGame2;
+    ti2->mPlayer = wPlayer2;
+    //FacadeModele::getInstance()->setCurrentMap("map_apprentissage_ai.xml"); // Terrain apprentissage
+    //FacadeModele::getInstance()->setProchainePartie(wGameId);
+
+    HANDLE_THREAD mThread2;
+    FacadePortability::createThread(mThread2, gameThreadFunction, ti2);*/
     /*std::queue<Vecteur3> puckPositions;
     while(!wGame->partieTerminee())
     {
