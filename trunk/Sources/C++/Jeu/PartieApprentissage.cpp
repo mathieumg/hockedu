@@ -180,9 +180,6 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
     {
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
-#if !SHIPPING
-    std::cout << /*"Goal scored - Score: " << */obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
-#endif
     mGoalScored = true;
 }
 
@@ -202,6 +199,9 @@ void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= f
 {
     handleGoalScored(mLeftLearningAi, mRightLearningAi);
     Partie::incrementerPointsJoueurGauche( pForceUpdate );
+#if !SHIPPING
+    std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -219,6 +219,9 @@ void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= fa
 {
     handleGoalScored(mRightLearningAi, mLeftLearningAi);
     Partie::incrementerPointsJoueurDroit( pForceUpdate );
+#if !SHIPPING
+    std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

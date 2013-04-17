@@ -70,7 +70,7 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 		return Vecteur2();
 
 	float wTime = mGameTime.Elapsed_Time_sec();
-	std::cout << "TimeDef: " << wTime << std::endl;
+	//std::cout << "TimeDef: " << wTime << std::endl;
     if(wTime > 3)
     {
         // Si apres 3 sec on est encore en defensive, on attaque

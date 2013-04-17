@@ -67,6 +67,8 @@ public:
 
     void convertLearnedData() { mAiLearner.convertirDonneesRaw([&](bool pSuccess)->int { utilitaire::afficherErreur("Conversion terminee"); mIsConversionDone = true; return 0;  }); }
 
+    bool isConversionDone() const { return mIsConversionDone; }
+
     void setupFinished();
 
     virtual void modifierNom(const std::string nom);
