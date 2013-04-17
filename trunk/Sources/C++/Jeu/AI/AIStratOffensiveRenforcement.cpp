@@ -88,7 +88,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 
 		float wDistancePointImpactMaillet = abs(maillet->getPosition()[VY] - mPointImpact[VY]);
 		int wTempsNecessaire = (int) ((wDistancePointImpactMaillet * rondelle->obtenirVelocite().norme()) / (context_.obtenirJv()->obtenirVitesse() * 13.0f));
-		std::cout << "Temps necessaire: " << wTempsNecessaire << "\t Temps Impact: " << mTimeBeforeImpact << std::endl;
+		//std::cout << "Temps necessaire: " << wTempsNecessaire << "\t Temps Impact: " << mTimeBeforeImpact << std::endl;
 
 		int wTempsUtilise = max(mTimeBeforeImpact, wTempsNecessaire);
 
