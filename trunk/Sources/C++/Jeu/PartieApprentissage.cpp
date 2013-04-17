@@ -23,8 +23,8 @@ int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
 }
 
 
-PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
-:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
+PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
+:Partie(gameType, pNbButsGagnants, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {

@@ -1085,7 +1085,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 
     std::string wMapName("map_apprentissage_ai.xml");
 
-    int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE,wOpponentLeft, wPlayerRight, false, true);
+    int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, 1000,wOpponentLeft, wPlayerRight, false, true);
 
     Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
     wGame->setFieldName(wMapName);
@@ -1101,7 +1101,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     SPJoueurVirtuelRenforcement wPlayerLeft(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb));
     SPJoueurVirtuel wOpponentRight(new JoueurVirtuel("AIRight", 5, 5));
 
-    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayerLeft, wOpponentRight, false, true);
+    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, 1000, wPlayerLeft, wOpponentRight, false, true);
 
     wGame = GameManager::obtenirInstance()->getGame(wGameId);
     wGame->setFieldName(wMapName);

@@ -38,7 +38,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 1000;
+const int Partie::POINTAGE_GAGNANT = 7;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -53,9 +53,9 @@ const int Partie::POINTAGE_GAGNANT = 1000;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+Partie::Partie(GameType gameType, int pNbButsGagnants, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
-mGameType(gameType),mMiseAuJeuDelai(4100)
+mGameType(gameType),mMiseAuJeuDelai(4100), mNbButsGagnants(pNbButsGagnants)
 {
     modifierJoueurGauche(joueurGauche);
     modifierJoueurDroit(joueurDroit);
