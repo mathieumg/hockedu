@@ -85,6 +85,13 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         Vecteur3 wDir = (mPointImpact-mPointVise);
         Vecteur3 wDirNorm = wDir;
         wDirNorm.normaliser();
+
+		float wDistancePointImpactMaillet = abs(maillet->getPosition()[VY] - mPointImpact[VY]);
+		int wTempsNecessaire = (int) ((wDistancePointImpactMaillet * rondelle->obtenirVelocite().norme()) / (context_.obtenirJv()->obtenirVitesse() * 13.0f));
+		std::cout << "Temps necessaire: " << wTempsNecessaire << "\t Temps Impact: " << mTimeBeforeImpact << std::endl;
+
+		int wTempsUtilise = max(mTimeBeforeImpact, wTempsNecessaire);
+
         if(!joueurVirtuel->isLearning() && !tirReussi_)
         {
 #if !SHIPPING   
@@ -110,11 +117,11 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 
         AnimationFrame* frame[6];
         frame[0] = new AnimationFrame(0.0f, maillet->getPosition());
-        frame[1] = new AnimationFrame(mTimeBeforeImpact * 0.05f, maillet->getPosition());
-        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.75f, wPoint1);
-        frame[3] = new AnimationFrame(mTimeBeforeImpact*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
-        frame[4] = new AnimationFrame((float)mTimeBeforeImpact, mMalletTargetPos);
-        frame[5] = new AnimationFrame((float)mTimeBeforeImpact * 1.01f, mMalletTargetPos - wDirNorm * 20.0f);
+        frame[1] = new AnimationFrame(wTempsUtilise * 0.05f, maillet->getPosition());
+        frame[2] = new AnimationFrame(wTempsUtilise*0.75f, wPoint1);
+        frame[3] = new AnimationFrame(wTempsUtilise*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
+        frame[4] = new AnimationFrame((float)wTempsUtilise, mMalletTargetPos);
+        frame[5] = new AnimationFrame((float)wTempsUtilise * 1.01f, mMalletTargetPos - wDirNorm * 20.0f);
 
         Animation* animation = new Animation(BEZIER, true, false, false);
         for(int i=0; i<6; i++)

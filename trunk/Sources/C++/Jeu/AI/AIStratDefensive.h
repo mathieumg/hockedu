@@ -36,6 +36,7 @@ public:
 
 private:
 	float mPosToDefend;
+	float mErreurY;
     
 };
 

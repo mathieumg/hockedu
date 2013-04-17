@@ -148,6 +148,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
                 // Tests:
                 //LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+				//LearningAiAction wAction = AI_ACTION_DEFENDRE;
                 switch(wAction)
                 {
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
