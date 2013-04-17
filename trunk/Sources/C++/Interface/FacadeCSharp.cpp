@@ -1019,6 +1019,7 @@ void* gameThreadFunction(void* pParams)
     ThreadInfos* ti = (ThreadInfos*)pParams;
     Partie* wGame = ti->mGame;
 
+    wGame->getField()->setIsSimulation(true);
     wGame->setMiseAuJeuDelai(0);
     wGame->getReadyToPlay(true);
     wGame->miseAuJeu(true);
@@ -1054,7 +1055,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     HANDLE_THREAD mThread;
     FacadePortability::createThread(mThread, gameThreadFunction, ti);
 
-    /* Tests pour runner 2 games en même temps
+    /* Tests pour runner 2 games en même temps */
     auto wPlayer2 = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(SPJoueurVirtuel(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb)));
     SPJoueurVirtuel wOpponent2(new JoueurVirtuel("AIRight", 5, 5));
 
@@ -1070,7 +1071,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     //FacadeModele::getInstance()->setProchainePartie(wGameId);
 
     HANDLE_THREAD mThread2;
-    FacadePortability::createThread(mThread2, gameThreadFunction, ti2);*/
+    FacadePortability::createThread(mThread2, gameThreadFunction, ti2);/**/
     /*std::queue<Vecteur3> puckPositions;
     while(!wGame->partieTerminee())
     {
