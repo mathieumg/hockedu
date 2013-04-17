@@ -696,7 +696,7 @@ void Partie::afficher()
     mField->renderField();
     
 
-#if MAT_DEBUG_
+/*#if MAT_DEBUG_
     // Render trajet rondelle
 
     
@@ -756,7 +756,7 @@ void Partie::afficher()
 #endif
 
 
-#endif
+#endif*/
 
 }
 
@@ -1333,9 +1333,9 @@ bool Partie::updateTerrainSimulation()
 
 PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 10000*/ )
 {
-#if MAT_DEBUG_
-    NoeudMaillet::mListePointsDebug.clear();
-#endif
+//#if MAT_DEBUG_
+//    NoeudMaillet::mListePointsDebug.clear();
+//#endif
 
     PuckProjection wReturnVal;
     wReturnVal.time = -1;
@@ -1356,9 +1356,9 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
             mFieldSimulation->appliquerPhysique(16.0f/1000.0f);
             wElapsedTime += 16;
 
-#if MAT_DEBUG_
-            NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());
-#endif
+//#if MAT_DEBUG_
+//            NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());
+//#endif
             //std::cout << "Position:" << wPuck->getPosition() << std::endl;
 
             // Verifie la rondelle

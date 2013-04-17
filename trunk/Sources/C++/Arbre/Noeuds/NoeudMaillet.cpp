@@ -725,9 +725,9 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     updateMatrice();
 }
 
-#if MAT_DEBUG_
-std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;
-#endif
+//#if MAT_DEBUG_
+//std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;
+//#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////

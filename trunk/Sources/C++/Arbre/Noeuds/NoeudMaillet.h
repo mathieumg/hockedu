@@ -177,11 +177,11 @@ public:
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
 
 
-#if MAT_DEBUG_
-    static std::vector<Vecteur3> mListePointsDebug;
+//#if MAT_DEBUG_
+//    static std::vector<Vecteur3> mListePointsDebug;
 
 
-#endif
+//#endif
 
 
 };
