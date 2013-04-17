@@ -1026,7 +1026,7 @@ void* gameThreadFunction(void* pParams)
     // If opponent is set, that means we need to wait for both AIs to be done with their preliminary learning
     if(wOpponent)
     {
-        while(!wOpponent->isConversionDone() && !wPlayer->isConversionDone())
+        while(!wOpponent->isConversionDone() || !wPlayer->isConversionDone())
         {
             FacadePortability::sleep(1000);
         }
