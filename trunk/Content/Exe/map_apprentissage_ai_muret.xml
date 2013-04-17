@@ -1,0 +1,41 @@
+<?xml version="1.0" ?>
+<Hockedu Version="2.2">
+    <Terrain nom="map_apprentissage_ai" bonusMin="5" bonusMax="15">
+        <Arbre>
+            <table pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="0" selected="0" coefFriction="0.3" rebondBande0="0.75" rebondBande1="0.75" rebondBande2="0.75" rebondBande3="0.75" rebondBande4="0.75" rebondBande5="0.75" rebondBande6="0.75" rebondBande7="0.75">
+                <table_point pos0="-150" pos1="75" pos2="0" typePosNoeud="0" selection="0" />
+                <table_point pos0="0" pos1="71.3855" pos2="0" typePosNoeud="1" selection="0" />
+                <table_point pos0="150" pos1="75" pos2="0" typePosNoeud="2" selection="0" />
+                <table_point pos0="-150" pos1="0" pos2="0" typePosNoeud="3" selection="0">
+                    <but_milieu pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" selected="0" joueur="1" coinHaut0="-150" coinHaut1="30" coinHaut2="0" coinBas0="-150" coinBas1="-30" coinBas2="0" />
+                </table_point>
+                <table_point pos0="150" pos1="0" pos2="0" typePosNoeud="4" selection="0">
+                    <but_milieu pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" selected="0" joueur="2" coinHaut0="150" coinHaut1="30" coinHaut2="0" coinBas0="150" coinBas1="-30" coinBas2="0" />
+                </table_point>
+                <table_point pos0="-150" pos1="-75" pos2="0" typePosNoeud="5" selection="0" />
+                <table_point pos0="0" pos1="-71.3855" pos2="0" typePosNoeud="6" selection="0" />
+                <table_point pos0="150" pos1="-75" pos2="0" typePosNoeud="7" selection="0" />
+                <maillet pos0="-75" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" selected="0" />
+                <maillet pos0="75" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" selected="0" />
+                <rondelle pos0="0" pos1="0" pos2="0" echelle0="1" echelle1="1" echelle2="1" angle="0" affiche="1" selectionnable="1" selected="0" />
+                <muret pos0="-31.7261" pos1="47.3849" pos2="0" echelle0="44.7053" echelle1="1" echelle2="1" angle="85.083" affiche="1" selectionnable="0" selected="0" coefRebond="0.75">
+                    <control_point pos0="-29.8102" pos1="69.6553" pos2="0" selection="0" />
+                    <control_point pos0="-33.642" pos1="25.1145" pos2="0" selection="0" />
+                </muret>
+                <muret pos0="-92.9371" pos1="39.1787" pos2="0" echelle0="113.348" echelle1="1" echelle2="1" angle="347.978" affiche="1" selectionnable="0" selected="0" coefRebond="0.75">
+                    <control_point pos0="-37.5062" pos1="27.3738" pos2="0" selection="0" />
+                    <control_point pos0="-148.368" pos1="50.9837" pos2="0" selection="1" />
+                </muret>
+                <muret pos0="134.915" pos1="-58.9947" pos2="0" echelle0="33.9766" echelle1="1" echelle2="1" angle="45.8759" affiche="1" selectionnable="0" selected="0" coefRebond="0.75">
+                    <control_point pos0="146.743" pos1="-46.7999" pos2="0" selection="0" />
+                    <control_point pos0="123.088" pos1="-71.1894" pos2="0" selection="0" />
+                </muret>
+                <muret pos0="139.669" pos1="61.6497" pos2="0" echelle0="23.9175" echelle1="1" echelle2="1" angle="124.616" affiche="1" selectionnable="0" selected="0" coefRebond="0.75">
+                    <control_point pos0="132.875" pos1="71.4915" pos2="0" selection="0" />
+                    <control_point pos0="146.462" pos1="51.808" pos2="0" selection="0" />
+                </muret>
+            </table>
+        </Arbre>
+        <ZoneEdition ExtLar="150" ExtLon="200" IntLar="50" IntLon="75" />
+    </Terrain>
+</Hockedu>
