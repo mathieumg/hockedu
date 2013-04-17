@@ -35,7 +35,7 @@ public:
 	virtual typeStrat obtenirType() { return DEFENSIVE; }
 
 private:
-
+	float mPosToDefend;
     
 };
 

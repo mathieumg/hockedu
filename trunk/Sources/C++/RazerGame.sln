@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RazerGame", "RazerGame.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{98400D17-43A5-1A40-95BE-C53AC78E7694} = {98400D17-43A5-1A40-95BE-C53AC78E7694}
@@ -55,6 +55,11 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utilities", "Utilities", "{D895C4EF-4974-4F5F-ADA9-FC28C3DE67F4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hockedu", "Hockedu", "{EF846416-9649-4EFE-AB64-F805FDEB7B67}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{175EDAC7-0AA2-431E-B9F0-6C38383D1FF1}"
+	ProjectSection(SolutionItems) = preProject
+		Performance1.psess = Performance1.psess
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -197,5 +202,8 @@ Global
 		{2469C5D8-015A-4862-AAEE-1E861D06DEE1} = {A3900847-E203-42FF-8071-8F1D29BE5574}
 		{E855C041-719C-42FF-8B12-C36C31439A81} = {A3900847-E203-42FF-8071-8F1D29BE5574}
 		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A} = {A3900847-E203-42FF-8071-8F1D29BE5574}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
