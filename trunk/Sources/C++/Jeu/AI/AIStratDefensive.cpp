@@ -17,6 +17,7 @@
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
 #include "Partie.h"
+#include <iostream>
 
 
 
@@ -34,7 +35,8 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratDefensive::AIStratDefensive(const AIMaillet& context):AIStrat(context)
 {
-    
+	// On calcule la ligne de defense sur laquelle on veut defendre
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,7 +69,9 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) )
 		return Vecteur2();
 
-    if(mGameTime.Elapsed_Time_sec() > 3)
+	float wTime = mGameTime.Elapsed_Time_sec();
+	std::cout << "TimeDef: " << wTime << std::endl;
+    if(wTime > 3)
     {
         // Si apres 3 sec on est encore en defensive, on attaque
         const_cast<AIMaillet&>(context_).changerStratNext(OFFENSIVE, AIStrat::TesterPushPuckOnTheOtherSide); // Va changer au prochain tick

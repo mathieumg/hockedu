@@ -121,6 +121,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 
                 if(wPred.time == -1)
                 {
+					changerStrat(OFFENSIVE); // Pour eviter un bug ou la strat n'est pas changee quand on est deja en def
                     changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
                     return;
                 }
@@ -174,9 +175,11 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 default:
 #if !SHIPPING
                     if(!wJoueur->isLearning())
-                        std::cout << "Action: Defendre (error)" << std::endl;
+                        std::cout << "Action: Defendre" << std::endl;
 #endif
+					changerStrat(OFFENSIVE); // Pour eviter un bug ou la strat n'est pas changee quand on est deja en def
                     changerStrat(DEFENSIVE);
+					mPuckWasOnOppenentSize = false;
                     return; // Rien d'autre a set pour strat def
                     break;
                 }

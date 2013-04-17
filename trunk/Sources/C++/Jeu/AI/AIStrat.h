@@ -39,6 +39,8 @@ public:
 	/// Méthode réimplémenté par les classes dérivés qui contient la stratégie selon le cas
 	virtual Vecteur2 appliquerStrategie(NoeudMaillet* maillet)=0;
 
+	inline void resetGameTime() {mGameTime.reset_Time();}
+
 /// Attributs
 protected:
 	const AIMaillet& context_;
