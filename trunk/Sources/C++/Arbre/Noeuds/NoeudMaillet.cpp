@@ -573,7 +573,7 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
             if(joueur_ && joueur_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
             {
-                md.maxForce = 1500.0f * body->GetMass();
+                md.maxForce = 1200.0f * body->GetMass();
             }
             else
             {
