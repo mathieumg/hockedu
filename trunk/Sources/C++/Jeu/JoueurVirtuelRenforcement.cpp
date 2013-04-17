@@ -36,7 +36,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning), mLearningCounter(0)
+    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning), mLearningCounter(0), mIsConversionDone(false)
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     setAiMaillet(new AIMailletRenforcement(this));
