@@ -1113,7 +1113,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     HANDLE_THREAD mThreadLeftAI;
     FacadePortability::createThread(mThreadLeftAI, gameThreadFunction, tiLeftAI);/**/
 
-    wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayerLeft, wPlayerRight, false, true);
+    /*wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, wPlayerLeft, wPlayerRight, false, true);
 
     wGame = GameManager::obtenirInstance()->getGame(wGameId);
     wGame->setFieldName(wMapName);
@@ -1124,7 +1124,7 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     tiBothAIs->mOpponent = wPlayerLeft;
 
     HANDLE_THREAD mThreadBothAIs;
-    FacadePortability::createThread(mThreadBothAIs, gameThreadFunction, tiBothAIs);/**/
+    FacadePortability::createThread(mThreadBothAIs, gameThreadFunction, tiBothAIs);*/
     
     //GestionnaireReseau::obtenirInstance()->transmitEvent(GAME_CONNECTION_RESPONSE_SUCCESS);
 }
