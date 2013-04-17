@@ -260,7 +260,7 @@ void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLear
                  wPuckPosition(pPuck->getPosition()),
                  wPuckVelocity(pPuck->obtenirVelocite()),
                  wOpponentPosition(pOpponentMallet->getPosition());
-        LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+        LearningAiAction wAction = (LearningAiAction)pLearningPlayer->getActionFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition);
         pLearningPlayer->startLearningFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
     }
     clearPuckPositionBuffer();

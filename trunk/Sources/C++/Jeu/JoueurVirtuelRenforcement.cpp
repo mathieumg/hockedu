@@ -360,6 +360,10 @@ void JoueurVirtuelRenforcement::setupFinished()
     {
         chargerAiLogic(mAiLearner.getAiLogicFilePath());
     }
+    else
+    {
+        mIsConversionDone = false;
+    }
 }
 
 void JoueurVirtuelRenforcement::modifierNom( const std::string nom )
