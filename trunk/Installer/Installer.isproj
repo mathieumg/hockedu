@@ -44,5 +44,9 @@
 			<Name>UIHeavyClient</Name>
 			<Project>{8A935C00-5AD9-4CED-9867-B2F0174BF979}</Project>
 		</ProjectReference>
+		<ProjectReference Include="..\Sources\C#\HttpHockeduRequests\HttpHockeduRequests.csproj">
+			<Name>HttpHockeduRequests</Name>
+			<Project>{5734EB1F-03DA-4ABF-A620-00C248FE8CDF}</Project>
+		</ProjectReference>
 	</ItemGroup>
 </Project>

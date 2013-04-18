@@ -41,6 +41,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ServeurJeuLauncher", "Serve
 EndProject
 Project("{6141683F-8A12-4E36-9623-2EB02B2C2303}") = "Installer", "..\..\Installer\Installer.isproj", "{E377E907-609A-496F-8C96-5E7B742D64FC}"
 	ProjectSection(ProjectDependencies) = postProject
+		{5734EB1F-03DA-4ABF-A620-00C248FE8CDF} = {5734EB1F-03DA-4ABF-A620-00C248FE8CDF}
 		{E855C041-719C-42FF-8B12-C36C31439A81} = {E855C041-719C-42FF-8B12-C36C31439A81}
 		{67188F6B-27BE-4E93-A7EF-C512656343A1} = {67188F6B-27BE-4E93-A7EF-C512656343A1}
 		{DF32D3B2-5344-47CA-A836-E6C80EB0E40A} = {DF32D3B2-5344-47CA-A836-E6C80EB0E40A}
@@ -58,8 +59,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Hockedu", "Hockedu", "{EF84
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{175EDAC7-0AA2-431E-B9F0-6C38383D1FF1}"
 	ProjectSection(SolutionItems) = preProject
-		Performance1.psess = Performance1.psess
-		Performance2.psess = Performance2.psess
+		..\..\Content\Shipping\assimp_R_x64.dll = ..\..\Content\Shipping\assimp_R_x64.dll
+		..\..\Content\Shipping\fmodex64.dll = ..\..\Content\Shipping\fmodex64.dll
+		..\..\Content\Shipping\fmodexL64.dll = ..\..\Content\Shipping\fmodexL64.dll
+		..\..\Content\Shipping\FreeImage.dll = ..\..\Content\Shipping\FreeImage.dll
+		..\..\Content\Shipping\glew32.dll = ..\..\Content\Shipping\glew32.dll
+		..\..\Content\Shipping\glew32mx.dll = ..\..\Content\Shipping\glew32mx.dll
+		..\..\Content\Shipping\zlib1.dll = ..\..\Content\Shipping\zlib1.dll
 	EndProjectSection
 EndProject
 Global
