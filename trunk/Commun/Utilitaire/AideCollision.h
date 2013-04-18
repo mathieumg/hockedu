@@ -47,7 +47,7 @@ namespace aidecollision {
    };
 
    DetailsCollision calculerCollisionSegmentSegment( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, Vecteur2& intersection );
-
+   bool calculerIntersection2Droites( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, Vecteur2& intersection );
 
    /// Calcule la collision d'un objet sphérique avec un segment de droite.
    DetailsCollision calculerCollisionSegment(
