@@ -121,6 +121,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 
                 if(wPred.time == -1)
                 {
+					changerStrat(OFFENSIVE); // Pour eviter un bug ou la strat n'est pas changee quand on est deja en def
                     changerStrat(OFFENSIVE); // Ne fait que repousser la rondelle
                     return;
                 }
@@ -147,36 +148,39 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 LearningAiAction wAction = (LearningAiAction) (wJoueur->getActionFor(wPosAI, wVelAI, wPosRondelle, wVelRondelle, wPosAdversaire));
                 // Tests:
                 //LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+				//LearningAiAction wAction = AI_ACTION_DEFENDRE;
                 switch(wAction)
                 {
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
-                        std::cout << "Action: Attaquer Directement" << std::endl;
-#endif
+                        std::cout << "Action: Attaquer Directement" << std::endl << std::endl;
+//#endif
                     changerStrat(OFFENSIVE_LIGNE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_DROITE:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
-                        std::cout << "Action: Attaquer Droite" << std::endl;
-#endif
+                        std::cout << "Action: Attaquer Droite" << std::endl << std::endl;
+//#endif
                     changerStrat(OFFENSIVE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_GAUCHE:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
-                        std::cout << "Action: Attaquer Gauche" << std::endl;
-#endif
+                        std::cout << "Action: Attaquer Gauche" << std::endl << std::endl;
+//#endif
                     changerStrat(OFFENSIVE_GAUCHE);
                     break;
                 case AI_ACTION_DEFENDRE:
                 default:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
-                        std::cout << "Action: Defendre (error)" << std::endl;
-#endif
+                        std::cout << "Action: Defendre" << std::endl << std::endl;
+//#endif
+					changerStrat(OFFENSIVE); // Pour eviter un bug ou la strat n'est pas changee quand on est deja en def
                     changerStrat(DEFENSIVE);
+					mPuckWasOnOppenentSize = false;
                     return; // Rien d'autre a set pour strat def
                     break;
                 }

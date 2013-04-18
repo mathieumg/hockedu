@@ -14,8 +14,8 @@
 #include "JoueurAbstrait.h"
 #include <sstream>
 
-int AILearner::mStepVelocite = 20;
-int AILearner::mStepPosition = 100;
+int AILearner::mStepVelocite = 5;//20
+int AILearner::mStepPosition = 8;//100
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,9 +41,9 @@ bool AILearner::setupFile()
     
     mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
 
-#if !SHIPPING
+//#if !SHIPPING
     std::cout << "Full path: " << mFilePath.str() << std::endl;
-#endif
+//#endif
 
     //Change output directory.
     if(changerRepertoireOutput(mFilePath.str()))

@@ -571,9 +571,9 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             const Vecteur3& pos = getPosition();
             setTargetDestination(pos);
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
-            if(joueur_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            if(joueur_ && joueur_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
             {
-                md.maxForce = 200.0f * body->GetMass();
+                md.maxForce = 1200.0f * body->GetMass();
             }
             else
             {
@@ -725,9 +725,9 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     updateMatrice();
 }
 
-#if MAT_DEBUG_
-std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;
-#endif
+//#if MAT_DEBUG_
+//std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;
+//#endif
 
 
 ///////////////////////////////////////////////////////////////////////////////

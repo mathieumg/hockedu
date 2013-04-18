@@ -23,8 +23,8 @@ int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
 }
 
 
-PartieApprentissage::PartieApprentissage(GameType gameType,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
-:Partie(gameType, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
+PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
+:Partie(gameType, pNbButsGagnants, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
@@ -180,9 +180,6 @@ void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer,
     {
          pOpponent->setActionResult(AI_OUTPUT_ADVERSAIRE_BUT_COMPTE);
     }
-#if !SHIPPING
-    std::cout << "Goal scored - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
-#endif
     mGoalScored = true;
 }
 
@@ -202,6 +199,9 @@ void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= f
 {
     handleGoalScored(mLeftLearningAi, mRightLearningAi);
     Partie::incrementerPointsJoueurGauche( pForceUpdate );
+//#if !SHIPPING
+    std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+//#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -219,6 +219,9 @@ void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= fa
 {
     handleGoalScored(mRightLearningAi, mLeftLearningAi);
     Partie::incrementerPointsJoueurDroit( pForceUpdate );
+//#if !SHIPPING
+    std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
+//#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -260,7 +263,7 @@ void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLear
                  wPuckPosition(pPuck->getPosition()),
                  wPuckVelocity(pPuck->obtenirVelocite()),
                  wOpponentPosition(pOpponentMallet->getPosition());
-        LearningAiAction wAction = (LearningAiAction) (rand() % AI_ACTION_NB);
+        LearningAiAction wAction = (LearningAiAction)pLearningPlayer->getActionFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition);
         pLearningPlayer->startLearningFor(wAiPosition, wAiVelocity, wPuckPosition, wPuckVelocity, wOpponentPosition, wAction);
     }
     clearPuckPositionBuffer();
@@ -310,13 +313,13 @@ bool PartieApprentissage::getReadyToPlay( bool loadMapFile /*= true */ )
     bool wTempValue = Partie::getReadyToPlay(loadMapFile);
 
     // Reset the flag for the learning players
-    if(joueurDroit_ && joueurDroit_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mRightLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit_)->setIsLearning(true);
+        mRightLearningAi->setIsLearning(true);
     }
-    if(joueurGauche_ && joueurGauche_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+    if(mLeftLearningAi)
     {
-        std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche_)->setIsLearning(true);
+        mLeftLearningAi->setIsLearning(true);
     }
     return wTempValue;
 }

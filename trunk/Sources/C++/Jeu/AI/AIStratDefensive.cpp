@@ -17,6 +17,7 @@
 #include "AIMaillet.h"
 #include "JoueurVirtuel.h"
 #include "Partie.h"
+#include <iostream>
 
 
 
@@ -34,7 +35,29 @@
 ////////////////////////////////////////////////////////////////////////
 AIStratDefensive::AIStratDefensive(const AIMaillet& context):AIStrat(context)
 {
-    
+	// On calcule la ligne de defense sur laquelle on veut defendre
+
+	NoeudMaillet* wMaillet = context.obtenirJv()->getControlingMallet();
+	if(wMaillet)
+	{
+		// On obtient le but du JV
+		NoeudBut* butJV;
+		// joueur gauche
+		int i = wMaillet->estAGauche() ? 1 : 2;
+		butJV =  wMaillet->getField()->getTable()->obtenirBut(i);
+		int wRand = (rand() % 30)-15;
+		float wRayonMaillet = wMaillet->getRadius();
+		mPosToDefend = (float) ((butJV->getPosition() + (i==1 ? (1.0f) : (-1.0f)) * Vecteur3(wRayonMaillet + (wRand), 0.0f, 0.0f))[VX]);
+
+		mErreurY = (float) (rand() % (int)(5.0f * wRayonMaillet)) - 2.5f * wRayonMaillet;
+	}
+	else
+	{
+		mPosToDefend = 0.0f;
+		mErreurY = 0.0f;
+	}
+
+
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -67,21 +90,28 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 	if(!maillet->getField() || !( rondelle = maillet->getField()->getPuck() ) )
 		return Vecteur2();
 
-    if(mGameTime.Elapsed_Time_sec() > 3)
+	Vecteur3 wDirectionRondelleMaillet = (rondelle->getPosition() - maillet->getPosition());
+	float wDistance = wDirectionRondelleMaillet.norme();
+	float wThreshold = (maillet->getRadius() * 3.0f);
+	if(wDistance < wThreshold)
+	{
+		Vecteur3 wNorm = wDirectionRondelleMaillet;
+		wNorm.normaliser();
+		return wNorm * (wThreshold - abs(wDistance));
+	}
+
+
+	float wTime = mGameTime.Elapsed_Time_sec();
+    if(wTime > 3)
     {
         // Si apres 3 sec on est encore en defensive, on attaque
         const_cast<AIMaillet&>(context_).changerStratNext(OFFENSIVE, AIStrat::TesterPushPuckOnTheOtherSide); // Va changer au prochain tick
         return Vecteur2(); // On doit return car on vient d'etre delete
     }
 
-	// On obtient le but du JV
-	NoeudBut* butJV;
-	// joueur gauche
-	int i = maillet->estAGauche() ? 1 : 2;
-	butJV =  maillet->getField()->getTable()->obtenirBut(i);
-
+	
 	// On determine la direction a prendre entre le but et le maillet
-	Vecteur2 dir= butJV->getPosition() - maillet->getPosition();
+	Vecteur2 dir= Vecteur3(mPosToDefend, mErreurY, 0) - maillet->getPosition();
 
 	// On senligne avec la rondelle si on est deja dans la zone de but
 	if (abs(dir[VX]) < maillet->getRadius()*2+10)
@@ -91,9 +121,11 @@ Vecteur2 AIStratDefensive::appliquerStrategie( NoeudMaillet* maillet)
 		dir[VX] = 0.0;
 	}
 	else
+	{
 		dir.normaliser();
+	}
 
-	dir *= (float)context_.obtenirJv()->obtenirVitesse()*0.75f;
+	dir *= (float)context_.obtenirJv()->obtenirVitesse();
 
 	return dir;
 }

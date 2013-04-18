@@ -38,7 +38,7 @@
 
 
 GLuint Partie::listePause_ = 0;
-const int Partie::POINTAGE_GAGNANT = 20000;
+const int Partie::POINTAGE_GAGNANT = 7;
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -53,9 +53,9 @@ const int Partie::POINTAGE_GAGNANT = 20000;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(GameType gameType, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+Partie::Partie(GameType gameType, int pNbButsGagnants, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
-mGameType(gameType),mMiseAuJeuDelai(4100)
+mGameType(gameType),mMiseAuJeuDelai(4100), mNbButsGagnants(pNbButsGagnants)
 {
     modifierJoueurGauche(joueurGauche);
     modifierJoueurDroit(joueurDroit);
@@ -696,7 +696,7 @@ void Partie::afficher()
     mField->renderField();
     
 
-#if MAT_DEBUG_
+/*#if MAT_DEBUG_
     // Render trajet rondelle
 
     
@@ -756,7 +756,7 @@ void Partie::afficher()
 #endif
 
 
-#endif
+#endif*/
 
 }
 
@@ -1333,9 +1333,9 @@ bool Partie::updateTerrainSimulation()
 
 PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 10000*/ )
 {
-#if MAT_DEBUG_
-    NoeudMaillet::mListePointsDebug.clear();
-#endif
+//#if MAT_DEBUG_
+//    NoeudMaillet::mListePointsDebug.clear();
+//#endif
 
     PuckProjection wReturnVal;
     wReturnVal.time = -1;
@@ -1356,9 +1356,9 @@ PuckProjection Partie::getPuckProjection( float pPosX, int pDelaisMaxMs /*= 1000
             mFieldSimulation->appliquerPhysique(16.0f/1000.0f);
             wElapsedTime += 16;
 
-#if MAT_DEBUG_
-            NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());
-#endif
+//#if MAT_DEBUG_
+//            NoeudMaillet::mListePointsDebug.push_back(wPuck->getPosition());
+//#endif
             //std::cout << "Position:" << wPuck->getPosition() << std::endl;
 
             // Verifie la rondelle

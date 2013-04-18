@@ -112,6 +112,7 @@ GameManager::~GameManager()
 /// Si un seul parametre est utilise, une partie contre l'adversaire sera cree
 /// Dans le cas ou l'adversaire n'a pas ete modifie, on joue contre un joueur humain
 ///
+/// @param[in] int              pNbButsGagnants  : Nb de buts gagnants dans la partie
 /// @param[in] bool             pForceParameters : Force l'utilisation des joueurs en parametres a la place de l'adversaire
 /// @param[in] SPJoueurAbstrait pJoueur1
 /// @param[in] SPJoueurAbstrait pJoueur2
@@ -119,7 +120,7 @@ GameManager::~GameManager()
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/,  bool pIsLearningGame /*=false*/, int pGameId /*=-1*/)
+int GameManager::addNewGame(GameType gametype, int pNbButsGagnants, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/,  bool pIsLearningGame /*=false*/, int pGameId /*=-1*/)
 {
 	Partie* wGame;
     int wId = pGameId;
@@ -164,11 +165,11 @@ int GameManager::addNewGame(GameType gametype, SPJoueurAbstrait pJoueur1 /*= 0*/
 	}
     if(pIsLearningGame)
     {
-        wGame = new PartieApprentissage(wGameType, wJoueur1, wJoueur2, wId);
+        wGame = new PartieApprentissage(wGameType, pNbButsGagnants, wJoueur1, wJoueur2, wId);
     }
     else
     {
-        wGame = new Partie(wGameType, wJoueur1, wJoueur2, wId);
+        wGame = new Partie(wGameType, pNbButsGagnants, wJoueur1, wJoueur2, wId);
     }
 
     bool wGameAdded = false;

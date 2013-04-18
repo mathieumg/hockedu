@@ -89,7 +89,7 @@ public:
     void reloadControleMallet();
     
 	/// Permet de savoir si la partie est terminee
-	inline bool partieTerminee() const {return pointsJoueurGauche_>=POINTAGE_GAGNANT || pointsJoueurDroit_>= POINTAGE_GAGNANT ;}
+	inline bool partieTerminee() const {return pointsJoueurGauche_>=mNbButsGagnants || pointsJoueurDroit_>= mNbButsGagnants ;}
 
 	/// Effectue une mise au jeu
 	void miseAuJeu( bool debutDePartie = false);
@@ -169,7 +169,7 @@ public:
 protected:
 
     /// Constructeur par paramètres
-	Partie(GameType gameType,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
+	Partie(GameType gameType, int pNbButsGagnants,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 
     /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
@@ -182,6 +182,8 @@ protected:
 private:
 	
     int mMiseAuJeuDelai;
+
+    int mNbButsGagnants;
 
 	/// Les points des deux joueurs
 	int pointsJoueurGauche_;
