@@ -199,9 +199,9 @@ void PartieApprentissage::incrementerPointsJoueurGauche( bool pForceUpdate /*= f
 {
     handleGoalScored(mLeftLearningAi, mRightLearningAi);
     Partie::incrementerPointsJoueurGauche( pForceUpdate );
-#if !SHIPPING
+//#if !SHIPPING
     std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
-#endif
+//#endif
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -219,9 +219,9 @@ void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= fa
 {
     handleGoalScored(mRightLearningAi, mLeftLearningAi);
     Partie::incrementerPointsJoueurDroit( pForceUpdate );
-#if !SHIPPING
+//#if !SHIPPING
     std::cout << "Game " << getUniqueGameId() << " - Score: " << obtenirPointsJoueurGauche() << " - " << obtenirPointsJoueurDroit() << std::endl;
-#endif
+//#endif
 }
 
 ////////////////////////////////////////////////////////////////////////

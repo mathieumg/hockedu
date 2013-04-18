@@ -152,32 +152,32 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 switch(wAction)
                 {
                 case AI_ACTION_ATTAQUER_DIRECTEMENT:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
                         std::cout << "Action: Attaquer Directement" << std::endl << std::endl;
-#endif
+//#endif
                     changerStrat(OFFENSIVE_LIGNE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_DROITE:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
                         std::cout << "Action: Attaquer Droite" << std::endl << std::endl;
-#endif
+//#endif
                     changerStrat(OFFENSIVE_DROITE);
                     break;
                 case AI_ACTION_ATTAQUER_GAUCHE:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
                         std::cout << "Action: Attaquer Gauche" << std::endl << std::endl;
-#endif
+//#endif
                     changerStrat(OFFENSIVE_GAUCHE);
                     break;
                 case AI_ACTION_DEFENDRE:
                 default:
-#if !SHIPPING
+//#if !SHIPPING
                     if(!wJoueur->isLearning())
                         std::cout << "Action: Defendre" << std::endl << std::endl;
-#endif
+//#endif
 					changerStrat(OFFENSIVE); // Pour eviter un bug ou la strat n'est pas changee quand on est deja en def
                     changerStrat(DEFENSIVE);
 					mPuckWasOnOppenentSize = false;
