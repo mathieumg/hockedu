@@ -637,11 +637,84 @@ namespace aidecollision {
 		return constante1 + constante2;
 	}
 
+
+
+	////////////////////////////////////////////////////////////////////////
+	///
+	/// @fn bool calculerIntersection2Droites( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, const Vecteur2& intersection )
+	///
+	/// determine le point d'intersection entre 2 droites s'il existe. Les points decrivant la droites doivent etre different
+	///
+	/// @param[in] const Vecteur2 & d1P1 : premier point de la droite1
+	/// @param[in] const Vecteur2 & d1P2 : deuxieme point de la droite1
+	/// @param[in] const Vecteur2 & d2P1 : premier point de la droite2
+	/// @param[in] const Vecteur2 & d2P2 : deuxieme point de la droite2
+	/// @param[out]  Vecteur2 & intersection : resultat du calcul
+	///
+	/// @return bool : true si le point d'intersection existe
+	///
+	////////////////////////////////////////////////////////////////////////
+	bool calculerIntersection2Droites( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, Vecteur2& intersection )
+	{
+		// Un des murets est nul, il ne peut avoir de collision ou plutot c'est tellement peu probable qu'on ignore ce cas
+		if(d1P1 == d1P2 || d2P1 == d2P2)
+			return false;
+
+		float deltaX1 = (d1P2[VX]-d1P1[VX]);
+		float deltaX2 = (d2P2[VX]-d2P1[VX]);
+		bool droite1Vertical = utilitaire::EGAL_ZERO(deltaX1), droite2Vertical = utilitaire::EGAL_ZERO(deltaX2);
+
+		float a1,a2,b1,b2;
+		// les 2 droites sont verticales
+		if(droite1Vertical && droite2Vertical)
+		{
+			// infinité de possibilité
+			return false;
+		}
+		else if(droite1Vertical)
+		{
+			// une droite verticale, calcul l'intersection a partir de cette droite
+			intersection[VX] = d1P1[VX];
+			a2 = (d2P2[VY]-d2P1[VY])/deltaX2;
+			b2 = d2P1[VY]-a2*d2P1[VX];
+			intersection[VY] = a2*intersection[VX]+b2;
+		}
+		else if(droite2Vertical)
+		{
+			// une droite verticale, calcul l'intersection a partir de cette droite
+			intersection[VX] = d2P1[VX];
+			a1 = (d1P2[VY]-d1P1[VY])/deltaX1;
+			b1 = d1P1[VY]-a1*d1P1[VX];
+			intersection[VY] = a1*intersection[VX]+b1;
+		}
+		else
+		{
+			// Les 2 droites ne sont pas verticales
+			a1 = (d1P2[VY]-d1P1[VY])/deltaX1;
+			a2 = (d2P2[VY]-d2P1[VY])/deltaX2;
+			b1 = d1P1[VY]-a1*d1P1[VX];
+			b2 = d2P1[VY]-a2*d2P1[VX];
+
+			// Droite parallele
+			if(utilitaire::EGAL_ZERO(a1-a2))
+			{
+				// infinité de possibilité
+				return false;
+			}
+			intersection[VX] = (b2-b1)/(a1-a2);
+			intersection[VY] = a1*intersection[VX]+b1;
+		}
+
+		return true;
+	}
+
+
+
 	////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn bool calculerCollisionSegmentSegment( const Vecteur2& d1P1, const Vecteur2& d1P2, const Vecteur2& d2P1, const Vecteur2& d2P2, const Vecteur2& intersection )
 	///
-	/// /*Description*/ PAS FINI PAS FONCTIONNEL NE PAS UTILISER !!
+	/// 
 	///
 	/// @param[in] const Vecteur2 & d1P1
 	/// @param[in] const Vecteur2 & d1P2
@@ -971,7 +1044,7 @@ namespace aidecollision {
 
 		return t;
 	}
-	
+
 
 
 } // Fin de l'espace de nom aidecollision.

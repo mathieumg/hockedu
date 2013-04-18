@@ -1330,52 +1330,149 @@ void NoeudTable::updatePhysicBody()
     auto world = getWorld();
     if(world)
     {
-        auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
-        if(pHaut && pBas)
-        {
-            b2BodyDef myBodyDef;
-            myBodyDef.type = b2_staticBody; //this will be a dynamic body
-            myBodyDef.position.Set(0, 0); //set the starting position
-            myBodyDef.angle = 0; //set the starting angle
+		{
+			auto pHaut = obtenirPoint(POSITION_HAUT_MILIEU), pBas = obtenirPoint(POSITION_BAS_MILIEU);
+			if(pHaut && pBas)
+			{
+				b2BodyDef myBodyDef;
+				myBodyDef.type = b2_staticBody; //this will be a dynamic body
+				myBodyDef.position.Set(0, 0); //set the starting position
+				myBodyDef.angle = 0; //set the starting angle
 
-            mPhysicBody = world->CreateBody(&myBodyDef);
+				mPhysicBody = world->CreateBody(&myBodyDef);
 
-            b2Vec2 topPosB2,bottomPosB2 ;
-            utilitaire::VEC3_TO_B2VEC(pHaut->getPosition(),topPosB2);
-            utilitaire::VEC3_TO_B2VEC(pBas->getPosition(),bottomPosB2);
-            b2EdgeShape shape;
-            shape.Set(bottomPosB2,topPosB2);
+				b2Vec2 topPosB2,bottomPosB2 ;
+				utilitaire::VEC3_TO_B2VEC(pHaut->getPosition(),topPosB2);
+				utilitaire::VEC3_TO_B2VEC(pBas->getPosition(),bottomPosB2);
+				b2EdgeShape shape;
+				shape.Set(bottomPosB2,topPosB2);
 
-            b2FixtureDef myFixtureDef;
-            myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
-            myFixtureDef.density = 1;
-            RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_TABLE,IsInGame());
+				b2FixtureDef myFixtureDef;
+				myFixtureDef.shape = &shape; //this is a pointer to the shapeHaut above
+				myFixtureDef.density = 1;
+				RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_TABLE,IsInGame());
 
-            mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-            NoeudRondelle* puck = getField()->getPuck();
-            if(puck)
-            {
-                float offset = puck->getRadius()*utilitaire::ratioWorldToBox2D*2;
-                topPosB2.x -= offset;
-                bottomPosB2.x -= offset;
+				mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+				NoeudRondelle* puck = getField()->getPuck();
+				if(puck)
+				{
+					float offset = puck->getRadius()*utilitaire::ratioWorldToBox2D*2;
+					topPosB2.x -= offset;
+					bottomPosB2.x -= offset;
 
-                myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
-                myFixtureDef.filter.maskBits = CATEGORY_PUCK;
-                myFixtureDef.isSensor = true;
+					myFixtureDef.filter.categoryBits = CATEGORY_MIDLANE;
+					myFixtureDef.filter.maskBits = CATEGORY_PUCK;
+					myFixtureDef.isSensor = true;
 
-                shape.Set(bottomPosB2,topPosB2);
-                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+					shape.Set(bottomPosB2,topPosB2);
+					mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
 
-                topPosB2.x += offset;
-                bottomPosB2.x += offset;
-                topPosB2.x += offset;
-                bottomPosB2.x += offset;
+					topPosB2.x += offset;
+					bottomPosB2.x += offset;
+					topPosB2.x += offset;
+					bottomPosB2.x += offset;
 
-                shape.Set(bottomPosB2,topPosB2);
-                mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
-            }
-            mPhysicBody->SetUserData(this);
-        }
+					shape.Set(bottomPosB2,topPosB2);
+					mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+				}
+				mPhysicBody->SetUserData(this);
+			}
+		}
+
+/*
+		/// Create round corner for the table
+		auto pHautMilieu = obtenirPoint(POSITION_HAUT_MILIEU), pMilieuGauche = obtenirPoint(POSITION_MILIEU_GAUCHE), pHautGauche = obtenirPoint(POSITION_HAUT_GAUCHE);
+		if(pHautGauche && pHautMilieu && pMilieuGauche)
+		{
+			Vecteur2 posCorner = pHautGauche->getPosition();
+			Vecteur2 posMid1 = pHautMilieu->getPosition();
+			Vecteur2 posMid2 = pMilieuGauche->getPosition();
+
+			/// choose appropriate starting point for the arc
+			Vecteur2 dir1 = posMid1-posCorner;
+			Vecteur2 dir2 = posMid2-posCorner;
+			float minLength1 = dir1.norme()*0.5f;
+			float minLength2 = dir2.norme()*0.5f;
+			static float defaultLength = 20;
+			float length = defaultLength;
+			if(minLength1 < length)
+			{
+				length = minLength1;
+			}
+			if(minLength2 < length)
+			{
+				length = minLength2;
+			}
+
+			dir1.normaliser();
+			dir2.normaliser();
+			dir1 *= length;
+			dir2 *= length;
+
+			Vecteur2 startingPoint1 = posCorner+dir1;
+			Vecteur2 startingPoint2 = posCorner+dir2;
+			dir1 = dir1.tournerPiSur2() + startingPoint1;
+			dir2 = dir2.tournerPiSur2() + startingPoint2;
+
+			Vecteur2 intersection;
+			if(aidecollision::calculerIntersection2Droites(startingPoint1,dir1,startingPoint2,dir2,intersection))
+			{
+				b2Vec2 firstPoint,lastPoint,mid;
+				utilitaire::VEC3_TO_B2VEC(startingPoint1,firstPoint);
+				utilitaire::VEC3_TO_B2VEC(startingPoint2,lastPoint);
+				utilitaire::VEC3_TO_B2VEC(intersection,mid);
+				// position of starting points as if the intersection was (0,0)
+				b2Vec2 p1Relative = mid - firstPoint;
+				b2Vec2 p2Relative = mid - lastPoint ;
+				float radius = p1Relative.Length();
+				float angle1 = atan2f(p1Relative.x,p1Relative.y);
+				float angle2 = atan2f(p2Relative.x,p2Relative.y);
+				if(angle1 < 0)
+				{
+					angle1 += 2*3.1415926535f;
+				}
+				if(angle2 < 0)
+				{
+					angle2 += 2*3.1415926535f;
+				}
+
+				float startingAngle = angle1;
+				float endAngle = angle2;
+				if(angle2 < angle1)
+				{
+					startingAngle = angle2;
+					endAngle = angle1;
+				}
+
+
+
+				b2EdgeShape line;
+				static float nbLines = 10;
+				float deltaAngle = (endAngle-startingAngle)/nbLines;
+				b2Vec2 p1 = firstPoint;
+				b2Vec2 p2; 
+
+				b2FixtureDef myFixtureDef;
+				myFixtureDef.shape = &line; //this is a pointer to the shape above
+				myFixtureDef.density = 1;
+				RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_RINK_BOARD,IsInGame());
+
+				for( float curAngle = startingAngle; curAngle < endAngle; curAngle+=deltaAngle)
+				{
+					p2.x = (cos(curAngle)*radius);
+					p2.y = (sin(curAngle)*radius);
+					p2 += mid;
+					line.Set(p1,p2);
+
+					mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+					p1 = p2;
+				}
+				line.Set(p1,lastPoint);
+				mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+			}
+		}
+		*/
+
     }
 #endif
 

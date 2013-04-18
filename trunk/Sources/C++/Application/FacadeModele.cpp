@@ -2032,6 +2032,12 @@ void FacadeModele::initialiserNuanceurs()
     const char *ns = textFileRead( "nuanceurSommets.glsl" );
     const char *nf = textFileRead( "nuanceurFragments.glsl" );
 
+	if(ns == 0 || nf == 0)
+	{
+		utilitaire::afficherErreur("Error loading shader files \"nuanceurSommets.glsl & nuanceurFragments.glsl\"");
+		return;
+	}
+
     // créer le programme
     progPhong_ = glCreateProgram();
 
