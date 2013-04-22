@@ -34,7 +34,7 @@ public class Lancement implements Runnable {
 	 * contenant l'implantation des fonctions natives.
 	 */
 	static {
-		System.loadLibrary("RazerGame");
+		System.loadLibrary("INF2990");
 	}
 
 	// ///////////////////////

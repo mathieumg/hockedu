@@ -43,9 +43,15 @@
 #include "NoeudTable.h"
 #include "RepartiteurActions.h"
 #include "GestionnaireHUD.h"
-#include "GestionnaireReseau.h"
-#include "PacketHandler.h"
-#include "UsinePaquet.h"
+#include "../Reseau/GestionnaireReseau.h"
+#include "../Reseau/PaquetHandlers/PacketHandler.h"
+#include "../Reseau/UsinePaquets/UsinePaquetChatMessage.h"
+#include "../Reseau/UsinePaquets/UsinePaquetUserStatus.h"
+#include "../reseau/UsinePaquets/UsinePaquetMaillet.h"
+#include "../Reseau/UsinePaquets/UsinePaquetGameCreation.h"
+#include "../reseau/UsinePaquets/UsinePaquetGameConnection.h"
+#include "../reseau/UsinePaquets/UsinePaquetRondelle.h"
+#include "../Reseau/UsinePaquets/UsinePaquetGameEvent.h"
 
 
 ////////////////////////////////////////////////////////////////////////

@@ -5,12 +5,8 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../Reseau;../Reseau/Paquets;../Reseau/ExceptionReseau;../Reseau/ObjetsGlobaux;../Reseau/PaquetHandlers;./;../../C#\UIHeavyClient\UIHeavyClient;../reseau;..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;../../../Commun/Externe/ENetLib/include;..\..\..\Commun\Externe\MySQL\include;../reseau/Paquets;../Reseau/ExceptionsReseau;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Reseau;../Reseau/Paquets;../Reseau/ExceptionReseau;../Reseau/ObjetsGlobaux;../Reseau/PaquetHandlers;;./;../../C#\UIHeavyClient\UIHeavyClient;../reseau;..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include;../reseau/Paquets;../Reseau/PaquetHandlers;../Reseau/ObjetsGlobaux;../Reseau/ExceptionsReseau;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
-    <Link>
-      <AdditionalLibraryDirectories>$(SolutionDir)\lib;../../../Commun/Externe/ENetLib</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
