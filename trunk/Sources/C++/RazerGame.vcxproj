@@ -105,7 +105,7 @@
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <RandomizedBaseAddress>false</RandomizedBaseAddress>
       <DataExecutionPrevention>
       </DataExecutionPrevention>
@@ -139,10 +139,10 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>cp -v $(SolutionDir)..\..\Content\Exe\DLL\$(ProjectName).dll $(SolutionDir)..\Sources\Java\InterfaceGraphique\DLL</Command>
+      <Command>copy /V /Y "$(TargetPath)" "$(SolutionDir)..\Sources\Java\InterfaceGraphique\DLL\"</Command>
     </PostBuildEvent>
     <PostBuildEvent>
-      <Message>Tests Unitaires</Message>
+      <Message>Copy dll</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
