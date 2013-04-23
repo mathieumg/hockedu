@@ -351,8 +351,16 @@ GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) con
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse                                                          ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE              , "table"                      , RazerGameUtilities::CreateListDelegateTable            ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOALER             , "Goaler/Goaler"              , RazerGameUtilities::CreateListDelegateGoaler           ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_FAN                , "Fan"                        , RazerGameUtilities::CreateListDelegateFan              ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PAUSE              , "pause"                                                                               ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_1            , "1"                                                                                   ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_2            , "2"                                                                                   ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_3            , "3"                                                                                   ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOAL               , "but_milieu"                 , RazerGameUtilities::CreateListDelegateGoal             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_WALL               , "muret"                      , RazerGameUtilities::CreateListDelegateWall             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PORTAL             , "portail"                    , RazerGameUtilities::CreateListDelegatePortal           ));
@@ -363,15 +371,8 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MALLET             , "maillet"                    , RazerGameUtilities::CreateListDelegateMallet           ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE_CONTROL_POINT, "control_point/control_point", RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_CONTROL_POINT      , "control_point/control_point", RazerGameUtilities::CreateListDelegateControlPoint     ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOALER             , "Goaler/Goaler"              , RazerGameUtilities::CreateListDelegateGoaler           ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_FAN                , "Fan"                        , RazerGameUtilities::CreateListDelegateFan              ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PAUSE              , "pause"                                                                               ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_1            , "1"                                                                                   ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_2            , "2"                                                                                   ));
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_3            , "3"                                                                                   ));
+	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE              , "table"                      , RazerGameUtilities::CreateListDelegateTable            ));
+
     
     DataThreadModels* dataWorkerModel = new DataThreadModels();
     dataWorkerModel->tampon = &tamponGlobal;

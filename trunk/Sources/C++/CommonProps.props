@@ -5,8 +5,15 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>Reseau;Reseau/Paquets;Reseau/ExceptionReseau;Reseau/ObjetsGlobaux;Reseau/PaquetHandlers;..\..\Commun\Externe\SQLite;..\..\Commun\Externe\FreeImage\include;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;../../Commun/Chargeur3ds/Chargeur3ds/Sources;Physics;Application;Achievements;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Configuration;Environnement;Interface;../../Commun/Externe/tinyxml/include;../../Commun/Externe/assimp/include;../../Commun/Externe/cppunit/include;%(AdditionalIncludeDirectories);Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;../../Commun/Externe/FMOD/include;Jeu;Jeu/AI;Arbre/HUD;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/boost_1_49_0;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/;../../Commun/Externe/DirectorySearch/inc;..\Reseau\</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>Reseau;Reseau/Paquets;Reseau/ExceptionReseau;Reseau/ObjetsGlobaux;Reseau/PaquetHandlers;Physics;Application;Achievements;Arbre;Arbre/FieldModificationStrategy;Arbre/Noeuds;Arbre/Usines;Arbre/Visiteur;Arbre/Bonus;Arbre/Modeles;Arbre/HUD;Configuration;Environnement;Interface;Tests;Interface/GestionEtat;Interface/EtatSouris;Environnement/Evenements;Sons;Jeu;Jeu/AI;..\C#\UIHeavyClient\UIHeavyClient;../../Commun/Externe/;../../Commun/Utilitaire;../../Commun/Utilitaire/Vue;..\..\Commun\Externe\FreeImage\include;../../Commun/Externe/assimp/include;../../Commun/Externe/tinyxml/include;../../Commun/Externe/cppunit/include;../../Commun/Externe/FMOD/include;../../Commun/Externe/GLEW/include/GL;../../Commun/Externe/DirectorySearch/inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <PreprocessorDefinitions>CREATING_DLL;WIN32;_USRDLL;RazerGame_EXPORTS;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
+    <Link>
+      <AdditionalLibraryDirectories>../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;../../Commun/Externe/Box2D/Libs;$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glew32.lib;fmodex64_vc.lib;wsock32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>
