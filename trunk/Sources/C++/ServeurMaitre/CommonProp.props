@@ -5,8 +5,12 @@
   <PropertyGroup />
   <ItemDefinitionGroup>
     <ClCompile>
-      <AdditionalIncludeDirectories>../Reseau;../Reseau/Paquets;../Reseau/ExceptionReseau;../Reseau/ObjetsGlobaux;../Reseau/PaquetHandlers;;./;../../C#\UIHeavyClient\UIHeavyClient;../reseau;..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include;../reseau/Paquets;../Reseau/PaquetHandlers;../Reseau/ObjetsGlobaux;../Reseau/ExceptionsReseau;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>../Reseau;../Reseau/Paquets;../Reseau/ExceptionReseau;../Reseau/ObjetsGlobaux;../Reseau/PaquetHandlers;./;../../C#\UIHeavyClient\UIHeavyClient;..\..\..\Commun\Utilitaire\;..\..\..\Commun\Externe\MySQL++\lib;..\..\..\Commun\Externe\MySQL\include;..\..\..\Commun\Externe\enet-1.3.7/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>wsock32.lib;enet64.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>../../../Commun/Externe/enet-1.3.7</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
 </Project>

@@ -30,6 +30,7 @@
 #include <utility>
 #include "Paquets/Paquet.h"
 #include "Paquets/PaquetEvent.h"
+#include "enet/enet.h"
 
 #ifdef WINDOWS
 // lien avec la librairie winsock2
@@ -157,9 +158,11 @@ GestionnaireReseau::~GestionnaireReseau()
 
     delete mCommunicateurReseau;
 
-#ifdef WINDOWS
-    WSACleanup();
-#endif
+// #ifdef WINDOWS
+//     WSACleanup();
+// #endif
+	enet_deinitialize();
+
 }
 
 
@@ -228,11 +231,11 @@ void GestionnaireReseau::init()
 
 	// Init Winsock2
 	// --> The WSAStartup function initiates use of the Winsock DLL by a process.
-#ifdef WINDOWS
-	WSADATA wsaData;
-	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-#endif
-
+// #ifdef WINDOWS
+// 	WSADATA wsaData;
+// 	int iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
+// #endif
+	int iResult = enet_initialize();
 
 
 

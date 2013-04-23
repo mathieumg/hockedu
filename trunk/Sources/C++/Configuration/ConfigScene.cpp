@@ -51,7 +51,7 @@ const char ConfigScene::ETIQUETTE_ARBRE[] = {"Arbre"};
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D), mAutoSaveEnable(true), mAutoSaveDelai(30), mIsHouseDisplay(false)
+ConfigScene::ConfigScene(): toucheHaut_(VJAK_W), toucheBas_(VJAK_S), toucheGauche_(VJAK_A), toucheDroite_(VJAK_D), mAutoSaveEnable(true), mAutoSaveDelai(30), mIsHouseDisplay(true)
 {
 
 	// Lumiere 0 qui est la lumiere ambiante
