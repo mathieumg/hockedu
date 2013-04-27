@@ -11,8 +11,8 @@
 #include "GameManager.h"
 #include <sstream>
 #include <stdexcept>
-#include "JoueurVirtuel.h"
-#include "JoueurHumain.h"
+#include "PlayerComputer.h"
+#include "PlayerHuman.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
 #include "..\Reseau\GestionnaireReseau.h"
@@ -147,7 +147,7 @@ int GameManager::addNewGame(GameType gametype, int pNbButsGagnants, SPJoueurAbst
 		else
 		{
             // Si adversaire pas defini, on lance avec un joueur Humain
-            wJoueur2 = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
+            wJoueur2 = SPJoueurAbstrait(new PlayerHuman("Joueur Droit"));
 		}
 	}
 	else

@@ -9,8 +9,8 @@
 ////////////////////////////////////////////////////////////////////////////////////
 
 #include "ConfigSceneTest.h"
-#include "JoueurVirtuel.h"
-#include "JoueurHumain.h"
+#include "PlayerComputer.h"
+#include "PlayerHuman.h"
 #include "Utilitaire.h"
 #include <algorithm>
 #include "RazerGameTree.h"
@@ -355,20 +355,20 @@ void ConfigSceneTest::testLectureEcritureJoueurXML()
 {
 	ConteneurJoueur conteneurJoueur;
 	SPJoueurAbstrait joueurs[15];
-	joueurs[0] =  SPJoueurAbstrait(new JoueurHumain("Michaël"		  ));
-	joueurs[1] =  SPJoueurAbstrait(new JoueurHumain("Samuel"		  ));
-	joueurs[2] =  SPJoueurAbstrait(new JoueurHumain("Vincent"		  ));
-	joueurs[3] =  SPJoueurAbstrait(new JoueurHumain("Mathieu"		  ));
-	joueurs[4] =  SPJoueurAbstrait(new JoueurHumain("Gabriel"		  ));
-	joueurs[5] =  SPJoueurAbstrait(new JoueurHumain("Charles Etienne" ));
-	joueurs[6] =  SPJoueurAbstrait(new JoueurVirtuel("bot1",10,50)	  );
-	joueurs[7] =  SPJoueurAbstrait(new JoueurVirtuel("bot2",15,25)	  );
-	joueurs[8] =  SPJoueurAbstrait(new JoueurVirtuel("bot3",25,0)	  );
-	joueurs[9] =  SPJoueurAbstrait(new JoueurVirtuel("bot4",10,-10)   );
-	joueurs[10] = SPJoueurAbstrait(new JoueurVirtuel("bot5",12,25)	  );
-	joueurs[11] = SPJoueurAbstrait(new JoueurVirtuel("bot6",48,75)	  );
-	joueurs[12] = SPJoueurAbstrait(new JoueurVirtuel("bot8",95,60)	  );
-	joueurs[13] = SPJoueurAbstrait(new JoueurVirtuel("bot9",47,55)	  );
+	joueurs[0] =  SPJoueurAbstrait(new PlayerHuman("Michaël"		  ));
+	joueurs[1] =  SPJoueurAbstrait(new PlayerHuman("Samuel"		  ));
+	joueurs[2] =  SPJoueurAbstrait(new PlayerHuman("Vincent"		  ));
+	joueurs[3] =  SPJoueurAbstrait(new PlayerHuman("Mathieu"		  ));
+	joueurs[4] =  SPJoueurAbstrait(new PlayerHuman("Gabriel"		  ));
+	joueurs[5] =  SPJoueurAbstrait(new PlayerHuman("Charles Etienne" ));
+	joueurs[6] =  SPJoueurAbstrait(new PlayerComputer("bot1",10,50)	  );
+	joueurs[7] =  SPJoueurAbstrait(new PlayerComputer("bot2",15,25)	  );
+	joueurs[8] =  SPJoueurAbstrait(new PlayerComputer("bot3",25,0)	  );
+	joueurs[9] =  SPJoueurAbstrait(new PlayerComputer("bot4",10,-10)   );
+	joueurs[10] = SPJoueurAbstrait(new PlayerComputer("bot5",12,25)	  );
+	joueurs[11] = SPJoueurAbstrait(new PlayerComputer("bot6",48,75)	  );
+	joueurs[12] = SPJoueurAbstrait(new PlayerComputer("bot8",95,60)	  );
+	joueurs[13] = SPJoueurAbstrait(new PlayerComputer("bot9",47,55)	  );
 	joueurs[14].reset();
 
 	for (int i = 0; i < 14 ; i++)

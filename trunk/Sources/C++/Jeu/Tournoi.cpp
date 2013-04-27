@@ -9,11 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 #include "Tournoi.h"
 #include "FacadeModele.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "DecodeString.h"
 #include "Utilitaire.h"
 #include <algorithm>
-#include "JoueurHumain.h"
+#include "PlayerHuman.h"
 #include "XMLUtils.h"
 
 const std::string Tournoi::tounoiNonJoue = "Aucun Gagnant de ce tournoi!";

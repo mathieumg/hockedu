@@ -14,7 +14,7 @@
 #include "Tournoi.h"
 #include <sstream>
 #include "Utilitaire.h"
-#include "JoueurAbstrait.h"
+#include "PlayerAbstract.h"
 #include <algorithm>
 #include "GestionnaireHUD.h"
 #include "phont.h"

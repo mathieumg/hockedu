@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include <map>
 #include "Renforcement\AILearner.h"
 #include "BoiteEnvironnement.h"
@@ -23,16 +23,16 @@
 /// @author Mathieu Parent
 /// @date 2013-04-1
 ///////////////////////////////////////////////////////////////////////////
-class JoueurVirtuelRenforcement : public JoueurVirtuel
+class PlayerReinforcementAI : public PlayerComputer
 {
 public:
     friend class AiLearnerTests;
 	/// Constructeur par paramètres
-	JoueurVirtuelRenforcement(const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0, bool isLearning = true);
+	PlayerReinforcementAI(const std::string& nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0, bool isLearning = true);
 
 
 	/// Destructeur virtuel
-	virtual ~JoueurVirtuelRenforcement(void);
+	virtual ~PlayerReinforcementAI(void);
 
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;

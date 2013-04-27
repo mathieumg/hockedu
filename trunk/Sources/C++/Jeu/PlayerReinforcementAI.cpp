@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include "RazerGameUtilities.h"
 #include "AIMaillet.h"
 #include "Renforcement\AIMailletRenforcement.h"
@@ -35,8 +35,8 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
-    :JoueurVirtuel(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning), mLearningCounter(0), mIsConversionDone(false)
+PlayerReinforcementAI::PlayerReinforcementAI(const std::string& nom /*= ""*/, unsigned int vitesse /*= 0*/, unsigned int probabiliteEchec /*= 0*/, bool isLearning /*= true*/)
+    :PlayerComputer(nom, vitesse, probabiliteEchec), mAiLearner(nom), mIsLearning(isLearning), mLearningCounter(0), mIsConversionDone(false)
 {
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
     setAiMaillet(new AIMailletRenforcement(this));
@@ -51,7 +51,7 @@ JoueurVirtuelRenforcement::JoueurVirtuelRenforcement(const std::string& nom /*= 
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuelRenforcement::~JoueurVirtuelRenforcement( void )
+PlayerReinforcementAI::~PlayerReinforcementAI( void )
 {
 	//delete aiMaillet_;
 }
@@ -69,9 +69,9 @@ JoueurVirtuelRenforcement::~JoueurVirtuelRenforcement( void )
 /// @return XmlElement* le noeud XML du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* JoueurVirtuelRenforcement::creerNoeudXML() const
+XmlElement* PlayerReinforcementAI::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = JoueurVirtuel::creerNoeudXML();
+	XmlElement* elementNoeud = PlayerComputer::creerNoeudXML();
 
     XMLUtils::writeString(elementNoeud,"path",mAiLogicFilepath.c_str());
 
@@ -90,9 +90,9 @@ XmlElement* JoueurVirtuelRenforcement::creerNoeudXML() const
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurVirtuelRenforcement::initialiser( const XmlElement* element )
+bool PlayerReinforcementAI::initialiser( const XmlElement* element )
 {
-	if(!JoueurVirtuel::initialiser(element))
+	if(!PlayerComputer::initialiser(element))
 		return false;
 	
 	type_ = JOUEUR_VIRTUEL_RENFORCEMENT;
@@ -109,7 +109,7 @@ bool JoueurVirtuelRenforcement::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuelRenforcement::genererAleatoirement()
+void PlayerReinforcementAI::genererAleatoirement()
 {
     checkf(0, "Ne pas generer des joueurs virtuels avec apprentissage par renforcement aleatoirement")
 	modifierNom("Joueur Virtuel Aleatoire");
@@ -129,7 +129,7 @@ void JoueurVirtuelRenforcement::genererAleatoirement()
 /// @return Vecteur2 :  la nouvelle direction à prendre pour le maillet
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur2 JoueurVirtuelRenforcement::obtenirDirectionAI( NoeudMaillet* maillet )
+Vecteur2 PlayerReinforcementAI::obtenirDirectionAI( NoeudMaillet* maillet )
 {
 	//envoie le pointeur sur la rondelle et sur le maillet
     auto ai = getAiMaillet();
@@ -155,7 +155,7 @@ Vecteur2 JoueurVirtuelRenforcement::obtenirDirectionAI( NoeudMaillet* maillet )
 /// @return bool    : Success ou echec
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurVirtuelRenforcement::chargerAiLogic( const std::string& pAiLogicFilepath )
+bool PlayerReinforcementAI::chargerAiLogic( const std::string& pAiLogicFilepath )
 {
     if(pAiLogicFilepath.find(AI_LEARNER_RUNTIME_DATA_EXTENSION) == std::string::npos)
     {
@@ -202,7 +202,7 @@ bool JoueurVirtuelRenforcement::chargerAiLogic( const std::string& pAiLogicFilep
 
 
 
-AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse)
+AiRuntimeInfosOutput PlayerReinforcementAI::getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse)
 {
     if(isLearning())
     {
@@ -246,7 +246,7 @@ AiRuntimeInfosOutput JoueurVirtuelRenforcement::getActionFor(const Vecteur3& pPo
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurVirtuelRenforcement::hasMapEntryFor( const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse ) const
+bool PlayerReinforcementAI::hasMapEntryFor( const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse ) const
 {
     auto wInfos = convertInputData(pPositionAi, pPositionJoueurAdverse, pPositionRondelle, pVelociteAi, pVelociteRondelle);
 
@@ -265,10 +265,10 @@ bool JoueurVirtuelRenforcement::hasMapEntryFor( const Vecteur3& pPositionAi, con
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuelRenforcement::setPlayerSide( PlayerSide val )
+void PlayerReinforcementAI::setPlayerSide( PlayerSide val )
 {
     mAiLearner.setAISide(val);
-    JoueurAbstrait::setPlayerSide(val);
+    PlayerAbstract::setPlayerSide(val);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ void JoueurVirtuelRenforcement::setPlayerSide( PlayerSide val )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
+void PlayerReinforcementAI::setControlingMallet( NoeudMaillet* pMallet )
 {
     if(pMallet)
     {
@@ -301,7 +301,7 @@ void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
             mAiLearner.setMapName(wFieldName.substr(wFieldName.find_last_of("/")+1));
         }
     }
-    JoueurAbstrait::setControlingMallet(pMallet);
+    PlayerAbstract::setControlingMallet(pMallet);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -319,7 +319,7 @@ void JoueurVirtuelRenforcement::setControlingMallet( NoeudMaillet* pMallet )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-AiRuntimeInfosInput JoueurVirtuelRenforcement::convertInputData( const Vecteur3 &pPositionAi, const Vecteur3 &pPositionJoueurAdverse, const Vecteur3 &pPositionRondelle, const Vecteur3 &pVelociteAi, const Vecteur3 &pVelociteRondelle ) const
+AiRuntimeInfosInput PlayerReinforcementAI::convertInputData( const Vecteur3 &pPositionAi, const Vecteur3 &pPositionJoueurAdverse, const Vecteur3 &pPositionRondelle, const Vecteur3 &pVelociteAi, const Vecteur3 &pVelociteRondelle ) const
 {
     AiRuntimeInfosInput wInfos;
     Vecteur2i wVect8b;
@@ -353,7 +353,7 @@ AiRuntimeInfosInput JoueurVirtuelRenforcement::convertInputData( const Vecteur3 
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuelRenforcement::setupFinished()
+void PlayerReinforcementAI::setupFinished()
 {
     mAiLearner.setupFile();
     if(!isLearning())
@@ -366,15 +366,15 @@ void JoueurVirtuelRenforcement::setupFinished()
     }
 }
 
-void JoueurVirtuelRenforcement::modifierNom( const std::string nom )
+void PlayerReinforcementAI::modifierNom( const std::string nom )
 {
-    JoueurAbstrait::modifierNom(nom);
+    PlayerAbstract::modifierNom(nom);
     mAiLearner.setAINAme(nom);
 }
 
 
 
-void JoueurVirtuelRenforcement::gameInit()
+void PlayerReinforcementAI::gameInit()
 {
     setIsLearning(false);
     setupFinished();

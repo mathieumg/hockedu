@@ -13,7 +13,7 @@
 #include "Terrain.h"
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///

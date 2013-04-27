@@ -12,7 +12,7 @@
 #include "FacadeModele.h"
 #include "Vue.h"
 #include "CodesEvenements.h"
-#include "JoueurHumain.h"
+#include "PlayerHuman.h"
 #include "Partie.h"
 #include "Terrain.h"
 #include "ConfigScene.h"
@@ -35,7 +35,7 @@ SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
     shiftEnfonce_ = false;
     mMiddleMousePress = false;
 
-    mPIEGame = new Partie(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurHumain(new JoueurHumain("Left Player")),SPJoueurHumain(new JoueurHumain("Right Player")),-1);
+    mPIEGame = new Partie(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurHumain(new PlayerHuman("Left Player")),SPJoueurHumain(new PlayerHuman("Right Player")),-1);
     mPIEGame->getField()->setResizeTableModel(false);
     auto xml = FacadeModele::getInstance()->getEditionField()->creerNoeudXML();
     mPIEGame->setFieldName("PIEGame");

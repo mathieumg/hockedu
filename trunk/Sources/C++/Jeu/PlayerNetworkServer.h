@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file JoueurNetwork.h
+/// @file JoueurNetworkServeur.h
 /// @author Mathieu Parent
-/// @date 2013-03-13
+/// @date 2013-03-18
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
@@ -9,29 +9,23 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "joueurabstrait.h"
-#if WITH_JAVA  
-#include <jni.h>
-#endif //WITH_JAVA  
+#include "PlayerAbstract.h"
+
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class JoueurNetwork
-/// @brief Classe abstraite qui représente un joueur contrôlé par le reseau (agit comme un joueur humain sans etre bind a la souris)
+/// @class JoueurNetworkServeur
+/// @brief Classe abstraite qui représente un joueur contrôlé par le reseau dans le serveur jeu (agit comme un joueur humain sans etre bind a la souris) et doit envoyer sa position
 ///
 /// @author Mathieu Parent
-/// @date 2013-03-13
+/// @date 2013-03-18
 ///////////////////////////////////////////////////////////////////////////
-class JoueurNetwork : public JoueurAbstrait
+class PlayerNetworkServer : public PlayerAbstract
 {
 public:
 	/// Constructeur par paramètres
-	JoueurNetwork(std::string nom = "");
-#if WITH_JAVA  
-	/// Constructeur par objet Java
-	JoueurNetwork(JNIEnv* env, jobject& joueurHumain);
-#endif //WITH_JAVA  
+	PlayerNetworkServer(std::string nom = "");
 	/// Destructeur virtuel
-	virtual ~JoueurNetwork(void);
+	virtual ~PlayerNetworkServer(void);
 
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
@@ -44,9 +38,14 @@ public:
 	/// Permet d'obtenir une copie de ce joueur
 	//virtual JoueurAbstrait* obtenirCopie();
 
+    virtual bool isReady() {return mIsReady;}
+    
+
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////

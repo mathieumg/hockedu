@@ -13,8 +13,8 @@
 #endif
 
 #include "Partie.h"
-#include "JoueurHumain.h"
-#include "JoueurVirtuel.h"
+#include "PlayerHuman.h"
+#include "PlayerComputer.h"
 #include "FacadeModele.h"
 #include "Utilitaire.h"
 #include "NoeudMaillet.h"
@@ -371,7 +371,7 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
         // On s'assure de ne pas ajouter plus que deux joueurs
         if(nbJoueurs>= 2)
             break;
-        SPJoueurAbstrait joueur( JoueurAbstrait::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
+        SPJoueurAbstrait joueur( PlayerAbstract::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
         if(joueur)
         {
             assignerJoueur(joueur);
@@ -380,7 +380,7 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
         else
         {
             utilitaire::afficherErreur("Erreur: Problème pour l'initialisation d'un joueur dans une partie, joueur humain aléatoire generé");
-            joueur.reset(new JoueurHumain());
+            joueur.reset(new PlayerHuman());
             joueur->genererAleatoirement();
             assignerJoueur(joueur);
             nbJoueurs++;
@@ -794,8 +794,8 @@ bool Partie::terminerSi2AI()
 {
     if(partieVirtuelle())
     {
-        JoueurVirtuel* jvg = dynamic_cast<JoueurVirtuel*>(obtenirJoueurGauche().get());
-        JoueurVirtuel* jvd = dynamic_cast<JoueurVirtuel*>(obtenirJoueurDroit().get());
+        PlayerComputer* jvg = dynamic_cast<PlayerComputer*>(obtenirJoueurGauche().get());
+        PlayerComputer* jvd = dynamic_cast<PlayerComputer*>(obtenirJoueurDroit().get());
         if(jvg && jvd)
         {
             // Score joueur gauche

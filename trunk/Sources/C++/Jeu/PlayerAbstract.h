@@ -21,13 +21,13 @@ enum PlayerSide{PLAYER_SIDE_LEFT,PLAYER_SIDE_RIGHT};
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class JoueurAbstrait
+class PlayerAbstract
 {
 public:
 	/// Constructeur
-    JoueurAbstrait(const std::string& nom);	
+    PlayerAbstract(const std::string& nom);	
 	/// Destructeur virtuel pure
-	virtual ~JoueurAbstrait(void) = 0;
+	virtual ~PlayerAbstract(void) = 0;
 	/// Accesseur pour le nom
 	std::string obtenirNom() const;
 	/// Modificateur pour le nom

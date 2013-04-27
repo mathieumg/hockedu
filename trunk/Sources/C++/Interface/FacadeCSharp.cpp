@@ -18,7 +18,7 @@
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
 #include "Partie.h"
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include <sstream>
 #include "..\Reseau\Paquets\PaquetRondelle.h"
 
@@ -242,7 +242,7 @@ void CancelConnection( char* pConnectionId )
 void InitOpenGL( HWND hWnd )
 {
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
-    SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain("Joueur 2"));
+    SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new PlayerHuman("Joueur 2"));
     FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
     
 }
@@ -474,7 +474,7 @@ void SetSecondPlayer(bool pIsHuman, char* pName)
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain(new JoueurHumain("Right Player"));
+        player = SPJoueurHumain(new PlayerHuman("Right Player"));
 
         // Test seulement
         //player = SPJoueurNetwork(new JoueurNetwork);
@@ -492,12 +492,12 @@ void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning)
 {
     if(pIsLearning)
     {
-        SPJoueurAbstrait joueurRenforcement(new JoueurVirtuelRenforcement(pName, pSpeed, pFailProb));
+        SPJoueurAbstrait joueurRenforcement(new PlayerReinforcementAI(pName, pSpeed, pFailProb));
         FacadeModele::getInstance()->ajouterJoueur(joueurRenforcement);
     }
     else
     {
-        SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(pName, pSpeed, pFailProb));
+        SPJoueurAbstrait joueurVirtuel(new PlayerComputer(pName, pSpeed, pFailProb));
         FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
     }
 }
@@ -529,7 +529,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
         if(joueur->obtenirType() == JOUEUR_VIRTUEL)
 	    {
-		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuel>(joueur);
+		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<PlayerComputer>(joueur);
 
             strcpy_s(pProfiles[i].Name, 255, joueurVirtuel->obtenirNom().c_str());
 
@@ -543,7 +543,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	    }
         else if(joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
 	    {
-            SPJoueurVirtuelRenforcement joueurRenforcement = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueur);
+            SPJoueurVirtuelRenforcement joueurRenforcement = std::dynamic_pointer_cast<PlayerReinforcementAI>(joueur);
 
             strcpy_s(pProfiles[i].Name, 255, joueurRenforcement->obtenirNom().c_str());
 
@@ -730,7 +730,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new JoueurHumain("Human Player")));
+            players.push_back(SPJoueurAbstrait(new PlayerHuman("Human Player")));
         }
 		else // AI player
 		{	
@@ -741,7 +741,7 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 			}
 			else
             {
-				players.push_back(SPJoueurAbstrait(new JoueurVirtuel(pPlayerNames[i], 1, 0)));
+				players.push_back(SPJoueurAbstrait(new PlayerComputer(pPlayerNames[i], 1, 0)));
             }
 		}
 	}
@@ -1080,8 +1080,8 @@ void* gameThreadFunction(void* pParams)
 
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
-    SPJoueurVirtuelRenforcement wPlayerRight(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb));
-    SPJoueurVirtuel wOpponentLeft(new JoueurVirtuel("AILeft", 5, 5));
+    SPJoueurVirtuelRenforcement wPlayerRight(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponentLeft(new PlayerComputer("AILeft", 5, 5));
 
     std::string wMapName("map_apprentissage_ai.xml");
 
@@ -1098,8 +1098,8 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     FacadePortability::createThread(mThreadRightAI, gameThreadFunction, tiRightAI);
 
     /* Tests pour runner 2 games en même temps */
-    SPJoueurVirtuelRenforcement wPlayerLeft(new JoueurVirtuelRenforcement(pReinforcementProfileName, pSpeed, pFailProb));
-    SPJoueurVirtuel wOpponentRight(new JoueurVirtuel("AIRight", 5, 5));
+    SPJoueurVirtuelRenforcement wPlayerLeft(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
+    SPJoueurVirtuel wOpponentRight(new PlayerComputer("AIRight", 5, 5));
 
     wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, 300, wPlayerLeft, wOpponentRight, false, true);
 

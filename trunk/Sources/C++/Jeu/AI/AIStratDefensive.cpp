@@ -15,7 +15,7 @@
 #include "NoeudMaillet.h"
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "Partie.h"
 #include <iostream>
 

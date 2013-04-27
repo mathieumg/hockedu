@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "RazerGameUtilities.h"
 #include "AIMaillet.h"
 
@@ -25,7 +25,7 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):JoueurAbstrait(nom) 
+PlayerComputer::PlayerComputer(std::string nom, unsigned int vitesse, unsigned int probabiliteEchec):PlayerAbstract(nom) 
 {
 	vitesse_ = vitesse;
 	probabiliteEchec_ = probabiliteEchec;
@@ -47,7 +47,7 @@ JoueurVirtuel::JoueurVirtuel(std::string nom, unsigned int vitesse, unsigned int
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbstrait("") ,aiMaillet_(NULL)
+PlayerComputer::PlayerComputer( JNIEnv* env, jobject& joueurVirtuel ) : PlayerAbstract("") ,aiMaillet_(NULL)
 {
 	// Obtention de la classe
 	jclass classe = env->GetObjectClass(joueurVirtuel);
@@ -85,7 +85,7 @@ JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel ) : JoueurAbst
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurVirtuel::~JoueurVirtuel( void )
+PlayerComputer::~PlayerComputer( void )
 {
     if(aiMaillet_)
     {
@@ -103,7 +103,7 @@ JoueurVirtuel::~JoueurVirtuel( void )
 /// @return la vitesse du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-unsigned int JoueurVirtuel::obtenirVitesse() const 
+unsigned int PlayerComputer::obtenirVitesse() const 
 { 
 	return vitesse_; 
 }
@@ -117,7 +117,7 @@ unsigned int JoueurVirtuel::obtenirVitesse() const
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuel::modifierVitesse( unsigned int vitesse )
+void PlayerComputer::modifierVitesse( unsigned int vitesse )
 { 
 	vitesse_ = vitesse; 
 }
@@ -131,7 +131,7 @@ void JoueurVirtuel::modifierVitesse( unsigned int vitesse )
 /// @return la probabilité d'échec du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-unsigned int JoueurVirtuel::obtenirProbabiliteEchec() const 
+unsigned int PlayerComputer::obtenirProbabiliteEchec() const 
 { 
 	return probabiliteEchec_; 
 }
@@ -145,7 +145,7 @@ unsigned int JoueurVirtuel::obtenirProbabiliteEchec() const
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuel::modifierProbabiliteEchec(unsigned int probabiliteEchec) 
+void PlayerComputer::modifierProbabiliteEchec(unsigned int probabiliteEchec) 
 { 
 	probabiliteEchec_ = probabiliteEchec; 
 }
@@ -160,11 +160,11 @@ void JoueurVirtuel::modifierProbabiliteEchec(unsigned int probabiliteEchec)
 /// @return XmlElement* le noeud XML du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* JoueurVirtuel::creerNoeudXML() const
+XmlElement* PlayerComputer::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = PlayerAbstract::creerNoeudXML();
 
-	elementNoeud->SetAttribute(JoueurAbstrait::etiquetteType.c_str(),type_);
+	elementNoeud->SetAttribute(PlayerAbstract::etiquetteType.c_str(),type_);
 	elementNoeud->SetAttribute("vitesse",obtenirVitesse());
 	elementNoeud->SetAttribute("probEchec",obtenirProbabiliteEchec());
 
@@ -182,9 +182,9 @@ XmlElement* JoueurVirtuel::creerNoeudXML() const
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurVirtuel::initialiser( const XmlElement* element )
+bool PlayerComputer::initialiser( const XmlElement* element )
 {
-	if(!JoueurAbstrait::initialiser(element))
+	if(!PlayerAbstract::initialiser(element))
 		return false;
 	int elem;
 	if( element->QueryIntAttribute("vitesse", &elem) != TIXML_SUCCESS )
@@ -208,7 +208,7 @@ bool JoueurVirtuel::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuel::genererAleatoirement()
+void PlayerComputer::genererAleatoirement()
 {
 	modifierNom("Joueur Virtuel Aleatoire");
 	modifierVitesse(rand()%100);
@@ -241,7 +241,7 @@ void JoueurVirtuel::genererAleatoirement()
 /// @return Vecteur2 :  la nouvelle direction à prendre pour le maillet
 ///
 ////////////////////////////////////////////////////////////////////////
-Vecteur2 JoueurVirtuel::obtenirDirectionAI( NoeudMaillet* maillet )
+Vecteur2 PlayerComputer::obtenirDirectionAI( NoeudMaillet* maillet )
 {
 	//envoie le pointeur sur la rondelle et sur le maillet
 	aiMaillet_->evaluerStrategie(maillet);
@@ -259,7 +259,7 @@ Vecteur2 JoueurVirtuel::obtenirDirectionAI( NoeudMaillet* maillet )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurVirtuel::setAiMaillet( AIMaillet* val )
+void PlayerComputer::setAiMaillet( AIMaillet* val )
 {
     if(aiMaillet_)
     {

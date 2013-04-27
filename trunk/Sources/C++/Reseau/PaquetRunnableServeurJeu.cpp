@@ -20,12 +20,12 @@
 #include "GameManager.h"
 #include "Paquets\PaquetGameConnection.h"
 #include "RazerGameTypeDef.h"
-#include "JoueurNetworkServeur.h"
+#include "PlayerNetworkServer.h"
 #include "Runnable.h"
 #include "NoeudMaillet.h"
 #include "GestionnaireReseau.h"
 #include "ControllerServeurJeu.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "Paquets\PaquetGameEvent.h"
 #include "FacadeServeurJeu.h"
 #include <iosfwd>
@@ -308,24 +308,24 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
         if(!pGame->obtenirJoueurGauche())
         {
             // Pas de joueur gauche. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(!pGame->obtenirJoueurDroit())
         {
             // Pas de joueur droit. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->assignerJoueur(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
         else if(pGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL)
         {
-            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(pGame->obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL)
         {
-            pGame->modifierJoueurDroit(SPJoueurNetworkServeur(new JoueurNetworkServeur(pPlayerName)));
+            pGame->modifierJoueurDroit(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
@@ -455,17 +455,17 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
         case GAME_EVENT_READY:
             {
                 // Envoyer par un client pour signaler qu'il est pret a demarrer la partie
-                JoueurNetworkServeur* wPlayerVise;
-                JoueurNetworkServeur* wPlayer2;
+                PlayerNetworkServer* wPlayerVise;
+                PlayerNetworkServer* wPlayer2;
                 if(wPaquet->getEventOnPlayerLeft())
                 {
-                    wPlayerVise = (JoueurNetworkServeur*) wGame->obtenirJoueurGauche().get();
-                    wPlayer2    = (JoueurNetworkServeur*) wGame->obtenirJoueurDroit().get();
+                    wPlayerVise = (PlayerNetworkServer*) wGame->obtenirJoueurGauche().get();
+                    wPlayer2    = (PlayerNetworkServer*) wGame->obtenirJoueurDroit().get();
                 }
                 else
                 {
-                    wPlayerVise = (JoueurNetworkServeur*) wGame->obtenirJoueurDroit().get();
-                    wPlayer2    = (JoueurNetworkServeur*) wGame->obtenirJoueurGauche().get();
+                    wPlayerVise = (PlayerNetworkServer*) wGame->obtenirJoueurDroit().get();
+                    wPlayer2    = (PlayerNetworkServer*) wGame->obtenirJoueurGauche().get();
                 }
 
                 if(wPlayerVise)
@@ -572,12 +572,12 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     bool wChanged = false;
                     if(wPaquet->getEventOnPlayerLeft() && wGame->obtenirNomJoueurDroit() != wPaquet->getPlayer1Name())
                     {
-                        wGame->modifierJoueurDroit(SPJoueurVirtuel(new JoueurVirtuel("AITempDroit", 6, 50)));
+                        wGame->modifierJoueurDroit(SPJoueurVirtuel(new PlayerComputer("AITempDroit", 6, 50)));
                         wChanged = true;                   
                     }
                     else if(wGame->obtenirNomJoueurGauche() != wPaquet->getPlayer1Name())
                     {
-                        wGame->modifierJoueurGauche(SPJoueurVirtuel(new JoueurVirtuel("AITempGauche", 6, 50)));
+                        wGame->modifierJoueurGauche(SPJoueurVirtuel(new PlayerComputer("AITempGauche", 6, 50)));
                         wChanged = true;
                     }
 

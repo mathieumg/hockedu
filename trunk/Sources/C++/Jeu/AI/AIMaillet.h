@@ -14,7 +14,7 @@
 #include "RazerGameTypeDef.h"
 
 class NoeudMaillet;
-class JoueurVirtuel;
+class PlayerComputer;
 class Partie;
 
 // Fonction de test pour savoir si la condition est respectee
@@ -31,7 +31,7 @@ class AIMaillet
 {
 public:
 	/// Constructeur
-	AIMaillet(JoueurVirtuel* pJoueurVirtuel);
+	AIMaillet(PlayerComputer* pJoueurVirtuel);
 	/// Destructeur
 	virtual ~AIMaillet();
 	/// Évaluation de la stratégie à utiliser
@@ -49,12 +49,12 @@ protected:
 	/// La stratégie du maillet
 	AIStrat* strategie_;
 	
-	JoueurVirtuel* jv_;
+	PlayerComputer* jv_;
 
 /// Accesseurs
 public:
 	/// Accesseur de jv_
-	JoueurVirtuel* obtenirJv() const { return jv_; }
+	PlayerComputer* obtenirJv() const { return jv_; }
 	/// Accesseur de strategie_
 	AIStrat* getStrategie() const { return strategie_; }
 

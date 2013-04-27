@@ -41,7 +41,7 @@
 #include "SoundFMOD.h"
 #include <algorithm>
 #include "DecodeString.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "Tournoi.h"
 #include "GestionnaireEtatModeJeu.h"
 #include "NoeudTable.h"
@@ -55,7 +55,7 @@
 #include "NoeudBut.h"
 #include "NoeudRondelle.h"
 #include "Partie.h"
-#include "JoueurHumain.h"
+#include "PlayerHuman.h"
 #include <wtypes.h>
 #include "ArbreNoeudLibre.h"
 #include "GestionnaireAnimations.h"
@@ -1074,7 +1074,7 @@ bool FacadeModele::passageModeJeu()
     // Jeu local
     if(prochainePartie_ == -1)
     {
-        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new JoueurHumain("Left Player")));
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new PlayerHuman("Left Player")));
 
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->startGame(partieCourante_))

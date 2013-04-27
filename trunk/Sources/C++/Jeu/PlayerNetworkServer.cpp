@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "JoueurNetworkServeur.h"
+#include "PlayerNetworkServer.h"
 #include "RazerGameUtilities.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -22,7 +22,7 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurNetworkServeur::JoueurNetworkServeur(std::string nom) : JoueurAbstrait(nom)
+PlayerNetworkServer::PlayerNetworkServer(std::string nom) : PlayerAbstract(nom)
 {
 	type_ = JOUEUR_NETWORK_SERVEUR;
     setReady(false);
@@ -37,7 +37,7 @@ JoueurNetworkServeur::JoueurNetworkServeur(std::string nom) : JoueurAbstrait(nom
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurNetworkServeur::~JoueurNetworkServeur( void )
+PlayerNetworkServer::~PlayerNetworkServer( void )
 {
 
 }
@@ -52,11 +52,11 @@ JoueurNetworkServeur::~JoueurNetworkServeur( void )
 /// @return XmlElement* le noeud XMl du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* JoueurNetworkServeur::creerNoeudXML() const
+XmlElement* PlayerNetworkServer::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = PlayerAbstract::creerNoeudXML();
 	
-	XMLUtils::writeAttribute<int>(elementNoeud,JoueurAbstrait::etiquetteType.c_str(),type_);
+	XMLUtils::writeAttribute<int>(elementNoeud,PlayerAbstract::etiquetteType.c_str(),type_);
 	
 	return elementNoeud;
 }
@@ -72,9 +72,9 @@ XmlElement* JoueurNetworkServeur::creerNoeudXML() const
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurNetworkServeur::initialiser( const XmlElement* element )
+bool PlayerNetworkServer::initialiser( const XmlElement* element )
 {
-	if(!JoueurAbstrait::initialiser(element))
+	if(!PlayerAbstract::initialiser(element))
 		return false;
 	type_ = JOUEUR_NETWORK_SERVEUR;
 
@@ -91,7 +91,7 @@ bool JoueurNetworkServeur::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurNetworkServeur::genererAleatoirement()
+void PlayerNetworkServer::genererAleatoirement()
 {
 	modifierNom("Joueur Network Serveur Aleatoire");
 }

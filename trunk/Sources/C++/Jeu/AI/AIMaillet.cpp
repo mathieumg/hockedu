@@ -18,7 +18,7 @@
 #include "AIStratOffensiveDroite.h"
 #include "AIStratOffensiveGauche.h"
 #include "FacadeModele.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -32,7 +32,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-AIMaillet::AIMaillet(JoueurVirtuel* jv): strategie_(0),jv_(jv)
+AIMaillet::AIMaillet(PlayerComputer* jv): strategie_(0),jv_(jv)
 {
     mNextStrat = NBSTRAT;
     mNextStratValidator = NULL;

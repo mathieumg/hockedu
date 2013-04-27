@@ -1,7 +1,7 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file JoueurNetworkServeur.h
-/// @author Mathieu Parent
-/// @date 2013-03-18
+/// @file JoueurHumain.h
+/// @author Vincent Lemire
+/// @date 2012-02-17
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
@@ -9,23 +9,30 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "joueurabstrait.h"
+#include "PlayerAbstract.h"
 
+#if WITH_JAVA  
+#include <jni.h>
+#endif //WITH_JAVA  
 
 ///////////////////////////////////////////////////////////////////////////
-/// @class JoueurNetworkServeur
-/// @brief Classe abstraite qui représente un joueur contrôlé par le reseau dans le serveur jeu (agit comme un joueur humain sans etre bind a la souris) et doit envoyer sa position
+/// @class JoueurHumain
+/// @brief Classe abstraite qui représente un joueur contrôlé par l'ordinateur.
 ///
-/// @author Mathieu Parent
-/// @date 2013-03-18
+/// @author Vincent Lemire
+/// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class JoueurNetworkServeur : public JoueurAbstrait
+class PlayerHuman : public PlayerAbstract
 {
 public:
 	/// Constructeur par paramètres
-	JoueurNetworkServeur(std::string nom = "");
+	PlayerHuman(std::string nom = "");
+#if WITH_JAVA  
+	/// Constructeur par objet Java
+	PlayerHuman(JNIEnv* env, jobject& joueurHumain);
+#endif //WITH_JAVA  
 	/// Destructeur virtuel
-	virtual ~JoueurNetworkServeur(void);
+	virtual ~PlayerHuman(void);
 
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
@@ -38,14 +45,9 @@ public:
 	/// Permet d'obtenir une copie de ce joueur
 	//virtual JoueurAbstrait* obtenirCopie();
 
-    virtual bool isReady() {return mIsReady;}
-    
-
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
-
-
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -20,7 +20,7 @@ enum DirectionMaillet{DIR_HAUT,DIR_BAS,DIR_GAUCHE,DIR_DROITE,NB_DIR};
 enum MalletSide{MALLET_SIDE_LEFT,MALLET_SIDE_RIGHT};
 class NoeudTable;
 class NoeudRondelle;
-class JoueurVirtuel;
+class PlayerComputer;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudMaillet

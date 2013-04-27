@@ -20,7 +20,7 @@
 #include <Box2D/Box2D.h>
 #endif
 #if PLAY_GAME
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #endif
 
 #if BOX2D_DEBUG
@@ -476,7 +476,7 @@ void NoeudMaillet::fixSpeed( const float& temps )
             break;
         case JOUEUR_VIRTUEL:
             {
-                JoueurVirtuel* wJoueur = (JoueurVirtuel*) joueur_;
+                PlayerComputer* wJoueur = (PlayerComputer*) joueur_;
                 direction = wJoueur->obtenirDirectionAI(this);
             }
             break;
@@ -649,7 +649,7 @@ void NoeudMaillet::playTick(float temps)
             break;
         case JOUEUR_VIRTUEL_RENFORCEMENT: 
             {
-                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
+                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
                 if(mTargetDestination.norme() == 0)
                 {
@@ -659,7 +659,7 @@ void NoeudMaillet::playTick(float temps)
             }
         case JOUEUR_VIRTUEL:
             {
-                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<JoueurVirtuel>(joueur_);
+                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
                 mTargetDestination += getPosition();
             }

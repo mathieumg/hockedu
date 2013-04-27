@@ -8,15 +8,15 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "JoueurAbstrait.h"
-#include "JoueurHumain.h"
-#include "JoueurVirtuel.h"
+#include "PlayerAbstract.h"
+#include "PlayerHuman.h"
+#include "PlayerComputer.h"
 #include "XMLUtils.h"
-#include "JoueurNetwork.h"
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerNetwork.h"
+#include "PlayerReinforcementAI.h"
 
-const std::string JoueurAbstrait::etiquetteJoueur = "Joueur";
-const std::string JoueurAbstrait::etiquetteType = "Type";
+const std::string PlayerAbstract::etiquetteJoueur = "Joueur";
+const std::string PlayerAbstract::etiquetteType = "Type";
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -29,7 +29,7 @@ const std::string JoueurAbstrait::etiquetteType = "Type";
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurAbstrait::JoueurAbstrait(const std::string& nom): nom_(nom), mControlingMallet(NULL)
+PlayerAbstract::PlayerAbstract(const std::string& nom): nom_(nom), mControlingMallet(NULL)
 {}
 
 ////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ JoueurAbstrait::JoueurAbstrait(const std::string& nom): nom_(nom), mControlingMa
 /// @return nom_ : le nom du joueur.
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string JoueurAbstrait::obtenirNom() const
+std::string PlayerAbstract::obtenirNom() const
 {
 	return nom_;
 }
@@ -55,7 +55,7 @@ std::string JoueurAbstrait::obtenirNom() const
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurAbstrait::modifierNom(const std::string nom)
+void PlayerAbstract::modifierNom(const std::string nom)
 {
 	nom_ = nom;
 }
@@ -69,7 +69,7 @@ void JoueurAbstrait::modifierNom(const std::string nom)
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurAbstrait::~JoueurAbstrait( void )
+PlayerAbstract::~PlayerAbstract( void )
 {
 
 }
@@ -84,7 +84,7 @@ JoueurAbstrait::~JoueurAbstrait( void )
 /// @return XmlElement* le noeud XML du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* JoueurAbstrait::creerNoeudXML() const
+XmlElement* PlayerAbstract::creerNoeudXML() const
 {
 	XmlElement* elementNoeud = XMLUtils::createNode(etiquetteJoueur.c_str());
 
@@ -107,7 +107,7 @@ XmlElement* JoueurAbstrait::creerNoeudXML() const
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurAbstrait::initialiser( const XmlElement* element )
+bool PlayerAbstract::initialiser( const XmlElement* element )
 {
 	modifierNom(extraireNomXmlNode(element));
 	
@@ -125,7 +125,7 @@ bool JoueurAbstrait::initialiser( const XmlElement* element )
 /// @return std::string : le nom contenu dans le noeud si succes, un chaine vide si il y a une erreur
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string JoueurAbstrait::extraireNomXmlNode( const XmlElement* element )
+std::string PlayerAbstract::extraireNomXmlNode( const XmlElement* element )
 {
 	const XmlElement* node = XMLUtils::FirstChildElement(element,"nom");
 	if(!node)
@@ -152,24 +152,24 @@ std::string JoueurAbstrait::extraireNomXmlNode( const XmlElement* element )
 /// @return SPJoueurAbstrait : pointeur du joueur si succes, null si echec
 ///
 ////////////////////////////////////////////////////////////////////////
-SPJoueurAbstrait JoueurAbstrait::usineJoueurXML( const XmlElement* element, ConteneurJoueur* profilsExistant /*= 0*/ )
+SPJoueurAbstrait PlayerAbstract::usineJoueurXML( const XmlElement* element, ConteneurJoueur* profilsExistant /*= 0*/ )
 {
 	if(!element)
 		return nullptr;
 
 	TiXmlString nom = element->ValueTStr();
 	// Vérifie si l'étiquette est correcte
-	if(nom == JoueurAbstrait::etiquetteJoueur.c_str())
+	if(nom == PlayerAbstract::etiquetteJoueur.c_str())
 	{
 		int type;
 		// Crée le joueur que si l'attribut type est présent
-		if( element->QueryIntAttribute(JoueurAbstrait::etiquetteType.c_str(), &type) == TIXML_SUCCESS )
+		if( element->QueryIntAttribute(PlayerAbstract::etiquetteType.c_str(), &type) == TIXML_SUCCESS )
 		{
 			// Pointeur Intelligent, on ne s'occupe plus de liberer la memoire de ceux-ci
 			SPJoueurAbstrait joueur;
 			switch(type)
 			{
-			case JOUEUR_HUMAIN: joueur = SPJoueurAbstrait(new JoueurHumain()); break;
+			case JOUEUR_HUMAIN: joueur = SPJoueurAbstrait(new PlayerHuman()); break;
 			case JOUEUR_VIRTUEL:
 				{
 					ConteneurJoueur::iterator iter;
@@ -178,15 +178,15 @@ SPJoueurAbstrait JoueurAbstrait::usineJoueurXML( const XmlElement* element, Cont
 						return iter->second;
 					}
 					else
-						joueur = SPJoueurAbstrait(new JoueurVirtuel()); break;
+						joueur = SPJoueurAbstrait(new PlayerComputer()); break;
 				}				
             case JOUEUR_NETWORK:
                 {
-                    joueur = SPJoueurAbstrait(new JoueurNetwork()); break;
+                    joueur = SPJoueurAbstrait(new PlayerNetwork()); break;
                 }
             case JOUEUR_VIRTUEL_RENFORCEMENT:
             {
-                joueur = SPJoueurAbstrait(new JoueurVirtuelRenforcement()); break;
+                joueur = SPJoueurAbstrait(new PlayerReinforcementAI()); break;
             }
 			default: break;
 			}

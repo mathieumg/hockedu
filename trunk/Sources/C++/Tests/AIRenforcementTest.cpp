@@ -3,8 +3,8 @@
 #include "Partie.h"
 #include "Terrain.h"
 #include "NoeudMaillet.h"
-#include "JoueurVirtuelRenforcement.h"
-#include "JoueurVirtuel.h"
+#include "PlayerReinforcementAI.h"
+#include "PlayerComputer.h"
 #include "AIMaillet.h"
 #include "AIStratOffensiveRenforcement.h"
 #include "FacadeModele.h"
@@ -24,7 +24,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::setUp()
 {
-    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPJoueurAbstrait(new JoueurVirtuel("")),SPJoueurAbstrait(new JoueurVirtuelRenforcement("")), true, false, 9000);
+    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPJoueurAbstrait(new PlayerComputer("")),SPJoueurAbstrait(new PlayerReinforcementAI("")), true, false, 9000);
 	GameManager::obtenirInstance()->getGameReady(9000);
     FacadeModele::getInstance()->setPartieCourante(9000);
     partie = GameManager::obtenirInstance()->getGame(9000);
@@ -63,7 +63,7 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
     wPuck->modifierVelocite(Vecteur3(150,0,0));
     
     // Setup strat
-    auto joueurVirtuel = (std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(wMaillet->obtenirJoueur()));
+    auto joueurVirtuel = (std::dynamic_pointer_cast<PlayerReinforcementAI>(wMaillet->obtenirJoueur()));
     AIMailletRenforcement* aimaillet = (AIMailletRenforcement*)joueurVirtuel->getAiMaillet();
     
     aimaillet->changerStrat(OFFENSIVE_LIGNE_DROITE);

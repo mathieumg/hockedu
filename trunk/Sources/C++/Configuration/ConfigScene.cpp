@@ -16,8 +16,8 @@
 #include "NoeudTable.h"
 #include "NoeudBut.h"
 #include "Utilitaire.h"
-#include "JoueurHumain.h"
-#include "JoueurVirtuel.h"
+#include "PlayerHuman.h"
+#include "PlayerComputer.h"
 #include "NoeudPoint.h"
 #include "CodesEvenements.h"
 #include <algorithm>
@@ -392,7 +392,7 @@ void ConfigScene::lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs )
 	{
 		for( child = elementConfiguration->FirstChildElement(); child/*Vérifie si child est non-null*/; child = child->NextSiblingElement() )
 		{
-			SPJoueurAbstrait joueur = JoueurAbstrait::usineJoueurXML(child);
+			SPJoueurAbstrait joueur = PlayerAbstract::usineJoueurXML(child);
 			// Si 2 joueurs ont le meme nom, le dernier seulement sera conserve
 			if(joueur)
 			{

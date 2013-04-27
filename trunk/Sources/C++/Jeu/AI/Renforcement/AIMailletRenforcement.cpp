@@ -15,7 +15,7 @@
 #include "Partie.h"
 #include "FacadeModele.h"
 #include "AIStratOffensiveRenforcement.h"
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include <memory>
 #include "NoeudAbstrait.h"
 #include <iostream>
@@ -33,7 +33,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-AIMailletRenforcement::AIMailletRenforcement(JoueurVirtuel* jv): AIMaillet(jv)
+AIMailletRenforcement::AIMailletRenforcement(PlayerComputer* jv): AIMaillet(jv)
 {
     mPuckWasOnOppenentSize = false;
     changerStrat(DEFENSIVE);
@@ -130,7 +130,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 // #endif //!SHIPPING
                 // Get good strat
                 // Get info for input
-                JoueurVirtuelRenforcement* wJoueur = (JoueurVirtuelRenforcement*)jv_;
+                PlayerReinforcementAI* wJoueur = (PlayerReinforcementAI*)jv_;
                 Vecteur3 wPosRondelle = wPuck->getPosition();
                 Vecteur3 wVelRondelle = wPuck->obtenirVelocite();
                 Vecteur3 wPosAI = maillet->getPosition();

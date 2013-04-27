@@ -245,15 +245,6 @@
     <ClCompile Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
-    <ClCompile Include="Jeu\JoueurAbstrait.cpp">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClCompile>
-    <ClCompile Include="Jeu\JoueurHumain.cpp">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClCompile>
-    <ClCompile Include="Jeu\JoueurVirtuel.cpp">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClCompile>
     <ClCompile Include="Jeu\Partie.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
@@ -482,9 +473,6 @@
     <ClCompile Include="Reseau\PaquetRunnableClientLourd.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
-    <ClCompile Include="Jeu\JoueurNetwork.cpp">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClCompile>
     <ClCompile Include="Jeu\PartieSyncer.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
@@ -544,9 +532,6 @@
     </ClCompile>
     <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="Jeu\JoueurNetworkServeur.cpp">
-      <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
@@ -638,9 +623,6 @@
     <ClCompile Include="jeu\ai\AIStratOffensiveDroite.cpp">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClCompile>
-    <ClCompile Include="Jeu\JoueurVirtuelRenforcement.cpp">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClCompile>
     <ClCompile Include="Jeu\AI\AIStratOffensiveRenforcement.cpp">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClCompile>
@@ -667,6 +649,24 @@
     </ClCompile>
     <ClCompile Include="Reseau\NetworkEnums.cpp">
       <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerAbstract.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerHuman.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerNetwork.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerNetworkServer.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerComputer.cpp">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClCompile>
+    <ClCompile Include="Jeu\PlayerReinforcementAI.cpp">
+      <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -810,15 +810,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurModifierProprieteNoeud.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
-    </ClInclude>
-    <ClInclude Include="Jeu\JoueurAbstrait.h">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClInclude>
-    <ClInclude Include="Jeu\JoueurHumain.h">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClInclude>
-    <ClInclude Include="Jeu\JoueurVirtuel.h">
-      <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
     <ClInclude Include="Jeu\Partie.h">
       <Filter>Sources Files\Jeu</Filter>
@@ -1093,9 +1084,6 @@
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="Jeu\JoueurNetwork.h">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClInclude>
     <ClInclude Include="Jeu\PartieSyncer.h">
       <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
@@ -1104,9 +1092,6 @@
     </ClInclude>
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h">
       <Filter>Sources Files\Reseau\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Jeu\JoueurNetworkServeur.h">
-      <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\HUD\HUDBonus.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
@@ -1198,9 +1183,6 @@
     <ClInclude Include="jeu\ai\AIStratOffensiveDroite.h">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClInclude>
-    <ClInclude Include="Jeu\JoueurVirtuelRenforcement.h">
-      <Filter>Sources Files\Jeu</Filter>
-    </ClInclude>
     <ClInclude Include="Jeu\AI\AIStratOffensiveRenforcement.h">
       <Filter>Sources Files\Jeu\AI</Filter>
     </ClInclude>
@@ -1224,6 +1206,24 @@
     </ClInclude>
     <ClInclude Include="Reseau\NetworkEnums.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerAbstract.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerHuman.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerNetwork.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerNetworkServer.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerComputer.h">
+      <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Jeu\PlayerReinforcementAI.h">
+      <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

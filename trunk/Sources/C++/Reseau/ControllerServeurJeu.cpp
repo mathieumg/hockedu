@@ -9,8 +9,8 @@
 #include "RelayeurMessage.h"
 #include "Runnable.h"
 #include "RazerGameTypeDef.h"
-#include "JoueurAbstrait.h"
-#include "JoueurVirtuel.h"
+#include "PlayerAbstract.h"
+#include "PlayerComputer.h"
 #if !SHIPPING
 #include <iostream>
 #endif

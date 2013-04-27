@@ -32,8 +32,8 @@
 #include "UsineNoeud.h"
 #include "VisiteurSelection.h"
 #include "RazerGameUtilities.h"
-#include "JoueurVirtuel.h"
-#include "JoueurHumain.h"
+#include "PlayerComputer.h"
+#include "PlayerHuman.h"
 #include "RazerGameTypeDef.h"
 #include "VisiteurModifierProprieteNoeud.h"
 #include "SoundFMOD.h"
@@ -573,12 +573,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_JoueurAbstrait_envoyerJNI (JN
 
 	if(type == JOUEUR_VIRTUEL)
 	{
-		SPJoueurAbstrait joueurVirtuel = SPJoueurAbstrait(new JoueurVirtuel(env, joueur));
+		SPJoueurAbstrait joueurVirtuel = SPJoueurAbstrait(new PlayerComputer(env, joueur));
 		FacadeModele::getInstance()->modifierAdversaire(joueurVirtuel);
 	}
 	else if(type == JOUEUR_HUMAIN)
 	{
-		SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new JoueurHumain(env, joueur));
+		SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new PlayerHuman(env, joueur));
 		FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
 	}
 }
@@ -622,7 +622,7 @@ JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obten
 
 	if(joueur->obtenirType()==JOUEUR_VIRTUEL)//Check de joueur virtuel
 	{
-		SPJoueurVirtuel joueurVirtuel = dynamic_pointer_cast<JoueurVirtuel>(joueur);
+		SPJoueurVirtuel joueurVirtuel = dynamic_pointer_cast<PlayerComputer>(joueur);
 		jint vitesse = (jint)(joueurVirtuel->obtenirVitesse()/500.0*100.0);
 		jint probEchec = joueurVirtuel->obtenirProbabiliteEchec();	
 
@@ -664,12 +664,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_ajouterJ
 
 	if(type == 0)
 	{
-		SPJoueurAbstrait joueurHumain(new JoueurHumain(env, joueur));
+		SPJoueurAbstrait joueurHumain(new PlayerHuman(env, joueur));
 		FacadeModele::getInstance()->ajouterJoueur(joueurHumain);
 	}
 	else
 	{
-		SPJoueurAbstrait joueurVirtuel(new JoueurVirtuel(env, joueur));
+		SPJoueurAbstrait joueurVirtuel(new PlayerComputer(env, joueur));
 		FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 	}
 }
@@ -918,7 +918,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 
 		// Allocation dynamique selon le type du joueur
 		if(typeDuJoueur == 0)
-			joueurs.push_back(SPJoueurAbstrait(new JoueurHumain(env, joueur) ) );
+			joueurs.push_back(SPJoueurAbstrait(new PlayerHuman(env, joueur) ) );
 		else
 		{	
 			// Obtention du nom
@@ -931,7 +931,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 				joueurs.push_back(jv);
 			}
 			else
-				joueurs.push_back(SPJoueurAbstrait(new JoueurVirtuel(env, joueur) ) );
+				joueurs.push_back(SPJoueurAbstrait(new PlayerComputer(env, joueur) ) );
 		}
 	}
 	// Obtenir le terrain du tournoi

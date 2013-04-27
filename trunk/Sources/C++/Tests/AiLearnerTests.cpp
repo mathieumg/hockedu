@@ -11,9 +11,9 @@
 #include "AiLearnerTests.h"
 #include "Renforcement\AILearner.h"
 #include <stdlib.h>
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include "GameManager.h"
-#include "JoueurHumain.h"
+#include "PlayerHuman.h"
 #include "PartieApprentissage.h"
 #include "Terrain.h"
 #include <iosfwd>

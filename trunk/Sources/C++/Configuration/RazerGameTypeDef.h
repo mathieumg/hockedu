@@ -17,12 +17,12 @@
 #include <string>
 #include <memory>
 
-class JoueurAbstrait;
-class JoueurVirtuel;
-class JoueurVirtuelRenforcement;
-class JoueurHumain;
-class JoueurNetwork;
-class JoueurNetworkServeur;
+class PlayerAbstract;
+class PlayerComputer;
+class PlayerReinforcementAI;
+class PlayerHuman;
+class PlayerNetwork;
+class PlayerNetworkServer;
 class NoeudAbstrait;
 
 /////////////////////////////////////////////////////////////////////////////
@@ -30,21 +30,21 @@ class NoeudAbstrait;
 /////////////////////////////////////////////////////////////////////////////
 #if WIN32
 
-typedef std::shared_ptr<JoueurAbstrait> SPJoueurAbstrait;
-typedef std::shared_ptr<JoueurVirtuel> SPJoueurVirtuel;
-typedef std::shared_ptr<JoueurVirtuelRenforcement> SPJoueurVirtuelRenforcement;
-typedef std::shared_ptr<JoueurHumain> SPJoueurHumain;
-typedef std::shared_ptr<JoueurNetwork> SPJoueurNetwork;
-typedef std::shared_ptr<JoueurNetworkServeur> SPJoueurNetworkServeur;
+typedef std::shared_ptr<PlayerAbstract> SPJoueurAbstrait;
+typedef std::shared_ptr<PlayerComputer> SPJoueurVirtuel;
+typedef std::shared_ptr<PlayerReinforcementAI> SPJoueurVirtuelRenforcement;
+typedef std::shared_ptr<PlayerHuman> SPJoueurHumain;
+typedef std::shared_ptr<PlayerNetwork> SPJoueurNetwork;
+typedef std::shared_ptr<PlayerNetworkServer> SPJoueurNetworkServeur;
 
 #else
 
-typedef JoueurAbstrait* SPJoueurAbstrait;
-typedef JoueurVirtuel* SPJoueurVirtuel;
-typedef JoueurVirtuelRenforcement* SPJoueurVirtuelRenforcement;
-typedef JoueurHumain* SPJoueurHumain;
-typedef JoueurNetwork* SPJoueurNetwork;
-typedef JoueurNetworkServeur* SPJoueurNetworkServeur;
+typedef PlayerAbstract* SPJoueurAbstrait;
+typedef PlayerComputer* SPJoueurVirtuel;
+typedef PlayerReinforcementAI* SPJoueurVirtuelRenforcement;
+typedef PlayerHuman* SPJoueurHumain;
+typedef PlayerNetwork* SPJoueurNetwork;
+typedef PlayerNetworkServer* SPJoueurNetworkServeur;
 
 #endif
 

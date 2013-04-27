@@ -16,7 +16,7 @@
 #include "RazerGameTree.h"
 #include "Renforcement/AIMailletRenforcement.h"
 #include "Partie.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 ///////////////////////////////////////////////////////////////////////////
 /// @class AIRenforcementTest
 /// @brief Classe de test cppunit pour tester le bon fonctionnement des

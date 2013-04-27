@@ -1,9 +1,9 @@
 #include "PartieApprentissage.h"
 #include "..\Arbre\Terrain.h"
 #include "..\Arbre\Noeuds\NoeudRondelle.h"
-#include "JoueurAbstrait.h"
+#include "PlayerAbstract.h"
 #include <iostream>
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include "..\Arbre\Noeuds\NoeudMaillet.h"
 #include <memory>
 #include "RazerGameTypeDef.h"
@@ -28,11 +28,11 @@ PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,S
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
-        mLeftLearningAi = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurGauche);
+        mLeftLearningAi = std::dynamic_pointer_cast<PlayerReinforcementAI>(joueurGauche);
     }
     else if(joueurDroit->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
-        mRightLearningAi = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(joueurDroit);
+        mRightLearningAi = std::dynamic_pointer_cast<PlayerReinforcementAI>(joueurDroit);
     }
     std::vector<GameUpdateCallback> wCallbacks;
     wCallbacks.push_back(CallbackGameApprentissageStatusUpdate);

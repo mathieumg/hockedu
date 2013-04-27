@@ -18,7 +18,7 @@
 #include "GestionnaireEtatAbstrait.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 
 #include "Vue.h"
 #include "Projection.h"
@@ -66,7 +66,7 @@ GestionnaireEtatAbstrait()
 
     for(int i=0; i<2; ++i)
     {
-        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new JoueurVirtuel("Left Player",225,50)),SPJoueurAbstrait(new JoueurVirtuel("Joueur Droit",225,50)));
+        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new PlayerComputer("Left Player",225,50)),SPJoueurAbstrait(new PlayerComputer("Joueur Droit",225,50)));
         auto pointeurPartie = GameManager::obtenirInstance()->getGame(partieCourante);
         if(i==0)
         {

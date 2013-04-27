@@ -12,7 +12,7 @@
 #include "..\Reseau\Paquets\PaquetMaillet.h"
 #include "..\Reseau\GestionnaireReseau.h"
 #include "RazerGameTypeDef.h"
-#include "JoueurAbstrait.h"
+#include "PlayerAbstract.h"
 #include "NoeudMaillet.h"
 #include "NoeudRondelle.h"
 #include "Partie.h"

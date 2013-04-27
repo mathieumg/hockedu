@@ -1,38 +1,38 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file JoueurNetwork.cpp
-/// @author Mahtieu Parent
-/// @date 2013-03-13
+/// @file JoueurHumain.cpp
+/// @author Vincent Lemire
+/// @date 2012-02-17
 /// @version 1.0
 ///
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "JoueurNetwork.h"
+#include "PlayerHuman.h"
 #include "RazerGameUtilities.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn JoueurNetwork::JoueurNetwork(std::string nom)
+/// @fn JoueurHumain::JoueurHumain(std::string nom)
 ///
-/// Constructeur qui initialisela le joueur network.
+/// Constructeur qui initialisela le joueur humain.
 ///
 /// @param[in] nom : le nom du joueur
 ///
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurNetwork::JoueurNetwork(std::string nom) : JoueurAbstrait(nom)
+PlayerHuman::PlayerHuman(std::string nom) : PlayerAbstract(nom)
 {
-	type_ = JOUEUR_NETWORK;
+	type_ = JOUEUR_HUMAIN;
 }
 
 #if WITH_JAVA  
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain )
+/// @fn JoueurHumain::JoueurHumain( JNIEnv* env, jobject& joueurHumain )
 ///
-/// Constructeur qui initialisela le joueur network à partir d'un objet Java.
+/// Constructeur qui initialisela le joueur virtuel à partir d'un objet Java.
 ///
 /// @param[in] env : l'environnement Java.
 /// @param[in] joueurHumain : un joueur humain précédement déclaré en Java
@@ -40,11 +40,8 @@ JoueurNetwork::JoueurNetwork(std::string nom) : JoueurAbstrait(nom)
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstrait("")
+PlayerHuman::PlayerHuman( JNIEnv* env, jobject& joueurHumain ) : PlayerAbstract("")
 {
-    // NE DEVRAIT PAS ETRE UTILISE
-
-
 	// Obtention de la classe
 	jclass classe = env->GetObjectClass(joueurHumain);
 
@@ -54,28 +51,28 @@ JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain ) : JoueurAbstr
 
 	// Modification des attributs
 	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
-	type_ = JOUEUR_NETWORK;
+	type_ = JOUEUR_HUMAIN;
 
 }
 #endif //WITH_JAVA  
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn JoueurNetwork::~JoueurNetwork( )
+/// @fn JoueurHumain::~JoueurHumain( )
 ///
 /// Destructeur
 ///
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-JoueurNetwork::~JoueurNetwork( void )
+PlayerHuman::~PlayerHuman( void )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn XmlElement* JoueurNetwork::creerNoeudXML()
+/// @fn XmlElement* JoueurHumain::creerNoeudXML()
 ///
 /// Creation du noeud XML du joueur
 ///
@@ -83,18 +80,18 @@ JoueurNetwork::~JoueurNetwork( void )
 /// @return XmlElement* le noeud XMl du joueur
 ///
 ////////////////////////////////////////////////////////////////////////
-XmlElement* JoueurNetwork::creerNoeudXML() const
+XmlElement* PlayerHuman::creerNoeudXML() const
 {
-	XmlElement* elementNoeud = JoueurAbstrait::creerNoeudXML();
+	XmlElement* elementNoeud = PlayerAbstract::creerNoeudXML();
 	
-	XMLUtils::writeAttribute<int>(elementNoeud,JoueurAbstrait::etiquetteType.c_str(),type_);
+	XMLUtils::writeAttribute<int>(elementNoeud,PlayerAbstract::etiquetteType.c_str(),type_);
 	
 	return elementNoeud;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool JoueurNetwork::initialiser( const XmlElement* element )
+/// @fn bool JoueurHumain::initialiser( const XmlElement* element )
 ///
 /// Initialisaiton du joueur à partir d'un element XML
 ///
@@ -103,18 +100,18 @@ XmlElement* JoueurNetwork::creerNoeudXML() const
 /// @return bool Vrai si l'initialisation à bien été faite
 ///
 ////////////////////////////////////////////////////////////////////////
-bool JoueurNetwork::initialiser( const XmlElement* element )
+bool PlayerHuman::initialiser( const XmlElement* element )
 {
-	if(!JoueurAbstrait::initialiser(element))
+	if(!PlayerAbstract::initialiser(element))
 		return false;
-	type_ = JOUEUR_NETWORK;
+	type_ = JOUEUR_HUMAIN;
 
 	return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void JoueurNetwork::genererAleatoirement()
+/// @fn void JoueurHumain::genererAleatoirement()
 ///
 /// Permet de generer des informations aleatoire pour un joueur,
 /// utile si on a besoin d'un joueur, mais probleme rencontré a son chargement
@@ -122,9 +119,9 @@ bool JoueurNetwork::initialiser( const XmlElement* element )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void JoueurNetwork::genererAleatoirement()
+void PlayerHuman::genererAleatoirement()
 {
-	modifierNom("Joueur Network Aleatoire");
+	modifierNom("Joueur Humain Aleatoire");
 }
 
 ///////////////////////////////////////////////////////////////////////////////

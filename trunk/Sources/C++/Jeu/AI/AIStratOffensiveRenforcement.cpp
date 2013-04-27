@@ -3,7 +3,7 @@
 #include "Terrain.h"
 #include "NoeudRondelle.h"
 #include "AIMaillet.h"
-#include "JoueurVirtuel.h"
+#include "PlayerComputer.h"
 #include "Renforcement\AIMailletRenforcement.h"
 #include "Vecteur.h"
 #include <iostream>
@@ -11,7 +11,7 @@
 #include "Animation.h"
 #include "GestionnaireAnimations.h"
 #include "RazerGameTypeDef.h"
-#include "JoueurVirtuelRenforcement.h"
+#include "PlayerReinforcementAI.h"
 #include "PartieApprentissage.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -71,7 +71,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         return Vecteur2(); // On doit return car on vient d'etre delete
     }
 
-    SPJoueurVirtuelRenforcement joueurVirtuel = std::dynamic_pointer_cast<JoueurVirtuelRenforcement>(maillet->obtenirJoueur());
+    SPJoueurVirtuelRenforcement joueurVirtuel = std::dynamic_pointer_cast<PlayerReinforcementAI>(maillet->obtenirJoueur());
     checkf(joueurVirtuel);
 	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 

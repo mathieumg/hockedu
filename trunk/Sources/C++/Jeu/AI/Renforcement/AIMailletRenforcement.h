@@ -23,7 +23,7 @@ class AIMailletRenforcement : public AIMaillet
 {
 public:
 	/// Constructeur
-	AIMailletRenforcement(JoueurVirtuel* pJoueur);
+	AIMailletRenforcement(PlayerComputer* pJoueur);
 	/// Destructeur
 	virtual ~AIMailletRenforcement();
 	/// Évaluation de la stratégie à utiliser
