@@ -1189,10 +1189,12 @@ GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const 
             for (unsigned int k=0; k<face->mNumIndices; k++)
             {
                 int indexVertex = face->mIndices[k];
-                Vecteur3i positionVertex((int)floorf(mesh->mVertices[indexVertex].x+0.5f), (int)floorf(mesh->mVertices[indexVertex].y+0.5f), (int)floorf(mesh->mVertices[indexVertex].z+0.5f));
+				Vecteur3i positionVertex((int)floorf(mesh->mVertices[indexVertex].x+0.5f), (int)floorf(mesh->mVertices[indexVertex].y+0.5f), (int)floorf(mesh->mVertices[indexVertex].z+0.5f));
                 for(int l=0; l<listePoints.size(); l++)
                 {
-                    if(positionVertex==listePoints[l])
+					// 25 because 5^2 and giving a tolerence of 5 pixel to find the right vertex
+					unsigned int diff = (listePoints[l]-positionVertex).norme2()+25;
+                    if(diff < 50)
                     {
                         retour.insert(Vecteur3pf(&(mesh->mVertices[indexVertex].x), &(mesh->mVertices[indexVertex].y), &(mesh->mVertices[indexVertex].z)));
                     }
