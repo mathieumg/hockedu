@@ -80,8 +80,8 @@
 
 #define TransmitEvent(e) if(!IsGameField()) EditionEventManager::TransmitEvent(e)
 
-const unsigned int MAX_PUCKS = 1;
-const unsigned int MAX_MALLETS = 2;
+const unsigned int MAX_PUCKS = EditionEventManager::mEditionLimitPucks;
+const unsigned int MAX_MALLETS = EditionEventManager::mEditionLimitMallet;
 
 #if MIKE_DEBUG_
 PRAGMA_DISABLE_OPTIMIZATION

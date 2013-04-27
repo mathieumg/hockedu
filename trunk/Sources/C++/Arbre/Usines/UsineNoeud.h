@@ -11,6 +11,7 @@
 #define __ARBRE_USINES_USINENOEUD_H__
 
 #include <string>
+#include "EditionEventManager.h"
 
 class NoeudAbstrait;
 
@@ -94,8 +95,8 @@ DEFAULT_NODE_FACTORY_DECLARATION(NodeWallEdition);
 DEFAULT_NODE_FACTORY_DECLARATION(NodeControlPoint);
 DEFAULT_NODE_FACTORY_DECLARATION(NodePolygone);
 DEFAULT_NODE_FACTORY_DECLARATION(NodeBonus);
-NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudMaillet,2);
-NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudRondelle,1);
+NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudMaillet,EditionEventManager::mEditionLimitMallet);
+NODE_FACTORY_WITH_LIMIT_DECLARATION(NoeudRondelle,EditionEventManager::mEditionLimitPucks);
 
 
 #endif // __ARBRE_USINES_USINENOEUD_H__

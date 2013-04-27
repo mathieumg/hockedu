@@ -57,7 +57,8 @@ bool BonusModifierAbstract::AttachToLastHittingMallet( NoeudRondelle* pPuck )
 ////////////////////////////////////////////////////////////////////////
 bool BonusModifierAbstract::AttachToOpposingMallet( NoeudRondelle* pPuck )
 {
-    if(pPuck)
+	/// TODO::Review function, might be invalidated!!!
+	if(pPuck)
     {
         auto field = pPuck->getField();
         if(field)
