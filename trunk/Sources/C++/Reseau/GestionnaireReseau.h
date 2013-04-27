@@ -40,6 +40,7 @@
 
 class PacketHandler;
 class UsinePaquet;
+struct _ENetHost;
 // Typedef pour la liste de sockets
 typedef std::map<std::pair<std::string, ConnectionType>, SPSocket> ListeSockets;
 
@@ -87,10 +88,13 @@ public:
 
     // Initialise le GestionnaireReseau
     void initClient(const std::string& pUsername = "", const std::string& pPassword = "");
-    // Initialise le GestionnaireReseau avec des fonctionnalites de serveur (listen de ports, etc.)
+    /// Initialise le GestionnaireReseau avec des fonctionnalites communes des serveurs (listen de ports, etc.)
+	/// must be called from initGameServer and  initMasterServer
     void initServer();
-    // Initialise le GestionnaireReseau pour des GameServers
-    void initGameServer();
+    /// Initialise le GestionnaireReseau pour des GameServers
+	void initGameServer();
+	/// Initialise le GestionnaireReseau pour des MasterServers
+	void initMasterServer();
 
     void setUser(const std::string& pUsername, const std::string& pPassword);
 
@@ -247,7 +251,7 @@ private:
     // Mutex pour la gestion de la liste des sockets (doit etre acquis si on modifie la liste de sockets)
     HANDLE_MUTEX mMutexListeSockets;
 
-
+	_ENetHost * mServerHost, *mClientHost;
 
 	SocketConnectionStateCallback mSocketStateCallback;
 

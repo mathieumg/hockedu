@@ -150,7 +150,7 @@ void ControllerServeurMaitre::handleDisconnectDetection(SPSocket pSocket)
         {
         	GameServerManager::obtenirInstance()->removeGameServer(wServerId);
         }
-        catch (ExceptionReseau& e)
+        catch (ExceptionReseau&)
         {
             NETWORK_LOG("Couldn't find server id : %d from server : %s", wServerId, wSocketIdentifier.ToCString());
         }

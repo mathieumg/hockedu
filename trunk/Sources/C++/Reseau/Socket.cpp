@@ -614,7 +614,7 @@ ConnectionState Socket::initClient()
 /// @fn bool Socket::initServer(  )
 ///
 /// Initialise la connection d'un socket de serveur
-///
+/// NOT USED !
 ///
 /// @return bool : indique si le comportement de la connection est normal
 ///                vrai si le processus de connection doit continuer

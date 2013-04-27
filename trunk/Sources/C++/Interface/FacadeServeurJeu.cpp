@@ -31,28 +31,7 @@ void InitDLLServeurJeu()
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
 
     wGestionnaireReseau->setController(new ControllerServeurJeu);
-    if(!ControllerServeurJeu::isLocalServer())
-    {
-        wGestionnaireReseau->initGameServer();
-    }
-    else
-    {
-        wGestionnaireReseau->initServer();
-    }
-    
-
-    // On doit ajouter une nouvelle operation reseau pour que le systeme le connaisse (1 par type de paquet)
-
-
-
-
-
-
-
-
-
-
-
+    wGestionnaireReseau->initGameServer();
 
     // Initialise la Facade Serveur Jeu (demarre la boucle de tick)
     FacadeServeurJeu::getInstance();
@@ -61,20 +40,17 @@ void InitDLLServeurJeu()
 
 void ConnectMasterServer(const std::string& wMasterServerIP)
 {
-    if(!ControllerServeurJeu::isLocalServer())
-    {
-        GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
-        wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
+    GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
+    wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 
-        PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-        wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
-        wPaquet->setMessage("");
+    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
+    wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
+    wPaquet->setMessage("");
 
-        SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
-        wSocketMasterServer->setOnConnectionCallback([wGestionnaireReseau, wPaquet]()->void {
-            wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
-        });
-    }
+    SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
+    wSocketMasterServer->setOnConnectionCallback([wGestionnaireReseau, wPaquet]()->void {
+        wGestionnaireReseau->envoyerPaquet("MasterServer", wPaquet, TCP);
+    });
 }
 void CleanUp()
 {

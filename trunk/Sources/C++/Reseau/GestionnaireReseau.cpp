@@ -30,6 +30,8 @@
 #include <utility>
 #include "Paquets/Paquet.h"
 #include "Paquets/PaquetEvent.h"
+
+///Enet not yet used, only for initialisation of winsock so far.
 #include "enet/enet.h"
 
 #ifdef WINDOWS
@@ -129,7 +131,9 @@ void PacketRecvlogSetup()
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireReseau::GestionnaireReseau(): mSocketStateCallback(NULL), mControlleur(NULL)
+GestionnaireReseau::GestionnaireReseau(): 
+	mSocketStateCallback(NULL), mControlleur(NULL),
+	mServerHost(NULL),mClientHost(NULL)
 {
     mCommunicateurReseau = new CommunicateurReseau();
     determineNativeByteOrder();
@@ -161,6 +165,16 @@ GestionnaireReseau::~GestionnaireReseau()
 // #ifdef WINDOWS
 //     WSACleanup();
 // #endif
+	if(mClientHost)
+	{
+		enet_host_destroy(mClientHost);
+	}
+	if(mServerHost)
+	{
+		enet_host_destroy(mServerHost);
+	}
+	mServerHost = NULL;
+	mClientHost = NULL;
 	enet_deinitialize();
 
 }
@@ -795,7 +809,7 @@ void GestionnaireReseau::PacketSendToLog( const char* pMessage , int length )
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
     if(!PacketSentLogHandle.fail())
     {
-        unsigned int t = time(0); // trunk it
+        unsigned int t = (unsigned int)time(0); // trunk it
         PacketSentLogHandle.write((const char*)&t,4);
         PacketSentLogHandle.put(1);  //sending packet token
         PacketSentLogHandle.write(pMessage,length);
@@ -821,7 +835,7 @@ void GestionnaireReseau::PacketReceivedToLog( const char* pMessage, int length )
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
     if(!PacketRecvLogHandle.fail())
     {
-        unsigned int t = time(0); // trunk it
+        unsigned int t = (unsigned int)time(0); // trunk it
         PacketRecvLogHandle.write((const char*)&t,4);
         PacketRecvLogHandle.put(0); //receiving packet token
         PacketRecvLogHandle.write(pMessage,length);
@@ -1081,8 +1095,30 @@ void GestionnaireReseau::initServer()
 
     // Demarrer le thread de connexion TCP
     mCommunicateurReseau->demarrerThreadsConnectionServeur();
+}
 
-    // Demarrer Thread connexion automatique
+void GestionnaireReseau::initMasterServer()
+{
+	initServer();
+
+	ENetAddress address;
+	/* Bind the server to the default localhost.     */
+	/* A specific host address can be specified by   */
+	/* enet_address_set_host (& address, "x.x.x.x"); */
+	address.host = ENET_HOST_ANY;
+	/* Bind the server to port 1234. */
+	address.port = communicationPortMasterServer;
+	mServerHost = enet_host_create (& address /* the address to bind the server host to */, 
+		32      /* allow up to 32 clients and/or outgoing connections */,
+		1      /* allow up to 2 channels to be used, 0 and 1 */,
+		0      /* assume any amount of incoming bandwidth */,
+		0      /* assume any amount of outgoing bandwidth */);
+	if (mServerHost == NULL)
+	{
+		/// exception not caught because the application has to crash if this fails
+		throw ExceptionReseau("An error occurred while trying to create an ENet server host for the master server.");
+	}
+
 }
 
 void GestionnaireReseau::initGameServer()
@@ -1092,6 +1128,46 @@ void GestionnaireReseau::initGameServer()
     initServer();
     // Demarre les threads de reception UDP (pour serveur et client)
     mCommunicateurReseau->demarrerThreadsReceptionUDPServeurJeu();
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Setup the server as a host to receive connection from game client
+	ENetAddress address;
+	/* Bind the server to the default localhost.     */
+	/* A specific host address can be specified by   */
+	/* enet_address_set_host (& address, "x.x.x.x"); */
+	address.host = ENET_HOST_ANY;
+	/* Bind the server to port. */
+	address.port = communicationPort;
+	mServerHost = enet_host_create (& address /* the address to bind the server host to */, 
+		2      /* allow up to 32 clients and/or outgoing connections */,
+		1      /* allow up to 2 channels to be used, 0 and 1 */,
+		0      /* assume any amount of incoming bandwidth */,
+		0      /* assume any amount of outgoing bandwidth */);
+	if (mServerHost == NULL)
+	{
+		/// exception not caught because the application has to crash if this fails
+		throw ExceptionReseau("An error occurred while trying to create an ENet server host for the game server.");
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+	/// Setup the server as a host to receive connection from game client
+	/* Bind the server to the default localhost.     */
+	/* A specific host address can be specified by   */
+	/* enet_address_set_host (& address, "x.x.x.x"); */
+	mClientHost = enet_host_create (NULL /* the address to bind the server host to */, 
+		1      /* allow up to 32 clients and/or outgoing connections */,
+		1      /* allow up to 2 channels to be used, 0 and 1 */,
+		0      /* assume any amount of incoming bandwidth */,
+		0      /* assume any amount of outgoing bandwidth */);
+	if (mClientHost == NULL)
+	{
+		/// exception not caught because the application has to crash if this fails
+		throw ExceptionReseau("An error occurred while trying to create an ENet client host for the game server.");
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////
+
 }
 
 void GestionnaireReseau::demarrerConnectionThread( SPSocket pSocket )
@@ -1151,6 +1227,8 @@ bool GestionnaireReseau::isAGameServerConnected() const
     }
     return false;
 }
+
+
 
 
 

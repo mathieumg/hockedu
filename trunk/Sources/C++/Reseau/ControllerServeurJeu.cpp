@@ -15,10 +15,6 @@
 #include <iostream>
 #endif
 
-
-bool ControllerServeurJeu::mIsLocalServer = false;
-
-
 int CallbackGameEndedServeurJeu(int pGameId, GameStatus pNewGameStatus)
 {
     if(pNewGameStatus == GAME_ENDED)

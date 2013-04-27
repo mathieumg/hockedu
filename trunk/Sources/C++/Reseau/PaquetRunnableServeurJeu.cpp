@@ -283,16 +283,8 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
         wPaquet->setGameId(-2);
     }
 
-    // If not local server -> Reply to Master Server.
-    if(!ControllerServeurJeu::isLocalServer())
-    {
-        wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
-    }
-    else // Otherwise, the user is already connected to the server, so we reply directly to him.
-    {
-        GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPaquet->getUsername(), wPaquet, TCP);
-    }
+    wPaquet->setServerId(((ControllerServeurJeu*)GestionnaireReseau::obtenirInstance()->getController())->getServerId());
+    GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 
     return 0;
 }
