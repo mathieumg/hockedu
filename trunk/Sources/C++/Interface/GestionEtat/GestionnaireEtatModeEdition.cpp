@@ -209,38 +209,7 @@ void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evene
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-    int tempsMs = (int)(deltaTemps*1000);
-    switch(toucheSauvegardee_)
-    {
-    case VJAK_UP:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
-        break;
-    case VJAK_DOWN:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
-        break;
-    case VJAK_LEFT:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
-        break;
-    case VJAK_RIGHT:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
-        break;
-    case VJAK_ADD:
-    case VJAK_PLUS:
-        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-        // -1 indique que c'est un zoomIn
-        FacadeModele::getInstance()->zoom(-tempsMs);
-        break;
-
-    case VJAK_SUBTRACT:
-    case VJAK_MINUS:
-        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-        // 1 indique que c'est un zoomOut
-        FacadeModele::getInstance()->zoom(tempsMs);
-        break;
-    
-    default:
-        break;
-    }
+	GestionnaireEtatAbstrait::CameraMovementFromKeyPressed(deltaTemps);
 }
 
 ////////////////////////////////////////////////////////////////////////

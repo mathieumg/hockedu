@@ -160,6 +160,6 @@ void BonusModifierAbstract::Init( NodeBonus* creator )
             return;
         }
     }
-    mBeginTime = clock()/CLOCKS_PER_SEC;
+    mBeginTime = (float)clock()/(float)CLOCKS_PER_SEC;
     #endif
 }

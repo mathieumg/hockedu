@@ -65,13 +65,13 @@ public:
     // Si les 2 parametres sont nulles, une partie AI contre AI sera cree
     // Si un seul parametre est utilise, une partie contre l'adversaire sera cree
     // Dans le cas ou l'adversaire n'a pas ete modifie, on joue contre un joueur humain
-    int addNewGame(GameType gametype, int pNbButsGagnants, SPJoueurAbstrait pJoueur1 = 0, SPJoueurAbstrait pJoueur2 = 0, bool pForceParameters = false, bool pIsLearningGame=false, int pGameId = -1);
+    int addNewGame(GameType gametype, int pNbButsGagnants, SPPlayerAbstract pJoueur1 = 0, SPPlayerAbstract pJoueur2 = 0, bool pForceParameters = false, bool pIsLearningGame=false, int pGameId = -1);
 
 	// Methodes pour sauvegarder des fonctions de callback qui seront appelees lors d'ajout de parties ou lors de la modification des parties
    // ATTENTION, le updateCallback utilise pour une partie depend uniquement de celui defini a la creation de la partie. Une modification n'a pas d'impact sur les parties deja crees
     inline void addGameUpdateCallback(GameUpdateCallback pCallback) {mGameUpdatedCallbacks.push_back(pCallback);}
 
-	inline void setAdversaire(SPJoueurAbstrait val) {mAdversaire = val;}
+	inline void setAdversaire(SPPlayerAbstract val) {mAdversaire = val;}
 private:
     
 
@@ -92,7 +92,7 @@ private:
 	void addGame(Partie* pGame);
 
 	// Adversaire a utiliser pour la creation de partie (ATTENTION, une fois la partie lancee, l'adversaire est reinitialise)
-	SPJoueurAbstrait mAdversaire;
+	SPPlayerAbstract mAdversaire;
 	
     static int uniqueIdCount;
 

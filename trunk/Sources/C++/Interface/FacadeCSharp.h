@@ -6,7 +6,7 @@
 #include <ctime>
 #include "FacadeModele.h"
 #include "Vue.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "RepartiteurActions.h"
 #include "GestionnaireReseauClientLourd.h"
 #include "PaquetHandlers\PacketHandler.h"

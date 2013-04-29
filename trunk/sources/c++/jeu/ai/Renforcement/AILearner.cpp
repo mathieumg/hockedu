@@ -11,7 +11,7 @@
 #include "AILearner.h"
 #include "DirectoySearch.h"
 #include <map>
-#include "JoueurAbstrait.h"
+#include "PlayerAbstract.h"
 #include <sstream>
 
 int AILearner::mStepVelocite = 5;//20

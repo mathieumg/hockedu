@@ -30,21 +30,21 @@ class NoeudAbstrait;
 /////////////////////////////////////////////////////////////////////////////
 #if WIN32
 
-typedef std::shared_ptr<PlayerAbstract> SPJoueurAbstrait;
-typedef std::shared_ptr<PlayerComputer> SPJoueurVirtuel;
-typedef std::shared_ptr<PlayerReinforcementAI> SPJoueurVirtuelRenforcement;
-typedef std::shared_ptr<PlayerHuman> SPJoueurHumain;
-typedef std::shared_ptr<PlayerNetwork> SPJoueurNetwork;
-typedef std::shared_ptr<PlayerNetworkServer> SPJoueurNetworkServeur;
+typedef std::shared_ptr<PlayerAbstract> SPPlayerAbstract;
+typedef std::shared_ptr<PlayerComputer> SPPlayerComputer;
+typedef std::shared_ptr<PlayerReinforcementAI> SPPlayerReinforcementAI;
+typedef std::shared_ptr<PlayerHuman> SPPlayerHuman;
+typedef std::shared_ptr<PlayerNetwork> SPPlayerNetwork;
+typedef std::shared_ptr<PlayerNetworkServer> SPPlayerNetworkServer;
 
 #else
 
-typedef PlayerAbstract* SPJoueurAbstrait;
-typedef PlayerComputer* SPJoueurVirtuel;
-typedef PlayerReinforcementAI* SPJoueurVirtuelRenforcement;
-typedef PlayerHuman* SPJoueurHumain;
-typedef PlayerNetwork* SPJoueurNetwork;
-typedef PlayerNetworkServer* SPJoueurNetworkServeur;
+typedef PlayerAbstract* SPPlayerAbstract;
+typedef PlayerComputer* SPPlayerComputer;
+typedef PlayerReinforcementAI* SPPlayerReinforcementAI;
+typedef PlayerHuman* SPPlayerHuman;
+typedef PlayerNetwork* SPPlayerNetwork;
+typedef PlayerNetworkServer* SPPlayerNetworkServer;
 
 #endif
 
@@ -52,9 +52,9 @@ typedef PlayerNetworkServer* SPJoueurNetworkServeur;
 /// Pointeur Intelligent sur les Joueurs
 
 /// Typedef pour le conteneur des joueurs participant à un tournoi
-typedef std::vector<SPJoueurAbstrait> JoueursParticipant;
+typedef std::vector<SPPlayerAbstract> JoueursParticipant;
 /// Typedef pour le conteneurdes joueurs existant
-typedef std::map<std::string,SPJoueurAbstrait> ConteneurJoueur;
+typedef std::map<std::string,SPPlayerAbstract> ConteneurJoueur;
 /// Typedef pour le conteneur des noms des joueurs triés en ordre alphabétique
 typedef std::set<std::string> ConteneurJoueursTries;
 /// Conteneur pour les Noeud.

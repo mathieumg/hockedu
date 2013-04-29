@@ -101,24 +101,6 @@ bool PlayerReinforcementAI::initialiser( const XmlElement* element )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void JoueurVirtuelRenforcement::genererAleatoirement()
-///
-/// Permet de generer des informations aleatoire pour un joueur,
-/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PlayerReinforcementAI::genererAleatoirement()
-{
-    checkf(0, "Ne pas generer des joueurs virtuels avec apprentissage par renforcement aleatoirement")
-	modifierNom("Joueur Virtuel Aleatoire");
-	modifierVitesse(rand()%100);
-	modifierProbabiliteEchec(rand()%100);
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn Vecteur2 JoueurVirtuelRenforcement::obtenirDirectionAI( NoeudMaillet* maillet )
 ///
 /// Permet de savoir la nouvelle direction du maillet du JV selon AIMaillet
@@ -378,6 +360,20 @@ void PlayerReinforcementAI::gameInit()
 {
     setIsLearning(false);
     setupFinished();
+}
+
+void PlayerReinforcementAI::PlayTick( float time )
+{
+	auto maillet = getControlingMallet();
+	if(maillet)
+	{
+		auto newPos = obtenirDirectionAI(maillet);
+		if(!newPos.estNul())
+		{
+			newPos += maillet->getPosition();
+			maillet->setTargetDestination(newPos,true);
+		}
+	}
 }
 
 

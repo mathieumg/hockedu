@@ -627,6 +627,7 @@ void NoeudMaillet::destroyMouseJoint()
 void NoeudMaillet::playTick(float temps)
 {
     Super::playTick(temps);
+	return;
 #if BOX2D_PLAY  
     if(joueur_)
     {
@@ -649,7 +650,7 @@ void NoeudMaillet::playTick(float temps)
             break;
         case JOUEUR_VIRTUEL_RENFORCEMENT: 
             {
-                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
+                SPPlayerComputer wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
                 if(mTargetDestination.norme() == 0)
                 {
@@ -659,7 +660,7 @@ void NoeudMaillet::playTick(float temps)
             }
         case JOUEUR_VIRTUEL:
             {
-                SPJoueurVirtuel wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
+                SPPlayerComputer wJoueur = std::dynamic_pointer_cast<PlayerComputer>(joueur_);
                 mTargetDestination = wJoueur->obtenirDirectionAI(this);
                 mTargetDestination += getPosition();
             }

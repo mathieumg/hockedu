@@ -66,7 +66,7 @@ GestionnaireEtatAbstrait()
 
     for(int i=0; i<2; ++i)
     {
-        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new PlayerComputer("Left Player",225,50)),SPJoueurAbstrait(new PlayerComputer("Joueur Droit",225,50)));
+        int partieCourante = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPPlayerAbstract(new PlayerComputer("Left Player",225,50)),SPPlayerAbstract(new PlayerComputer("Joueur Droit",225,50)));
         auto pointeurPartie = GameManager::obtenirInstance()->getGame(partieCourante);
         if(i==0)
         {
@@ -298,40 +298,7 @@ void GestionnaireEtatModeSimulation::afficher()
 
 void GestionnaireEtatModeSimulation::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-// 	int tempsMs = (int)deltaTemps*1000;
-// 
-// 	// VERIF ETAT SOURIS
-// 	switch(toucheSauvegardee_)
-// 	{
-// 	case VJAK_UP:
-// 		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
-// 		break;
-// 	case VJAK_DOWN:
-// 		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
-// 		break;
-// 	case VJAK_LEFT:
-// 		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
-// 		break;
-// 	case VJAK_RIGHT:
-// 		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
-// 		break;
-// 	case VJAK_ADD:
-// 	case VJAK_PLUS:
-// 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-// 		// -1 indique que c'est un zoomIn
-// 		FacadeModele::getInstance()->zoom(-tempsMs);
-// 		break;
-// 
-// 	case VJAK_SUBTRACT:
-// 	case VJAK_MINUS:
-// 		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-// 		// 1 indique que c'est un zoomOut
-// 		FacadeModele::getInstance()->zoom(tempsMs);
-// 		break;
-// 
-// 	default:
-// 		break;
-// 	}
+
 }
 
 

@@ -22,7 +22,7 @@
 #include "..\Reseau\RelayeurMessage.h"
 
 
-PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2 )
+PartieSyncer::PartieSyncer( int pGameId, clock_t pFrequencyPerSec, SPPlayerAbstract pPlayer1, SPPlayerAbstract pPlayer2 )
 {
     mLastTick = clock();
     mInterval = 1000/pFrequencyPerSec; // Arrondi au ms pres
@@ -162,7 +162,7 @@ void PartieSyncer::tick()
 
 
 
-void PartieSyncer::setPlayers( SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2 )
+void PartieSyncer::setPlayers( SPPlayerAbstract pPlayer1, SPPlayerAbstract pPlayer2 )
 {
     // On trouve le joueur network
     if(pPlayer1 && pPlayer1->obtenirType() != JOUEUR_NETWORK)

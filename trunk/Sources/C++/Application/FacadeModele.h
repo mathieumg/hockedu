@@ -206,7 +206,7 @@ public:
 	bool insideLimits(NoeudAbstrait* noeud);
 
 	/// Ajout d'un joueur
-	void ajouterJoueur(SPJoueurAbstrait joueur);
+	void ajouterJoueur(SPPlayerAbstract joueur);
 	/// Suppression d'un joueur
 	void supprimerJoueur(std::string nom);
 	/// Verifier si la map est valide pour jouer, soit la presence de 2 maillet sur des parties oppose de la map et une rondelle
@@ -232,7 +232,7 @@ public:
     void construireHUD();
 
     /// Modification de l'adversaire
-    void modifierAdversaire(SPJoueurAbstrait val);
+    void modifierAdversaire(SPPlayerAbstract val);
 
     // Password pour la prochaine game en network
     inline const std::string& getGameCreationPassword() const { return mGameCreationPassword; }
@@ -349,7 +349,7 @@ public:
 	/// retourne le type des noeuds selectionné
 	std::string obtenirTypeNoeudSelectionne();
 	/// Obtention d'un joueur
-	SPJoueurAbstrait obtenirJoueur(std::string nom);
+	SPPlayerAbstract obtenirJoueur(std::string nom);
 	/// Obtention de la liste triées des joueurs
 	ConteneurJoueursTries obtenirListeNomsJoueurs();
 

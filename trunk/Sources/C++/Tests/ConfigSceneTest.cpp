@@ -354,21 +354,21 @@ void ConfigSceneTest::testLectureArbreRenduXMLInvalide()
 void ConfigSceneTest::testLectureEcritureJoueurXML()
 {
 	ConteneurJoueur conteneurJoueur;
-	SPJoueurAbstrait joueurs[15];
-	joueurs[0] =  SPJoueurAbstrait(new PlayerHuman("Michaël"		  ));
-	joueurs[1] =  SPJoueurAbstrait(new PlayerHuman("Samuel"		  ));
-	joueurs[2] =  SPJoueurAbstrait(new PlayerHuman("Vincent"		  ));
-	joueurs[3] =  SPJoueurAbstrait(new PlayerHuman("Mathieu"		  ));
-	joueurs[4] =  SPJoueurAbstrait(new PlayerHuman("Gabriel"		  ));
-	joueurs[5] =  SPJoueurAbstrait(new PlayerHuman("Charles Etienne" ));
-	joueurs[6] =  SPJoueurAbstrait(new PlayerComputer("bot1",10,50)	  );
-	joueurs[7] =  SPJoueurAbstrait(new PlayerComputer("bot2",15,25)	  );
-	joueurs[8] =  SPJoueurAbstrait(new PlayerComputer("bot3",25,0)	  );
-	joueurs[9] =  SPJoueurAbstrait(new PlayerComputer("bot4",10,-10)   );
-	joueurs[10] = SPJoueurAbstrait(new PlayerComputer("bot5",12,25)	  );
-	joueurs[11] = SPJoueurAbstrait(new PlayerComputer("bot6",48,75)	  );
-	joueurs[12] = SPJoueurAbstrait(new PlayerComputer("bot8",95,60)	  );
-	joueurs[13] = SPJoueurAbstrait(new PlayerComputer("bot9",47,55)	  );
+	SPPlayerAbstract joueurs[15];
+	joueurs[0] =  SPPlayerAbstract(new PlayerHuman("Michaël"		  ));
+	joueurs[1] =  SPPlayerAbstract(new PlayerHuman("Samuel"		  ));
+	joueurs[2] =  SPPlayerAbstract(new PlayerHuman("Vincent"		  ));
+	joueurs[3] =  SPPlayerAbstract(new PlayerHuman("Mathieu"		  ));
+	joueurs[4] =  SPPlayerAbstract(new PlayerHuman("Gabriel"		  ));
+	joueurs[5] =  SPPlayerAbstract(new PlayerHuman("Charles Etienne" ));
+	joueurs[6] =  SPPlayerAbstract(new PlayerComputer("bot1",10,50)	  );
+	joueurs[7] =  SPPlayerAbstract(new PlayerComputer("bot2",15,25)	  );
+	joueurs[8] =  SPPlayerAbstract(new PlayerComputer("bot3",25,0)	  );
+	joueurs[9] =  SPPlayerAbstract(new PlayerComputer("bot4",10,-10)   );
+	joueurs[10] = SPPlayerAbstract(new PlayerComputer("bot5",12,25)	  );
+	joueurs[11] = SPPlayerAbstract(new PlayerComputer("bot6",48,75)	  );
+	joueurs[12] = SPPlayerAbstract(new PlayerComputer("bot8",95,60)	  );
+	joueurs[13] = SPPlayerAbstract(new PlayerComputer("bot9",47,55)	  );
 	joueurs[14].reset();
 
 	for (int i = 0; i < 14 ; i++)

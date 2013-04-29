@@ -59,7 +59,7 @@ public:
 
 private:
 	/// Objet utiles pour les tests
-	SPJoueurAbstrait joueurs[16];
+	SPPlayerAbstract joueurs[16];
 	Tournoi* tournoi_;
 };
 

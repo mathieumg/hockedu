@@ -10,6 +10,7 @@
 
 #include "PlayerComputer.h"
 #include "RazerGameUtilities.h"
+#include "NoeudMaillet.h"
 #include "AIMaillet.h"
 
 ////////////////////////////////////////////////////////////////////////
@@ -198,37 +199,7 @@ bool PlayerComputer::initialiser( const XmlElement* element )
 	return true;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void JoueurVirtuel::genererAleatoirement()
-///
-/// Permet de generer des informations aleatoire pour un joueur,
-/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PlayerComputer::genererAleatoirement()
-{
-	modifierNom("Joueur Virtuel Aleatoire");
-	modifierVitesse(rand()%100);
-	modifierProbabiliteEchec(rand()%100);
-}
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn JoueurAbstrait* JoueurVirtuel::obtenirCopie()
-///
-/// Permet d'obtenir une copie de ce joueur
-///
-///
-/// @return JoueurAbstrait*
-///
-////////////////////////////////////////////////////////////////////////
-// JoueurAbstrait* JoueurVirtuel::obtenirCopie()
-// {
-// 	return new JoueurVirtuel(obtenirNom(),obtenirVitesse(),obtenirProbabiliteEchec());
-// }
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn Vecteur2 JoueurVirtuel::obtenirDirectionAI( NoeudRondelle* rondelle, NoeudMaillet* maillet )
@@ -266,6 +237,17 @@ void PlayerComputer::setAiMaillet( AIMaillet* val )
         delete aiMaillet_;
     }
     aiMaillet_ = val;
+}
+
+void PlayerComputer::PlayTick( float time )
+{
+	auto maillet = getControlingMallet();
+	if(maillet)
+	{
+		auto newPos = obtenirDirectionAI(maillet);
+		newPos += maillet->getPosition();
+		maillet->setTargetDestination(newPos,true);
+	}
 }
 
 

@@ -115,7 +115,7 @@ void HUDTexte::peindreElement()
 			break;
 		case TOURNOI_JOUEUR:
 			{
-				SPJoueurAbstrait joueur;
+				SPPlayerAbstract joueur;
 				if(indexPartie_ > (Tournoi::nbrParties_-1))
 				{
 					unsigned int index = 0;

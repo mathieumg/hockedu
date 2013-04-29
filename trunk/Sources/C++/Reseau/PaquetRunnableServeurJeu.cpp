@@ -161,48 +161,33 @@ int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 
     if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
-        if(wGame->getGameStatus() == GAME_PAUSED)
+        Vecteur3 wPos = wPaquet->getPosition();
+        NoeudMaillet* maillet;
+        if(wPaquet->getEstAGauche())
         {
-            // Si la partie est en pause, on doit dire au client de se mettre en pause (cas ou il n'aurait pas recu le paquet de mise en pause et il continue a envoyer une position)
-            /*PaquetGameEvent* wPaquetResponse = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
-            wPaquetResponse->setGameId(wPaquet->getGameId());
-            wPaquetResponse->setEvent(GAME_EVENT_PAUSE_GAME_SIGNAL);
-            RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquetResponse->getGameId(), wPaquetResponse, TCP);*/
+            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
         }
-        else if(wGame->getGameStatus() != GAME_NOT_READY)
+        else
         {
-
-            Vecteur3 wPos = wPaquet->getPosition();
-            NoeudMaillet* maillet;
-            if(wPaquet->getEstAGauche())
-            {
-                maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
-            }
-            else
-            {
-                maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
-            }
-
-            // On ne met pas a jour si c'est nous
-            if(maillet)
-            {
-                SPJoueurAbstrait wJoueur = maillet->obtenirJoueur();
-                if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
-                {
-                    Runnable* r = new Runnable([maillet,wPos](Runnable*){
-
-                        // Mettre la position du maillet
-                        maillet->setTargetDestination(wPos);
-
-                    });
-                    //maillet->attach(r);
-                    RazerGameUtilities::RunOnUpdateThread(r,true);
-                }
-            }
-        
+            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
         }
 
-        
+        // On ne met pas a jour si c'est nous
+        if(maillet)
+        {
+            SPPlayerAbstract wJoueur = maillet->obtenirJoueur();
+            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
+            {
+                Runnable* r = new Runnable([maillet,wPos](Runnable*){
+
+                    // Mettre la position du maillet
+                    maillet->setTargetDestination(wPos);
+
+                });
+                //maillet->attach(r);
+                RazerGameUtilities::RunOnUpdateThread(r,true);
+            }
+        }
     }
 
     return 0;
@@ -254,7 +239,7 @@ int PaquetRunnable::RunnableGameCreationServerGame( Paquet* pPaquet )
     if(!GameManager::obtenirInstance()->getGame(wPaquet->getGameName()))
     {
         // On peut creer la partie
-        int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_SERVER, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(0), SPJoueurAbstrait(0), true);
+        int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_SERVER, Partie::POINTAGE_GAGNANT,SPPlayerAbstract(0), SPPlayerAbstract(0), true);
         //GameManager::obtenirInstance()->setMapForGame(wGameId, wPaquet->getMapName());
         Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
         wGame->setName(wPaquet->getGameName());
@@ -308,24 +293,24 @@ GameConnectionState connectPlayer(const std::string& pPlayerName, Partie* pGame)
         if(!pGame->obtenirJoueurGauche())
         {
             // Pas de joueur gauche. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
+            pGame->assignerJoueur(SPPlayerNetworkServer(new PlayerNetworkServer(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(!pGame->obtenirJoueurDroit())
         {
             // Pas de joueur droit. On assigne le joueur la
-            pGame->assignerJoueur(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
+            pGame->assignerJoueur(SPPlayerNetworkServer(new PlayerNetworkServer(pPlayerName)));
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
         else if(pGame->obtenirJoueurGauche()->obtenirType() == JOUEUR_VIRTUEL)
         {
-            pGame->modifierJoueurGauche(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
+            pGame->modifierJoueurGauche(SPPlayerNetworkServer(new PlayerNetworkServer(pPlayerName)));
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_LEFT;
         }
         else if(pGame->obtenirJoueurDroit()->obtenirType() == JOUEUR_VIRTUEL)
         {
-            pGame->modifierJoueurDroit(SPJoueurNetworkServeur(new PlayerNetworkServer(pPlayerName)));
+            pGame->modifierJoueurDroit(SPPlayerNetworkServer(new PlayerNetworkServer(pPlayerName)));
             pGame->reloadControleMallet();
             return GAME_CONNECTION_ACCEPTED_RIGHT;
         }
@@ -572,12 +557,12 @@ int PaquetRunnable::RunnableGameEventServerGame( Paquet* pPaquet )
                     bool wChanged = false;
                     if(wPaquet->getEventOnPlayerLeft() && wGame->obtenirNomJoueurDroit() != wPaquet->getPlayer1Name())
                     {
-                        wGame->modifierJoueurDroit(SPJoueurVirtuel(new PlayerComputer("AITempDroit", 6, 50)));
+                        wGame->modifierJoueurDroit(SPPlayerComputer(new PlayerComputer("AITempDroit", 6, 50)));
                         wChanged = true;                   
                     }
                     else if(wGame->obtenirNomJoueurGauche() != wPaquet->getPlayer1Name())
                     {
-                        wGame->modifierJoueurGauche(SPJoueurVirtuel(new PlayerComputer("AITempGauche", 6, 50)));
+                        wGame->modifierJoueurGauche(SPPlayerComputer(new PlayerComputer("AITempGauche", 6, 50)));
                         wChanged = true;
                     }
 

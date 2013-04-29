@@ -37,11 +37,6 @@ public:
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 
-
-	/// Permet de generer des informations aleatoire pour un joueur,
-	/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-	virtual void genererAleatoirement();
-
     /// Permet d'obtenir l'action a utiliser pour une certaine situation donnee
     AiRuntimeInfosOutput getActionFor(const Vecteur3& pPositionAi, const Vecteur3& pVelociteAi, const Vecteur3& pPositionRondelle, const Vecteur3& pVelociteRondelle, const Vecteur3& pPositionJoueurAdverse);
 
@@ -95,6 +90,8 @@ protected:
 	virtual bool initialiser(const XmlElement* element);
     
     virtual void gameInit();
+
+	virtual void PlayTick( float time );
 
 };
 

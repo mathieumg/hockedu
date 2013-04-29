@@ -28,9 +28,10 @@ class Runnable;
 struct b2FixtureDef;
 struct PhysicsFilter
 {
-    PhysicsFilter(short category =0,
-        short maskbit=0,
-        short group=0,
+    PhysicsFilter(
+		unsigned short category =0,
+        unsigned short maskbit=0,
+        unsigned short group=0,
         bool isSensor=false):
     mCategory(category),
         mMaskbit(maskbit),
@@ -40,9 +41,9 @@ struct PhysicsFilter
 
     }
 
-    short mCategory;
-    short mMaskbit;
-    short mGroup;
+    unsigned short mCategory;
+    unsigned short mMaskbit;
+    unsigned short mGroup;
     bool mIsSensor;
 };
 

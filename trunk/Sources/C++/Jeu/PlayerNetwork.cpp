@@ -10,6 +10,7 @@
 
 #include "PlayerNetwork.h"
 #include "RazerGameUtilities.h"
+#include "NoeudMaillet.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -112,19 +113,13 @@ bool PlayerNetwork::initialiser( const XmlElement* element )
 	return true;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void JoueurNetwork::genererAleatoirement()
-///
-/// Permet de generer des informations aleatoire pour un joueur,
-/// utile si on a besoin d'un joueur, mais probleme rencontré a son chargement
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PlayerNetwork::genererAleatoirement()
+void PlayerNetwork::PlayTick( float time )
 {
-	modifierNom("Joueur Network Aleatoire");
+	auto maillet = getControlingMallet();
+	if(maillet)
+	{
+		maillet->setTargetDestination(getTargetDestination(),true);
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////

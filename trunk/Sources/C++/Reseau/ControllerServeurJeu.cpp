@@ -140,12 +140,12 @@ void ControllerServeurJeu::handleDisconnectDetection( SPSocket pSocket )
             if(wGame->obtenirNomJoueurGauche() == wSocketIdentifier)
             {
                 // Joueur gauche deconnecte
-                wGame->modifierJoueurGauche(SPJoueurAbstrait(NULL));
+                wGame->modifierJoueurGauche(SPPlayerAbstract(NULL));
             }
             else if(wGame->obtenirNomJoueurDroit() == wSocketIdentifier)
             {
                 // Joueur droit deconnecte
-                wGame->modifierJoueurDroit(SPJoueurAbstrait(NULL));
+                wGame->modifierJoueurDroit(SPPlayerAbstract(NULL));
             }
 
             

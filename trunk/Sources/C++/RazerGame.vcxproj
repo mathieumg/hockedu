@@ -340,7 +340,7 @@
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.cpp" />
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.cpp" />
-    <ClCompile Include="Interface\GestionnaireEvenements.cpp" />
+    <ClCompile Include="Interface\EventManager.cpp" />
     <ClCompile Include="Jeu\AI\AIMaillet.cpp" />
     <ClCompile Include="Jeu\AI\AIStrat.cpp" />
     <ClCompile Include="Jeu\AI\AIStratDefensive.cpp" />
@@ -536,7 +536,7 @@
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.h" />
-    <ClInclude Include="Interface\GestionnaireEvenements.h" />
+    <ClInclude Include="Interface\EventManager.h" />
     <ClInclude Include="Jeu\AI\AIMaillet.h" />
     <ClInclude Include="Jeu\AI\AIStrat.h" />
     <ClInclude Include="Jeu\AI\AIStratDefensive.h" />

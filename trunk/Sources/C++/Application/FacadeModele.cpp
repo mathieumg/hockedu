@@ -34,7 +34,7 @@
 #include "FacadeModele.h"
 
 #include "CompteurAffichage.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "SourisEtatDeplacerFenetre.h"
 #include "VisiteurCollision.h"
 #include "VisiteurSuppression.h"
@@ -613,8 +613,8 @@ void FacadeModele::libererMemoire()
     if(DebugRenderBox2D::mInstance)delete DebugRenderBox2D::mInstance;
     DebugRenderBox2D::mInstance = NULL;
 #endif
-    if(GestionnaireEvenements::etatCourant_) delete GestionnaireEvenements::etatCourant_;
-    GestionnaireEvenements::etatCourant_ = NULL;
+    if(EventManager::etatCourant_) delete EventManager::etatCourant_;
+    EventManager::etatCourant_ = NULL;
 }
 
 
@@ -682,7 +682,7 @@ void FacadeModele::afficher( )
     RazerGameUtilities::Rendering(true);
  
     // Affichage specifique aux etats
-    GestionnaireEvenements::afficher();
+    EventManager::afficher();
     DrawSelectionRectangle();
 
     RazerGameUtilities::ExecuteRenderRunnables();
@@ -758,8 +758,8 @@ void FacadeModele::animer( const float& temps)
 
     RazerGameUtilities::ExecuteUpdateRunnables();
 
-    GestionnaireEvenements::miseAJourEvenementsRepetitifs(tempsReel);
-    GestionnaireEvenements::animer(tempsReel);
+    EventManager::miseAJourEvenementsRepetitifs(tempsReel);
+    EventManager::animer(tempsReel);
     bool replaying = false;
     if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
         replaying = true;
@@ -947,7 +947,7 @@ bool FacadeModele::passageModeEdition(bool pLoadDefaultXML /*= true*/)
 	}
     getEditionField()->setTableControlPointVisible(true);
 
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_EDITION);
+    EventManager::modifierEtat(ETAT_MODE_EDITION);
     SoundFMOD::obtenirInstance()->playApplicationSong(EDITION_MODE_SONG);
     return true;
 }
@@ -967,7 +967,7 @@ bool FacadeModele::passageModeSimulation()
     mEditionField->libererMemoire();
     ClearCurrentGame();
 
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_SIMULATION);
+    EventManager::modifierEtat(ETAT_MODE_SIMULATION);
     return true;
 }
 
@@ -1030,7 +1030,7 @@ bool FacadeModele::passageModeTournoi()
     partieCourante_->terminerSi2AI();
 #endif
     
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
+    EventManager::modifierEtat(ETAT_MODE_TOURNOI);
     return true;
 }
 
@@ -1074,7 +1074,7 @@ bool FacadeModele::passageModeJeu()
     // Jeu local
     if(prochainePartie_ == -1)
     {
-        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPJoueurAbstrait(new PlayerHuman("Left Player")));
+        partieCourante_ = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPPlayerAbstract(new PlayerHuman("Left Player")));
 
         GameManager::obtenirInstance()->setMapForGame(partieCourante_, getCurrentMap());
         if(!GameManager::obtenirInstance()->startGame(partieCourante_))
@@ -1121,7 +1121,7 @@ bool FacadeModele::passageModeJeu()
 	}
     
 
-    GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
+    EventManager::modifierEtat(ETAT_MODE_JEU);
     return true;
 }
 
@@ -1143,7 +1143,7 @@ bool FacadeModele::passageMenuPrincipal()
     selectionArbre(false);
 
     SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
-    GestionnaireEvenements::modifierEtat(ETAT_MENU_PRINCIPAL);
+    EventManager::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
 }
 
@@ -1426,7 +1426,7 @@ std::string FacadeModele::obtenirTypeNoeudSelectionne()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::ajouterJoueur( SPJoueurAbstrait joueur )
+void FacadeModele::ajouterJoueur( SPPlayerAbstract joueur )
 {
     if(joueur != 0)
     {
@@ -1479,7 +1479,7 @@ void FacadeModele::supprimerJoueur(std::string nom)
 /// @return JoueurAbstrait*
 ///
 ////////////////////////////////////////////////////////////////////////
-SPJoueurAbstrait FacadeModele::obtenirJoueur( std::string nom )
+SPPlayerAbstract FacadeModele::obtenirJoueur( std::string nom )
 {
     if(profilsVirtuels_.find(nom) != profilsVirtuels_.end())
         return profilsVirtuels_[nom];
@@ -1806,7 +1806,7 @@ void FacadeModele::initialiserTournoi( JoueursParticipant joueurs, std::string t
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-void FacadeModele::modifierAdversaire(SPJoueurAbstrait val) 
+void FacadeModele::modifierAdversaire(SPPlayerAbstract val) 
 { 
 //  if(adversaire_ != NULL) 
 //      delete adversaire_; 

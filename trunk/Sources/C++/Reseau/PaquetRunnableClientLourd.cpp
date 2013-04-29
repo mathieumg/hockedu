@@ -62,7 +62,7 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
         // Si maillet pas encore cree (ex: transition vers le mode jeu en cours et deja reception de paquets)
         if(maillet)
         {
-            SPJoueurAbstrait wJoueur = maillet->obtenirJoueur();
+            SPPlayerAbstract wJoueur = maillet->obtenirJoueur();
             if(wJoueur->obtenirType() == JOUEUR_NETWORK)
             {
                 int wGameId = wPaquet->getGameId();
@@ -172,7 +172,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_ACCEPTED_LEFT:
         {
             // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a gauche
-            int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT, Partie::POINTAGE_GAGNANT,SPJoueurHumain(new PlayerHuman(GestionnaireReseau::obtenirInstance()->getPlayerName())), SPJoueurNetwork(new PlayerNetwork()), true, false, wPaquet->getGameId());
+            int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT, Partie::POINTAGE_GAGNANT,SPPlayerHuman(new PlayerHuman(GestionnaireReseau::obtenirInstance()->getPlayerName())), SPPlayerNetwork(new PlayerNetwork()), true, false, wPaquet->getGameId());
             Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);
@@ -183,7 +183,7 @@ int PaquetRunnable::RunnableGameConnectionClient( Paquet* pPaquet )
     case GAME_CONNECTION_ACCEPTED_RIGHT:
         {
             // Accepted, on est maintenant dans la partie demandee sur le serveur jeu a droite
-            int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT, Partie::POINTAGE_GAGNANT,SPJoueurNetwork(new PlayerNetwork()), SPJoueurHumain(new PlayerHuman(GestionnaireReseau::obtenirInstance()->getPlayerName())), true, false, wPaquet->getGameId());
+            int wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_NETWORK_CLIENT, Partie::POINTAGE_GAGNANT,SPPlayerNetwork(new PlayerNetwork()), SPPlayerHuman(new PlayerHuman(GestionnaireReseau::obtenirInstance()->getPlayerName())), true, false, wPaquet->getGameId());
             Partie* wGame = GameManager::obtenirInstance()->getGame(wGameId);
             std::cout << "Connecte a la partie: " << wGameId << std::endl;
             FacadeModele::getInstance()->setProchainePartie(wGameId);

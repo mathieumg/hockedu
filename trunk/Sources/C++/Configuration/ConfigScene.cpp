@@ -392,7 +392,7 @@ void ConfigScene::lireDOM( const XmlNode& node, ConteneurJoueur& Joueurs )
 	{
 		for( child = elementConfiguration->FirstChildElement(); child/*Vérifie si child est non-null*/; child = child->NextSiblingElement() )
 		{
-			SPJoueurAbstrait joueur = PlayerAbstract::usineJoueurXML(child);
+			SPPlayerAbstract joueur = PlayerAbstract::usineJoueurXML(child);
 			// Si 2 joueurs ont le meme nom, le dernier seulement sera conserve
 			if(joueur)
 			{

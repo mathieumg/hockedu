@@ -43,14 +43,6 @@ public:
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 
-
-	/// Permet de generer des informations aleatoire pour un joueur,
-	/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-	virtual void genererAleatoirement();
-
-	/// Permet d'obtenir une copie de ce joueur
-	//virtual JoueurAbstrait* obtenirCopie();
-
 	/// Accesseurs et modificateurs des attributs
 	unsigned int obtenirVitesse() const;
 	void modifierVitesse(unsigned int vitesse);
@@ -63,6 +55,7 @@ public:
 	AIMaillet* getAiMaillet() const { return aiMaillet_; }
 	virtual void setAiMaillet(AIMaillet* val);
 
+	virtual void PlayTick( float time );
 
 private:
 	/// Vitesse du joueur
@@ -76,6 +69,7 @@ private:
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+
 
 
 	

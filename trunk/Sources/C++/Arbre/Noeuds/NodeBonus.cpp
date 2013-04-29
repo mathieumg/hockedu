@@ -302,7 +302,7 @@ void NodeBonus::playTick( float temps)
         }
         if(!mCounting)
         {
-            mBeginTime = clock()/CLOCKS_PER_SEC;
+			mBeginTime = (float)clock()/(float)CLOCKS_PER_SEC;
             if(game)
             {
                 mBeginTime = game->obtenirGameTime()->Elapsed_Time_sec();

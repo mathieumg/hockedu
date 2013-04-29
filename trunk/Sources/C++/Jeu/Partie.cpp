@@ -53,7 +53,7 @@ const int Partie::POINTAGE_GAGNANT = 7;
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-Partie::Partie(GameType gameType, int pNbButsGagnants, SPJoueurAbstrait joueurGauche /*= 0*/, SPJoueurAbstrait joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
+Partie::Partie(GameType gameType, int pNbButsGagnants, SPPlayerAbstract joueurGauche /*= 0*/, SPPlayerAbstract joueurDroit /*= 0*/, int uniqueGameId /*= 0*/, const std::vector<GameUpdateCallback>& updateCallback /*= 0*/ ):
 pointsJoueurGauche_(0),pointsJoueurDroit_(0), faitPartieDunTournoi_(false), mPartieSyncer(uniqueGameId, 60, joueurGauche, joueurDroit),
 mGameType(gameType),mMiseAuJeuDelai(4100), mNbButsGagnants(pNbButsGagnants)
 {
@@ -282,7 +282,7 @@ void Partie::incrementerPointsJoueurDroit(bool pForceUpdate /*= false*/)
 /// @return gagnant ou 0 si la partie n'est pas terminée
 ///
 ////////////////////////////////////////////////////////////////////////
-SPJoueurAbstrait Partie::obtenirGagnant() const
+SPPlayerAbstract Partie::obtenirGagnant() const
 {
     if(!partieTerminee())
         return 0;
@@ -300,7 +300,7 @@ SPJoueurAbstrait Partie::obtenirGagnant() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerJoueur( SPJoueurAbstrait joueur )
+void Partie::assignerJoueur( SPPlayerAbstract joueur )
 {
     if(joueurGauche_ == 0)
         modifierJoueurGauche(joueur);
@@ -371,7 +371,7 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
         // On s'assure de ne pas ajouter plus que deux joueurs
         if(nbJoueurs>= 2)
             break;
-        SPJoueurAbstrait joueur( PlayerAbstract::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
+        SPPlayerAbstract joueur( PlayerAbstract::usineJoueurXML(joueurXml, profilsVirtuelsExistants) );
         if(joueur)
         {
             assignerJoueur(joueur);
@@ -380,8 +380,7 @@ bool Partie::initialiserXML( const XmlElement* elem, ConteneurJoueur* profilsVir
         else
         {
             utilitaire::afficherErreur("Erreur: Problème pour l'initialisation d'un joueur dans une partie, joueur humain aléatoire generé");
-            joueur.reset(new PlayerHuman());
-            joueur->genererAleatoirement();
+            joueur.reset(new PlayerHuman("Player Human"));
             assignerJoueur(joueur);
             nbJoueurs++;
         }
@@ -444,7 +443,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
             mailletGauche->setIsLeft(true);
             mailletDroit->setIsLeft(false);
 
-            SPJoueurAbstrait wJoueurs[2] = {joueurGauche_, joueurDroit_};
+            SPPlayerAbstract wJoueurs[2] = {joueurGauche_, joueurDroit_};
             NoeudMaillet* wMaillets[2] = {mailletGauche, mailletDroit};
 
             for(int i=0; i<2; ++i)
@@ -455,6 +454,15 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     {
                         wMaillets[i]->setIsAI(false);
                         // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
+						PlayerHuman* h = (PlayerHuman*)wJoueurs[i].get();
+						if(i==1 && wJoueurs[0]->obtenirType() == JOUEUR_HUMAIN)
+						{
+							h->setControllerType(CONTROLLER_TYPE_KEYBOARD);
+						}
+						else
+						{
+							h->setControllerType(CONTROLLER_TYPE_MOUSE);
+						}
                         wMaillets[i]->setKeyboardControlled(i==1 && wJoueurs[0]->obtenirType() == JOUEUR_HUMAIN);
                         wMaillets[i]->setIsNetworkPlayer(false);
                         break;
@@ -646,7 +654,7 @@ void Partie::updateMinuterie( int time )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
+void Partie::modifierJoueurDroit( SPPlayerAbstract val )
 {
 //  if(joueurDroit_)
 //      delete joueurDroit_;
@@ -670,7 +678,7 @@ void Partie::modifierJoueurDroit( SPJoueurAbstrait val )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::modifierJoueurGauche( SPJoueurAbstrait val )
+void Partie::modifierJoueurGauche( SPPlayerAbstract val )
 {
     joueurGauche_ = val;
     if(joueurGauche_)
@@ -972,13 +980,17 @@ bool Partie::getReadyToPlay( bool loadMapFile /*= true*/ )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::animer( const float& temps )
+void Partie::animer( float temps )
 {
     chiffres_->tick(temps);
     mField->animerTerrain(temps);
     updateMinuterie((int)(temps*1000));
     if(getGameStatus() == GAME_STARTED)
     {
+		// tick players first
+		joueurGauche_->PlayTick(temps);
+		joueurDroit_->PlayTick(temps);
+
         // Gestion de la physique du jeu
         mField->appliquerPhysique(temps);
         mPartieSyncer.tick();
@@ -1007,7 +1019,7 @@ void Partie::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::animerBase( const float& temps )
+void Partie::animerBase( float temps )
 {
     updateMinuterie((int)(temps*1000));
     // On va plus deep pour ne pas render d'items d'affichage
@@ -1217,7 +1229,7 @@ void Partie::setGameStatus( GameStatus pStatus )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
+void Partie::SendAchievementEventToHumanPlayer( SPPlayerAbstract player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
 {
     checkf(player == joueurGauche_ || player == joueurDroit_);
     checkf(player);
@@ -1232,7 +1244,7 @@ void Partie::SendAchievementEventToHumanPlayer( SPJoueurAbstrait player,Achievem
         if(isOfflineGame())
         {
             /// it is possible to have human vs human, so we check to make sure
-            SPJoueurAbstrait oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
+            SPPlayerAbstract oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
             if(oppositePlayer->obtenirType() == player->obtenirType())
             {
                 /// incoherence pour les achievements, on sort

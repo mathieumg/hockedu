@@ -50,22 +50,6 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : Ges
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	/*ToucheClavier touche = evenementClavier.obtenirTouche();
-	NoeudMaillet* maillet = FacadeModele::getInstance()->obtenirMailletJoueurDroit();
-
-	// Les 4 cas suivants déplacent le maillet du joueur 2
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-		maillet->modifierDirection(true,DIR_HAUT);
-
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-		maillet->modifierDirection(true,DIR_GAUCHE);
-
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-		maillet->modifierDirection(true,DIR_DROITE);
-
-	if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-		maillet->modifierDirection(true,DIR_BAS);*/
-
     ToucheClavier touche = evenementClavier.obtenirTouche();
 
     Partie* wGame = mTournoi->obtenirPartieCourante();
@@ -247,7 +231,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 			Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 			if(tournoi->miseAJour())
 			{
-				GestionnaireEvenements::modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
+				EventManager::modifierEtat(ETAT_PARTIE_TOURNOI_TERMINEE);
 				return;
 			}
 		}

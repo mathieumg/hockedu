@@ -10,7 +10,7 @@
 
 #include "RepartiteurActions.h"
 #include "FacadeModele.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "GestionnaireEtatAbstrait.h"
 #include "GestionnaireAnimations.h"
 #include "VuePerspectiveCiel.h"
@@ -139,7 +139,7 @@ bool RepartiteurActions::appelerMethodeAction( ActionType action )
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonCamera()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	return true;
 }
 
@@ -155,7 +155,7 @@ bool RepartiteurActions::actionBoutonCamera()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonOrbit()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	return true;
 }
 
@@ -173,7 +173,7 @@ bool RepartiteurActions::actionBoutonOrbit()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomElastique()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
 	return true;
 }
 
@@ -189,7 +189,7 @@ bool RepartiteurActions::actionBoutonZoomElastique()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomProportionnel()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
 	return true;
 }
 
@@ -205,7 +205,7 @@ bool RepartiteurActions::actionBoutonZoomProportionnel()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSelection()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_SELECTION);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_SELECTION);
 	return true; 
 }
 
@@ -221,7 +221,7 @@ bool RepartiteurActions::actionBoutonSelection()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationDeplacement()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
 	return true; 
 }
 
@@ -237,7 +237,7 @@ bool RepartiteurActions::actionBoutonTransformationDeplacement()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationRotation()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
 	return true; 
 }
 
@@ -253,7 +253,7 @@ bool RepartiteurActions::actionBoutonTransformationRotation()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationEchelle()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
 	return true; 
 }
 
@@ -285,7 +285,7 @@ bool RepartiteurActions::actionBoutonSupprimer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonEditionNouveau()
 {
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ORBIT);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
 	FacadeModele::getInstance()->reinitialiserTerrain();	
 	return true; 
 }
@@ -320,7 +320,7 @@ bool RepartiteurActions::actionReinitialiserPartie()
 bool RepartiteurActions::actionBoutonInsererPortail()
 {
 	FacadeModele::getInstance()->selectionArbre(false);
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
 	return true; 
 }
 
@@ -337,7 +337,7 @@ bool RepartiteurActions::actionBoutonInsererPortail()
 bool RepartiteurActions::actionBoutonInsererMuret()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
 	return true; 
 }
 
@@ -354,7 +354,7 @@ bool RepartiteurActions::actionBoutonInsererMuret()
 bool RepartiteurActions::actionBoutonInsererMaillet()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
 	return true; 
 }
 
@@ -371,7 +371,7 @@ bool RepartiteurActions::actionBoutonInsererMaillet()
 bool RepartiteurActions::actionBoutonInsererRondelle()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
 	return true; 
 }
 
@@ -388,7 +388,7 @@ bool RepartiteurActions::actionBoutonInsererRondelle()
 bool RepartiteurActions::actionBoutonInsererAccelerateur()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
 	return true; 
 }
 
@@ -405,7 +405,7 @@ bool RepartiteurActions::actionBoutonInsererAccelerateur()
 bool RepartiteurActions::actionBoutonInsererBonus()
 {
     FacadeModele::getInstance()->selectionArbre(false);
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_AJOUTER_BONUS);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_BONUS);
     return true; 
 }
 
@@ -807,7 +807,7 @@ bool RepartiteurActions::actionReinitialiserRondelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionPlayInEditor()
 {
-    GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_PIE_MODE);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_PIE_MODE);
     return true;
 }
 

@@ -15,6 +15,14 @@
 #include <jni.h>
 #endif //WITH_JAVA  
 
+enum ControllerType
+{
+	CONTROLLER_TYPE_NONE	 = 0x00,  // Cannot move mallet
+	CONTROLLER_TYPE_MOUSE	 = 0x01,
+	CONTROLLER_TYPE_KEYBOARD = 0x02,
+	CONTROLLER_TYPE_GAMEPAD  = 0x04,  // Reserved but not used
+};
+
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurHumain
 /// @brief Classe abstraite qui représente un joueur contrôlé par l'ordinateur.
@@ -37,17 +45,16 @@ public:
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 
-
-	/// Permet de generer des informations aleatoire pour un joueur,
-	/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-	virtual void genererAleatoirement();
-
-	/// Permet d'obtenir une copie de ce joueur
-	//virtual JoueurAbstrait* obtenirCopie();
+	virtual void PlayTick( float time );
 
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+	ControllerType mControllerType;
+
+public:
+	inline ControllerType getControllerType() const { return mControllerType; }
+	inline void setControllerType(ControllerType val) { mControllerType = val; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

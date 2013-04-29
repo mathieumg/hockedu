@@ -23,7 +23,7 @@
 #include "CompteurAffichage.h"
 #include "BancTests.h"
 
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 
 #include "Evenements/EvenementClavier.h"
 #include "Evenements/EvenementRouletteSouris.h"
@@ -248,7 +248,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyTyped( 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed(JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::toucheEnfoncee(EvenementClavier(env, keyEvent));
+	EventManager::toucheEnfoncee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -264,7 +264,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyPressed
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_keyReleased( JNIEnv * env, jobject, jobject keyEvent)
 {
-	GestionnaireEvenements::toucheRelachee(EvenementClavier(env, keyEvent));
+	EventManager::toucheRelachee(EvenementClavier(env, keyEvent));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -296,7 +296,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseClick
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePressed( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::sourisEnfoncee(EvenementSouris(env, &evenementSouris));
+	EventManager::sourisEnfoncee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -312,7 +312,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mousePress
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseReleased( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::sourisRelachee(EvenementSouris(env, &evenementSouris));
+	EventManager::sourisRelachee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -360,7 +360,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseExite
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragged( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	EventManager::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -376,7 +376,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseDragg
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved( JNIEnv * env, jobject, jobject evenementSouris)
 {
-	GestionnaireEvenements::sourisDeplacee(EvenementSouris(env, &evenementSouris));
+	EventManager::sourisDeplacee(EvenementSouris(env, &evenementSouris));
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -392,7 +392,7 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseMoved
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_GestionnaireEvenements_mouseWheelMoved( JNIEnv * env, jobject, jobject mouseWheelEvent)
 {
-	GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
+	EventManager::rouletteSouris(EvenementRouletteSouris(env, mouseWheelEvent));
 }
 
 std::hash_map<std::string,ActionType> mappingAction;
@@ -573,12 +573,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_JoueurAbstrait_envoyerJNI (JN
 
 	if(type == JOUEUR_VIRTUEL)
 	{
-		SPJoueurAbstrait joueurVirtuel = SPJoueurAbstrait(new PlayerComputer(env, joueur));
+		SPPlayerAbstract joueurVirtuel = SPPlayerAbstract(new PlayerComputer(env, joueur));
 		FacadeModele::getInstance()->modifierAdversaire(joueurVirtuel);
 	}
 	else if(type == JOUEUR_HUMAIN)
 	{
-		SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new PlayerHuman(env, joueur));
+		SPPlayerAbstract joueurHumain = SPPlayerAbstract(new PlayerHuman(env, joueur));
 		FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
 	}
 }
@@ -616,13 +616,13 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_ModificateurProprieteNoeud_en
 JNIEXPORT jobject JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_obtenirJoueur(JNIEnv * env, jclass, jstring leopard)
 {
 	std::string nom = RazerGameUtilities::obtenirChaineISO(env, &leopard);
-	SPJoueurAbstrait joueur = FacadeModele::getInstance()->obtenirJoueur(nom);
+	SPPlayerAbstract joueur = FacadeModele::getInstance()->obtenirJoueur(nom);
 	if(joueur == NULL)
 		return NULL;
 
 	if(joueur->obtenirType()==JOUEUR_VIRTUEL)//Check de joueur virtuel
 	{
-		SPJoueurVirtuel joueurVirtuel = dynamic_pointer_cast<PlayerComputer>(joueur);
+		SPPlayerComputer joueurVirtuel = dynamic_pointer_cast<PlayerComputer>(joueur);
 		jint vitesse = (jint)(joueurVirtuel->obtenirVitesse()/500.0*100.0);
 		jint probEchec = joueurVirtuel->obtenirProbabiliteEchec();	
 
@@ -664,12 +664,12 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_ajouterJ
 
 	if(type == 0)
 	{
-		SPJoueurAbstrait joueurHumain(new PlayerHuman(env, joueur));
+		SPPlayerAbstract joueurHumain(new PlayerHuman(env, joueur));
 		FacadeModele::getInstance()->ajouterJoueur(joueurHumain);
 	}
 	else
 	{
-		SPJoueurAbstrait joueurVirtuel(new PlayerComputer(env, joueur));
+		SPPlayerAbstract joueurVirtuel(new PlayerComputer(env, joueur));
 		FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
 	}
 }
@@ -918,20 +918,20 @@ JNIEXPORT void JNICALL Java_ca_polymtl_inf2990_Jeu_OperationsJoueursJNI_creerNou
 
 		// Allocation dynamique selon le type du joueur
 		if(typeDuJoueur == 0)
-			joueurs.push_back(SPJoueurAbstrait(new PlayerHuman(env, joueur) ) );
+			joueurs.push_back(SPPlayerAbstract(new PlayerHuman(env, joueur) ) );
 		else
 		{	
 			// Obtention du nom
 			jmethodID obtenirNom = env->GetMethodID(classeJoueur, "obtenirNom", "()Ljava/lang/String;");
 			jstring nom = (jstring)env->CallObjectMethod(joueur, obtenirNom);
 
-			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(RazerGameUtilities::obtenirChaineISO(env,&nom));
+			SPPlayerAbstract jv = FacadeModele::getInstance()->obtenirJoueur(RazerGameUtilities::obtenirChaineISO(env,&nom));
 			if(jv)
 			{
 				joueurs.push_back(jv);
 			}
 			else
-				joueurs.push_back(SPJoueurAbstrait(new PlayerComputer(env, joueur) ) );
+				joueurs.push_back(SPPlayerAbstract(new PlayerComputer(env, joueur) ) );
 		}
 	}
 	// Obtenir le terrain du tournoi

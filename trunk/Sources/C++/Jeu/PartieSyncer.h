@@ -27,14 +27,14 @@
 class PartieSyncer
 {
 public:
-    PartieSyncer(int pGameId, clock_t pFrequencyPerSec, SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2);
+    PartieSyncer(int pGameId, clock_t pFrequencyPerSec, SPPlayerAbstract pPlayer1, SPPlayerAbstract pPlayer2);
 	/// Destructeur
 	~PartieSyncer(void);
 
     // Envoie les infos necessaires au network
     void tick();
 
-    void setPlayers(SPJoueurAbstrait pPlayer1, SPJoueurAbstrait pPlayer2);
+    void setPlayers(SPPlayerAbstract pPlayer1, SPPlayerAbstract pPlayer2);
 
     void addDestinationIdentifier(const std::string& pIdentifier);
 
@@ -45,8 +45,8 @@ private:
 
     bool mIsGameServer;
 
-    SPJoueurAbstrait mPlayer1;
-    SPJoueurAbstrait mPlayer2;
+    SPPlayerAbstract mPlayer1;
+    SPPlayerAbstract mPlayer2;
     
     clock_t mLastTick; // Last tick time
     clock_t mInterval; // Interval between ticks

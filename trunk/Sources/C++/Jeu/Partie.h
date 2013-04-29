@@ -70,7 +70,7 @@ public:
 	virtual void incrementerPointsJoueurDroit(bool pForceUpdate = false);
 
 	/// Assignation d'un joueur à la partie, S'assurer que le pointeur est unique !!!
-	void assignerJoueur( SPJoueurAbstrait joueur );
+	void assignerJoueur( SPPlayerAbstract joueur );
 
 	/// Creation du noeud XML de la partie
 	XmlElement* creerNoeudXML() const;
@@ -102,8 +102,8 @@ public:
 	
 	/// Gestion de l'affichage du décompte de mise au jeu
 	void afficher();
-	virtual void animer( const float& temps);
-    virtual void animerBase( const float& temps );
+	virtual void animer( float temps);
+    virtual void animerBase( float temps );
 
 	void vider();
 
@@ -143,7 +143,7 @@ public:
 
     virtual void updateObserver( const ReplaySubject* pSubject );
 
-    void SendAchievementEventToHumanPlayer(SPJoueurAbstrait player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman );
+    void SendAchievementEventToHumanPlayer(SPPlayerAbstract player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman );
 
     void setGameStatus(GameStatus pStatus);
     
@@ -169,14 +169,14 @@ public:
 protected:
 
     /// Constructeur par paramètres
-	Partie(GameType gameType, int pNbButsGagnants,SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
+	Partie(GameType gameType, int pNbButsGagnants,SPPlayerAbstract joueurGauche = 0, SPPlayerAbstract joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 
     /// Terrain associé à la partie, son scope est le meme que la partie
     Terrain* mField;
 
     /// Les deux joueurs qui s'affrontent
-	SPJoueurAbstrait joueurGauche_;
-	SPJoueurAbstrait joueurDroit_;
+	SPPlayerAbstract joueurGauche_;
+	SPPlayerAbstract joueurDroit_;
 
 /// Attributs
 private:
@@ -261,19 +261,19 @@ public:
 	NoeudAffichage* obtenirDecompte() {return chiffres_;}
 
 	/// Accesseur du joueur1
-	inline SPJoueurAbstrait obtenirJoueurDroit() const { return joueurDroit_; }
-	virtual void modifierJoueurDroit(SPJoueurAbstrait val);
+	inline SPPlayerAbstract obtenirJoueurDroit() const { return joueurDroit_; }
+	virtual void modifierJoueurDroit(SPPlayerAbstract val);
 
 	/// Accesseur du joueur1
-	inline SPJoueurAbstrait obtenirJoueurGauche() const { return joueurGauche_; }
-	virtual void modifierJoueurGauche(SPJoueurAbstrait val);
+	inline SPPlayerAbstract obtenirJoueurGauche() const { return joueurGauche_; }
+	virtual void modifierJoueurGauche(SPPlayerAbstract val);
 
 	/// Accesseur et modificateur pour le terrain
     const std::string& getFieldName() const;
     void setFieldName(const std::string& terrain);
 
 	/// Retourne le gagnant de la partie
-	SPJoueurAbstrait obtenirGagnant() const;
+	SPPlayerAbstract obtenirGagnant() const;
 	/// Permet de savoir la position du gagnant
 	PositionJoueur obtenirPositionGagant();
     /// Accessors of mField

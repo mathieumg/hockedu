@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireEvenementsTest.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "EvenementClavier.h"
 #include "EvenementSouris.h"
 #include "EvenementRouletteSouris.h"
@@ -48,7 +48,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( GestionnaireEvenementsTest );
 void GestionnaireEvenementsTest::setUp()
 {
 	// L'état de base pour les tests est le mode d'édition
-	GestionnaireEvenements::modifierEtat( ETAT_MODE_EDITION );
+	EventManager::modifierEtat( ETAT_MODE_EDITION );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -66,9 +66,9 @@ void GestionnaireEvenementsTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEvenementsTest::tearDown()
 {
-	if(GestionnaireEvenements::etatCourant_ != 0)
-		delete GestionnaireEvenements::etatCourant_;
-	GestionnaireEvenements::etatCourant_ = 0;
+	if(EventManager::etatCourant_ != 0)
+		delete EventManager::etatCourant_;
+	EventManager::etatCourant_ = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -83,18 +83,18 @@ void GestionnaireEvenementsTest::tearDown()
 void GestionnaireEvenementsTest::testChangementEtat()
 {
 	// Modification de l'état
-	GestionnaireEvenements::modifierEtat( ETAT_MENU_PRINCIPAL );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatMenuPrincipal*>(GestionnaireEvenements::etatCourant_));
-    GestionnaireEvenements::modifierEtat( ETAT_MODE_EDITION           );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeEdition*>(GestionnaireEvenements::etatCourant_));
-    GestionnaireEvenements::modifierEtat( ETAT_MODE_JEU               );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeJeu*>(GestionnaireEvenements::etatCourant_));
-    GestionnaireEvenements::modifierEtat( ETAT_MODE_TOURNOI           );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeTournoi*>(GestionnaireEvenements::etatCourant_));
-    GestionnaireEvenements::modifierEtat( ETAT_PARTIE_RAPIDE_TERMINEE );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieRapideTerminee*>(GestionnaireEvenements::etatCourant_));
-    GestionnaireEvenements::modifierEtat( ETAT_PARTIE_TOURNOI_TERMINEE);
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieTournoiTerminee*>(GestionnaireEvenements::etatCourant_));
+	EventManager::modifierEtat( ETAT_MENU_PRINCIPAL );
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatMenuPrincipal*>(EventManager::etatCourant_));
+    EventManager::modifierEtat( ETAT_MODE_EDITION           );
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeEdition*>(EventManager::etatCourant_));
+    EventManager::modifierEtat( ETAT_MODE_JEU               );
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeJeu*>(EventManager::etatCourant_));
+    EventManager::modifierEtat( ETAT_MODE_TOURNOI           );
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeTournoi*>(EventManager::etatCourant_));
+    EventManager::modifierEtat( ETAT_PARTIE_RAPIDE_TERMINEE );
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieRapideTerminee*>(EventManager::etatCourant_));
+    EventManager::modifierEtat( ETAT_PARTIE_TOURNOI_TERMINEE);
+    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieTournoiTerminee*>(EventManager::etatCourant_));
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -114,7 +114,7 @@ void GestionnaireEvenementsTest::testToucheEnfoncee()
 	EvenementClavier evenementTest(VJAK_MINUS);
 
 	// Simulation de l'événement
-	GestionnaireEvenements::toucheEnfoncee(evenementTest);
+	EventManager::toucheEnfoncee(evenementTest);
 
 	Vecteur2i vecteurTest = dynamic_cast<vue::ProjectionOrtho&>(FacadeModele::getInstance()->obtenirVue()->obtenirProjection()).obtenirDimensionFenetre();
 
@@ -139,11 +139,11 @@ void GestionnaireEvenementsTest::testSourisEnfoncee()
 	EvenementSouris evenementTest(vecteurTest, BOUTON_SOURIS_GAUCHE);
 
 	// On effectue le test dans l'état où l'utilisateur effectue un zoom proportionnel
-	GestionnaireEvenements::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
-	GestionnaireEvenements::sourisEnfoncee(evenementTest);
+	EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
+	EventManager::sourisEnfoncee(evenementTest);
 
 	// On véfifie que l'état change l'état du bouton de la souris
-	SourisEtatZoomProportionnel* se = dynamic_cast<SourisEtatZoomProportionnel*>(GestionnaireEvenements::etatCourant_->etatSouris_);
+	SourisEtatZoomProportionnel* se = dynamic_cast<SourisEtatZoomProportionnel*>(EventManager::etatCourant_->etatSouris_);
 	CPPUNIT_ASSERT(se->estEnfoncee_);
 }
 

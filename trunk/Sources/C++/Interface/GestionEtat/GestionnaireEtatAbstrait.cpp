@@ -289,8 +289,45 @@ void GestionnaireEtatAbstrait::renderBase( Terrain* pField, RenderSpecific pSpec
     }
 }
 
+void GestionnaireEtatAbstrait::CameraMovementFromKeyPressed( float deltaTemps )
+{
+	int tempsMs = (int)(deltaTemps*1000);
+	if(EventManager::mCameraDirection.mValue)
+	{
+		Vecteur2i cameraMovement;
+		if(EventManager::mCameraDirection.IsFlagSet(CAMERA_UP))
+		{
+			cameraMovement[VY] -= tempsMs;
+		}
+		if(EventManager::mCameraDirection.IsFlagSet(CAMERA_DOWN))
+		{
+			cameraMovement[VY] += tempsMs;
+		}
+		if(EventManager::mCameraDirection.IsFlagSet(CAMERA_LEFT))
+		{
+			cameraMovement[VX] -= tempsMs;
+		}
+		if(EventManager::mCameraDirection.IsFlagSet(CAMERA_RIGHT))
+		{
+			cameraMovement[VX] += tempsMs;
+		}
+		FacadeModele::getInstance()->deplacerFleches(cameraMovement);
+	}
 
+	if(EventManager::IsKeyPressed(VJAK_ADD) || EventManager::IsKeyPressed(VJAK_PLUS))
+	{
+		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
+		// -1 indique que c'est un zoomIn
+		FacadeModele::getInstance()->zoom(-tempsMs);
+	}
 
+	if(EventManager::IsKeyPressed(VJAK_SUBTRACT) || EventManager::IsKeyPressed(VJAK_MINUS))
+	{
+		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
+		// 1 indique que c'est un zoomOut
+		FacadeModele::getInstance()->zoom(tempsMs);
+	}
+}
 
 
 

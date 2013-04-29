@@ -24,7 +24,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::setUp()
 {
-    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPJoueurAbstrait(new PlayerComputer("")),SPJoueurAbstrait(new PlayerReinforcementAI("")), true, false, 9000);
+    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPPlayerAbstract(new PlayerComputer("")),SPPlayerAbstract(new PlayerReinforcementAI("")), true, false, 9000);
 	GameManager::obtenirInstance()->getGameReady(9000);
     FacadeModele::getInstance()->setPartieCourante(9000);
     partie = GameManager::obtenirInstance()->getGame(9000);

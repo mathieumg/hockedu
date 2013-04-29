@@ -38,18 +38,18 @@ public:
     /// Overriden so we can setup the AILearner output file once mallets are assigned.
     virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle);
 protected:
-    PartieApprentissage(GameType gameType, int pNbButsGagnants, SPJoueurAbstrait joueurGauche = 0, SPJoueurAbstrait joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
+    PartieApprentissage(GameType gameType, int pNbButsGagnants, SPPlayerAbstract joueurGauche = 0, SPPlayerAbstract joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 
 private:
     std::queue<Vecteur3> mPuckPositions;
     Vecteur3 mPreviousPuckPosition;
     bool mGoalScored;
 
-    SPJoueurVirtuelRenforcement mLeftLearningAi;
-    SPJoueurVirtuelRenforcement mRightLearningAi;
+    SPPlayerReinforcementAI mLeftLearningAi;
+    SPPlayerReinforcementAI mRightLearningAi;
 
-    void handleGoalScored( SPJoueurVirtuelRenforcement pLearningPlayer, SPJoueurVirtuelRenforcement pOpponent);
-    void handleLearningStart( SPJoueurVirtuelRenforcement pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet);
+    void handleGoalScored( SPPlayerReinforcementAI pLearningPlayer, SPPlayerReinforcementAI pOpponent);
+    void handleLearningStart( SPPlayerReinforcementAI pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet);
 
     virtual bool getReadyToPlay( bool loadMapFile = true );
 

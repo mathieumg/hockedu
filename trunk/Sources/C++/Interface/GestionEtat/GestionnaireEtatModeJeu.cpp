@@ -314,7 +314,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
         if(wGame->partieTerminee())
         {
             wGame->setGameStatus(GAME_ENDED);
-            GestionnaireEvenements::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
+            EventManager::modifierEtat(ETAT_PARTIE_RAPIDE_TERMINEE);
             return;
         }
         gestionAnimationEnJeu(wGame, temps);
@@ -344,42 +344,7 @@ void GestionnaireEtatModeJeu::afficher()
 
 void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-	int tempsMs = (int)deltaTemps*1000;
-
-	// VERIF ETAT SOURIS
-	switch(toucheSauvegardee_)
-	{
-	case VJAK_UP:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
-		break;
-	case VJAK_DOWN:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
-		break;
-	case VJAK_LEFT:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
-		break;
-	case VJAK_RIGHT:
-		FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
-		break;
-	case VJAK_ADD:
-	case VJAK_PLUS:
-		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-		// -1 indique que c'est un zoomIn
-		FacadeModele::getInstance()->zoom(-tempsMs);
-		break;
-
-	case VJAK_SUBTRACT:
-	case VJAK_MINUS:
-		// Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-		// 1 indique que c'est un zoomOut
-		FacadeModele::getInstance()->zoom(tempsMs);
-		break;
-
-	default:
-		break;
-	}
-
-
+	GestionnaireEtatAbstrait::CameraMovementFromKeyPressed(deltaTemps);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -414,6 +379,7 @@ void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
             wGame->delais(wGame->getMiseAuJeuDelai());
     }
 }
+
 
 
 

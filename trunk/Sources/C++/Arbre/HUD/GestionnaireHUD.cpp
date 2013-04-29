@@ -19,7 +19,7 @@
 #include "Partie.h"
 #include "Tournoi.h"
 #include "GestionnaireModeles.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireEtatAbstrait.h"
 #include "GestionnaireAnimations.h"
@@ -189,7 +189,7 @@ void GestionnaireHUD::creerHUDEdition()
     {
         HUDElementComparatif* panneauDeFond = new HUDElementComparatif([=]() -> bool {
             NomEtatSouris indexOutilSelectionne;
-            if(!GestionnaireEvenements::etatCourant_ || !GestionnaireEvenements::etatCourant_->GetMouseStateName(indexOutilSelectionne))
+            if(!EventManager::etatCourant_ || !EventManager::etatCourant_->GetMouseStateName(indexOutilSelectionne))
                 return false;
             return indexOutilSelectionne==hudEditionInfos[i].mEtat;
         });

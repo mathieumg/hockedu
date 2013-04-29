@@ -36,17 +36,16 @@ public:
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 
-
-	/// Permet de generer des informations aleatoire pour un joueur,
-	/// utile si on a besoin d'un joueur, mais probleme rencontrer a son chargement
-	virtual void genererAleatoirement();
-
-	/// Permet d'obtenir une copie de ce joueur
-	//virtual JoueurAbstrait* obtenirCopie();
+	virtual void PlayTick( float time );
 
 protected:
 	/// Initialisaiton du joueur à partir d'un element XML
 	virtual bool initialiser(const XmlElement* element);
+	Vecteur3 mTargetDestination;
+
+public:
+	inline const Vecteur3& getTargetDestination() const { return mTargetDestination; }
+	inline void setTargetDestination(const Vecteur3& val) { mTargetDestination = val; }
 };
 
 ///////////////////////////////////////////////////////////////////////////////

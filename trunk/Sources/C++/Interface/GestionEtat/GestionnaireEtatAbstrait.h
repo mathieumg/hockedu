@@ -10,12 +10,12 @@
 
 #pragma once
 
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "CodesEvenements.h"
 #include <functional>
 
 class GestionnaireEvenementsTest;
-class GestionnaireEvenements;
+class EventManager;
 class SourisEtatAbstrait;
 class Partie;
 
@@ -94,7 +94,8 @@ public:
 
     // retourne vrai si on arrive a retrouver un nom valid
     bool GetMouseStateName(NomEtatSouris& outName);
-    
+	static void CameraMovementFromKeyPressed( float deltaTemps );
+
 protected:
 	/// État de la souris
 	SourisEtatAbstrait* etatSouris_;

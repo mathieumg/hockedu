@@ -13,7 +13,7 @@
 #endif
 #if WIN32
 #include "GestionnaireModeles.h"
-#include "GestionnaireEvenements.h"
+#include "EventManager.h"
 #include "GestionnaireEtatAbstrait.h"
 #elif __APPLE__
 #endif
@@ -309,11 +309,11 @@ void RazerGameUtilities::SaveFieldToFile( const std::string& nomFichier, Terrain
         pathFile.append(ext,4);
     }
 
-    int wTest = pathFile.find_last_of("\\");
-    int wTest2 = pathFile.find_last_of("/");
+	int wTest  = (int)pathFile.find_last_of("\\");
+	int wTest2 = (int)pathFile.find_last_of("/");
     int wIndexSeparateur = utilitaire::borneSuperieure(wTest2, wTest);
 
-    int wIndexPoint = pathFile.find_last_of(".");
+    int wIndexPoint = (int)pathFile.find_last_of(".");
     std::string wMapName;
     if(wIndexPoint == std::string::npos)
     {

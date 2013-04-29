@@ -116,7 +116,7 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
     {
         GestionnaireReseau::obtenirInstance()->transmitEvent(EXIT_NETWORK_GAME);
     }
-	GestionnaireEvenements::modifierEtat(ETAT_MODE_JEU);
+	EventManager::modifierEtat(ETAT_MODE_JEU);
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -164,9 +164,6 @@
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\GestionnaireEvenements.cpp">
-      <Filter>Sources Files\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\FacadeJNI.cpp">
       <Filter>Sources Files\Interface</Filter>
     </ClCompile>
@@ -668,6 +665,9 @@
     <ClCompile Include="Jeu\PlayerReinforcementAI.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\EventManager.cpp">
+      <Filter>Sources Files\Interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -714,9 +714,6 @@
     </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeEdition.h">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionnaireEvenements.h">
-      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
@@ -1224,6 +1221,9 @@
     </ClInclude>
     <ClInclude Include="Jeu\PlayerReinforcementAI.h">
       <Filter>Sources Files\Jeu</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\EventManager.h">
+      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

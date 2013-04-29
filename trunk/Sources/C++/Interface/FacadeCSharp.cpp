@@ -242,7 +242,7 @@ void CancelConnection( char* pConnectionId )
 void InitOpenGL( HWND hWnd )
 {
     FacadeModele::getInstance()->initialiserOpenGL(hWnd);
-    SPJoueurAbstrait joueurHumain = SPJoueurAbstrait(new PlayerHuman("Joueur 2"));
+    SPPlayerAbstract joueurHumain = SPPlayerAbstract(new PlayerHuman("Joueur 2"));
     FacadeModele::getInstance()->modifierAdversaire(joueurHumain);
     
 }
@@ -304,13 +304,13 @@ void LogicUpdate( float time )
 
 void OnKeyPressed(int key)
 {
-    GestionnaireEvenements::toucheEnfoncee(EvenementClavier(key));
+    EventManager::toucheEnfoncee(EvenementClavier(key));
 }
 
 
 void OnKeyReleased(int key)
 {
-    GestionnaireEvenements::toucheRelachee(EvenementClavier(key));
+    EventManager::toucheRelachee(EvenementClavier(key));
 }
 
 
@@ -325,7 +325,7 @@ void OnMousePressed( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
+    EventManager::sourisEnfoncee(EvenementSouris(Vecteur2i(x,y),type));
 }
 
 
@@ -339,7 +339,7 @@ void OnMouseReleased( int x, int y, MouseButtons button)
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
+    EventManager::sourisRelachee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 
@@ -354,12 +354,12 @@ void OnMouseMoved( int x, int y, MouseButtons button )
     case Middle: type = BOUTON_SOURIS_MILIEU; break;
     default:break;
     }
-    GestionnaireEvenements::sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
+    EventManager::sourisDeplacee(EvenementSouris(Vecteur2i(x,y), type));
 }
 
 void OnMouseWheelMoved( int deltaRotation )
 {
-    GestionnaireEvenements::rouletteSouris(EvenementRouletteSouris(-deltaRotation));
+    EventManager::rouletteSouris(EvenementRouletteSouris(-deltaRotation));
 }
 
 bool ActionPerformed( ActionType action )
@@ -470,11 +470,11 @@ void SetPlayMap(char* pFileName)
 
 void SetSecondPlayer(bool pIsHuman, char* pName)
 {
-    SPJoueurAbstrait player;
+    SPPlayerAbstract player;
 
     if(pIsHuman)
     {
-        player = SPJoueurHumain(new PlayerHuman("Right Player"));
+        player = SPPlayerHuman(new PlayerHuman("Right Player"));
 
         // Test seulement
         //player = SPJoueurNetwork(new JoueurNetwork);
@@ -492,12 +492,12 @@ void AddPlayer(char* pName, int pSpeed, int pFailProb, bool pIsLearning)
 {
     if(pIsLearning)
     {
-        SPJoueurAbstrait joueurRenforcement(new PlayerReinforcementAI(pName, pSpeed, pFailProb));
+        SPPlayerAbstract joueurRenforcement(new PlayerReinforcementAI(pName, pSpeed, pFailProb));
         FacadeModele::getInstance()->ajouterJoueur(joueurRenforcement);
     }
     else
     {
-        SPJoueurAbstrait joueurVirtuel(new PlayerComputer(pName, pSpeed, pFailProb));
+        SPPlayerAbstract joueurVirtuel(new PlayerComputer(pName, pSpeed, pFailProb));
         FacadeModele::getInstance()->ajouterJoueur(joueurVirtuel);
     }
 }
@@ -518,7 +518,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
     listeJoueursTries = FacadeModele::getInstance()->obtenirListeNomsJoueurs();
 
-    SPJoueurAbstrait joueur;
+    SPPlayerAbstract joueur;
 
     int i = 0;
 
@@ -529,7 +529,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 
         if(joueur->obtenirType() == JOUEUR_VIRTUEL)
 	    {
-		    SPJoueurVirtuel joueurVirtuel = std::dynamic_pointer_cast<PlayerComputer>(joueur);
+		    SPPlayerComputer joueurVirtuel = std::dynamic_pointer_cast<PlayerComputer>(joueur);
 
             strcpy_s(pProfiles[i].Name, 255, joueurVirtuel->obtenirNom().c_str());
 
@@ -543,7 +543,7 @@ void GetPlayers(AIProfile* pProfiles, int pNbrProfiles)
 	    }
         else if(joueur->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
 	    {
-            SPJoueurVirtuelRenforcement joueurRenforcement = std::dynamic_pointer_cast<PlayerReinforcementAI>(joueur);
+            SPPlayerReinforcementAI joueurRenforcement = std::dynamic_pointer_cast<PlayerReinforcementAI>(joueur);
 
             strcpy_s(pProfiles[i].Name, 255, joueurRenforcement->obtenirNom().c_str());
 
@@ -730,18 +730,18 @@ void BeginNewTournament(char* pTournamentName, char* pMapName, char** pPlayerNam
 		// Empty name means human player
 		if(strlen(pPlayerNames[i]) == 0)
         {
-            players.push_back(SPJoueurAbstrait(new PlayerHuman("Human Player")));
+            players.push_back(SPPlayerAbstract(new PlayerHuman("Human Player")));
         }
 		else // AI player
 		{	
-			SPJoueurAbstrait jv = FacadeModele::getInstance()->obtenirJoueur(std::string(pPlayerNames[i]));
+			SPPlayerAbstract jv = FacadeModele::getInstance()->obtenirJoueur(std::string(pPlayerNames[i]));
 			if(jv)
 			{
 				players.push_back(jv);
 			}
 			else
             {
-				players.push_back(SPJoueurAbstrait(new PlayerComputer(pPlayerNames[i], 1, 0)));
+				players.push_back(SPPlayerAbstract(new PlayerComputer(pPlayerNames[i], 1, 0)));
             }
 		}
 	}
@@ -1011,16 +1011,16 @@ void requestMatchmaking(  )
 struct ThreadInfos
 {
     Partie* mGame;
-    SPJoueurVirtuelRenforcement mPlayer;
-    SPJoueurVirtuelRenforcement mOpponent;
+    SPPlayerReinforcementAI mPlayer;
+    SPPlayerReinforcementAI mOpponent;
 };
 
 void* gameThreadFunction(void* pParams)
 {
     ThreadInfos* ti = (ThreadInfos*)pParams;
     Partie* wGame = ti->mGame;
-    SPJoueurVirtuelRenforcement wPlayer = ti->mPlayer;
-    SPJoueurVirtuelRenforcement wOpponent = ti->mOpponent;
+    SPPlayerReinforcementAI wPlayer = ti->mPlayer;
+    SPPlayerReinforcementAI wOpponent = ti->mOpponent;
     int wNbGamesToPlay = 1;
 
     // If opponent is set, that means we need to wait for both AIs to be done with their preliminary learning
@@ -1080,8 +1080,8 @@ void* gameThreadFunction(void* pParams)
 
 void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
 {
-    SPJoueurVirtuelRenforcement wPlayerRight(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
-    SPJoueurVirtuel wOpponentLeft(new PlayerComputer("AILeft", 5, 5));
+    SPPlayerReinforcementAI wPlayerRight(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
+    SPPlayerComputer wOpponentLeft(new PlayerComputer("AILeft", 5, 5));
 
     std::string wMapName("map_apprentissage_ai.xml");
 
@@ -1098,8 +1098,8 @@ void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb)
     FacadePortability::createThread(mThreadRightAI, gameThreadFunction, tiRightAI);
 
     /* Tests pour runner 2 games en même temps */
-    SPJoueurVirtuelRenforcement wPlayerLeft(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
-    SPJoueurVirtuel wOpponentRight(new PlayerComputer("AIRight", 5, 5));
+    SPPlayerReinforcementAI wPlayerLeft(new PlayerReinforcementAI(pReinforcementProfileName, pSpeed, pFailProb));
+    SPPlayerComputer wOpponentRight(new PlayerComputer("AIRight", 5, 5));
 
     wGameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, 300, wPlayerLeft, wOpponentRight, false, true);
 

@@ -38,7 +38,7 @@ namespace vue {
     {
         float distanceCentre = (nouvellePosition-pointVise_).norme();
         float olddistanceCentre = (position_-pointVise_).norme();
-        unsigned int lengthCrop = distanceCentre - LimitZoomIn;
+        unsigned int lengthCrop = (unsigned int)(distanceCentre - LimitZoomIn);
         return (nouvellePosition[VZ]>-20.0 && lengthCrop < LimitZoomOut) || (distanceCentre<olddistanceCentre ? (olddistanceCentre>LimitZoomIn) : (olddistanceCentre<LimitZoomOut));
     }
 

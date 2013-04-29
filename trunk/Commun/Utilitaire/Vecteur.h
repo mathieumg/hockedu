@@ -137,6 +137,22 @@ public:
 		return vect[i];
 	}
 
+	inline T& X ()
+	{
+		return vect[VX];
+	}
+	inline T& Y ()
+	{
+		return vect[VY];
+	}
+	inline T& Z ()
+	{
+		return vect[VZ];
+	}
+	inline T& W ()
+	{
+		return vect[VW];
+	}
 
 	////////////////////////////////////////////////////////////////////////////
 	///

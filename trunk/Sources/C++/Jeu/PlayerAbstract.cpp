@@ -152,7 +152,7 @@ std::string PlayerAbstract::extraireNomXmlNode( const XmlElement* element )
 /// @return SPJoueurAbstrait : pointeur du joueur si succes, null si echec
 ///
 ////////////////////////////////////////////////////////////////////////
-SPJoueurAbstrait PlayerAbstract::usineJoueurXML( const XmlElement* element, ConteneurJoueur* profilsExistant /*= 0*/ )
+SPPlayerAbstract PlayerAbstract::usineJoueurXML( const XmlElement* element, ConteneurJoueur* profilsExistant /*= 0*/ )
 {
 	if(!element)
 		return nullptr;
@@ -166,10 +166,10 @@ SPJoueurAbstrait PlayerAbstract::usineJoueurXML( const XmlElement* element, Cont
 		if( element->QueryIntAttribute(PlayerAbstract::etiquetteType.c_str(), &type) == TIXML_SUCCESS )
 		{
 			// Pointeur Intelligent, on ne s'occupe plus de liberer la memoire de ceux-ci
-			SPJoueurAbstrait joueur;
+			SPPlayerAbstract joueur;
 			switch(type)
 			{
-			case JOUEUR_HUMAIN: joueur = SPJoueurAbstrait(new PlayerHuman()); break;
+			case JOUEUR_HUMAIN: joueur = SPPlayerAbstract(new PlayerHuman()); break;
 			case JOUEUR_VIRTUEL:
 				{
 					ConteneurJoueur::iterator iter;
@@ -178,15 +178,15 @@ SPJoueurAbstrait PlayerAbstract::usineJoueurXML( const XmlElement* element, Cont
 						return iter->second;
 					}
 					else
-						joueur = SPJoueurAbstrait(new PlayerComputer()); break;
+						joueur = SPPlayerAbstract(new PlayerComputer()); break;
 				}				
             case JOUEUR_NETWORK:
                 {
-                    joueur = SPJoueurAbstrait(new PlayerNetwork()); break;
+                    joueur = SPPlayerAbstract(new PlayerNetwork()); break;
                 }
             case JOUEUR_VIRTUEL_RENFORCEMENT:
             {
-                joueur = SPJoueurAbstrait(new PlayerReinforcementAI()); break;
+                joueur = SPPlayerAbstract(new PlayerReinforcementAI()); break;
             }
 			default: break;
 			}

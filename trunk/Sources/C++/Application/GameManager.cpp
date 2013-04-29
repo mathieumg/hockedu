@@ -120,11 +120,11 @@ GameManager::~GameManager()
 /// @return int
 ///
 ////////////////////////////////////////////////////////////////////////
-int GameManager::addNewGame(GameType gametype, int pNbButsGagnants, SPJoueurAbstrait pJoueur1 /*= 0*/, SPJoueurAbstrait pJoueur2 /*= 0*/, bool pForceParameters /*=false*/,  bool pIsLearningGame /*=false*/, int pGameId /*=-1*/)
+int GameManager::addNewGame(GameType gametype, int pNbButsGagnants, SPPlayerAbstract pJoueur1 /*= 0*/, SPPlayerAbstract pJoueur2 /*= 0*/, bool pForceParameters /*=false*/,  bool pIsLearningGame /*=false*/, int pGameId /*=-1*/)
 {
 	Partie* wGame;
     int wId = pGameId;
-    SPJoueurAbstrait wJoueur1, wJoueur2;
+    SPPlayerAbstract wJoueur1, wJoueur2;
     GameType wGameType = gametype;
     if(pGameId == -1)
     {
@@ -147,7 +147,7 @@ int GameManager::addNewGame(GameType gametype, int pNbButsGagnants, SPJoueurAbst
 		else
 		{
             // Si adversaire pas defini, on lance avec un joueur Humain
-            wJoueur2 = SPJoueurAbstrait(new PlayerHuman("Joueur Droit"));
+            wJoueur2 = SPPlayerAbstract(new PlayerHuman("Joueur Droit"));
 		}
 	}
 	else

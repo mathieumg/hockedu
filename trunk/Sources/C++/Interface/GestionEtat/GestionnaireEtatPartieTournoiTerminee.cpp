@@ -84,7 +84,7 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 		FacadeModele::getInstance()->passageModeTournoi();
 	}
 	tournoi->obtenirPartieCourante()->modifierEnPause(false);
-	GestionnaireEvenements::modifierEtat(ETAT_MODE_TOURNOI);
+	EventManager::modifierEtat(ETAT_MODE_TOURNOI);
 }
 
 ////////////////////////////////////////////////////////////////////////

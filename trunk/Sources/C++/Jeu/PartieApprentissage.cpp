@@ -23,7 +23,7 @@ int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
 }
 
 
-PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,SPJoueurAbstrait joueurGauche, SPJoueurAbstrait joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
+PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,SPPlayerAbstract joueurGauche, SPPlayerAbstract joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
 :Partie(gameType, pNbButsGagnants, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
@@ -169,7 +169,7 @@ void PartieApprentissage::modifierJoueurGauche( SPJoueurAbstrait pPlayer )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::handleGoalScored( SPJoueurVirtuelRenforcement pPlayer, SPJoueurVirtuelRenforcement pOpponent)
+void PartieApprentissage::handleGoalScored( SPPlayerReinforcementAI pPlayer, SPPlayerReinforcementAI pOpponent)
 {
     if(pPlayer && pPlayer->isLearning())
     {
@@ -237,7 +237,7 @@ void PartieApprentissage::incrementerPointsJoueurDroit( bool pForceUpdate /*= fa
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void PartieApprentissage::handleLearningStart( SPJoueurVirtuelRenforcement pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
+void PartieApprentissage::handleLearningStart( SPPlayerReinforcementAI pLearningPlayer, NoeudRondelle* pPuck, NoeudMaillet* pOpponentMallet)
 {
     if(pLearningPlayer->isLearning())
     {

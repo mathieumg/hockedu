@@ -10,6 +10,8 @@
 
 #include "PlayerHuman.h"
 #include "RazerGameUtilities.h"
+#include "NoeudMaillet.h"
+#include "EventManager.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -22,7 +24,7 @@
 /// @return
 ///
 ////////////////////////////////////////////////////////////////////////
-PlayerHuman::PlayerHuman(std::string nom) : PlayerAbstract(nom)
+PlayerHuman::PlayerHuman(std::string nom) : PlayerAbstract(nom), mControllerType(CONTROLLER_TYPE_MOUSE)
 {
 	type_ = JOUEUR_HUMAIN;
 }
@@ -109,19 +111,48 @@ bool PlayerHuman::initialiser( const XmlElement* element )
 	return true;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void JoueurHumain::genererAleatoirement()
-///
-/// Permet de generer des informations aleatoire pour un joueur,
-/// utile si on a besoin d'un joueur, mais probleme rencontré a son chargement
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PlayerHuman::genererAleatoirement()
+void PlayerHuman::PlayTick( float time )
 {
-	modifierNom("Joueur Humain Aleatoire");
+	auto maillet = getControlingMallet();
+	if(maillet)
+	{
+		if(mControllerType & CONTROLLER_TYPE_KEYBOARD)
+		{
+			// if any key is pressed
+			if(EventManager::mMalletDirection.mValue)
+			{
+				Vecteur3 newPos;
+				// give direction according to key pressed
+				if(EventManager::mMalletDirection.IsFlagSet(MALLET_UP))
+				{
+					++newPos[VY];
+				}
+				if(EventManager::mMalletDirection.IsFlagSet(MALLET_DOWN))
+				{
+					--newPos[VY];
+				}
+				if(EventManager::mMalletDirection.IsFlagSet(MALLET_LEFT))
+				{
+					--newPos[VX];
+				}
+				if(EventManager::mMalletDirection.IsFlagSet(MALLET_RIGHT))
+				{
+					++newPos[VX];
+				}
+
+				// make sure final direction is length 8
+				newPos.normaliser();
+				newPos *= 8;
+				newPos += maillet->getPosition();
+				
+				maillet->setTargetDestination(newPos,true);
+			}
+		}
+		else if(mControllerType & CONTROLLER_TYPE_MOUSE)
+		{
+			maillet->setTargetDestination(EventManager::mMouseGamePos,true);
+		}
+	}
 }
 
 ///////////////////////////////////////////////////////////////////////////////
