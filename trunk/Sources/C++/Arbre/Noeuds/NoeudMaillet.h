@@ -99,16 +99,11 @@ private:
 	Vecteur3 velocite_;
 	/// Vitesse maximale
 	const float vitesse_;
-	/// tableau indiquant dans quel direction ce deplace le maillet controlle par le clavier
-	bool direction_[NB_DIR];
 	/// Flag pour savoir qui a le controle de ce maillet
 	bool estControleParClavier_;
 	bool estControleParOrdinateur_;
     bool estControleParNetwork_;
 
-	/// Conservation en memoire de la position de destination
-	Vecteur3 mTargetDestination;
-    
 	/// Indique si ce maillet est controlle par le joueur de gauche
 	bool estAGauche_;
 	
@@ -143,12 +138,10 @@ public:
 	/// Accesseur de malletSide_
 	MalletSide getMalletSide() const { return malletSide_; }
 	void setMalletSide(MalletSide val) { malletSide_ = val; }
-	/// Mutateur de la direction du maillet controler par clavier
-	void modifierDirection(bool active, DirectionMaillet dir);
 	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
 	void setKeyboardControlled(bool clavier);
 	/// Assignation de la position de la souris pour que le maillet puisse la suivre
-	void setTargetDestination(const Vecteur3& pos, bool forceUpdateMouseJoint = false);
+	void setTargetDestination(const Vecteur3& pos);
 	/// Accesseur de velocite_
 	Vecteur3 obtenirVelocite() const { return velocite_; }
 	/// Modificateur de velocite_
@@ -175,13 +168,6 @@ public:
 	/// Modificateur de joueur_
 	void setPlayer(SPPlayerAbstract val) { joueur_ = val; }
     inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
-
-
-//#if MAT_DEBUG_
-//    static std::vector<Vecteur3> mListePointsDebug;
-
-
-//#endif
 
 
 };

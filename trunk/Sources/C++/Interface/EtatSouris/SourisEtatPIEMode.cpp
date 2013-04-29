@@ -40,7 +40,6 @@ SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
     auto xml = FacadeModele::getInstance()->getEditionField()->creerNoeudXML();
     mPIEGame->setFieldName("PIEGame");
     mPIEGame->setMiseAuJeuDelai(1000);
-    mPIEGame->setMousePosScreen(pos);
 
     mInitialised = false;
     mPIEGame->getField()->initialiserXml(xml,false,false);
@@ -86,28 +85,8 @@ void SourisEtatPIEMode::toucheEnfoncee( EvenementClavier& evenementClavier )
         return;
 
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-    Partie* wGame = mPIEGame;
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(true,DIR_HAUT);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(true,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(true,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(true,DIR_BAS);
-        }
-    }
+	Partie* wGame = mPIEGame;
+	checkf(wGame);
 
 	// VERIF ETAT PAUSE
 	if(touche==VJAK_SHIFT)
@@ -149,30 +128,6 @@ void SourisEtatPIEMode::toucheRelachee( EvenementClavier& evenementClavier )
         shiftEnfonce_ = false;
     if(toucheSauvegardee_==touche)
         toucheSauvegardee_ = 0;
-
-    Partie* wGame = mPIEGame;
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(false,DIR_HAUT);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(false,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(false,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(false,DIR_BAS);
-        }
-    }
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -243,28 +198,6 @@ void SourisEtatPIEMode::sourisDeplacee( EvenementSouris& evenementSouris )
         }
         mMousePos = evenementSouris.obtenirPosition();
     }
-    else
-    {
-        if(!mInitialised)
-            return;
-
-        Partie* wGame = mPIEGame;
-        checkf(wGame);
-        if(wGame && wGame->getGameStatus() == GAME_STARTED)
-        {
-            wGame->setMousePosScreen(evenementSouris.obtenirPosition());
-            NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
-            NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();
-            checkf(mailletGauche && mailletDroit);
-            if(mailletGauche && mailletDroit)
-            {
-                if(!mailletGauche->estControleParNetwork())
-                    mailletGauche->setTargetDestination(coordonneesSouris);
-                if(!mailletDroit->estControleParNetwork())
-                    mailletDroit->setTargetDestination(coordonneesSouris);
-            }
-        }
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -297,42 +230,6 @@ bool SourisEtatPIEMode::OverrideAnimate(float temps)
     if(!mInitialised)
         return false;
 
-    int tempsMs = (int)temps*1000;
-
-    // VERIF ETAT SOURIS
-    switch(toucheSauvegardee_)
-    {
-    case VJAK_UP:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, -tempsMs));
-        break;
-    case VJAK_DOWN:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(0, tempsMs));
-        break;
-    case VJAK_LEFT:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(-tempsMs, 0));
-        break;
-    case VJAK_RIGHT:
-        FacadeModele::getInstance()->deplacerFleches(Vecteur2i(tempsMs, 0));
-        break;
-    case VJAK_ADD:
-    case VJAK_PLUS:
-        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-        // -1 indique que c'est un zoomIn
-        FacadeModele::getInstance()->zoom(-tempsMs);
-        break;
-
-    case VJAK_SUBTRACT:
-    case VJAK_MINUS:
-        // Utilisation temporaire de la méthode pour le zooom associé à la roulette de la souris
-        // 1 indique que c'est un zoomOut
-        FacadeModele::getInstance()->zoom(tempsMs);
-        break;
-
-    default:
-        break;
-    }
-
-
     SoundFMOD::obtenirInstance()->change_song_if_end();
     Partie* wGame = mPIEGame;
 
@@ -344,9 +241,6 @@ bool SourisEtatPIEMode::OverrideAnimate(float temps)
         {
             wGame->reinitialiserPartie();
             wGame->miseAuJeu(true);
-            Vecteur3 coordonneesSouris;
-            FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePos[VX], mMousePos[VY], coordonneesSouris);
-            wGame->getField()->getLeftMallet()->setTargetDestination(coordonneesSouris,true);
         }
     }
 
@@ -368,7 +262,7 @@ bool SourisEtatPIEMode::OverrideRender()
     if(!mInitialised)
         return false;
 
-    GestionnaireEtatAbstrait::renderBase(mPIEGame->getField(),[&]() -> void{mPIEGame->afficher();});
+    GestionnaireEtatAbstrait::renderBase(mPIEGame->getField(),[this]() -> void{mPIEGame->afficher();});
     return true;
 }
 

@@ -87,7 +87,7 @@ void PlayerNetworkServer::PlayTick( float time )
 	auto maillet = getControlingMallet();
 	if(maillet)
 	{
-		maillet->setTargetDestination(getTargetDestination(),true);
+		maillet->setTargetDestination(getTargetDestination());
 	}
 }
 

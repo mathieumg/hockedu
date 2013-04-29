@@ -145,12 +145,12 @@ void PlayerHuman::PlayTick( float time )
 				newPos *= 8;
 				newPos += maillet->getPosition();
 				
-				maillet->setTargetDestination(newPos,true);
+				maillet->setTargetDestination(newPos);
 			}
 		}
 		else if(mControllerType & CONTROLLER_TYPE_MOUSE)
 		{
-			maillet->setTargetDestination(EventManager::mMouseGamePos,true);
+			maillet->setTargetDestination(EventManager::mMouseGamePos);
 		}
 	}
 }

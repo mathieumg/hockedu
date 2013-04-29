@@ -246,7 +246,7 @@ void PlayerComputer::PlayTick( float time )
 	{
 		auto newPos = obtenirDirectionAI(maillet);
 		newPos += maillet->getPosition();
-		maillet->setTargetDestination(newPos,true);
+		maillet->setTargetDestination(newPos);
 	}
 }
 

@@ -542,10 +542,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */)
 
     maillet1->setPosition(maillet1->obtenirPositionOriginale());
     maillet2->setPosition(maillet2->obtenirPositionOriginale());
-    maillet1->setTargetDestination(maillet1->obtenirPositionOriginale(), true);
-    maillet2->setTargetDestination(maillet2->obtenirPositionOriginale(), true);
-
-
+    maillet1->setTargetDestination(maillet1->obtenirPositionOriginale());
+    maillet2->setTargetDestination(maillet2->obtenirPositionOriginale());
 
     if(debutDePartie && mTempsPlus == 1.0f)
     {
@@ -594,25 +592,6 @@ void Partie::updateMinuterie( int time )
             chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
             chiffres_->setVisible(false);
             setGameStatus(GAME_STARTED);
-            Vecteur3 coordonneesSouris;
-            
-            FacadeModele::getInstance()->convertirClotureAVirtuelle(mMousePosScreen[VX], mMousePosScreen[VY], coordonneesSouris);
-            if(joueurGauche_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                NoeudMaillet* mailletGauche = getField()->getLeftMallet();
-                if(mailletGauche && !mailletGauche->obtenirEstControleParOrdinateur())
-                {
-                    mailletGauche->setTargetDestination(coordonneesSouris, true);
-                }
-            }
-            if(joueurDroit_->obtenirType() == JOUEUR_HUMAIN)
-            {
-                NoeudMaillet* mailletDroit = getField()->getRightMallet();
-                if(mailletDroit && !mailletDroit->obtenirEstControleParOrdinateur())
-                {
-                    mailletDroit->setTargetDestination(coordonneesSouris, true);
-                }
-            }
             mClockLastTick = 0;
             tempsJeu_.unPause();
             return;

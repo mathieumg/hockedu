@@ -74,30 +74,8 @@ GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
 void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-    Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(true,DIR_HAUT);
 
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(true,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(true,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(true,DIR_BAS);
-        }
-    }
-	
-    if(touche == VJAK_F1)
+	if(touche == VJAK_F1)
     {
         TestTrajectoryPredictionDLL();
     }
@@ -148,30 +126,6 @@ void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier
 		shiftEnfonce_ = false;
 	if(toucheSauvegardee_==touche)
 		toucheSauvegardee_ = 0;
-
-    Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(false,DIR_HAUT);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(false,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(false,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(false,DIR_BAS);
-        }
-    }
-	
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -251,24 +205,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 		}
 		positionSouris_ = evenementSouris.obtenirPosition();
 	}
-	else
-	{
-        Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
-        checkf(wGame);
-        if(wGame && wGame->getGameStatus() == GAME_STARTED)
-        {
-            NoeudMaillet* mailletGauche = wGame->getField()->getLeftMallet();
-            NoeudMaillet* mailletDroit = wGame->getField()->getRightMallet();
-            checkf(mailletGauche && mailletDroit);
-            if(mailletGauche && mailletDroit)
-            {
-                if(!mailletGauche->estControleParNetwork())
-                    mailletGauche->setTargetDestination(coordonneesSouris);
-                if(!mailletDroit->estControleParNetwork())
-                    mailletDroit->setTargetDestination(coordonneesSouris);
-            }
-        }
-	}
+	
     if (etatSouris_)
     {
         etatSouris_->sourisDeplacee(evenementSouris);

@@ -371,7 +371,7 @@ void PlayerReinforcementAI::PlayTick( float time )
 		if(!newPos.estNul())
 		{
 			newPos += maillet->getPosition();
-			maillet->setTargetDestination(newPos,true);
+			maillet->setTargetDestination(newPos);
 		}
 	}
 }

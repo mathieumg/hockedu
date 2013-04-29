@@ -227,9 +227,6 @@ private:
     bool mRequirePassword;
     std::string mPassword;
     
-    /// position of mouse in the screen coordinates, do not use directly on nodes
-    Vecteur2i mMousePosScreen;
-
     /// Permet de connaitre l'intention de la partie et qui la contient
     /// ne peux changer une fois créer
     const GameType mGameType;
@@ -288,12 +285,6 @@ public:
     inline void setName(std::string val) { mName = val; }
 
     inline PartieSyncer* getPartieSyncer() { return &mPartieSyncer; }
-
-
-    /// Accessors of mMousePosScreen
-    inline Vecteur2i getMousePosScreen() const { return mMousePosScreen; }
-    inline void setMousePosScreen(const Vecteur2i& pVal) { mMousePosScreen = pVal; }
-
 
 };
 

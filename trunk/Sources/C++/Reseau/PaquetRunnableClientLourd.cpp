@@ -43,43 +43,29 @@ int PaquetRunnable::RunnableMailletClient( Paquet* pPaquet )
 {
     PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
     // Modification de la pos du maillet
-
-
     Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
     if(wGame && wGame->getGameStatus() == GAME_STARTED)
     {
         Vecteur3 wPos = wPaquet->getPosition();
-        NoeudMaillet* maillet;
+		SPPlayerAbstract wJoueur;
         if(wPaquet->getEstAGauche())
         {
-            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
+            wJoueur = wGame->obtenirJoueurGauche();
         }
         else
         {
-            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
+            wJoueur = wGame->obtenirJoueurDroit();
         }
         // Si maillet pas encore cree (ex: transition vers le mode jeu en cours et deja reception de paquets)
-        if(maillet)
+        if(wJoueur)
         {
-            SPPlayerAbstract wJoueur = maillet->obtenirJoueur();
             if(wJoueur->obtenirType() == JOUEUR_NETWORK)
             {
-                int wGameId = wPaquet->getGameId();
-                Runnable* r = new Runnable([wGameId,maillet,wPos](Runnable*){
-                    if(GameManager::obtenirInstance()->getGame(wGameId))
-                    {
-                        // Mettre la position du maillet
-                        maillet->setTargetDestination(wPos);
-                    }
-                    
-
-                });
-                //maillet->attach(r);
-                RazerGameUtilities::RunOnUpdateThread(r,true);
+				auto wNetworkPlayer = std::static_pointer_cast<PlayerNetwork>(wJoueur);
+				wNetworkPlayer->setTargetDestination(wPos);
             }
         }
-        
     }
 
     return 0;

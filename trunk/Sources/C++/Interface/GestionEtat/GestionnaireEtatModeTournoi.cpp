@@ -51,32 +51,6 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : Ges
 void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
     ToucheClavier touche = evenementClavier.obtenirTouche();
-
-    Partie* wGame = mTournoi->obtenirPartieCourante();
-
-    
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(true,DIR_HAUT);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(true,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(true,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(true,DIR_BAS);
-        }
-    }
-
 	
     if(touche == VJAK_SPACE)
     {
@@ -101,29 +75,6 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	ToucheClavier touche = evenementClavier.obtenirTouche();
-    Partie* wGame = mTournoi->obtenirPartieCourante();
-    checkf(wGame);
-    if(wGame)
-    {
-        NoeudMaillet* maillet = wGame->getField()->getRightMallet();
-        checkf(maillet);
-        if(maillet)
-        {
-            // Les 4 cas suivants déplacent le maillet du joueur 2
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheHaut())
-                maillet->modifierDirection(false,DIR_HAUT);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheGauche())
-                maillet->modifierDirection(false,DIR_GAUCHE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheDroite())
-                maillet->modifierDirection(false,DIR_DROITE);
-
-            if(touche == ConfigScene::obtenirInstance()->obtenirToucheBas())
-                maillet->modifierDirection(false,DIR_BAS);
-        }
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -169,24 +120,6 @@ void GestionnaireEtatModeTournoi::sourisRelachee( EvenementSouris& evenementSour
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	Vecteur3 coordonneesSouris, anciennePos;
-	FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
-
-    auto game = FacadeModele::getInstance()->obtenirPartieCourante();
-    checkf(game);
-    if(game)
-    {
-        NoeudMaillet* mailletGauche = game->getField()->getLeftMallet();
-        NoeudMaillet* mailletDroit = game->getField()->getRightMallet();
-        checkf(mailletGauche && mailletDroit);
-        if(mailletGauche && mailletDroit)
-        {
-            if(!mailletGauche->estControleParNetwork())
-                mailletGauche->setTargetDestination(coordonneesSouris);
-            if(!mailletDroit->estControleParNetwork())
-                mailletDroit->setTargetDestination(coordonneesSouris);
-        }
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -154,41 +154,32 @@ int PaquetRunnable::RunnableGameStatusServerGame( Paquet* pPaquet )
 
 int PaquetRunnable::RunnableMailletServerGame( Paquet* pPaquet )
 {
-    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
+	PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
+	// Modification de la pos du maillet
+	Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
 
+	if(wGame && wGame->getGameStatus() == GAME_STARTED)
+	{
+		Vecteur3 wPos = wPaquet->getPosition();
+		SPPlayerAbstract wJoueur;
+		if(wPaquet->getEstAGauche())
+		{
+			wJoueur = wGame->obtenirJoueurGauche();
+		}
+		else
+		{
+			wJoueur = wGame->obtenirJoueurDroit();
+		}
 
-    Partie* wGame = GameManager::obtenirInstance()->getGame(wPaquet->getGameId());
-
-    if(wGame && wGame->getGameStatus() == GAME_STARTED)
-    {
-        Vecteur3 wPos = wPaquet->getPosition();
-        NoeudMaillet* maillet;
-        if(wPaquet->getEstAGauche())
-        {
-            maillet = wGame->obtenirJoueurGauche()->getControlingMallet();
-        }
-        else
-        {
-            maillet = wGame->obtenirJoueurDroit()->getControlingMallet();
-        }
-
-        // On ne met pas a jour si c'est nous
-        if(maillet)
-        {
-            SPPlayerAbstract wJoueur = maillet->obtenirJoueur();
-            if(wJoueur && wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
-            {
-                Runnable* r = new Runnable([maillet,wPos](Runnable*){
-
-                    // Mettre la position du maillet
-                    maillet->setTargetDestination(wPos);
-
-                });
-                //maillet->attach(r);
-                RazerGameUtilities::RunOnUpdateThread(r,true);
-            }
-        }
-    }
+		if(wJoueur)
+		{
+			if(wJoueur->obtenirType() == JOUEUR_NETWORK_SERVEUR)
+			{
+				auto wNetworkPlayer = std::static_pointer_cast<PlayerNetworkServer>(wJoueur);
+				wNetworkPlayer->setTargetDestination(wPos);
+			}
+		}
+	}
 
     return 0;
 }

@@ -305,11 +305,6 @@ void EventManager::sourisDeplacee( EvenementSouris& evenementSouris )
 	FacadeModele::getInstance()->convertirClotureAVirtuelle(mMouseScreenPos.X(),mMouseScreenPos.Y(),mMouseGamePos);
 
 	if(etatCourant_)etatCourant_->sourisDeplacee(evenementSouris);
-    auto partie = FacadeModele::getInstance()->obtenirPartieCourante();
-    if(partie)
-    {
-        partie->setMousePosScreen(evenementSouris.obtenirPosition());
-    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
