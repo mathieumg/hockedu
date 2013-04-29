@@ -28,7 +28,6 @@
 #endif
 
 class VisiteurNoeud;
-class NoeudMaillet;
 class NoeudAbstrait;
 class NoeudRondelle;
 class NoeudAffichage;
@@ -352,10 +351,6 @@ public:
 	SPPlayerAbstract obtenirJoueur(std::string nom);
 	/// Obtention de la liste triées des joueurs
 	ConteneurJoueursTries obtenirListeNomsJoueurs();
-
-	/// Accesseurs des maillets
-	NoeudMaillet* obtenirMailletJoueurGauche() const;
-	NoeudMaillet* obtenirMailletJoueurDroit() const;
 
 	/// Obtention du tournoi en cours
 	Tournoi* obtenirTournoi();

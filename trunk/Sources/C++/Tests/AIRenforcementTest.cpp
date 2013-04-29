@@ -9,7 +9,7 @@
 #include "AIStratOffensiveRenforcement.h"
 #include "FacadeModele.h"
 #include "GameManager.h"
-
+int GameId;
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
 ////////////////////////////////////////////////////////////////////////
@@ -24,10 +24,10 @@ CPPUNIT_TEST_SUITE_REGISTRATION( AIRenforcementTest );
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::setUp()
 {
-    GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPPlayerAbstract(new PlayerComputer("")),SPPlayerAbstract(new PlayerReinforcementAI("")), true, false, 9000);
-	GameManager::obtenirInstance()->getGameReady(9000);
-    FacadeModele::getInstance()->setPartieCourante(9000);
-    partie = GameManager::obtenirInstance()->getGame(9000);
+    GameId = GameManager::obtenirInstance()->addNewGame(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT, SPPlayerAbstract(new PlayerComputer("")),SPPlayerAbstract(new PlayerReinforcementAI("")), true, false, 9000);
+	GameManager::obtenirInstance()->getGameReady(GameId);
+    FacadeModele::getInstance()->setPartieCourante(GameId);
+    partie = GameManager::obtenirInstance()->getGame(GameId);
 }
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -41,6 +41,7 @@ void AIRenforcementTest::setUp()
 ////////////////////////////////////////////////////////////////////////
 void AIRenforcementTest::tearDown()
 {
+	GameManager::obtenirInstance()->removeGame(GameId);
 }
 ////////////////////////////////////////////////////////////////////////
 ///

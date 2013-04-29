@@ -9,7 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "GestionnaireEtatModeSimulation.h"
 #include "FacadeModele.h"
-#include "NoeudMaillet.h"
 #include "ConfigScene.h"
 #include "GestionnaireAnimations.h"
 #include "Partie.h"

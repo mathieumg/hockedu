@@ -46,7 +46,6 @@
 #include "GestionnaireEtatModeJeu.h"
 #include "NoeudTable.h"
 #include "NoeudAccelerateur.h"
-#include "NoeudMaillet.h"
 #include "GestionnaireModeles.h"
 #include "NoeudTable.h"
 #include "NoeudPoint.h"
@@ -1550,70 +1549,6 @@ void FacadeModele::creerTerrainParDefaut( )
     mEditionField->creerTerrainParDefaut(FICHIER_TERRAIN_EN_COURS);
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudMaillet* FacadeModele::obtenirMailletJoueur1() const
-///
-/// Retourne le maillet du joueur 1
-///
-/// @return NoeudMaillet* : maillet du joueur 1
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMaillet* FacadeModele::obtenirMailletJoueurGauche() const
-{
-    NoeudMaillet* maillet = 0;
-    if(getEditionField())
-    {
-        if(getEditionField()->getTable())
-        {
-            NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-            if(g)
-            {
-                for(unsigned int i=0; i<g->childCount(); ++i)
-                {
-                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
-                    if(m->getPosition()[VX]<=0)
-                        maillet = m;
-                }
-
-            }
-        }
-    }
-    return maillet;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudMaillet* FacadeModele::obtenirMailletJoueur2() const
-///
-/// Retourne le maillet du joueur 2
-///
-/// @return NoeudMaillet* : maillet du joueur 2
-///
-////////////////////////////////////////////////////////////////////////
-NoeudMaillet* FacadeModele::obtenirMailletJoueurDroit() const
-{
-    NoeudMaillet* maillet = 0;
-    if(getEditionField())
-    {
-        if(getEditionField()->getTable())
-        {
-            NoeudComposite* g = (NoeudComposite*)getEditionField()->getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-            if(g)
-            {
-                for(unsigned int i=0; i<g->childCount(); ++i)
-                {
-                    NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
-                    if(m->getPosition()[VX]>0)
-                        maillet = m;
-                }
-                
-            }
-        }
-    }
-    return maillet;
-}
 #ifdef WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///

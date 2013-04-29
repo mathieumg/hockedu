@@ -88,8 +88,6 @@ public:
     //void modifierAngle(const float angle) {angle_ = angle;}
     void modifierVitesseRotation(const float vitesse);
 
-    void validerPropriteteTablePourJeu() ;
-
     /// Accesseur et mutateur de positionOriginale
     Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }
     void modifierPositionOriginale(Vecteur3 val) { positionOriginale_ = val; }

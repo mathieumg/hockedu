@@ -52,8 +52,11 @@ bool BancTests::executer()
   // en tant qu'erreurs survenant au niveau du processus de compilation.
   runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
                                                        std::cerr ) );
+  
   // Exécuter les tests
-  return runner.run();
+  bool res = runner.run();
+
+  return res;
 }
 
 

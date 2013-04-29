@@ -9,7 +9,6 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireEtatModeTournoi.h"
-#include "NoeudMaillet.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
 #include "Partie.h"

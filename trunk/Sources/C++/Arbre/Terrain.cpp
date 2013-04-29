@@ -2356,7 +2356,6 @@ void Terrain::initNecessaryPointersForGame()
         mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
 		mLeftMallet->setMalletSide(MALLET_SIDE_LEFT);
 		mRightMallet->setMalletSide(MALLET_SIDE_RIGHT);
-        mPuck->validerPropriteteTablePourJeu();
         mPuck->modifierPositionOriginale(mPuck->getPosition());
 
         mRightMallet->setSkinKey(RAZER_KEY_SKIN_MALLET_RED);
