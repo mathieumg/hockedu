@@ -166,7 +166,7 @@ bool BonusModifierChangeZone::Revert()
     if(maillet)
     {
         auto pos = maillet->getPosition();
-        auto initialPos = maillet->obtenirPositionOriginale();
+        auto initialPos = maillet->getOriginalPosition();
         // verification si le maillet n'est plus dans sa zone
         if(pos[VX]*initialPos[VX] <= 0)
         {

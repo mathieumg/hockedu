@@ -47,34 +47,22 @@ public:
     {
         auto n2 = dynamic_cast<NoeudMaillet*>(n);
         return !!n2 && 
-            estControleParClavier_ == n2->estControleParClavier_ && 
-            estControleParOrdinateur_ == n2->estControleParOrdinateur_ && 
-            estControleParNetwork_ == n2->estControleParNetwork_ && 
-            estAGauche_ == n2->estAGauche_ && 
             Super::equals(n);
     }
     /// Effectue l'animation
     virtual void tick( const float& temps );
+
     /// Accueil un visiteur
     virtual void acceptVisitor( VisiteurNoeud& v);
+
     /// Cette fonction effectue le véritable rendu de l'objet.
     virtual void renderReal() const;
+
     /// Fonction appeler dans afficher concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
-    /// Physique
-
-#if MANUAL_PHYSICS_DETECTION
-    virtual void collisionDetection( const float& temps);
-    /// Mise a Jour de la position de ce noeud
-    virtual void positionUpdate( const float& temps );
-    /// Repositionnement des modele pour enlever la penetration entre les noeuds
-    virtual void fixOverlap();
-    /// Ajustement de la vitesse des noeuds
-    virtual void fixSpeed( const float& temps );
-#endif
-
+ 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
@@ -84,41 +72,19 @@ public:
     /// node tick received when actually playing the game (simulation running)
     virtual void playTick(float temps);
 
-    inline bool estControleParNetwork() const { return estControleParNetwork_; }
-
     //////////////////////////////////////////////////////////////////////////
     /// Objet Animable interface
     virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
     //////////////////////////////////////////////////////////////////////////
 
     static const float DEFAULT_RADIUS;
-    /// Attributs
+    /// Fields
 private:
 	MalletSide malletSide_;
-	/// Velocite courante du maillet
-	Vecteur3 velocite_;
-	/// Vitesse maximale
-	const float vitesse_;
-	/// Flag pour savoir qui a le controle de ce maillet
-	bool estControleParClavier_;
-	bool estControleParOrdinateur_;
-    bool estControleParNetwork_;
 
-	/// Indique si ce maillet est controlle par le joueur de gauche
-	bool estAGauche_;
-	
-	/// Vecteur d'enfoncement resultant de collisions
-	Vecteur3 enfoncement_;
-
-	/// Conservation en memoire de la position du maillet au debut de la partie
-	Vecteur3 positionOriginale_;
+	/// Conservation en memoire de la position du maillet au debut de la partie pour pouvoir le replacer apres un but
+	Vecteur3 mOriginalPosition;
 		
-	/// Ancienne position du maillet
-	Vecteur3 anciennePos_;
-	
-	/// Indique s'il y a une collision avec la rondelle
-	bool collisionAvecRondelle_;
-
 	/// Le joueur qui possède ce maillet
 	SPPlayerAbstract joueur_;
 	
@@ -131,44 +97,23 @@ private:
     b2Body* mMouseBody;
 #endif
 
-
-
-/// Accesseurs
+/// Accessors
 public:
 	/// Accesseur de malletSide_
 	MalletSide getMalletSide() const { return malletSide_; }
 	void setMalletSide(MalletSide val) { malletSide_ = val; }
-	/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
-	void setKeyboardControlled(bool clavier);
-	/// Assignation de la position de la souris pour que le maillet puisse la suivre
-	void setTargetDestination(const Vecteur3& pos);
-	/// Accesseur de velocite_
-	Vecteur3 obtenirVelocite() const { return velocite_; }
-	/// Modificateur de velocite_
-	void modifierVelocite(Vecteur3 val) { velocite_ = val; }
-	/// Accesseur de vitesseMax_
-	const float obtenirVitesse() const { return vitesse_; }
-	/// Accesseur de estControleParOrdinateur_
-	bool obtenirEstControleParOrdinateur() const { return estControleParOrdinateur_; }
-	/// Modificateur de estControleParOrdinateur_
-	void setIsAI(bool val) { estControleParOrdinateur_ = val; }
-	/// Accesseur et mutateur de positionOriginale
-	Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }
-	void modifierPositionOriginale(Vecteur3 val) { positionOriginale_ = val; }
-	/// Accesseur de anciennePos_
-	Vecteur3 obtenirAnciennePos() const { return anciennePos_; }
-	/// Modificateur de anciennePos_
-	void modifierAnciennePos(Vecteur3 val) { anciennePos_ = val; }
-	/// Modificateur de l'indicateur de la position du joueur
-	void setIsLeft(bool val) { estAGauche_ = val; }
-	/// Accesseur de joueurGauche_
-	bool estAGauche() const { return estAGauche_; }
-	/// Accesseur de joueur_
-	SPPlayerAbstract obtenirJoueur() const { return joueur_; }
-	/// Modificateur de joueur_
-	void setPlayer(SPPlayerAbstract val) { joueur_ = val; }
-    inline void setIsNetworkPlayer(const bool pIsNetworkPlayer) {estControleParNetwork_ = pIsNetworkPlayer;}
+	bool isLeftSide() const { return malletSide_ == MALLET_SIDE_LEFT; }
 
+	/// Assignation de la position que le maillet doit tenter d'atteindre
+	void setTargetDestination(const Vecteur3& pos);
+
+	/// Accesseur et mutateur de positionOriginale
+	Vecteur3 getOriginalPosition() const { return mOriginalPosition; }
+	void setOriginalPosition(Vecteur3 val) { mOriginalPosition = val; }
+	
+	/// Accesseur de joueur_
+	SPPlayerAbstract getPlayer() const { return joueur_; }
+	void setPlayer(SPPlayerAbstract val) { joueur_ = val; }
 
 };
 

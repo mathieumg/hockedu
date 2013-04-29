@@ -71,7 +71,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         return Vecteur2(); // On doit return car on vient d'etre delete
     }
 
-    SPPlayerReinforcementAI joueurVirtuel = std::dynamic_pointer_cast<PlayerReinforcementAI>(maillet->obtenirJoueur());
+    SPPlayerReinforcementAI joueurVirtuel = std::dynamic_pointer_cast<PlayerReinforcementAI>(maillet->getPlayer());
     checkf(joueurVirtuel);
 	AIMaillet* aiMallet = joueurVirtuel->getAiMaillet();
 

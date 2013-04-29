@@ -64,7 +64,7 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
     wPuck->modifierVelocite(Vecteur3(150,0,0));
     
     // Setup strat
-    auto joueurVirtuel = (std::dynamic_pointer_cast<PlayerReinforcementAI>(wMaillet->obtenirJoueur()));
+    auto joueurVirtuel = (std::dynamic_pointer_cast<PlayerReinforcementAI>(wMaillet->getPlayer()));
     AIMailletRenforcement* aimaillet = (AIMailletRenforcement*)joueurVirtuel->getAiMaillet();
     
     aimaillet->changerStrat(OFFENSIVE_LIGNE_DROITE);
@@ -74,8 +74,6 @@ void AIRenforcementTest::testDirectionPhaseDeplacement()
     strat->setPointVise(Vecteur2(-150,0));
     strat->setTimeBeforeImpact(0); // pas utilisé pour le moment
     joueurVirtuel->obtenirDirectionAI(wMaillet);
-    // Set la strategie
-    CPPUNIT_ASSERT(wMaillet->obtenirVelocite()!=Vecteur3());
 }
 ////////////////////////////////////////////////////////////////////////
 ///

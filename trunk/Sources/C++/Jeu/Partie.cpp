@@ -440,8 +440,8 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 
             joueurGauche_->setControlingMallet(mailletGauche);
             joueurDroit_->setControlingMallet(mailletDroit);
-            mailletGauche->setIsLeft(true);
-            mailletDroit->setIsLeft(false);
+			mailletGauche->setMalletSide(MALLET_SIDE_LEFT);
+			mailletDroit->setMalletSide(MALLET_SIDE_RIGHT);
 
             SPPlayerAbstract wJoueurs[2] = {joueurGauche_, joueurDroit_};
             NoeudMaillet* wMaillets[2] = {mailletGauche, mailletDroit};
@@ -452,7 +452,6 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                 {
                 case JOUEUR_HUMAIN:
                     {
-                        wMaillets[i]->setIsAI(false);
                         // Si le maillet gauche est controller par lordinateur alors le maillet droit est controle par la souris
 						PlayerHuman* h = (PlayerHuman*)wJoueurs[i].get();
 						if(i==1 && wJoueurs[0]->obtenirType() == JOUEUR_HUMAIN)
@@ -463,23 +462,16 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 						{
 							h->setControllerType(CONTROLLER_TYPE_MOUSE);
 						}
-                        wMaillets[i]->setKeyboardControlled(i==1 && wJoueurs[0]->obtenirType() == JOUEUR_HUMAIN);
-                        wMaillets[i]->setIsNetworkPlayer(false);
                         break;
                     }
                 case JOUEUR_NETWORK:
                 case JOUEUR_NETWORK_SERVEUR:
                     {
-                        wMaillets[i]->setIsAI(false);
-                        wMaillets[i]->setIsNetworkPlayer(true);
                         break;
                     }
                 case JOUEUR_VIRTUEL_RENFORCEMENT:
                 case JOUEUR_VIRTUEL:
                     {
-                        wMaillets[i]->setIsNetworkPlayer(false);
-                        wMaillets[i]->setIsAI(true);
-                        //wMaillets[i]->setPlayer((JoueurVirtuel*)wJoueurs[i].get());
                         break;
                     }
                 default:
@@ -540,10 +532,10 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */)
     rondelle->modifierVitesseRotation(0);
     rondelle->setAngle(0);
 
-    maillet1->setPosition(maillet1->obtenirPositionOriginale());
-    maillet2->setPosition(maillet2->obtenirPositionOriginale());
-    maillet1->setTargetDestination(maillet1->obtenirPositionOriginale());
-    maillet2->setTargetDestination(maillet2->obtenirPositionOriginale());
+    maillet1->setPosition(maillet1->getOriginalPosition());
+    maillet2->setPosition(maillet2->getOriginalPosition());
+    maillet1->setTargetDestination(maillet1->getOriginalPosition());
+    maillet2->setTargetDestination(maillet2->getOriginalPosition());
 
     if(debutDePartie && mTempsPlus == 1.0f)
     {
@@ -1301,8 +1293,6 @@ bool Partie::updateTerrainSimulation()
 
             // Set velocity
             wRondelleSimulation->modifierVelocite(wRondelle->obtenirVelocite());
-            wMailletGaucheSimulation->modifierVelocite(wMailletGauche->obtenirVelocite());
-            wMailletDroitSimulation->modifierVelocite(wMailletDroit->obtenirVelocite());
 
             // Set angular velocity
             wRondelleSimulation->modifierVitesseRotation(wRondelle->obtenirVitesseRotation());

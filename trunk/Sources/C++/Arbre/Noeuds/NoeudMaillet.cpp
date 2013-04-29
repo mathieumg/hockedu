@@ -56,14 +56,13 @@ CreateListDelegateImplementation(Mallet)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), vitesse_(300.0),estControleParClavier_(false), joueur_(0),mNbMalletCreated(malletCreated)
+   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), joueur_(0),mNbMalletCreated(malletCreated)
 #if BOX2D_PLAY
 , mMouseJoint(NULL),mMouseBody(NULL)
 #endif
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-    velocite_.remetAZero();
 
 
 
@@ -205,27 +204,6 @@ void NoeudMaillet::tick( const float& temps)
 void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 {
 	v.visiterNoeudMaillet(this);
-}
-
-
-
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void setKeyboardControlled(bool clavier)
-///
-/// Permet d'indiquer au maillet s'il est controle par le clavier ou la souris
-///
-/// @param[in] bool clavier : booléen pour indiquer qui controle ce maillet
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::setKeyboardControlled(bool clavier)
-{
-	estControleParClavier_ = clavier;
 }
 
 
@@ -414,9 +392,9 @@ void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimati
     if(pAnimationResult.CanUpdatedPosition())
     {
 #ifndef __APPLE__
-        if(obtenirJoueur())
+        if(getPlayer())
         {
-            if(obtenirJoueur()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            if(getPlayer()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
             {
                 Vecteur3 wPos = pAnimationResult.mPosition;
                 this->setTargetDestination(wPos);

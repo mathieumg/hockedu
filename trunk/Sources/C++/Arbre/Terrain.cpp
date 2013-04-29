@@ -1383,7 +1383,7 @@ void Terrain::BeginContact( b2Contact* contact )
                     PaquetGameEvent* wPaquet = (PaquetGameEvent*) UsinePaquet::creerPaquet(GAME_EVENT);
                     wPaquet->setGameId(mGame->getUniqueGameId());
                     wPaquet->setEvent(GAME_EVENT_CHANGE_LAST_MALLET);
-                    wPaquet->setEventOnPlayerLeft(maillet->estAGauche());
+                    wPaquet->setEventOnPlayerLeft(maillet->isLeftSide());
                     RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
                 }
                 rondelle->setLastHittingMallet(maillet);
@@ -1420,7 +1420,7 @@ void Terrain::BeginContact( b2Contact* contact )
                                 auto maillet = rondelle->getLastHittingMallet();
                                 if(maillet)
                                 {
-                                    mGame->SendAchievementEventToHumanPlayer(maillet->obtenirJoueur(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
+                                    mGame->SendAchievementEventToHumanPlayer(maillet->getPlayer(), ACHIEVEMENT_EVENT_PORTAL, ACHIEVEMENT_EVENT_NONE);
                                 }
                                 
                                 if(mGame->isNetworkServerGame())
@@ -2352,8 +2352,8 @@ void Terrain::initNecessaryPointersForGame()
         }
 
         // Assignation des position de base des elements pour la reinitialisation suite a un but
-        mLeftMallet->modifierPositionOriginale(mLeftMallet->getPosition());
-        mRightMallet->modifierPositionOriginale(mRightMallet->getPosition());
+        mLeftMallet->setOriginalPosition(mLeftMallet->getPosition());
+        mRightMallet->setOriginalPosition(mRightMallet->getPosition());
 		mLeftMallet->setMalletSide(MALLET_SIDE_LEFT);
 		mRightMallet->setMalletSide(MALLET_SIDE_RIGHT);
         mPuck->modifierPositionOriginale(mPuck->getPosition());

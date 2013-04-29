@@ -88,12 +88,12 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
             return;
         }
 
-        if(maillet->estAGauche() && wPuck->getPosition()[VX] > -wPuck->getRadius()*2.0f)
+        if(maillet->isLeftSide() && wPuck->getPosition()[VX] > -wPuck->getRadius()*2.0f)
         {
             changerStrat(DEFENSIVE);
             mPuckWasOnOppenentSize = true;
         }
-        else if(!maillet->estAGauche() && wPuck->getPosition()[VX] < wPuck->getRadius()*2.0f)
+        else if(!maillet->isLeftSide() && wPuck->getPosition()[VX] < wPuck->getRadius()*2.0f)
         {
             changerStrat(DEFENSIVE);
             mPuckWasOnOppenentSize = true;
@@ -113,7 +113,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
 
 
                 float wPosX = 30.0f + 70.0f * wPourVitesse;
-                if(maillet->estAGauche())
+                if(maillet->isLeftSide())
                 {
                     wPosX *= -1.0f;
                 }
@@ -134,9 +134,9 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 Vecteur3 wPosRondelle = wPuck->getPosition();
                 Vecteur3 wVelRondelle = wPuck->obtenirVelocite();
                 Vecteur3 wPosAI = maillet->getPosition();
-                Vecteur3 wVelAI = maillet->obtenirVelocite();
+                Vecteur3 wVelAI = 0; /// no knowledge of mallet velocity atm
                 Vecteur3 wPosAdversaire;
-                if(maillet->estAGauche())
+                if(maillet->isLeftSide())
                 {
                     wPosAdversaire = wGame->obtenirJoueurDroit()->getControlingMallet()->getPosition();
                 }
@@ -191,7 +191,7 @@ void AIMailletRenforcement::evaluerStrategie( NoeudMaillet* maillet )
                 wStrat->setTimeBeforeImpact(wPred.time);
                 wStrat->calculateTargetPos();
             }
-            else if(maillet->estAGauche() && maillet->getPosition()[VX] > wPuck->getPosition()[VX] || !maillet->estAGauche() && maillet->getPosition()[VX] < wPuck->getPosition()[VX])
+            else if(maillet->isLeftSide() && maillet->getPosition()[VX] > wPuck->getPosition()[VX] || !maillet->isLeftSide() && maillet->getPosition()[VX] < wPuck->getPosition()[VX])
             {
                 // Mode defensif qui contourne la rondelle (si derriere)
                 changerStrat(DEFENSIVE);

@@ -18,7 +18,7 @@
 bool AIStrat::TesterPushPuckOnTheOtherSide(Partie* pPartie, NoeudMaillet* pMaillet )
 {
     NoeudRondelle* wPuck = pPartie->getField()->getPuck();
-    return pMaillet->estAGauche() ? (wPuck->getPosition()[VX] > 0) : (wPuck->getPosition()[VX] < 0);
+    return pMaillet->isLeftSide() ? (wPuck->getPosition()[VX] > 0) : (wPuck->getPosition()[VX] < 0);
 }
 
 ////////////////////////////////////////////////////////////////////////

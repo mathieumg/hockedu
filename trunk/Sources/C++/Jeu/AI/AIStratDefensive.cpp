@@ -43,7 +43,7 @@ AIStratDefensive::AIStratDefensive(const AIMaillet& context):AIStrat(context)
 		// On obtient le but du JV
 		NoeudBut* butJV;
 		// joueur gauche
-		int i = wMaillet->estAGauche() ? 1 : 2;
+		int i = wMaillet->isLeftSide() ? 1 : 2;
 		butJV =  wMaillet->getField()->getTable()->obtenirBut(i);
 		int wRand = (rand() % 30)-15;
 		float wRayonMaillet = wMaillet->getRadius();

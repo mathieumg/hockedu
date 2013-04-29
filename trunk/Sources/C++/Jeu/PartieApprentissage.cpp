@@ -259,7 +259,7 @@ void PartieApprentissage::handleLearningStart( SPPlayerReinforcementAI pLearning
 		
         NoeudMaillet* wLearningMallet = pLearningPlayer->getControlingMallet();
         Vecteur3 wAiPosition(wLearningMallet->getPosition()),
-                 wAiVelocity(wLearningMallet->obtenirVelocite()),
+                 wAiVelocity,
                  wPuckPosition(pPuck->getPosition()),
                  wPuckVelocity(pPuck->obtenirVelocite()),
                  wOpponentPosition(pOpponentMallet->getPosition());

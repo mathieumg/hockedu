@@ -89,7 +89,7 @@ void PartieSyncer::tick()
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) UsinePaquet::creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer1->getControlingMallet()->getPosition());
-            wPaquet->setEstAGauche(mPlayer1->getControlingMallet()->estAGauche());
+            wPaquet->setEstAGauche(mPlayer1->getControlingMallet()->isLeftSide());
             wPaquet->setGameId(mGameId);
 
             RelayeurMessage::obtenirInstance()->relayerPaquetGame(mGameId, wPaquet, TCP);
@@ -109,7 +109,7 @@ void PartieSyncer::tick()
         {
             PaquetMaillet* wPaquet = (PaquetMaillet*) UsinePaquet::creerPaquet(MAILLET);
             wPaquet->setPosition(mPlayer2->getControlingMallet()->getPosition());
-            wPaquet->setEstAGauche(mPlayer2->getControlingMallet()->estAGauche());
+            wPaquet->setEstAGauche(mPlayer2->getControlingMallet()->isLeftSide());
             wPaquet->setGameId(mGameId);
 
             RelayeurMessage::obtenirInstance()->relayerPaquetGame(mGameId, wPaquet, TCP);
