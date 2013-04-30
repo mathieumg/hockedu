@@ -437,12 +437,6 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
 
         if(mailletGauche && mailletDroit && rondelle)
         {
-
-            joueurGauche_->setControlingMallet(mailletGauche);
-            joueurDroit_->setControlingMallet(mailletDroit);
-			mailletGauche->setMalletSide(MALLET_SIDE_LEFT);
-			mailletDroit->setMalletSide(MALLET_SIDE_RIGHT);
-
             SPPlayerAbstract wJoueurs[2] = {joueurGauche_, joueurDroit_};
             NoeudMaillet* wMaillets[2] = {mailletGauche, mailletDroit};
 
@@ -478,8 +472,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     throw ExceptionJeu("Combinaison de joueurs invalides");
                     break;
                 }
-                wMaillets[i]->setPlayer(wJoueurs[i]);
-                wMaillets[i]->buildMouseJoint();
+				wJoueurs[i]->setControlingMallet(wMaillets[i]);
             }
         }
         else
@@ -1202,38 +1195,41 @@ void Partie::setGameStatus( GameStatus pStatus )
 ////////////////////////////////////////////////////////////////////////
 void Partie::SendAchievementEventToHumanPlayer( SPPlayerAbstract player,AchievementEvent eventIfHuman, AchievementEvent eventIfNonHuman )
 {
-    checkf(player == joueurGauche_ || player == joueurDroit_);
-    checkf(player);
+	/// it is possible to try to send an event to a null player, just ignore the event
+	if(player)
+	{
+		checkf(player == joueurGauche_ || player == joueurDroit_);
 
-    if(joueurGauche_ && joueurDroit_)
-    {
-        if(isNetworkServerGame())
-        {
-            // server doesnt care about achievements
-            return;
-        }
-        if(isOfflineGame())
-        {
-            /// it is possible to have human vs human, so we check to make sure
-            SPPlayerAbstract oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
-            if(oppositePlayer->obtenirType() == player->obtenirType())
-            {
-                /// incoherence pour les achievements, on sort
-                return;
-            }
-        }
+		if(joueurGauche_ && joueurDroit_)
+		{
+			if(isNetworkServerGame())
+			{
+				// server doesnt care about achievements
+				return;
+			}
+			if(isOfflineGame())
+			{
+				/// it is possible to have human vs human, so we check to make sure
+				SPPlayerAbstract oppositePlayer = player == joueurGauche_ ? joueurDroit_ : joueurGauche_;
+				if(oppositePlayer->obtenirType() == player->obtenirType())
+				{
+					/// incoherence pour les achievements, on sort
+					return;
+				}
+			}
 
-        /// here we can assume we have only one human player
-        if(player->obtenirType() == JOUEUR_HUMAIN)
-        {
-            Achievements::LaunchEvent(eventIfHuman);
-        }
-        else
-        {
-            Achievements::LaunchEvent(eventIfNonHuman);
-        }
+			/// here we can assume we have only one human player
+			if(player->obtenirType() == JOUEUR_HUMAIN)
+			{
+				Achievements::LaunchEvent(eventIfHuman);
+			}
+			else
+			{
+				Achievements::LaunchEvent(eventIfNonHuman);
+			}
 
-    }
+		}
+	}
 }
 
 

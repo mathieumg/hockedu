@@ -14,6 +14,7 @@
 #include "XMLUtils.h"
 #include "PlayerNetwork.h"
 #include "PlayerReinforcementAI.h"
+#include "NoeudMaillet.h"
 
 const std::string PlayerAbstract::etiquetteJoueur = "Joueur";
 const std::string PlayerAbstract::etiquetteType = "Type";
@@ -71,7 +72,6 @@ void PlayerAbstract::modifierNom(const std::string nom)
 ////////////////////////////////////////////////////////////////////////
 PlayerAbstract::~PlayerAbstract( void )
 {
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -198,6 +198,28 @@ SPPlayerAbstract PlayerAbstract::usineJoueurXML( const XmlElement* element, Cont
 		}
 	}
 	return nullptr;
+}
+
+void PlayerAbstract::setControlingMallet( class NoeudMaillet* pVal )
+{
+    /// refuse la modification si on tente de controller un maillet
+    /// deja controllé ou si on le controle deja
+    checkf(!pVal || !pVal->getPlayer());
+    if(mControlingMallet == pVal || (pVal &&!!pVal->getPlayer()) )
+    {
+        return;
+    }
+    auto oldMallet = mControlingMallet;
+    mControlingMallet = pVal;
+    // update old pointers
+	if(oldMallet)
+	{
+		oldMallet->setPlayer(NULL);
+	}
+    if(mControlingMallet)
+    {
+        mControlingMallet->setPlayer(shared_from_this());
+    }
 }
 
 

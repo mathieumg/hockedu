@@ -234,7 +234,7 @@ private:
     //////////////////////////////////////////////////////////////////////////
     /// Cache de pointeurs sur les maillets et rondelle durant une partie.
     /// pointeur NULL dans le mode édition
-    NoeudMaillet* mLeftMallet,*mRightMallet;
+    std::vector<NoeudMaillet*> mGreenTeam,mRedTeam;
     NoeudRondelle* mPuck;
     //////////////////////////////////////////////////////////////////////////
 

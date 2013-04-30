@@ -99,7 +99,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mLeftMallet(NULL),mRightMallet(NULL),mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
+    mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
     mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN),mResizeTableModel(true)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
@@ -589,7 +589,6 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     try
     {
         mLogicTree->initFromXml(racine);
-        initNecessaryPointersForGame();
     }
     catch(ExceptionJeu& e)
     {
@@ -635,6 +634,22 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         TransmitEvent(THERE_ARE_NODES_SELECTED);
     }
 
+    try
+    {
+        initNecessaryPointersForGame();
+    }
+    catch (ExceptionJeu& e)
+    {
+        if(correctErrors)
+        {
+            // Erreur dans le fichier XML, on remet un terrain par defaut
+            creerTerrainParDefaut(mFieldName);
+            utilitaire::afficherErreur(e.what());
+            initNecessaryPointersForGame();
+            return true;
+        }
+        return false;
+    }
 
     mIsInit = true;
 
@@ -1857,10 +1872,10 @@ void Terrain::duplicateSelection()
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getLeftMallet() const
 {
-    if(mLeftMallet)
+    if(mGreenTeam.size())
     {
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
-        return mLeftMallet;
+        return mGreenTeam[0];
     }
 
     NoeudMaillet* maillet = NULL;
@@ -1894,10 +1909,10 @@ NoeudMaillet* Terrain::getLeftMallet() const
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet* Terrain::getRightMallet() const
 {
-    if(mRightMallet)
+    if(mRedTeam.size())
     {
         checkf(IsGameField(), "Dans le mode Edition on ne conserve pas de pointeur sur le maillet");
-        return mRightMallet;
+        return mRedTeam[0];
     }
 
     NoeudMaillet* maillet = NULL;
@@ -2290,8 +2305,8 @@ bool Terrain::CanSelectedNodeBeDeleted() const
 ////////////////////////////////////////////////////////////////////////
 void Terrain::initNecessaryPointersForGame()
 {
-    mLeftMallet = NULL;
-    mRightMallet = NULL;
+    mGreenTeam.clear();
+    mRedTeam.clear();
     mPuck = NULL;
 
     mTable = mLogicTree->obtenirTable();
@@ -2302,16 +2317,27 @@ void Terrain::initNecessaryPointersForGame()
 
     if(IsGameField())
     {
-        NoeudMaillet* mailletFound[2] = {NULL,NULL};
         {
             NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
             checkf(g, "Groupe pour les maillets manquant");
             if(g)
             {
-                for(unsigned int i=0; i<g->childCount() && i<2; ++i)
+                for(unsigned int i=0; i<g->childCount(); ++i)
                 {
                     NoeudMaillet* m = (NoeudMaillet*)(g->find(i));
-                    mailletFound[i] = m;
+                    if(m->getPosition()[VX] <= 0)
+                    {
+                        mGreenTeam.push_back(m);
+                        m->setMalletSide(MALLET_SIDE_LEFT);
+                    }
+                    else
+                    {
+                        mRedTeam.push_back(m);
+                        m->setMalletSide(MALLET_SIDE_RIGHT);
+                        m->setSkinKey(RAZER_KEY_SKIN_MALLET_RED);
+                    }
+                    // Assignation des position de base des elements pour la reinitialisation suite a un but
+                    m->setOriginalPosition(m->getPosition());
                 }
             }
         }
@@ -2326,6 +2352,7 @@ void Terrain::initNecessaryPointersForGame()
                     if(r)
                     {
                         mPuck = r;
+                        mPuck->modifierPositionOriginale(mPuck->getPosition());
                     }
                 }
             }
@@ -2335,46 +2362,24 @@ void Terrain::initNecessaryPointersForGame()
         {
             throw ExceptionJeu("Missing puck on table");
         }
-        if(!mailletFound[0] || !mailletFound[1])
+        if(!mGreenTeam.size() || !mRedTeam.size())
         {
             throw ExceptionJeu("Missing mallet on table");
         }
 
-        if(mailletFound[1]->getPosition()[VX] < mailletFound[0]->getPosition()[VX])
-        {
-            mLeftMallet = mailletFound[1];
-            mRightMallet = mailletFound[0];
-        }
-        else
-        {
-            mLeftMallet = mailletFound[0];
-            mRightMallet = mailletFound[1];
-        }
-
-        // Assignation des position de base des elements pour la reinitialisation suite a un but
-        mLeftMallet->setOriginalPosition(mLeftMallet->getPosition());
-        mRightMallet->setOriginalPosition(mRightMallet->getPosition());
-		mLeftMallet->setMalletSide(MALLET_SIDE_LEFT);
-		mRightMallet->setMalletSide(MALLET_SIDE_RIGHT);
-        mPuck->modifierPositionOriginale(mPuck->getPosition());
-
-        mRightMallet->setSkinKey(RAZER_KEY_SKIN_MALLET_RED);
 #if WIN32
         if (!mIsSimulation && GestionnaireHUD::Exists())
         {
 	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
-	        leftBonuses->setModifiers(&mLeftMallet->GetModifiers());
+	        leftBonuses->setModifiers(&mGreenTeam[0]->GetModifiers());
 	
 	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
-	        rightBonuses->setModifiers(&mRightMallet->GetModifiers());
+	        rightBonuses->setModifiers(&mRedTeam[0]->GetModifiers());
 
             auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
             puckBonuses->setModifiers(&mPuck->GetModifiers());
         }
 #endif
-
-
-
     }
 }
 

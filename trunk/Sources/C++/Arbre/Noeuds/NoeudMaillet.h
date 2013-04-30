@@ -66,7 +66,7 @@ public:
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
     /// Builds the mouse joint when starting to play
-    void buildMouseJoint(bool pIsNetworkControlled = false);
+    void buildMouseJoint();
     /// Free memory of the mouse joint when game is done
     void destroyMouseJoint();
     /// node tick received when actually playing the game (simulation running)
@@ -86,7 +86,7 @@ private:
 	Vecteur3 mOriginalPosition;
 		
 	/// Le joueur qui possède ce maillet
-	SPPlayerAbstract joueur_;
+	SPPlayerAbstract mPlayer;
 	
     /// reference to the factory's counter of mallet instances
     unsigned int& mNbMalletCreated;
@@ -112,8 +112,9 @@ public:
 	void setOriginalPosition(Vecteur3 val) { mOriginalPosition = val; }
 	
 	/// Accesseur de joueur_
-	SPPlayerAbstract getPlayer() const { return joueur_; }
-	void setPlayer(SPPlayerAbstract val) { joueur_ = val; }
+	SPPlayerAbstract getPlayer() const { return mPlayer; }
+	/// only allow player to modify this to make sure the pointer is coherent and valid
+	void setPlayer(SPPlayerAbstract val) { mPlayer = val; }
 
 };
 

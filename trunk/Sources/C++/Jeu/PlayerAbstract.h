@@ -22,13 +22,13 @@ enum PlayerSide{PLAYER_SIDE_LEFT,PLAYER_SIDE_RIGHT};
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class PlayerAbstract
+class PlayerAbstract : public std::enable_shared_from_this<PlayerAbstract>
 {
 public:
 	/// Constructeur
     PlayerAbstract(const std::string& nom);	
 	/// Destructeur virtuel pure
-	virtual ~PlayerAbstract(void) = 0;
+	virtual ~PlayerAbstract(void);
 	/// Creation du noeud XML du joueur
 	virtual XmlElement* creerNoeudXML() const;
 
@@ -69,7 +69,7 @@ public:
 
     /// Accessors of mControlingMallet
     inline class NoeudMaillet* getControlingMallet() const { return mControlingMallet; }
-    virtual void setControlingMallet(class NoeudMaillet* pVal) { mControlingMallet = pVal; }
+    virtual void setControlingMallet(class NoeudMaillet* pVal);
 
 
 

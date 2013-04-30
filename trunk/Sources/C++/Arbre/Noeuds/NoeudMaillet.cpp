@@ -56,16 +56,13 @@ CreateListDelegateImplementation(Mallet)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), joueur_(0),mNbMalletCreated(malletCreated)
+   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), mPlayer(0),mNbMalletCreated(malletCreated)
 #if BOX2D_PLAY
 , mMouseJoint(NULL),mMouseBody(NULL)
 #endif
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-
-
-
 
     ++mNbMalletCreated;
     if(++EditionEventManager::mGlobalMallet >= EditionEventManager::mEditionLimitMallet)
@@ -85,7 +82,7 @@ NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCre
 ////////////////////////////////////////////////////////////////////////
 NoeudMaillet::~NoeudMaillet()
 {
-	--mNbMalletCreated;
+    --mNbMalletCreated;
     // indique aux runnables qui lui sont associé de s'invalidé
     RunnableBreaker::signalObservers();
     if(--EditionEventManager::mGlobalMallet < EditionEventManager::mEditionLimitMallet)
@@ -96,8 +93,11 @@ NoeudMaillet::~NoeudMaillet()
     //checkf(!mMouseJoint, "Le mouse joint a mal ete liberé");
     destroyMouseJoint();
 #endif
-
-
+    if(mPlayer)
+    {
+        /// watchout this will invalidate mPlayer!!
+        mPlayer->setControlingMallet(NULL);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -203,7 +203,7 @@ void NoeudMaillet::tick( const float& temps)
 ////////////////////////////////////////////////////////////////////////
 void NoeudMaillet::acceptVisitor( VisiteurNoeud& v )
 {
-	v.visiterNoeudMaillet(this);
+    v.visiterNoeudMaillet(this);
 }
 
 
@@ -223,15 +223,15 @@ void NoeudMaillet::setTargetDestination( const Vecteur3& pos )
 #if BOX2D_PLAY
     if(mMouseJoint)
     {
-		Vecteur3 resPos = pos;
-		Vecteur3 delta = resPos - getPosition();
-		static float maxLength = 15;
-		if(delta.norme2() >= maxLength*maxLength)
-		{
-			delta.normaliser();
-			delta *= maxLength;
-			resPos = getPosition() + delta;
-		}
+        Vecteur3 resPos = pos;
+        Vecteur3 delta = resPos - getPosition();
+        static float maxLength = 15;
+        if(delta.norme2() >= maxLength*maxLength)
+        {
+            delta.normaliser();
+            delta *= maxLength;
+            resPos = getPosition() + delta;
+        }
 
         b2Vec2 targetPointB2;
         utilitaire::VEC3_TO_B2VEC(resPos,targetPointB2);
@@ -257,6 +257,7 @@ void NoeudMaillet::updatePhysicBody()
     auto world = getWorld();
     if(world)
     {
+        destroyMouseJoint();
         clearPhysicsBody();
 
         b2BodyDef myBodyDef;
@@ -283,6 +284,8 @@ void NoeudMaillet::updatePhysicBody()
         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
         mPhysicBody->SetUserData(this);
         mPhysicBody->mSynchroniseTransformWithUserData = NoeudAbstrait::synchroniseTransformFromB2CallBack;
+
+        buildMouseJoint();
     }
 #endif
 }
@@ -297,7 +300,7 @@ void NoeudMaillet::updatePhysicBody()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
+void NoeudMaillet::buildMouseJoint()
 {
 #if BOX2D_PLAY
     if(!mMouseJoint)
@@ -317,7 +320,7 @@ void NoeudMaillet::buildMouseJoint(bool pIsNetworkControlled /*=false*/)
             md.bodyB = body;
             const Vecteur3& pos = getPosition();
             utilitaire::VEC3_TO_B2VEC(pos,md.target);
-            if(joueur_ && joueur_->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
+            if(mPlayer && mPlayer->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
             {
                 md.maxForce = 1200.0f * body->GetMass();
             }

@@ -18,6 +18,7 @@
 #include "ConfigScene.h"
 #include "NoeudMaillet.h"
 #include "SoundFMOD.h"
+#include "VisiteurCollision.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -48,6 +49,8 @@ SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
         {
             mInitialised = mPIEGame->getReadyToPlay(false);
             mPIEGame->miseAuJeu(true);
+			auto joueur = mPIEGame->obtenirJoueurGauche();
+			joueur->setControlingMallet(NULL);
         }
     }
 }
@@ -145,8 +148,53 @@ void SourisEtatPIEMode::toucheRelachee( EvenementClavier& evenementClavier )
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatPIEMode::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
+    BoutonSouris key = evenementSouris.obtenirBouton();
+    if(key==BOUTON_SOURIS_MILIEU)
+    {
         mMiddleMousePress = true;
+    }
+    else if(key == BOUTON_SOURIS_GAUCHE)
+    {
+        auto joueur = mPIEGame->obtenirJoueurGauche();
+        if(!joueur->getControlingMallet())
+        {
+            VisiteurCollision v(EventManager::mMouseGamePos.convertir<2>(),false);
+            mPIEGame->getField()->acceptVisitor(v);
+            if(v.collisionPresente())
+            {
+                ConteneurNoeuds liste;
+                v.obtenirListeCollision(liste);
+                STL_ITERATE(liste,it)
+                {
+                    if((*it)->getKey() == RAZER_KEY_MALLET)
+                    {
+                        NoeudMaillet* maillet = (NoeudMaillet*)(*it);
+                        auto oldPlayer = maillet->getPlayer();
+                        if(oldPlayer)
+                        {
+                            if(oldPlayer->obtenirType() == JOUEUR_HUMAIN)
+                            {
+                                // dont kick human players
+                                continue;
+                            }
+                            oldPlayer->setControlingMallet(NULL);
+                        }
+                        joueur->setControlingMallet(maillet);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    else if( key == BOUTON_SOURIS_DROIT)
+    {
+        auto joueur = mPIEGame->obtenirJoueurGauche();
+        if(joueur->getControlingMallet())
+        {
+            joueur->setControlingMallet(NULL);
+        }
+    }
+
     mMousePos = evenementSouris.obtenirPosition();
     boutonEnfonce_ = evenementSouris.obtenirBouton();
 }
