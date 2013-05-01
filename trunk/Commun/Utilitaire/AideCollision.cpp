@@ -660,6 +660,23 @@ namespace aidecollision {
 		if(d1P1 == d1P2 || d2P1 == d2P2)
 			return false;
 
+        float x1 = d1P1.X(), x2 = d1P2.X(), x3 = d2P1.X(), x4 = d2P2.X();
+        float y1 = d1P1.Y(), y2 = d1P2.Y(), y3 = d2P1.Y(), y4 = d2P2.Y();
+
+        float d = (x1 - x2) * (y3 - y4) - (y1 - y2) * (x3 - x4);
+        // If d is zero, there is no intersection
+        if (d == 0) 
+        {
+            return false;
+        } 
+        // Get the x and y
+        float pre = (x1*y2 - y1*x2), post = (x3*y4 - y3*x4);
+        float x = ( pre * (x3 - x4) - (x1 - x2) * post ) / d;
+        float y = ( pre * (y3 - y4) - (y1 - y2) * post ) / d;
+        intersection[VX] = x;
+        intersection[VY] = y;
+        return true;
+
 		float deltaX1 = (d1P2[VX]-d1P1[VX]);
 		float deltaX2 = (d2P2[VX]-d2P1[VX]);
 		bool droite1Vertical = utilitaire::EGAL_ZERO(deltaX1), droite2Vertical = utilitaire::EGAL_ZERO(deltaX2);

@@ -96,7 +96,7 @@ NoeudMaillet::~NoeudMaillet()
     if(mPlayer)
     {
         /// watchout this will invalidate mPlayer!!
-        mPlayer->setControlingMallet(NULL);
+        PlayerAbstract::SetControllingMallet(mPlayer,NULL);
     }
 }
 

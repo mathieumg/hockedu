@@ -163,7 +163,7 @@ void NodeRinkBoards::updatePhysicBody()
             }
         }
 
-        if(p1)
+       /* if(p1)
         {
             auto type = p1->obtenirTypePosNoeud();
             switch (type)
@@ -190,7 +190,7 @@ void NodeRinkBoards::updatePhysicBody()
             default:
                 break;
             }
-        }
+        }*/
 
         b2BodyDef myBodyDef;
         myBodyDef.type = b2_staticBody; //this will be a dynamic body

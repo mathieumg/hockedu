@@ -22,7 +22,7 @@ enum PlayerSide{PLAYER_SIDE_LEFT,PLAYER_SIDE_RIGHT};
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-02-17
 ///////////////////////////////////////////////////////////////////////////
-class PlayerAbstract : public std::enable_shared_from_this<PlayerAbstract>
+class PlayerAbstract
 {
 public:
 	/// Constructeur
@@ -34,7 +34,7 @@ public:
 
 	/// Permet d'obtenir un pointeur sur un joueur à partir d'un élément XML, pointeur null si echec
 	static SPPlayerAbstract usineJoueurXML(const XmlElement* element, ConteneurJoueur* profilsExistant = 0);
-
+    static void SetControllingMallet(SPPlayerAbstract player, class NoeudMaillet* maillet);
 	virtual void PlayTick(float time) = 0;
 
     virtual void gameInit() {}
@@ -69,9 +69,6 @@ public:
 
     /// Accessors of mControlingMallet
     inline class NoeudMaillet* getControlingMallet() const { return mControlingMallet; }
-    virtual void setControlingMallet(class NoeudMaillet* pVal);
-
-
 
     /// Accesseur de mPlayerSide_
     PlayerSide getPlayerSide() const { return mPlayerSide_; }

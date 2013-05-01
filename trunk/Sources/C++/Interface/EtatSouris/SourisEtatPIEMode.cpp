@@ -50,7 +50,7 @@ SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
             mInitialised = mPIEGame->getReadyToPlay(false);
             mPIEGame->miseAuJeu(true);
 			auto joueur = mPIEGame->obtenirJoueurGauche();
-			joueur->setControlingMallet(NULL);
+            PlayerAbstract::SetControllingMallet(joueur,NULL);
         }
     }
 }
@@ -177,9 +177,9 @@ void SourisEtatPIEMode::sourisEnfoncee( EvenementSouris& evenementSouris )
                                 // dont kick human players
                                 continue;
                             }
-                            oldPlayer->setControlingMallet(NULL);
+                            PlayerAbstract::SetControllingMallet(oldPlayer,NULL);
                         }
-                        joueur->setControlingMallet(maillet);
+                        PlayerAbstract::SetControllingMallet(joueur,maillet);
                         break;
                     }
                 }
@@ -191,7 +191,7 @@ void SourisEtatPIEMode::sourisEnfoncee( EvenementSouris& evenementSouris )
         auto joueur = mPIEGame->obtenirJoueurGauche();
         if(joueur->getControlingMallet())
         {
-            joueur->setControlingMallet(NULL);
+            PlayerAbstract::SetControllingMallet(joueur,NULL);
         }
     }
 

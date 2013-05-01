@@ -200,25 +200,29 @@ SPPlayerAbstract PlayerAbstract::usineJoueurXML( const XmlElement* element, Cont
 	return nullptr;
 }
 
-void PlayerAbstract::setControlingMallet( class NoeudMaillet* pVal )
+
+void PlayerAbstract::SetControllingMallet( SPPlayerAbstract player, NoeudMaillet* pVal )
 {
-    /// refuse la modification si on tente de controller un maillet
-    /// deja controllé ou si on le controle deja
-    checkf(!pVal || !pVal->getPlayer());
-    if(mControlingMallet == pVal || (pVal &&!!pVal->getPlayer()) )
+    if(player)
     {
-        return;
-    }
-    auto oldMallet = mControlingMallet;
-    mControlingMallet = pVal;
-    // update old pointers
-	if(oldMallet)
-	{
-		oldMallet->setPlayer(NULL);
-	}
-    if(mControlingMallet)
-    {
-        mControlingMallet->setPlayer(shared_from_this());
+        /// refuse la modification si on tente de controller un maillet
+        /// deja controllé ou si on le controle deja
+        checkf(!pVal || !pVal->getPlayer());
+        if(player->mControlingMallet == pVal || (pVal &&!!pVal->getPlayer()) )
+        {
+            return;
+        }
+        auto oldMallet = player->mControlingMallet;
+        player->mControlingMallet = pVal;
+        // update old pointers
+        if(oldMallet)
+        {
+            oldMallet->setPlayer(NULL);
+        }
+        if(player->mControlingMallet)
+        {
+            player->mControlingMallet->setPlayer(player);
+        }
     }
 }
 

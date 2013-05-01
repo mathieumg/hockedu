@@ -253,38 +253,7 @@ void PlayerReinforcementAI::setPlayerSide( PlayerSide val )
     PlayerAbstract::setPlayerSide(val);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn JoueurVirtuelRenforcement::setControlingMallet( class NoeudMaillet* pMallet )
-///
-/// Overridden function in order to be able to give the right information to the AILearner object.
-///
-/// @param[in] class NoeudMaillet * pMallet
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void PlayerReinforcementAI::setControlingMallet( NoeudMaillet* pMallet )
-{
-    if(pMallet)
-    {
-        Terrain* wField = pMallet->getField();
-        if(wField)
-        {
-            NoeudTable* wTable = wField->getTable();
-            auto wMapTopLeft = wTable->obtenirPoint(POSITION_HAUT_GAUCHE)->getPosition();
-            auto wMapBottomRight = wTable->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
-            float wDimensions[2];
-            wTable->calculerHautLongMax(wDimensions);
-            mAiLearner.setMapTopLeft(wMapTopLeft.convertir<2>());
-            mAiLearner.setMapBottomRight(wMapBottomRight.convertir<2>());
-            mAiLearner.setMapDimensions(Vecteur2(wDimensions[1], wDimensions[0])*2.0f);
-            std::string wFieldName = wField->getNom();
-            mAiLearner.setMapName(wFieldName.substr(wFieldName.find_last_of("/")+1));
-        }
-    }
-    PlayerAbstract::setControlingMallet(pMallet);
-}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -358,6 +327,25 @@ void PlayerReinforcementAI::modifierNom( const std::string nom )
 
 void PlayerReinforcementAI::gameInit()
 {
+    auto pMallet = getControlingMallet();
+    if(pMallet)
+    {
+        Terrain* wField = pMallet->getField();
+        if(wField)
+        {
+            NoeudTable* wTable = wField->getTable();
+            auto wMapTopLeft = wTable->obtenirPoint(POSITION_HAUT_GAUCHE)->getPosition();
+            auto wMapBottomRight = wTable->obtenirPoint(POSITION_BAS_DROITE)->getPosition();
+            float wDimensions[2];
+            wTable->calculerHautLongMax(wDimensions);
+            mAiLearner.setMapTopLeft(wMapTopLeft.convertir<2>());
+            mAiLearner.setMapBottomRight(wMapBottomRight.convertir<2>());
+            mAiLearner.setMapDimensions(Vecteur2(wDimensions[1], wDimensions[0])*2.0f);
+            std::string wFieldName = wField->getNom();
+            mAiLearner.setMapName(wFieldName.substr(wFieldName.find_last_of("/")+1));
+        }
+    }
+
     setIsLearning(false);
     setupFinished();
 }

@@ -45,7 +45,6 @@ public:
 
     inline std::string GetAiLogicFilepath() const {return mAiLogicFilepath;}
 
-    virtual void setControlingMallet(class NoeudMaillet* pVal);
     virtual void setPlayerSide(PlayerSide val);
 
     void dumpLearnedData() { mAiLearner.dump(); }

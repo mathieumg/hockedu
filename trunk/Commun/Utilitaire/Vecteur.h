@@ -154,6 +154,23 @@ public:
 		return vect[VW];
 	}
 
+    inline const T& X () const
+    {
+        return vect[VX];
+    }
+    inline const T& Y () const
+    {
+        return vect[VY];
+    }
+    inline const T& Z () const
+    {
+        return vect[VZ];
+    }
+    inline const T& W ()const
+    {
+        return vect[VW];
+    }
+
 	////////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn inline const T& operator[] ( const int& i ) const

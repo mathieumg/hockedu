@@ -472,7 +472,7 @@ void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet
                     throw ExceptionJeu("Combinaison de joueurs invalides");
                     break;
                 }
-				wJoueurs[i]->setControlingMallet(wMaillets[i]);
+                PlayerAbstract::SetControllingMallet(wJoueurs[i],wMaillets[i]);
             }
         }
         else
@@ -847,7 +847,7 @@ void Partie::SignalGameOver()
             mailletGauche->destroyMouseJoint();
         }
 
-        joueurGauche_->setControlingMallet(NULL);
+        PlayerAbstract::SetControllingMallet(joueurGauche_,NULL);
     }
     if(joueurDroit_)
     {
@@ -858,7 +858,7 @@ void Partie::SignalGameOver()
             mailletDroit->destroyMouseJoint();
         }
 
-        joueurDroit_->setControlingMallet(NULL);
+        PlayerAbstract::SetControllingMallet(joueurDroit_,NULL);
     }
 }
 
