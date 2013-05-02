@@ -72,13 +72,14 @@ public:
 	/// Obtenir la scene
 	const aiScene* obtenirScene() {return scene_;}
 
+    bool appliquerMateriau(const std::string& materialName);
 private:
 
 	/// Charger les textures
 	void chargerTextures();
 
 	/// Appliquer un matériau
-	void appliquerMateriau(const aiMaterial* materiau);
+    void appliquerMateriau(const aiMaterial* materiau);
 
 	/// Effectuer le rendu d'un noeud donné
 	void dessinerNoeud(const aiScene* scene, const aiNode* noeud, bool avecTexture);
@@ -118,7 +119,8 @@ private:
 	GLuint* identificateursTextures_;
 	
 	/// Map des textures, pour associer chaque nom de texture à un identificateur GLuint
-	std::map<std::string, GLuint*> mapTextures_;
+    std::map<std::string, GLuint*> mapTextures_;
+    std::map<std::string, aiMaterial*> mapMaterial_;
 
 	/// Facteur d'agrandissement de l'objet
 	Vecteur3 facteurAgrandissement_;

@@ -79,7 +79,7 @@ bool Modele3D::charger( const std::string& nomFichier )
 		return false;
 	}
 	// Construire l'objet scene
-	const aiScene* scene = importer_.ReadFile(nomFichier, aiProcessPreset_TargetRealtime_Quality);
+	const aiScene* scene = importer_.ReadFile(nomFichier, aiProcessPreset_TargetRealtime_MaxQuality);
 
 	if (scene==NULL) {
 		utilitaire::afficherErreur("Impossible de charger l'objet 3d!");
@@ -112,7 +112,9 @@ void Modele3D::chargerTextures()
 	// Itérer parmi l'ensemble des matériaux
 	for (unsigned int i=0; i<scene_->mNumMaterials; i++) {
 		aiMaterial* materiau = scene_->mMaterials[i];
-
+        aiString matName;
+        aiGetMaterialString(materiau,AI_MATKEY_NAME,&matName);
+        mapMaterial_[matName.data] = materiau;
 		// POINT D'EXTENSION : il vous serait possible de prendre en charge d'autres types de textures que celle
 		// en diffusion (DIFFUSE)...
 
@@ -161,6 +163,18 @@ void Modele3D::chargerTextures()
 	}
 
 }
+
+bool Modele3D::appliquerMateriau(const std::string& materialName)
+{
+    auto it = mapMaterial_.find(materialName);
+    if(it != mapMaterial_.end())
+    {
+        appliquerMateriau(it->second);
+        return true;
+    }
+    return false;
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///

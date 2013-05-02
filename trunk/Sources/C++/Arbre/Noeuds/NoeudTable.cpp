@@ -38,7 +38,14 @@
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3(300,150);
 const float NoeudTable::rayonCercleCentre_ = 25;
+const float Z_HEIGHT_TABLE_SURFACE = -1;               // hauteur en z ou ce trouve la surface de la table
+const float Z_HEIGHT_TABLE_BOARDS = 16;                // hauteur en z ou ce trouve le top de la bordure de la table
+const float Z_HEIGHT_TABLE_EXTERIOR_BORDERS = 11;      // hauteur en z ou ce trouve le top du contour exterieur de la table
+const float Z_HEIGHT_TABLE_UNDER = -73;                // hauteur en z du dessous de la table
+const float Z_HEIGHT_TABLE_BOTTOM = -133;              // hauteur en z du bas des pieds de la table
 
+
+const int nbCorners = 4;
 const int nodeHeight[3] = {0,NoeudTable::NB_VERTICAL_VERTICES>>1,NoeudTable::NB_VERTICAL_VERTICES-1};
 const int nodeWidth[3] = {0,NoeudTable::NB_HORIZONTAL_VERTICES>>1,NoeudTable::NB_HORIZONTAL_VERTICES-1};
 
@@ -64,6 +71,222 @@ const std::string* GroupTypes[] =
     &RazerGameUtilities::NAME_POLYGONE            ,
 };
 const int NB_GROUP_TYPES = ARRAY_COUNT(GroupTypes);
+
+
+#if WIN32  
+
+enum ListePointState
+{
+    LISTEPOINTSTATE_OK,
+    LISTEPOINTSTATE_PENDING,
+    LISTEPOINTSTATE_ERROR,
+};
+ListePointState listePointInit = LISTEPOINTSTATE_PENDING;
+struct queuedMove
+{
+    TypePosPoint type;
+    Vecteur3 move;
+};
+std::vector<queuedMove> moveQueue;
+#include "..\Reseau\FacadePortability.h"
+HANDLE_MUTEX mutex = NULL;
+
+void emptyQueue()
+{
+    while(!moveQueue.empty())
+    {
+        queuedMove& q = moveQueue.back();
+        auto iter = NoeudTable::obtenirListeIndexPointsModeleTable().find(q.type);
+        if(iter != NoeudTable::obtenirListeIndexPointsModeleTable().end())
+        {
+            // si on ne trouve pas la liste ici, c'est que le modele n'existe pas
+            auto liste = &iter->second;
+            for(unsigned int i=0; i<liste->size(); i++)
+            {
+                *(liste->get(i)[VX]) += q.move[VX];
+                *(liste->get(i)[VY]) += q.move[VY];
+            }
+        }
+        moveQueue.pop_back();
+    }
+    FacadePortability::releaseMutex(mutex);
+    CloseHandle(mutex);
+    mutex = NULL;
+}
+
+
+void NoeudTable::queueTableModelMove(TypePosPoint type,const Vecteur3& move)
+{
+    if(listePointInit != LISTEPOINTSTATE_ERROR)
+    {
+        if(!mutex)
+        {
+            FacadePortability::createMutex(mutex);
+        }
+        FacadePortability::takeMutex(mutex);
+        // queue the move
+        queuedMove qmove;
+        qmove.type = type;
+        qmove.move = move;
+        moveQueue.push_back(qmove);
+
+        // if it finish initialise since then, apply the modifs
+        if(listePointInit == LISTEPOINTSTATE_OK)
+        {
+            emptyQueue();
+        }
+        if(mutex)FacadePortability::releaseMutex(mutex);
+
+    }
+    else
+    {
+        moveQueue.clear();
+    }
+}
+
+
+
+
+////////////////////////////////////////////////////////////////////////
+///
+/// @fn void NoeudTable::initialiserListeIndexPoints()
+///
+/// /*Description*/
+///
+///
+/// @return void
+///
+////////////////////////////////////////////////////////////////////////
+void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
+{
+    if(!mutex)
+    {
+        FacadePortability::createMutex(mutex);
+    }
+    if(!modele)
+    {
+        FacadePortability::takeMutex(mutex);
+        listePointInit = LISTEPOINTSTATE_ERROR;
+        FacadePortability::releaseMutex(mutex);
+        CloseHandle(mutex);
+        mutex = NULL;
+        return;
+    }
+
+    const aiScene* scene = modele->obtenirScene();
+    const aiNode* rootNode = scene->mRootNode;
+
+    GroupeCoord vertexBasMilieu;
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -75 , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -75 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -82 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -82 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -102, (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasMilieu.push_back   (Vecteur3i(0   , -93 , (int)Z_HEIGHT_TABLE_UNDER));
+                                                       
+    GroupeCoord vertexHautMilieu;                      
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 75  , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 75  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 82  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 82  , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 102 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautMilieu.push_back  (Vecteur3i(0   , 92  , (int)Z_HEIGHT_TABLE_UNDER));
+                                                       
+    GroupeCoord vertexMilieuGauche;                    
+    vertexMilieuGauche.push_back(Vecteur3i(-173, 0   , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexMilieuGauche.push_back(Vecteur3i(-156, 0   , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexMilieuGauche.push_back(Vecteur3i(-156, 0   , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexMilieuGauche.push_back(Vecteur3i(-150, 0   , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexMilieuGauche.push_back(Vecteur3i(-150, 0   , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexMilieuGauche.push_back(Vecteur3i(-156, 0   , (int)Z_HEIGHT_TABLE_UNDER));
+                                                       
+    GroupeCoord vertexMilieuDroit;                     
+    vertexMilieuDroit.push_back (Vecteur3i(173 , 0   , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexMilieuDroit.push_back (Vecteur3i(156 , 0   , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexMilieuDroit.push_back (Vecteur3i(156 , 0   , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexMilieuDroit.push_back (Vecteur3i(150 , 0   , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexMilieuDroit.push_back (Vecteur3i(150 , 0   , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexMilieuDroit.push_back (Vecteur3i(157 , 0   , (int)Z_HEIGHT_TABLE_UNDER));
+                                                       
+    GroupeCoord vertexHautGauche;                      
+    vertexHautGauche.push_back  (Vecteur3i(-173, 102 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautGauche.push_back  (Vecteur3i(-156, 82  , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautGauche.push_back  (Vecteur3i(-156, 82  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautGauche.push_back  (Vecteur3i(-150, 75  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautGauche.push_back  (Vecteur3i(-150, 75  , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexHautGauche.push_back  (Vecteur3i(-156, 92  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautGauche.push_back  (Vecteur3i(-110, 65  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautGauche.push_back  (Vecteur3i(-110, 31  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautGauche.push_back  (Vecteur3i(-81 , 65  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautGauche.push_back  (Vecteur3i(-81 , 31  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautGauche.push_back  (Vecteur3i(-95 , 48  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautGauche.push_back  (Vecteur3i(-124, 48  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautGauche.push_back  (Vecteur3i(-124, 82  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautGauche.push_back  (Vecteur3i(-95 , 82  , (int)Z_HEIGHT_TABLE_BOTTOM));
+                                                       
+    GroupeCoord vertexBasGauche;                       
+    vertexBasGauche.push_back   (Vecteur3i(-173, -102, (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasGauche.push_back   (Vecteur3i(-156, -82 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasGauche.push_back   (Vecteur3i(-156, -82 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasGauche.push_back   (Vecteur3i(-150, -75 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasGauche.push_back   (Vecteur3i(-150, -75 , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexBasGauche.push_back   (Vecteur3i(-156, -93 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasGauche.push_back   (Vecteur3i(-110, -65 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasGauche.push_back   (Vecteur3i(-110, -31 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasGauche.push_back   (Vecteur3i(-81 , -65 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasGauche.push_back   (Vecteur3i(-81 , -31 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasGauche.push_back   (Vecteur3i(-95 , -48 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasGauche.push_back   (Vecteur3i(-124, -48 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasGauche.push_back   (Vecteur3i(-124, -82 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasGauche.push_back   (Vecteur3i(-95 , -82 , (int)Z_HEIGHT_TABLE_BOTTOM));
+                                                       
+    GroupeCoord vertexHautDroit;                       
+    vertexHautDroit.push_back   (Vecteur3i(173 , 102 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautDroit.push_back   (Vecteur3i(156 , 82  , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexHautDroit.push_back   (Vecteur3i(156 , 82  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautDroit.push_back   (Vecteur3i(150 , 75  , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexHautDroit.push_back   (Vecteur3i(150 , 75  , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexHautDroit.push_back   (Vecteur3i(157 , 92  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautDroit.push_back   (Vecteur3i(110 , 65  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautDroit.push_back   (Vecteur3i(110 , 31  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautDroit.push_back   (Vecteur3i(82  , 65  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautDroit.push_back   (Vecteur3i(82  , 31  , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexHautDroit.push_back   (Vecteur3i(96  , 48  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautDroit.push_back   (Vecteur3i(125 , 48  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautDroit.push_back   (Vecteur3i(125 , 82  , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexHautDroit.push_back   (Vecteur3i(96  , 82  , (int)Z_HEIGHT_TABLE_BOTTOM));
+                                                       
+    GroupeCoord vertexBasDroit;                        
+    vertexBasDroit.push_back    (Vecteur3i(173 , -102, (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasDroit.push_back    (Vecteur3i(156 , -82 , (int)Z_HEIGHT_TABLE_EXTERIOR_BORDERS));
+    vertexBasDroit.push_back    (Vecteur3i(156 , -82 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasDroit.push_back    (Vecteur3i(150 , -75 , (int)Z_HEIGHT_TABLE_BOARDS));
+    vertexBasDroit.push_back    (Vecteur3i(150 , -75 , (int)Z_HEIGHT_TABLE_SURFACE));
+    vertexBasDroit.push_back    (Vecteur3i(157 , -93 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasDroit.push_back    (Vecteur3i(110 , -65 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasDroit.push_back    (Vecteur3i(110 , -31 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasDroit.push_back    (Vecteur3i(82  , -65 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasDroit.push_back    (Vecteur3i(82  , -31 , (int)Z_HEIGHT_TABLE_UNDER));
+    vertexBasDroit.push_back    (Vecteur3i(96  , -48 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasDroit.push_back    (Vecteur3i(125 , -48 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasDroit.push_back    (Vecteur3i(125 , -82 , (int)Z_HEIGHT_TABLE_BOTTOM));
+    vertexBasDroit.push_back    (Vecteur3i(96  , -82 , (int)Z_HEIGHT_TABLE_BOTTOM));
+
+    listeIndexPointsModeleTable_[POSITION_BAS_MILIEU] = trouverVertex(scene, rootNode, vertexBasMilieu);
+    listeIndexPointsModeleTable_[POSITION_HAUT_MILIEU]  = trouverVertex(scene, rootNode, vertexHautMilieu);
+    listeIndexPointsModeleTable_[POSITION_MILIEU_GAUCHE]  = trouverVertex(scene, rootNode, vertexMilieuGauche);
+    listeIndexPointsModeleTable_[POSITION_MILIEU_DROITE]  = trouverVertex(scene, rootNode, vertexMilieuDroit);
+    listeIndexPointsModeleTable_[POSITION_HAUT_GAUCHE] = trouverVertex(scene, rootNode, vertexHautGauche);
+    listeIndexPointsModeleTable_[POSITION_BAS_GAUCHE]  = trouverVertex(scene, rootNode, vertexBasGauche);
+    listeIndexPointsModeleTable_[POSITION_HAUT_DROITE]  = trouverVertex(scene, rootNode, vertexHautDroit);
+    listeIndexPointsModeleTable_[POSITION_BAS_DROITE]  = trouverVertex(scene, rootNode, vertexBasDroit);
+
+    FacadePortability::takeMutex(mutex);
+    listePointInit = LISTEPOINTSTATE_OK;
+    emptyQueue();
+}
+#endif
+
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -96,7 +319,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , coefFriction_(0.3f)
+   : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , mFrictionRatio(0.3f),mListRenderCorners(0)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -225,223 +448,11 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 NoeudTable::~NoeudTable()
 {
    replacerModele();
+   if(mListRenderCorners)
+   {
+       glDeleteLists(*mListRenderCorners,nbCorners);
+   }
 }
-
-
-
-#if WIN32  
-
-enum ListePointState
-{
-    LISTEPOINTSTATE_OK,
-    LISTEPOINTSTATE_PENDING,
-    LISTEPOINTSTATE_ERROR,
-};
-ListePointState listePointInit = LISTEPOINTSTATE_PENDING;
-struct queuedMove
-{
-    TypePosPoint type;
-    Vecteur3 move;
-};
-std::vector<queuedMove> moveQueue;
-#include "..\Reseau\FacadePortability.h"
-HANDLE_MUTEX mutex = NULL;
-
-void emptyQueue()
-{
-    while(!moveQueue.empty())
-    {
-        queuedMove& q = moveQueue.back();
-        auto iter = NoeudTable::obtenirListeIndexPointsModeleTable().find(q.type);
-        if(iter != NoeudTable::obtenirListeIndexPointsModeleTable().end())
-        {
-            // si on ne trouve pas la liste ici, c'est que le modele n'existe pas
-            auto liste = &iter->second;
-            for(unsigned int i=0; i<liste->size(); i++)
-            {
-                *(liste->get(i)[VX]) += q.move[VX];
-                *(liste->get(i)[VY]) += q.move[VY];
-            }
-        }
-        moveQueue.pop_back();
-    }
-    FacadePortability::releaseMutex(mutex);
-    CloseHandle(mutex);
-    mutex = NULL;
-}
-
-
-void NoeudTable::queueTableModelMove(TypePosPoint type,const Vecteur3& move)
-{
-    if(listePointInit != LISTEPOINTSTATE_ERROR)
-    {
-        if(!mutex)
-        {
-            FacadePortability::createMutex(mutex);
-        }
-        FacadePortability::takeMutex(mutex);
-        // queue the move
-        queuedMove qmove;
-        qmove.type = type;
-        qmove.move = move;
-        moveQueue.push_back(qmove);
-
-        // if it finish initialise since then, apply the modifs
-        if(listePointInit == LISTEPOINTSTATE_OK)
-        {
-            emptyQueue();
-        }
-        if(mutex)FacadePortability::releaseMutex(mutex);
-
-    }
-    else
-    {
-        moveQueue.clear();
-    }
-}
-
-
-
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudTable::initialiserListeIndexPoints()
-///
-/// /*Description*/
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudTable::initialiserListeIndexPoints( Modele3D* modele )
-{
-    if(!mutex)
-    {
-        FacadePortability::createMutex(mutex);
-    }
-    if(!modele)
-    {
-        FacadePortability::takeMutex(mutex);
-        listePointInit = LISTEPOINTSTATE_ERROR;
-        FacadePortability::releaseMutex(mutex);
-        CloseHandle(mutex);
-        mutex = NULL;
-        return;
-    }
-
-    const aiScene* scene = modele->obtenirScene();
-    const aiNode* rootNode = scene->mRootNode;
-
-    GroupeCoord vertexBasMilieu;
-    vertexBasMilieu.push_back(Vecteur3i(0, -75, -1));
-    vertexBasMilieu.push_back(Vecteur3i(0, -75, 16));
-    vertexBasMilieu.push_back(Vecteur3i(0, -82, 16));
-    vertexBasMilieu.push_back(Vecteur3i(0, -82, 11));
-    vertexBasMilieu.push_back(Vecteur3i(0, -102, 11));
-    vertexBasMilieu.push_back(Vecteur3i(0, -93, -73));
-
-    GroupeCoord vertexHautMilieu;
-    vertexHautMilieu.push_back(Vecteur3i(0, 75, -1));
-    vertexHautMilieu.push_back(Vecteur3i(0, 75, 16));
-    vertexHautMilieu.push_back(Vecteur3i(0, 82, 16));
-    vertexHautMilieu.push_back(Vecteur3i(0, 82, 11));
-    vertexHautMilieu.push_back(Vecteur3i(0, 102, 11));
-    vertexHautMilieu.push_back(Vecteur3i(0, 92, -73));
-
-    GroupeCoord vertexMilieuGauche;
-    vertexMilieuGauche.push_back(Vecteur3i(-173, 0, 11));
-    vertexMilieuGauche.push_back(Vecteur3i(-156, 0, 11));
-    vertexMilieuGauche.push_back(Vecteur3i(-156, 0, 16));
-    vertexMilieuGauche.push_back(Vecteur3i(-150, 0, 16));
-    vertexMilieuGauche.push_back(Vecteur3i(-150, 0, -1));
-    vertexMilieuGauche.push_back(Vecteur3i(-156, 0, -73));
-
-    GroupeCoord vertexMilieuDroit;
-    vertexMilieuDroit.push_back(Vecteur3i(173, 0, 11));
-    vertexMilieuDroit.push_back(Vecteur3i(156, 0, 11));
-    vertexMilieuDroit.push_back(Vecteur3i(156, 0, 16));
-    vertexMilieuDroit.push_back(Vecteur3i(150, 0, 16));
-    vertexMilieuDroit.push_back(Vecteur3i(150, 0, -1));
-    vertexMilieuDroit.push_back(Vecteur3i(157, 0, -73));
-
-    GroupeCoord vertexHautGauche;
-    vertexHautGauche.push_back(Vecteur3i(-173, 102, 11));
-    vertexHautGauche.push_back(Vecteur3i(-156, 82, 11));
-    vertexHautGauche.push_back(Vecteur3i(-156, 82, 16));
-    vertexHautGauche.push_back(Vecteur3i(-150, 75, 16));
-    vertexHautGauche.push_back(Vecteur3i(-150, 75, -1));
-    vertexHautGauche.push_back(Vecteur3i(-156, 92, -73));
-    vertexHautGauche.push_back(Vecteur3i(-110, 65, -73));
-    vertexHautGauche.push_back(Vecteur3i(-110, 31, -73));
-    vertexHautGauche.push_back(Vecteur3i(-81, 65, -73));
-    vertexHautGauche.push_back(Vecteur3i(-81, 31, -73));
-    vertexHautGauche.push_back(Vecteur3i(-95, 48, -133));
-    vertexHautGauche.push_back(Vecteur3i(-124, 48, -133));
-    vertexHautGauche.push_back(Vecteur3i(-124, 82, -133));
-    vertexHautGauche.push_back(Vecteur3i(-95, 82, -133));
-
-    GroupeCoord vertexBasGauche;
-    vertexBasGauche.push_back(Vecteur3i(-173, -102, 11));
-    vertexBasGauche.push_back(Vecteur3i(-156, -82, 11));
-    vertexBasGauche.push_back(Vecteur3i(-156, -82, 16));
-    vertexBasGauche.push_back(Vecteur3i(-150, -75, 16));
-    vertexBasGauche.push_back(Vecteur3i(-150, -75, -1));
-    vertexBasGauche.push_back(Vecteur3i(-156, -93, -73));
-    vertexBasGauche.push_back(Vecteur3i(-110, -65, -73));
-    vertexBasGauche.push_back(Vecteur3i(-110, -31, -73));
-    vertexBasGauche.push_back(Vecteur3i(-81, -65, -73));
-    vertexBasGauche.push_back(Vecteur3i(-81, -31, -73));
-    vertexBasGauche.push_back(Vecteur3i(-95, -48, -133));
-    vertexBasGauche.push_back(Vecteur3i(-124, -48, -133));
-    vertexBasGauche.push_back(Vecteur3i(-124, -82, -133));
-    vertexBasGauche.push_back(Vecteur3i(-95, -82, -133));
-
-    GroupeCoord vertexHautDroit;
-    vertexHautDroit.push_back(Vecteur3i(173, 102, 11));
-    vertexHautDroit.push_back(Vecteur3i(156, 82, 11));
-    vertexHautDroit.push_back(Vecteur3i(156, 82, 16));
-    vertexHautDroit.push_back(Vecteur3i(150, 75, 16));
-    vertexHautDroit.push_back(Vecteur3i(150, 75, -1));
-    vertexHautDroit.push_back(Vecteur3i(157, 92, -73));
-    vertexHautDroit.push_back(Vecteur3i(110, 65, -73));
-    vertexHautDroit.push_back(Vecteur3i(110, 31, -73));
-    vertexHautDroit.push_back(Vecteur3i(82, 65, -73));
-    vertexHautDroit.push_back(Vecteur3i(82, 31, -73));
-    vertexHautDroit.push_back(Vecteur3i(96, 48, -133));
-    vertexHautDroit.push_back(Vecteur3i(125, 48, -133));
-    vertexHautDroit.push_back(Vecteur3i(125, 82, -133));
-    vertexHautDroit.push_back(Vecteur3i(96, 82, -133));
-
-    GroupeCoord vertexBasDroit;
-    vertexBasDroit.push_back(Vecteur3i(173, -102, 11));
-    vertexBasDroit.push_back(Vecteur3i(156, -82, 11));
-    vertexBasDroit.push_back(Vecteur3i(156, -82, 16));
-    vertexBasDroit.push_back(Vecteur3i(150, -75, 16));
-    vertexBasDroit.push_back(Vecteur3i(150, -75, -1));
-    vertexBasDroit.push_back(Vecteur3i(157, -93, -73));
-    vertexBasDroit.push_back(Vecteur3i(110, -65, -73));
-    vertexBasDroit.push_back(Vecteur3i(110, -31, -73));
-    vertexBasDroit.push_back(Vecteur3i(82, -65, -73));
-    vertexBasDroit.push_back(Vecteur3i(82, -31, -73));
-    vertexBasDroit.push_back(Vecteur3i(96, -48, -133));
-    vertexBasDroit.push_back(Vecteur3i(125, -48, -133));
-    vertexBasDroit.push_back(Vecteur3i(125, -82, -133));
-    vertexBasDroit.push_back(Vecteur3i(96, -82, -133));
-
-    listeIndexPointsModeleTable_[POSITION_BAS_MILIEU] = trouverVertex(scene, rootNode, vertexBasMilieu);
-    listeIndexPointsModeleTable_[POSITION_HAUT_MILIEU]  = trouverVertex(scene, rootNode, vertexHautMilieu);
-    listeIndexPointsModeleTable_[POSITION_MILIEU_GAUCHE]  = trouverVertex(scene, rootNode, vertexMilieuGauche);
-    listeIndexPointsModeleTable_[POSITION_MILIEU_DROITE]  = trouverVertex(scene, rootNode, vertexMilieuDroit);
-    listeIndexPointsModeleTable_[POSITION_HAUT_GAUCHE] = trouverVertex(scene, rootNode, vertexHautGauche);
-    listeIndexPointsModeleTable_[POSITION_BAS_GAUCHE]  = trouverVertex(scene, rootNode, vertexBasGauche);
-    listeIndexPointsModeleTable_[POSITION_HAUT_DROITE]  = trouverVertex(scene, rootNode, vertexHautDroit);
-    listeIndexPointsModeleTable_[POSITION_BAS_DROITE]  = trouverVertex(scene, rootNode, vertexBasDroit);
-
-    FacadePortability::takeMutex(mutex);
-    listePointInit = LISTEPOINTSTATE_OK;
-    emptyQueue();
-}
-#endif
 
 
 
@@ -473,12 +484,51 @@ void NoeudTable::renderReal() const
         Modele3D* pModel = getModel();
         if(pModel)
         {
+            // render corners
+            if(mListRenderCorners)
+            {
+                glPushMatrix();
+                glPushAttrib(GL_ALL_ATTRIB_BITS);
+                if(pModel->appliquerMateriau("GreenTeam"))
+                {
+                    glPushMatrix();
+                    glCallList(mListRenderCorners[1]);
+                    glPopMatrix();
+
+                    glPushMatrix();
+                    glCallList(mListRenderCorners[2]);
+                    glPopMatrix();
+
+                    // car la fonction appliquer materiau fait un push matrix dans le mode Texture
+                    glMatrixMode(GL_TEXTURE);
+                    glPopMatrix();
+                    glMatrixMode(GL_MODELVIEW);
+                }
+                if(pModel->appliquerMateriau("RedTeam"))
+                {
+                    glPushMatrix();
+                    glCallList(mListRenderCorners[0]);
+                    glPopMatrix();
+                    glPushMatrix();
+                    glCallList(mListRenderCorners[3]);
+                    glPopMatrix();
+
+                    // car la fonction appliquer materiau fait un push matrix dans le mode Texture
+                    glMatrixMode(GL_TEXTURE);
+                    glPopMatrix();
+                    glMatrixMode(GL_MODELVIEW);
+                }
+                glPopAttrib();
+                glPopMatrix();
+            }
+
             glPushMatrix();
             glPushAttrib(GL_ALL_ATTRIB_BITS);
             pModel->dessiner(true);
             glPopAttrib();
             glPopMatrix();
         }
+
         glColor4f(1.0f,0.0f,1.0f,1.0f);
 
         // États de la lumière 
@@ -489,7 +539,6 @@ void NoeudTable::renderReal() const
 
         FacadeModele::getInstance()->DeActivateShaders();
         {
-            static const float hauteurLigne = 0.f;
             static const float moitieLargeurLigne = 1.0f;
             glPushAttrib(GL_ALL_ATTRIB_BITS);
             glPushMatrix();
@@ -504,10 +553,10 @@ void NoeudTable::renderReal() const
                     // Dessin des lignes verticales de la table
                     const Vecteur3& cur = mTableVertices[i][j];
                     const Vecteur3& down = mTableVertices[i][j+1];
-                    glVertex3f(cur[VX]+moitieLargeurLigne,cur[VY],hauteurLigne);
-                    glVertex3f(cur[VX]-moitieLargeurLigne,cur[VY],hauteurLigne);
-                    glVertex3f(down[VX]-moitieLargeurLigne,down[VY],hauteurLigne);
-                    glVertex3f(down[VX]+moitieLargeurLigne,down[VY],hauteurLigne);
+                    glVertex3f(cur[VX]+moitieLargeurLigne,cur[VY],Z_HEIGHT_TABLE_SURFACE+1);
+                    glVertex3f(cur[VX]-moitieLargeurLigne,cur[VY],Z_HEIGHT_TABLE_SURFACE+1);
+                    glVertex3f(down[VX]-moitieLargeurLigne,down[VY],Z_HEIGHT_TABLE_SURFACE+1);
+                    glVertex3f(down[VX]+moitieLargeurLigne,down[VY],Z_HEIGHT_TABLE_SURFACE+1);
                 }
             }
 
@@ -972,7 +1021,7 @@ XmlElement* NoeudTable::createXmlNode()
 {
     XmlElement* elementNoeud = NoeudComposite::createXmlNode();
     
-    XMLUtils::writeAttribute<float>(elementNoeud,"coefFriction",coefFriction_);
+    XMLUtils::writeAttribute<float>(elementNoeud,"coefFriction",mFrictionRatio);
     
     for(unsigned int i=0; i<NB_BANDES; ++i)
     {
@@ -1008,7 +1057,7 @@ bool NoeudTable::initFromXml( const XmlElement* element )
 
     if(!Super::initFromXml(element))
         return false;
-    if(!XMLUtils::readAttribute(element,"coefFriction",coefFriction_))
+    if(!XMLUtils::readAttribute(element,"coefFriction",mFrictionRatio))
         throw ExceptionJeu("Error reading table's fricition coefficient");
 
     // On assigne le coefficient de rebon des bandes exterieurs
@@ -1414,11 +1463,25 @@ void NoeudTable::updatePhysicBody()
             },
             
         };
-        const int nbCorners = ARRAY_COUNT(Corners);
+        /// here assumes the array above is not empty
+
+        if(mListRenderCorners)
+        {
+            glDeleteLists(*mListRenderCorners,nbCorners);
+        }
+        else
+        {
+            mListRenderCorners = new GLuint[nbCorners];
+        }
+        mListRenderCorners[0] = glGenLists(1);
+        mListRenderCorners[1] = glGenLists(1);
+        mListRenderCorners[2] = glGenLists(1);
+        mListRenderCorners[3] = glGenLists(1);
 
         /// Create round corner for the table
         for(int i=0; i<nbCorners; ++i)
         {
+            glNewList(mListRenderCorners[i],GL_COMPILE);
             Vecteur2 posMid1   = Corners[i][0];//pHautMilieu->getPosition();
             Vecteur2 posMid2   = Corners[i][1];//pMilieuGauche->getPosition();
             Vecteur2 posCorner = Corners[i][2];//pHautGauche->getPosition();
@@ -1444,13 +1507,13 @@ void NoeudTable::updatePhysicBody()
             dir1 *= length;
             dir2 *= length;
 
-            Vecteur2 startingPoint1 = posCorner+dir1;
-            Vecteur2 startingPoint2 = posCorner+dir2;
-            dir1 = dir1.tournerPiSur2() + startingPoint1;
-            dir2 = dir2.tournerPiSur2() + startingPoint2;
+            Vecteur2 startingPoint = posCorner+dir1;
+            Vecteur2 endPoint = posCorner+dir2;
+            dir1 = dir1.tournerPiSur2() + startingPoint;
+            dir2 = dir2.tournerPiSur2() + endPoint;
 
             Vecteur2 intersection;
-            if(aidecollision::calculerIntersection2Droites(startingPoint1,dir1,startingPoint2,dir2,intersection))
+            if(aidecollision::calculerIntersection2Droites(startingPoint,dir1,endPoint,dir2,intersection))
             {
                 // only draw circle when the interseciton is inside the table
                 if(intersection.norme2() < posCorner.norme2())
@@ -1458,13 +1521,13 @@ void NoeudTable::updatePhysicBody()
                     b2Vec2 firstPoint,lastPoint,mid;
                     utilitaire::VEC3_TO_B2VEC(intersection,mid);
                     // position of starting points as if the intersection was (0,0)
-                    Vecteur2 p1Relative = startingPoint1 - intersection;
-                    Vecteur2 p2Relative = startingPoint2 - intersection ;
-                    double radius = p1Relative.norme()*utilitaire::ratioWorldToBox2D;
+                    Vecteur2 p1Relative = startingPoint - intersection;
+                    Vecteur2 p2Relative = endPoint - intersection ;
+                    const float radius = p1Relative.norme()*utilitaire::ratioWorldToBox2D;
                     p1Relative.normaliser();
                     p2Relative.normaliser();
-                    double startingAngle = atan2f(p1Relative.Y(),p1Relative.X());
-                    double endAngle = atan2f(p2Relative.Y(),p2Relative.X());
+                    float startingAngle = atan2f(p1Relative.Y(),p1Relative.X());
+                    float endAngle = atan2f(p2Relative.Y(),p2Relative.X());
 
                     // making sure the starting angle is smaller than the ending angle
                     while(endAngle < startingAngle)
@@ -1474,18 +1537,23 @@ void NoeudTable::updatePhysicBody()
 
                     b2EdgeShape line;
                     static float nbLines = 10;
-                    double deltaAngle = (endAngle-startingAngle)/nbLines;
+                    const float deltaAngle = (endAngle-startingAngle)/nbLines;
                     b2Vec2 p1;
                     b2Vec2 p2; 
-                    utilitaire::VEC3_TO_B2VEC(startingPoint1,p1);
+                    utilitaire::VEC3_TO_B2VEC(startingPoint,p1);
 
                     b2FixtureDef myFixtureDef;
                     myFixtureDef.shape = &line; //this is a pointer to the shape above
                     myFixtureDef.density = 1;
                     myFixtureDef.restitution = 0.75f;  // TODO:: not hardcoded value, use surrounding boards to eval rebound ratio
                     RazerGameUtilities::ApplyFilters(myFixtureDef,RAZER_KEY_RINK_BOARD,IsInGame());
+                    const float invRatio = 1.f/utilitaire::ratioWorldToBox2D;
+                    glScalef(invRatio,invRatio,1);
+                    glBegin(GL_QUAD_STRIP);
 
-                    for( double curAngle = startingAngle; curAngle < endAngle; curAngle+=deltaAngle)
+                    glVertex3f(p1.x,p1.y,Z_HEIGHT_TABLE_BOARDS);
+                    glVertex3f(p1.x,p1.y,Z_HEIGHT_TABLE_SURFACE);
+                    for( float curAngle = startingAngle; curAngle < endAngle; curAngle+=deltaAngle)
                     {
                         p2.x = (cos(curAngle)*radius);
                         p2.y = (sin(curAngle)*radius);
@@ -1494,12 +1562,38 @@ void NoeudTable::updatePhysicBody()
 
                         mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
                         p1 = p2;
+
+                        glVertex3f(p1.x,p1.y,Z_HEIGHT_TABLE_BOARDS);
+                        glVertex3f(p1.x,p1.y,Z_HEIGHT_TABLE_SURFACE);
                     }
-                    utilitaire::VEC3_TO_B2VEC(startingPoint2,p2);
+                    utilitaire::VEC3_TO_B2VEC(endPoint,p2);
                     line.Set(p1,p2);
                     mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
+                    glVertex3f(p2.x,p2.y,Z_HEIGHT_TABLE_BOARDS);
+                    glVertex3f(p2.x,p2.y,Z_HEIGHT_TABLE_SURFACE);
+                    glEnd();
+
+                    glBegin(GL_TRIANGLE_FAN);
+                    utilitaire::VEC3_TO_B2VEC(posCorner,p2);
+                    // initial point for the triangle fan
+                    glVertex3f(p2.x,p2.y,Z_HEIGHT_TABLE_BOARDS);
+
+                    utilitaire::VEC3_TO_B2VEC(startingPoint,p1);
+                    glVertex3f(p1.x,p1.y,Z_HEIGHT_TABLE_BOARDS);
+                    for( float curAngle = startingAngle; curAngle < endAngle; curAngle+=deltaAngle)
+                    {
+                        p2.x = (cos(curAngle)*radius);
+                        p2.y = (sin(curAngle)*radius);
+                        p2 += mid;
+                        glVertex3f(p2.x,p2.y,Z_HEIGHT_TABLE_BOARDS);
+                    }
+                    utilitaire::VEC3_TO_B2VEC(endPoint,p2);
+                    glVertex3f(p2.x,p2.y,Z_HEIGHT_TABLE_BOARDS);
+
+                    glEnd();
                 }
             }
+            glEndList();
         }
         
 

@@ -43,7 +43,7 @@ public:
    virtual bool equals(NoeudAbstrait* n)
    {
        auto t = dynamic_cast<NoeudTable*>(n);
-       return !!t && coefFriction_==t->coefFriction_&& Super::equals(n);
+       return !!t && mFrictionRatio==t->mFrictionRatio&& Super::equals(n);
    }
    /// Affiche le cube.
    virtual void renderReal() const;
@@ -116,7 +116,7 @@ private:
    //GLuint textureId_; 
 
    /// Coefficient de friction de la surface de la table, sauvegarder en XML
-   float coefFriction_;
+   float mFrictionRatio; // usually between 0 and 1
 
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
@@ -125,7 +125,7 @@ private:
 
 
    Vecteur3 mTableVertices[NB_HORIZONTAL_VERTICES][NB_VERTICAL_VERTICES];
-
+   GLuint* mListRenderCorners;
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
 
@@ -143,8 +143,8 @@ public:
     /// Retourne le muret de la zone d'edition correspondant a son enum
 
 	/// Accesseur de coefFriction_
-	float obtenirCoefFriction() const { return coefFriction_; }
-	void modifierCoefFriction(float val) { coefFriction_ = val; }
+	float obtenirCoefFriction() const { return mFrictionRatio; }
+	void modifierCoefFriction(float val) { mFrictionRatio = val; }
 
 	/// Accesseur du coefRebond des bandes
 	float obtenirCoefRebond(int quelBande) {return bande_[quelBande]->getReboundRatio();}
