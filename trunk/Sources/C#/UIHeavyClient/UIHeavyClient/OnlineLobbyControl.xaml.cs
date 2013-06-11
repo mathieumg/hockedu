@@ -285,7 +285,7 @@ namespace UIHeavyClient
                 mFeedbackLabel.Content = "Loading, please wait...";
                 HandleUIButtons(false);
                 requestGameCreationServerGame(mGameCreationPrompt.GameName, mGameCreationPrompt.Map.name, mGameCreationPrompt.Map.id, mGameCreationPrompt.Password);
-                mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, "", mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
+                mGameWaitingToConnect = new OnlineGameInfos(-1, 0, mGameCreationPrompt.GameName, mGameCreationPrompt.Map.author, mGameCreationPrompt.Map.name, mGameCreationPrompt.Password != "", "");
                 mIsWaitingForOnlineGame = true;
             }
 
@@ -376,9 +376,10 @@ namespace UIHeavyClient
         {
             // Une fois qu'on a charge la liste des maps, on trouve la bonne 
             string wMapToFind = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.mapName;
+            string wAuthor    = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.creatorName;
             foreach (UserMapDetailedJSON wMap in pList)
             {
-                if(wMap.name == wMapToFind)
+                if (wMap.name == wMapToFind && wMap.author == wAuthor)
                 {
                     // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
                     MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, "", MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);

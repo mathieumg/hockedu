@@ -1083,7 +1083,7 @@ void GestionnaireReseau::initClient(const std::string& pUsername/* = ""*/, const
     init();
 
     // Demarre les threads de reception UDP (pour serveur et client)
-    mCommunicateurReseau->demarrerThreadsReceptionUDPClientLourd();
+    //mCommunicateurReseau->demarrerThreadsReceptionUDPClientLourd();
 }
 
 
