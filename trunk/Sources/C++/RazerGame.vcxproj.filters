@@ -72,9 +72,6 @@
     <Filter Include="Sources Files\Reseau\PaquetHandlers">
       <UniqueIdentifier>{88fca8f0-3b7b-4125-a2df-36c117b13552}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources Files\Reseau\UsinePaquets">
-      <UniqueIdentifier>{730757d9-2967-4595-9ace-2d0c4045ab15}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources Files\Reseau\Global">
       <UniqueIdentifier>{4eccdfc7-8d86-49e4-b03b-97833967b258}</UniqueIdentifier>
     </Filter>
@@ -83,9 +80,6 @@
     </Filter>
     <Filter Include="Sources Files\Reseau\Global\Paquets">
       <UniqueIdentifier>{c7c99604-afde-4772-9122-0d7accee2245}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Sources Files\Reseau\Global\UsinePaquets">
-      <UniqueIdentifier>{99013afa-7cb6-46e6-bcc8-91c45754deb4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Sources Files\Reseau\Global\ExceptionsReseau">
       <UniqueIdentifier>{aabae61a-04c9-4e65-8e07-3c6b99869765}</UniqueIdentifier>
@@ -966,18 +960,6 @@
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\Paquet.h">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h">
-      <Filter>Sources Files\Reseau\Global\UsinePaquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\RelayeurMessage.h">
       <Filter>Sources Files\Reseau\Global</Filter>

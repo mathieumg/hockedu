@@ -83,7 +83,7 @@ void logSetup()
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
         wFilename << "logs/";
-        wFilename <<NETWORK_LOG_FILE_NAME<< wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
+        wFilename <<NETWORK_LOG_FILE_NAME<< wTimeNow.tm_mon+1 << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec << ".txt";
         errorLogHandle.open(wFilename.str(), std::fstream::out);
         bLogCreated = true;
     }
@@ -98,7 +98,7 @@ void PacketSentlogSetup()
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
-        wFilename << "logs/"<< NETWORK_PACKET_SENT_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
+        wFilename << "logs/"<< NETWORK_PACKET_SENT_FILE_NAME << wTimeNow.tm_mon+1 << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
         PacketSentLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
         bPacketLogCreated = true;
     }
@@ -113,7 +113,7 @@ void PacketRecvlogSetup()
         struct tm wTimeNow;
         localtime_s( &wTimeNow, &wTime );
         std::stringstream wFilename;
-        wFilename << "logs/"<< NETWORK_PACKET_RECV_FILE_NAME << wTimeNow.tm_mon << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
+        wFilename << "logs/"<< NETWORK_PACKET_RECV_FILE_NAME << wTimeNow.tm_mon+1 << "_" << wTimeNow.tm_mday << "_" << wTimeNow.tm_hour << "_" << wTimeNow.tm_min << "_" << wTimeNow.tm_sec;
         PacketRecvLogHandle.open(wFilename.str(), std::ios::binary|std::ios::out);
         bPacketRecvLogCreated = true;
     }

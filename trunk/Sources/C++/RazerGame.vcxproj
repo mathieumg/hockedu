@@ -601,10 +601,6 @@
     <ClInclude Include="Reseau\Socket.h" />
     <ClInclude Include="Reseau\SocketTCPServeur.h" />
     <ClInclude Include="Reseau\UsinePaquet.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquet.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetEvent.h" />
-    <ClInclude Include="Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
     <ClInclude Include="Sons\SoundFMOD.h" />
     <ClInclude Include="Tests\AchievementsTests.h" />
     <ClInclude Include="Tests\AiLearnerTests.h" />

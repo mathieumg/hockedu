@@ -102,20 +102,7 @@
     <ClInclude Include="..\C++\Reseau\Paquets\PaquetPortal.h" />
     <ClInclude Include="..\C++\Reseau\Paquets\PaquetRondelle.h" />
     <ClInclude Include="..\C++\Reseau\Paquets\PaquetUserStatus.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquet.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetBonus.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetChatMessage.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetEvent.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameConnection.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameCreation.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameEvent.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameStatus.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetLoginInfo.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetMaillet.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetPortal.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetRondelle.h" />
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetUserStatus.h" />
+    <ClInclude Include="..\C++\Reseau\UsinePaquet.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

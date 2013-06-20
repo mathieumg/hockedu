@@ -162,48 +162,6 @@
     <ClInclude Include="..\C++\Reseau\Paquets\PaquetUserStatus.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetBonus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetChatMessage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetConnAutomatique.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameConnection.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameCreation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameEvent.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetGameStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetLoginInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetMaillet.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetPortal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetRondelle.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\C++\Reseau\UsinePaquets\UsinePaquetUserStatus.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -214,6 +172,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\C++\Reseau\PacketReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\C++\Reseau\UsinePaquet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
