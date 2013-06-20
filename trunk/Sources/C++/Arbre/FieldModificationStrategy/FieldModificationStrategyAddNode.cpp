@@ -68,7 +68,7 @@ int FieldModificationStrategyAddNode::receivedEventSpecific( const FieldModifica
         {
             // le noeud a perdu son parent,
             // le terrain a surement ete reinitialisé, ou undid
-            mField->ajouterNoeudTemp(mNewNode);
+            mField->addTempNode(mNewNode);
         }
         mNewNode->setPosition(pEvent.mPosition);
         bool validPos = mField->IsNodeAtValidEditionPosition(mNewNode,true);
@@ -76,7 +76,7 @@ int FieldModificationStrategyAddNode::receivedEventSpecific( const FieldModifica
         {
             if(validPos)
             {
-                mField->transfererNoeud(mNewNode);
+                mField->transferNode(mNewNode);
                 mField->pushUndoState();
                 createNewNode(pEvent.mPosition);
             }
@@ -125,7 +125,7 @@ void FieldModificationStrategyAddNode::createNewNode(const Vecteur2& position)
         if(mNewNode)
         {
             mNewNode->setPosition(position);
-            mField->ajouterNoeudTemp(mNewNode);
+            mField->addTempNode(mNewNode);
             mNewNode->forceFullUpdate();
         }
     }

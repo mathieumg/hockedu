@@ -97,7 +97,7 @@ int FieldModificationStrategyAddWall::receivedEventSpecific( const FieldModifica
             {
                 if(!createNextControlPoint())
                 {
-                    mField->transfererNoeud(mNewNode);
+                    mField->transferNode(mNewNode);
                     mField->pushUndoState();
                     createNewNode(pEvent.mPosition);
 

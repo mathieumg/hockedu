@@ -80,11 +80,8 @@ public:
 	/// Libère la mémoire du terrain et le retourne à son état de base
 	void libererMemoire();
 
-	
-
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
     bool initialiserXml( const XmlElement* element, bool fromDocument = true, bool correctErrors = true );
-
 
 	/// Remet le terrain a son etat de base
 	void reinitialiser();
@@ -93,13 +90,15 @@ public:
 	XmlElement* creerNoeudXML();
 
 	/// Ajout d'un noeud dans l'arbre de noeud Temporaire
-	void ajouterNoeudTemp( NoeudAbstrait* noeud);
+    void addTempNode( NoeudAbstrait* noeud);
+    /// Ajout un noeud directement dans l'arbre principal
+    void addNode( NoeudAbstrait* noeud);
 
 	/// Transfert d'un noeud de l'arbre de noeud temporaire à l'arbre de rendu
-	void transfererNoeud( NoeudAbstrait* noeud);
+	void transferNode( NoeudAbstrait* noeud);
 
 	/// Permet de detacher un noeud temporaire de l'arbre de noeud temporaire
-	void retirerNoeudTemp( NoeudAbstrait* noeud );
+	void removeTempNode( NoeudAbstrait* noeud );
 
 	/// Vérification pour voir si un noeud est dans les limites de la zone edition
 	bool insideLimits( NoeudAbstrait* noeud );
@@ -233,9 +232,9 @@ private:
 	
     //////////////////////////////////////////////////////////////////////////
     /// Cache de pointeurs sur les maillets et rondelle durant une partie.
-    /// pointeur NULL dans le mode édition
+    /// liste vide dans le mode édition
     std::vector<NoeudMaillet*> mGreenTeam,mRedTeam;
-    NoeudRondelle* mPuck;
+    const std::vector<NoeudRondelle*>* mPucks;
     //////////////////////////////////////////////////////////////////////////
 
 	/// Contient la zone d'édition du terrain
@@ -245,8 +244,6 @@ private:
     Partie* mGame;
     bool mIsSimulation;
     bool mResizeTableModel;
-
-
 
     /// pointeur sur la zamboni
     class NodeModelRender* mZamboni;
@@ -320,6 +317,7 @@ public:
     inline void setTable(NoeudTable* table){mTable=table;}
 	/// Accesseur de la rondelle sur le terrain.
 	NoeudRondelle* getPuck() const ;
+    const std::vector<NoeudRondelle*>* getPucks() const { return mPucks; }
     /// Accesseur des buts, l'argument DOIT etre un array de 2 pointeur sur des but
     void getGoals(class NoeudBut** pOutGoals);
 

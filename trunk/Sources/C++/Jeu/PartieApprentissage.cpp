@@ -291,9 +291,9 @@ void PartieApprentissage::dumpAndConvertPlayersData()
     }
 }
 
-void PartieApprentissage::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle )
+void PartieApprentissage::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit )
 {
-    Partie::assignerControlesMaillet(mailletGauche, mailletDroit, rondelle);
+    Partie::assignerControlesMaillet(mailletGauche, mailletDroit);
 
     if(mRightLearningAi)
     {

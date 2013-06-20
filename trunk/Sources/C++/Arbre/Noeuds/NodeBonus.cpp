@@ -319,9 +319,9 @@ void NodeBonus::playTick( float temps)
         {
             mCounting = false;
             mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
-//#if MAT_DEBUG_
-//            mBonusType = BONUS_TYPE_CHANGE_ZONE; // testing value
-//#endif
+#if MIKE_DEBUG_
+            //mBonusType = BONUS_TYPE_SPAWN_PUCK; // testing value
+#endif
             ResetTimeLeft();
             setVisible(true);
             // activate collision on strat creation

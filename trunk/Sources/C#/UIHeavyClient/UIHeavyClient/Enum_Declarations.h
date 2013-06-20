@@ -161,6 +161,7 @@ typedef enum
         BONUS_TYPE_BLOCK_GOAL,
         BONUS_TYPE_FAN,
         BONUS_TYPE_CHANGE_ZONE,
+        BONUS_TYPE_SPAWN_PUCK,
 
         NB_BONUS_TYPE
     }

@@ -24,6 +24,7 @@
 class HUDBonus : public HUDElement
 {
 public:
+    HUDBonus();
     /// Accessors of Modifiers
     inline void setModifiers(const ModifiersContainer* pVal) { mModifiers = pVal; }
 

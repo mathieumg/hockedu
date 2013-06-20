@@ -371,8 +371,6 @@ public:
 
 	//racine de laquelle debuter le tracage du HUD.
 	HUDElement *racineHUD_;
-	/// Accesseur de rondelle_
-	NoeudRondelle* obtenirRondelle() const;
 	/// Accesseur de nbNoeudSelect_
 	unsigned int obtenirNbNoeudSelect();
 
@@ -388,7 +386,6 @@ public:
     inline void setCurrentMap(std::string pCurrentMap) {mCurrentMapFile = pCurrentMap;}
 
     inline void setProchainePartie(int val) { prochainePartie_ = val; }
-
 
 };
 

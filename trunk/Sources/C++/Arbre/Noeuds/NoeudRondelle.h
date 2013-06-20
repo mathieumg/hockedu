@@ -90,7 +90,7 @@ public:
 
     /// Accesseur et mutateur de positionOriginale
     Vecteur3 obtenirPositionOriginale() const { return positionOriginale_; }
-    void modifierPositionOriginale(Vecteur3 val) { positionOriginale_ = val; }
+    void modifierPositionOriginale(const Vecteur3& val) { positionOriginale_ = val; }
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();

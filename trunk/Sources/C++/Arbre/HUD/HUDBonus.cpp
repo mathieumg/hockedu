@@ -18,6 +18,14 @@ unsigned int HUDBonus::mTextures[NB_BONUS_TYPE];
 HUDSurfaceGL* HUDBonus::mSurface = NULL;
 HUDTexte* HUDBonus::mTimerElement = NULL;
 
+
+HUDBonus::HUDBonus():
+    mModifiers(NULL)
+{
+
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void HUDBonus::initSurfaces()

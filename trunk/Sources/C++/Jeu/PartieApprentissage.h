@@ -36,7 +36,7 @@ public:
     }
 
     /// Overriden so we can setup the AILearner output file once mallets are assigned.
-    virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle);
+    virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit);
 protected:
     PartieApprentissage(GameType gameType, int pNbButsGagnants, SPPlayerAbstract joueurGauche = 0, SPPlayerAbstract joueurDroit = 0, int uniqueGameId = 0, const std::vector<GameUpdateCallback>& updateCallback = std::vector<GameUpdateCallback>());
 

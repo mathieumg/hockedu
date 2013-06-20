@@ -251,6 +251,7 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierChangeZone.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierFan.cpp" />
     <ClCompile Include="Arbre\Bonus\BonusModifierGoThorughWall.cpp" />
+    <ClCompile Include="Arbre\Bonus\BonusModifierSpawnPuck.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.cpp" />
     <ClCompile Include="Arbre\FieldModificationStrategy\FieldModificationStrategyMove.cpp" />
@@ -444,6 +445,7 @@
     <ClInclude Include="Arbre\Bonus\BonusModifierChangeZone.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierFan.h" />
     <ClInclude Include="Arbre\Bonus\BonusModifierGoThorughWall.h" />
+    <ClInclude Include="Arbre\Bonus\BonusModifierSpawnPuck.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAbstract.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddNode.h" />
     <ClInclude Include="Arbre\FieldModificationStrategy\FieldModificationStrategyAddWall.h" />
@@ -537,6 +539,7 @@
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h" />
     <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.h" />
     <ClInclude Include="Interface\EventManager.h" />
+    <ClInclude Include="Interface\ObserverFacade.h" />
     <ClInclude Include="Jeu\AI\AIMaillet.h" />
     <ClInclude Include="Jeu\AI\AIStrat.h" />
     <ClInclude Include="Jeu\AI\AIStratDefensive.h" />

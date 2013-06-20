@@ -81,6 +81,7 @@
 #define TransmitEvent(e) if(!IsGameField()) EditionEventManager::TransmitEvent(e)
 
 const unsigned int MAX_PUCKS = EditionEventManager::mEditionLimitPucks;
+const unsigned int MAX_PUCKS_IN_GAME = 3;
 const unsigned int MAX_MALLETS = EditionEventManager::mEditionLimitMallet;
 
 #if MIKE_DEBUG_
@@ -99,7 +100,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ////////////////////////////////////////////////////////////////////////
 Terrain::Terrain(Partie* pGame): 
     mLogicTree(NULL), mNewNodeTree(NULL), mTable(NULL),mFieldName(""),mRenderTree(0),mGame(pGame),mZamboni(NULL),
-    mPuck(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
+    mPucks(NULL), mIsInit(false), mModifStrategy(NULL),mDoingUndoRedo(false),mCurrentState(NULL), mBesoinMiseAuJeu(false),
     mIsSimulation(false),mPuckZone(PUCK_ZONE_UNKNOWN),mResizeTableModel(true)
 #if __APPLE__
 /// pointer to the callback to do the render in objc
@@ -481,7 +482,7 @@ void Terrain::initialiserArbreRendu()
     // Initialisation des arbres de rendus
     if(mLogicTree == NULL)
     {
-        mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
+        mLogicTree = new RazerGameTree(this,MAX_MALLETS,!!mGame ? MAX_PUCKS_IN_GAME:MAX_PUCKS);
     }
     else
     {
@@ -561,7 +562,7 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
         }
         mNewNodeTree->setField(this);
     }
-    mLogicTree = new RazerGameTree(this,MAX_MALLETS,MAX_PUCKS);
+    mLogicTree = new RazerGameTree(this,MAX_MALLETS,!!mGame ? MAX_PUCKS_IN_GAME:MAX_PUCKS);
 
     const XmlElement* racine = element;
     /// si ce noeud xml vient d'un document, il faut retrouver la node Terrain
@@ -927,9 +928,18 @@ void Terrain::animerTerrain( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
+void Terrain::addTempNode( NoeudAbstrait* noeud )
 {
+    checkf(!mGame);
     mNewNodeTree->add(noeud);
+}
+
+/// Ajout un noeud directement dans l'arbre principal
+void Terrain::addNode( NoeudAbstrait* noeud )
+{
+    checkf(mGame);
+    mTable->add(noeud);
+    noeud->forceFullUpdate();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -943,8 +953,9 @@ void Terrain::ajouterNoeudTemp( NoeudAbstrait* noeud )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::transfererNoeud( NoeudAbstrait* noeud )
+void Terrain::transferNode( NoeudAbstrait* noeud )
 {
+    checkf(!mGame);
     mNewNodeTree->unlinkChild(noeud);
     mTable->add(noeud);
     noeud->forceFullUpdate();
@@ -961,7 +972,7 @@ void Terrain::transfererNoeud( NoeudAbstrait* noeud )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Terrain::retirerNoeudTemp( NoeudAbstrait* noeud )
+void Terrain::removeTempNode( NoeudAbstrait* noeud )
 {
     if(mNewNodeTree)
     {
@@ -1205,10 +1216,10 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
 ////////////////////////////////////////////////////////////////////////
 NoeudRondelle* Terrain::getPuck() const
 {
-    if(mPuck)
+    if(mPucks && !mPucks->empty())
     {
         checkf(IsGameField(), "Dans le mode édition on ne conserve pas de pointeur sur la puck");
-        return mPuck;
+        return mPucks->front();
     }
 
     if(getTable())
@@ -2307,7 +2318,7 @@ void Terrain::initNecessaryPointersForGame()
 {
     mGreenTeam.clear();
     mRedTeam.clear();
-    mPuck = NULL;
+    mPucks = NULL;
 
     mTable = mLogicTree->obtenirTable();
     if(mTable == NULL)
@@ -2346,39 +2357,41 @@ void Terrain::initNecessaryPointersForGame()
             checkf(g, "Groupe pour la rondelle manquante");
             if(g)
             {
+                // we assume that every node in this container are Pucks
+                mPucks = (const std::vector<NoeudRondelle*>*)&g->getChilds();
                 for(unsigned int i=0; i<g->childCount(); ++i)
                 {
                     NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
                     if(r)
                     {
-                        mPuck = r;
-                        mPuck->modifierPositionOriginale(mPuck->getPosition());
+                        r->modifierPositionOriginale(r->getPosition());
                     }
                 }
             }
         }
 
-        if(!mPuck)
+        if(!mPucks || mPucks->empty())
         {
             throw ExceptionJeu("Missing puck on table");
         }
-        if(!mGreenTeam.size() || !mRedTeam.size())
+        if(mGreenTeam.empty() || mRedTeam.empty())
         {
             throw ExceptionJeu("Missing mallet on table");
         }
 
 #if WIN32
-        if (!mIsSimulation && GestionnaireHUD::Exists())
-        {
-	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
-	        leftBonuses->setModifiers(&mGreenTeam[0]->GetModifiers());
-	
-	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
-	        rightBonuses->setModifiers(&mRedTeam[0]->GetModifiers());
-
-            auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
-            puckBonuses->setModifiers(&mPuck->GetModifiers());
-        }
+        // TODO:: need to revisit the hud display for bonuses since we now have a list of mallet and pucks
+//         if (!mIsSimulation && GestionnaireHUD::Exists())
+//         {
+// 	        auto leftBonuses = GestionnaireHUD::obtenirInstance()->getLeftPlayerBonuses();
+// 	        leftBonuses->setModifiers(&mGreenTeam[0]->GetModifiers());
+// 	
+// 	        auto rightBonuses = GestionnaireHUD::obtenirInstance()->getRightPlayerBonuses();
+// 	        rightBonuses->setModifiers(&mRedTeam[0]->GetModifiers());
+// 
+//             auto puckBonuses = GestionnaireHUD::obtenirInstance()->getPuckBonuses();
+//             puckBonuses->setModifiers(&(*mPucks)[0]->GetModifiers());
+//         }
 #endif
     }
 }
@@ -3010,6 +3023,8 @@ void Terrain::setPuckZone( PuckZone pVal )
     }
 #endif //BOX2D_PLAY
 }
+
+
 
 #if MIKE_DEBUG_
 PRAGMA_ENABLE_OPTIMIZATION

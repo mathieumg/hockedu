@@ -662,6 +662,9 @@
     <ClCompile Include="Interface\EventManager.cpp">
       <Filter>Sources Files\Interface</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\Bonus\BonusModifierSpawnPuck.cpp">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1205,6 +1208,12 @@
       <Filter>Sources Files\Jeu</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EventManager.h">
+      <Filter>Sources Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\Bonus\BonusModifierSpawnPuck.h">
+      <Filter>Sources Files\Arbre\Bonus</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ObserverFacade.h">
       <Filter>Sources Files\Interface</Filter>
     </ClInclude>
   </ItemGroup>

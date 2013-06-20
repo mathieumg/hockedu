@@ -12,12 +12,14 @@
 #include "BonusModifierBlockGoal.h"
 #include "BonusModifierFan.h"
 #include "BonusModifierChangeZone.h"
+#include "BonusModifierSpawnPuck.h"
 
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierGoThroughWall);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierGoThroughWallMallet);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierBlockGoal);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierFan);
 DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierChangeZone);
+DEFAULT_BONUS_FACTORY_IMPLEMENTATION(BonusModifierSpawnPuck);
 
 
 const std::string BonusNamesArray[NB_BONUS_TYPE] = 
@@ -27,6 +29,7 @@ const std::string BonusNamesArray[NB_BONUS_TYPE] =
     "Goaler",         //BonusModifierBlockGoal(),
     "Fan",            //BonusModifierFan(),
     "Cheater",        //BonusModifierChangeZone(),
+    "Puck Spawn",        //BonusModifierSpawnPuck(),
 };
 
 
@@ -37,6 +40,7 @@ FactoryBonusModifier* BonusFactories[NB_BONUS_TYPE] =
     new FactoryBonusModifierBlockGoal(),
     new FactoryBonusModifierFan(),
     new FactoryBonusModifierChangeZone(),
+    new FactoryBonusModifierSpawnPuck(),
 };
 
 ////////////////////////////////////////////////////////////////////////

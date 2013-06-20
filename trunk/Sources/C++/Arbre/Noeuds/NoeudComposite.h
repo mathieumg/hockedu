@@ -117,6 +117,8 @@ public:
     /// Allows to create and initialize nodes from an xml element, default behavior
     void CreateAndInitNodesFromXml( const XmlElement* child );
 
+    const ConteneurNoeuds& getChilds()const {return enfants_;}
+
 protected:
 
 

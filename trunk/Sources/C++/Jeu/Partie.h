@@ -84,7 +84,7 @@ public:
 	static const int POINTAGE_GAGNANT;
 
 	/// Methode pour indiquer au maillet par qui ils sont controlles
-	virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle) ;
+	virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit);
 
     void reloadControleMallet();
     

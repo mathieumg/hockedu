@@ -1868,26 +1868,6 @@ bool FacadeModele::estEnPause() const
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn NoeudRondelle* FacadeModele::obtenirRondelle(  )
-///
-/// Accesseur de la rondelle
-///
-///
-/// @return NoeudRondelle*
-///
-////////////////////////////////////////////////////////////////////////
-NoeudRondelle* FacadeModele::obtenirRondelle() const
-{
-    if(getEditionField())
-    {
-        return getEditionField()->getPuck();
-    }
-    return 0;
-}
-
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn NoeudRondelle* FacadeModele::modifierVue( vue::Vue* nouvelleVue )
 ///
 /// Modifie la vue (changement de mode de camera)

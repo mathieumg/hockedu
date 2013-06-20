@@ -429,13 +429,13 @@ void Partie::reinitialiserPartie()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit, NoeudRondelle* rondelle ) 
+void Partie::assignerControlesMaillet( NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit) 
 {
     if(joueurDroit_ && joueurGauche_)
     {
         // Si joueur 2 humain aussi
 
-        if(mailletGauche && mailletDroit && rondelle)
+        if(mailletGauche && mailletDroit)
         {
             SPPlayerAbstract wJoueurs[2] = {joueurGauche_, joueurDroit_};
             NoeudMaillet* wMaillets[2] = {mailletGauche, mailletDroit};
@@ -493,7 +493,7 @@ void Partie::reloadControleMallet()
     //checkf(getGameStatus() == GAME_PAUSED, "La partie doit avoir ete initialise avant de pouvoir appeler un reload sur les maillets");
     Terrain* wField = getField();
     checkf(wField, "Terrain invalide lors du reloadMallet");
-    assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet(), wField->getPuck()); 
+    assignerControlesMaillet(wField->getLeftMallet(), wField->getRightMallet()); 
 
 
 }
@@ -512,6 +512,21 @@ void Partie::reloadControleMallet()
 void Partie::miseAuJeu( bool debutDePartie /*= false */)
 {
     setGameStatus(GAME_STARTED);
+
+    if(debutDePartie)
+    {
+        auto pucks = mField->getPucks();
+        // remove all extra pucks
+        while(pucks->size() > 1)
+        {
+            pucks->back()->deleteThis();
+        }
+        if(mTempsPlus == 1.0f)
+        {
+            tempsJeu_.reset_Time();
+        }
+    }
+
     // Obtention des éléments
     NoeudRondelle* rondelle = mField->getPuck();
     NoeudMaillet* maillet1 = mField->getLeftMallet();
@@ -530,10 +545,8 @@ void Partie::miseAuJeu( bool debutDePartie /*= false */)
     maillet1->setTargetDestination(maillet1->getOriginalPosition());
     maillet2->setTargetDestination(maillet2->getOriginalPosition());
 
-    if(debutDePartie && mTempsPlus == 1.0f)
-    {
-        tempsJeu_.reset_Time();
-    }
+    
+    
     delais(mMiseAuJeuDelai);
 }
 
@@ -906,7 +919,7 @@ bool Partie::getReadyToPlay( bool loadMapFile /*= true*/ )
 #endif
     try
     {
-        assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet(),mField->getPuck());
+        assignerControlesMaillet(mField->getLeftMallet(),mField->getRightMallet());
     }
     catch(ExceptionJeu& e)
     {
