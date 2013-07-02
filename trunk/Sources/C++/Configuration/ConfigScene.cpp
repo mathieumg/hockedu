@@ -25,7 +25,7 @@
 #include "Tournoi.h"
 #include "Terrain.h"
 #include "ZoneEdition.h"
-#include "GestionnaireAnimations.h"
+
 #include "XMLUtils.h"
 #include "RazerGameTree.h"
 #include "LumiereAmbiante.h"

@@ -75,7 +75,7 @@ mGameType(gameType),mMiseAuJeuDelai(4100), mNbButsGagnants(pNbButsGagnants)
     mTempsPlus = 0;
     mPartieSyncer.setPlayers(joueurGauche, joueurDroit);
 
-    GestionnaireAnimations::obtenirInstance()->attach(this);
+    //GestionnaireAnimations::obtenirInstance()->attach(this);
 }
 
 ////////////////////////////////////////////////////////////////////////

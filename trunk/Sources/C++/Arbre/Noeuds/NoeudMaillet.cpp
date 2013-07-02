@@ -378,48 +378,6 @@ void NoeudMaillet::playTick(float temps)
     Super::playTick(temps);
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-///
-/// /*Description*/
-///
-/// @param[in] const ObjectAnimationParameters & pAnimationResult
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudMaillet::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-{
-
-    if(pAnimationResult.CanUpdatedPosition())
-    {
-#ifndef __APPLE__
-        if(getPlayer())
-        {
-            if(getPlayer()->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
-            {
-                Vecteur3 wPos = pAnimationResult.mPosition;
-                this->setTargetDestination(wPos);
-            }
-            else
-            {
-#endif
-                setPosition(pAnimationResult.mPosition);
-#ifndef __APPLE__
-            }
-        }
-#endif
-    }
-    if(pAnimationResult.CanUpdatedAngle())
-        mAngle = pAnimationResult.mAngle[VZ];
-    if(pAnimationResult.CanUpdatedScale())
-    {
-        mScale = pAnimationResult.mScale;
-        updateRadius();
-    }
-    updateMatrice();
-}
 
 //#if MAT_DEBUG_
 //std::vector<Vecteur3> NoeudMaillet::mListePointsDebug;

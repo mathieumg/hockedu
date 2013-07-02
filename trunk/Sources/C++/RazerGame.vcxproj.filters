@@ -665,6 +665,9 @@
     <ClCompile Include="Arbre\Bonus\BonusModifierSpawnPuck.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Commun\Utilitaire\AnimationNodePosition.cpp">
+      <Filter>Sources Files\Arbre</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1215,6 +1218,9 @@
     </ClInclude>
     <ClInclude Include="Interface\ObserverFacade.h">
       <Filter>Sources Files\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\Commun\Utilitaire\AnimationNodePosition.h">
+      <Filter>Sources Files\Arbre</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

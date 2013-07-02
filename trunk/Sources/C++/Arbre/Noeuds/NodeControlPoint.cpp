@@ -223,7 +223,7 @@ bool PositionScopedBool = false;
 void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 {
     Super::setPosition(positionRelative);
-    signalObservers();
+    PositionSubject::signalObservers();
 }
 
 

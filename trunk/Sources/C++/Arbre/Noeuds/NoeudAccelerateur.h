@@ -10,7 +10,6 @@
 #pragma once
 
 #include "NoeudComposite.h"
-#include "ObjetAnimable.h"
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudAccelerateur
@@ -19,7 +18,7 @@
 /// @author Samuel Ledoux
 /// @date 2012-01-27
 ///////////////////////////////////////////////////////////////////////////
-class NoeudAccelerateur : public NoeudAbstrait , public ObjetAnimable
+class NoeudAccelerateur : public NoeudAbstrait
 {
 public:
     typedef NoeudAbstrait Super;
@@ -70,12 +69,6 @@ public:
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
-
-    //////////////////////////////////////////////////////////////////////////
-    /// Objet Animable interface
-    virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
-    //////////////////////////////////////////////////////////////////////////
-
 
     /// rayon par défaut de l'accélérateur
     static const float DEFAULT_RADIUS;

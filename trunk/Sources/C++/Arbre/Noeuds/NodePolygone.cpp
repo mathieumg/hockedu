@@ -302,7 +302,7 @@ bool NodePolygone::onAddControlPoint( NodeControlPoint* point )
 {
     if(Super::add(point))
     {
-        point->attach(this);
+        point->PositionSubject::attach(this);
         if(!isWorldLocked())
         {
             updatePhysicBody();
@@ -326,7 +326,7 @@ bool NodePolygone::onAddControlPoint( NodeControlPoint* point )
 void NodePolygone::onRemoveControlPoint( NodeControlPoint* point )
 {
     Super::unlinkChild(point);
-    point->detach(this);
+    point->PositionSubject::detach(this);
     if(!isWorldLocked())
     {
         updatePhysicBody();

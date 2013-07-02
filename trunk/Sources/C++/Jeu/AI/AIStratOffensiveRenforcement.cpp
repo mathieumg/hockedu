@@ -7,12 +7,11 @@
 #include "Renforcement\AIMailletRenforcement.h"
 #include "Vecteur.h"
 #include <iostream>
-#include "AnimationFrame.h"
-#include "Animation.h"
-#include "GestionnaireAnimations.h"
 #include "RazerGameTypeDef.h"
 #include "PlayerReinforcementAI.h"
 #include "PartieApprentissage.h"
+#include "AnimationNodePosition.h"
+#include "ManagerAnimations.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -90,7 +89,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 		int wTempsNecessaire = (int) ((wDistancePointImpactMaillet * rondelle->obtenirVelocite().norme()) / (context_.obtenirJv()->obtenirVitesse() * 13.0f));
 		//std::cout << "Temps necessaire: " << wTempsNecessaire << "\t Temps Impact: " << mTimeBeforeImpact << std::endl;
 
-		int wTempsUtilise = max(mTimeBeforeImpact, wTempsNecessaire);
+		float wTempsUtilise = max(mTimeBeforeImpact, wTempsNecessaire);
 
         if(!joueurVirtuel->isLearning() && !tirReussi_)
         {
@@ -115,59 +114,19 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
         Vecteur3 wAjustement = wPointImpactModifie-mMalletTargetPos;
         wAjustement.normaliser();
 
-        AnimationFrame* frame[6];
-        frame[0] = new AnimationFrame(0.0f, maillet->getPosition());
-        frame[1] = new AnimationFrame(wTempsUtilise * 0.05f, maillet->getPosition());
-        frame[2] = new AnimationFrame(wTempsUtilise*0.75f, wPoint1);
-        frame[3] = new AnimationFrame(wTempsUtilise*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
-        frame[4] = new AnimationFrame((float)wTempsUtilise, mMalletTargetPos);
-        frame[5] = new AnimationFrame((float)wTempsUtilise * 1.01f, mMalletTargetPos - wDirNorm * 20.0f);
+        // transform time in sec
+        wTempsUtilise /= 1000.f;
+        auto anim = ManagerAnimations::obtenirInstance()->CreateAnimation<AnimationNodePosition>();
+        AnimationNodePosition* posAnim = anim.second;
+        posAnim->AddFrame(0.0f, maillet->getPosition());
+        posAnim->AddFrame(wTempsUtilise * 0.05f, maillet->getPosition());
+        posAnim->AddFrame(wTempsUtilise*0.75f, wPoint1);
+        posAnim->AddFrame(wTempsUtilise*0.98f, mMalletTargetPos-wAjustement*maillet->getRadius());
+        posAnim->AddFrame((float)wTempsUtilise, mMalletTargetPos);
+        posAnim->AddFrame((float)wTempsUtilise * 1.01f, mMalletTargetPos - wDirNorm * 20.0f);
+        posAnim->SetNode(maillet);
+        posAnim->SetAlgo(ANIMATION_BEZIER);
 
-        Animation* animation = new Animation(BEZIER, true, false, false);
-        for(int i=0; i<6; i++)
-            animation->ajouterFrame(frame[i]);
-        animation->ajouterObjet((ObjetAnimable*)maillet);
-
-
-        if(joueurVirtuel->isLearning())
-        {
-            ((PartieApprentissage*)joueurVirtuel->getControlingMallet()->getField()->getGame())->setAnimationMailletRenforcement(animation);
-        }
-        else
-        {
-            GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-        }
-
-
-
-
-        /*
-
-        Vecteur3 wDirRondelleNorm = rondelle->obtenirVelocite();
-        wDirRondelleNorm.normaliser();
-
-        Vecteur3 mMalletTargetPos = mPointImpact;//mPointImpact.convertir<2>() + (wDirRondelleNorm * (maillet->getRadius() + rondelle->getRadius()));
-
-        Vecteur3 wDir = (mMalletTargetPos-mPointVise);
-        Vecteur3 wDirNorm = wDir;
-        wDirNorm.normaliser();
-        Vecteur3 wPoint1 = mPointImpact + 0.40f*wDir;
-        
-
-        AnimationFrame* frame[5];
-        frame[0] = new AnimationFrame(0, maillet->getPosition());
-        frame[1] = new AnimationFrame(mTimeBeforeImpact*0.75f, wPoint1);
-        frame[2] = new AnimationFrame(mTimeBeforeImpact*0.9f, mMalletTargetPos + 2.0f*wDirRondelleNorm*maillet->getRadius());
-        frame[3] = new AnimationFrame(mTimeBeforeImpact, mMalletTargetPos - 10.0f*wDirRondelleNorm*maillet->getRadius());
-        frame[4] = new AnimationFrame(mTimeBeforeImpact, mMalletTargetPos - 10.0f*wDirRondelleNorm*maillet->getRadius());
-
-        Animation* animation = new Animation(BEZIER, true, false, false);
-        for(int i=0; i<5; i++)
-            animation->ajouterFrame(frame[i]);
-        animation->ajouterObjet((ObjetAnimable*)maillet);
-        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-
-        */
         mCalculEffectue = true;
     }
 

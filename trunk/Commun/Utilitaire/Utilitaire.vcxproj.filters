@@ -67,18 +67,6 @@
     <ClCompile Include="Vue\ProjectionPerspective.cpp">
       <Filter>Sources Files\Vue</Filter>
     </ClCompile>
-    <ClCompile Include="Animation.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
-    <ClCompile Include="AnimationFrame.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ObjetAnimable.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GestionnaireAnimations.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
     <ClCompile Include="LumiereAbstraite.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
@@ -100,9 +88,6 @@
     <ClCompile Include="Vue\VuePerspectiveOrbit.cpp">
       <Filter>Sources Files\Vue</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationReprise.cpp">
-      <Filter>Sources Files</Filter>
-    </ClCompile>
     <ClCompile Include="Phont.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
@@ -120,6 +105,15 @@
       <Filter>Sources Files</Filter>
     </ClCompile>
     <ClCompile Include="..\Externe\DirectorySearch\DirectorySearch.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ManagerAnimations.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationBase.cpp">
+      <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationCamera.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -193,18 +187,6 @@
     <ClInclude Include="Vue\ProjectionPerspective.h">
       <Filter>Sources Files\Vue</Filter>
     </ClInclude>
-    <ClInclude Include="Animation.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationFrame.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObjetAnimable.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GestionnaireAnimations.h">
-      <Filter>Sources Files</Filter>
-    </ClInclude>
     <ClInclude Include="LumiereAbstraite.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
@@ -225,9 +207,6 @@
     </ClInclude>
     <ClInclude Include="Vue\VuePerspectiveCiel.h">
       <Filter>Sources Files\Vue</Filter>
-    </ClInclude>
-    <ClInclude Include="AnimationReprise.h">
-      <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="Phont.h">
       <Filter>Sources Files</Filter>
@@ -273,6 +252,27 @@
     </ClInclude>
     <ClInclude Include="PositionObserver.h">
       <Filter>Sources Files\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="ManagerAnimations.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationBase.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationCamera.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationObserver.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationAlgo.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VariableTemplate.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFrameDefinitions.h">
+      <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

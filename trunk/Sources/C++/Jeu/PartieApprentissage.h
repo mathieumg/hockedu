@@ -1,9 +1,6 @@
 #pragma once
 #include "Partie.h"
 #include <queue>
-#include "Animation.h"
-
-
 
 class PartieApprentissage : public Partie
 {
@@ -26,14 +23,14 @@ public:
 
     void dumpAndConvertPlayersData();
 
-    inline void setAnimationMailletRenforcement(Animation* val)
-    {
-        if(mAnimationMailletRenforcement)
-        {
-            delete mAnimationMailletRenforcement;
-        }
-        mAnimationMailletRenforcement = val;
-    }
+//     inline void setAnimationMailletRenforcement(Animation* val)
+//     {
+//         if(mAnimationMailletRenforcement)
+//         {
+//             delete mAnimationMailletRenforcement;
+//         }
+//         mAnimationMailletRenforcement = val;
+//     }
 
     /// Overriden so we can setup the AILearner output file once mallets are assigned.
     virtual void assignerControlesMaillet(NoeudMaillet* mailletGauche, NoeudMaillet* mailletDroit);
@@ -53,7 +50,7 @@ private:
 
     virtual bool getReadyToPlay( bool loadMapFile = true );
 
-    Animation* mAnimationMailletRenforcement;
+    //Animation* mAnimationMailletRenforcement;
     
 };
 

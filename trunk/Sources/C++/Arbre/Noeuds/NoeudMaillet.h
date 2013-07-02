@@ -12,7 +12,6 @@
 
 
 #include "NoeudAbstrait.h"
-#include "ObjetAnimable.h"
 #include "RunnableBreaker.h"
 #include <vector>
 
@@ -29,7 +28,7 @@ class PlayerComputer;
 /// @author Mathieu Parent
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
-class NoeudMaillet : public NoeudAbstrait, public ObjetAnimable, public RunnableBreaker
+class NoeudMaillet : public NoeudAbstrait, public RunnableBreaker
 {
 public:
     typedef NoeudAbstrait Super;
@@ -71,12 +70,7 @@ public:
     void destroyMouseJoint();
     /// node tick received when actually playing the game (simulation running)
     virtual void playTick(float temps);
-
-    //////////////////////////////////////////////////////////////////////////
-    /// Objet Animable interface
-    virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
-    //////////////////////////////////////////////////////////////////////////
-
+    
     static const float DEFAULT_RADIUS;
     /// Fields
 private:

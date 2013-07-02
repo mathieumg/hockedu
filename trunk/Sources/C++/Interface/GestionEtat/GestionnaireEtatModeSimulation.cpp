@@ -10,7 +10,7 @@
 #include "GestionnaireEtatModeSimulation.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
-#include "GestionnaireAnimations.h"
+
 #include "Partie.h"
 #include "Terrain.h"
 #include "GestionnaireHUD.h"
@@ -55,7 +55,7 @@ GestionnaireEtatAbstrait()
 
     vue::Vue* nouvelleVue = new vue::VuePerspectiveSplit(
         vue::Camera(Vecteur3(-200.0, 0.0, 75.0), Vecteur3(0, 0, 0),
-        Vecteur3(0, 0, 1)  , Vecteur3(0, 1, 0)),
+        Vecteur3(0, 0, 1)),
         0, 200, 0, 400,
         180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
         -150, 150, -150, 150);

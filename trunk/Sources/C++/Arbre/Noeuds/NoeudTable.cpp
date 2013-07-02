@@ -359,14 +359,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     basMilieu_->modifierPointSym(hautMilieu_);
     basDroite_->modifierPointSym(basGauche_);
 
-    hautGauche_->  attach(this);
-    hautMilieu_->  attach(this);
-    hautDroite_->  attach(this);
-    milieuGauche_->attach(this);
-    milieuDroite_->attach(this);
-    basGauche_->   attach(this);
-    basMilieu_->   attach(this);
-    basDroite_->   attach(this);
+    hautGauche_->  PositionSubject::attach(this);
+    hautMilieu_->  PositionSubject::attach(this);
+    hautDroite_->  PositionSubject::attach(this);
+    milieuGauche_->PositionSubject::attach(this);
+    milieuDroite_->PositionSubject::attach(this);
+    basGauche_->   PositionSubject::attach(this);
+    basMilieu_->   PositionSubject::attach(this);
+    basDroite_->   PositionSubject::attach(this);
 
     /// Ajout dans le vecteur contenant les points pour la sauvegarde
     vecteurPoint_.push_back(hautGauche_);

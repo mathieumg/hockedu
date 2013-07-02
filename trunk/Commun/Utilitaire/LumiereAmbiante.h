@@ -24,14 +24,7 @@ public:
 	LumiereAmbiante(GLfloat position[4], GLfloat ambiante[4], GLfloat diffuse[4], GLfloat speculaire[4], int lienOpenGl, GLfloat attenuation[4]);
 	/// Destructeur
 	virtual ~LumiereAmbiante();
-	/// Anime l'animation
-	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
-
 	virtual void initLumiere();
-
-	
-
-
 private:
 
 };

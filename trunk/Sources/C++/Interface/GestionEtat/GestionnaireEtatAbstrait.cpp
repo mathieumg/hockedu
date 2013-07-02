@@ -14,7 +14,7 @@
 #include "SourisEtatOrbit.h"
 #include "SourisEtatZoomElastique.h"
 #include "SourisEtatZoomProportionnel.h"
-#include "GestionnaireAnimations.h"
+
 #include "Partie.h"
 #include "NoeudRondelle.h"
 #include "NoeudMaillet.h"
@@ -175,54 +175,55 @@ void GestionnaireEtatAbstrait::miseAJourEvenementsRepetitifs( float deltaTemps )
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, const float& temps )
 {
-	if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-	{
-		vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-		NoeudMaillet* maillet1 = partieCourante->getField()->getLeftMallet();
-		NoeudMaillet* maillet2 = partieCourante->getField()->getRightMallet();
-		NoeudRondelle* rondelle = partieCourante->getField()->getPuck();
-
-		GestionnaireAnimations* gestionnaire = GestionnaireAnimations::obtenirInstance();
-
-		std::vector<AnimationRepriseFrame*> listeAnimationFrame;
-		if(camera)
-		{
-			Vecteur3 pointVise =  camera->obtenirPointVise();
-			Vecteur3 directionHaut = camera->obtenirDirectionHaut();
-			if(rondelle!=0)
-			{
-				pointVise = rondelle->getPosition();
-				//directionHaut = 
-			}
-			AnimationFrame* animationFrameCamera = new AnimationFrame(temps*1000, camera->obtenirPosition(), pointVise, directionHaut);
-			AnimationRepriseFrame* animationRepriseFrameCamera = new AnimationRepriseFrame(animationFrameCamera, camera);
-
-			listeAnimationFrame.push_back(animationRepriseFrameCamera);
-		}
-		if(maillet1)
-		{
-			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->getAngle()));
-			AnimationRepriseFrame* animationRepriseFrameMaillet1 = new AnimationRepriseFrame(animationFrameMaillet1, maillet1);
-
-			listeAnimationFrame.push_back(animationRepriseFrameMaillet1);
-		}
-		if(maillet2)
-		{
-			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->getAngle()));
-			AnimationRepriseFrame* animationRepriseFrameMaillet2 = new AnimationRepriseFrame(animationFrameMaillet2, maillet2);
-
-			listeAnimationFrame.push_back(animationRepriseFrameMaillet2);
-		}
-		if(rondelle)
-		{
-			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->getAngle()));
-			AnimationRepriseFrame* animationRepriseFrameRondelle = new AnimationRepriseFrame(animationFrameRondelle, rondelle);
-
-			listeAnimationFrame.push_back(animationRepriseFrameRondelle);
-		}
-		IterationReplay* iterationReplay = new IterationReplay(temps*1000, listeAnimationFrame);
-		GestionnaireAnimations::obtenirInstance()->saveReplayFrame(iterationReplay);
-	}
+    // TODO:: refactor Animation
+// 	if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+// 	{
+// 		vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+// 		NoeudMaillet* maillet1 = partieCourante->getField()->getLeftMallet();
+// 		NoeudMaillet* maillet2 = partieCourante->getField()->getRightMallet();
+// 		NoeudRondelle* rondelle = partieCourante->getField()->getPuck();
+// 
+// 		GestionnaireAnimations* gestionnaire = GestionnaireAnimations::obtenirInstance();
+// 
+// 		std::vector<AnimationRepriseFrame*> listeAnimationFrame;
+// 		if(camera)
+// 		{
+// 			Vecteur3 pointVise =  camera->obtenirPointVise();
+// 			Vecteur3 directionHaut = camera->obtenirDirectionHaut();
+// 			if(rondelle!=0)
+// 			{
+// 				pointVise = rondelle->getPosition();
+// 				//directionHaut = 
+// 			}
+// 			AnimationFrame* animationFrameCamera = new AnimationFrame(temps*1000, camera->obtenirPosition(), pointVise, directionHaut);
+// 			AnimationRepriseFrame* animationRepriseFrameCamera = new AnimationRepriseFrame(animationFrameCamera, camera);
+// 
+// 			listeAnimationFrame.push_back(animationRepriseFrameCamera);
+// 		}
+// 		if(maillet1)
+// 		{
+// 			AnimationFrame* animationFrameMaillet1 = new AnimationFrame(temps*1000, maillet1->getPosition(), Vecteur3(0, 0, maillet1->getAngle()));
+// 			AnimationRepriseFrame* animationRepriseFrameMaillet1 = new AnimationRepriseFrame(animationFrameMaillet1, maillet1);
+// 
+// 			listeAnimationFrame.push_back(animationRepriseFrameMaillet1);
+// 		}
+// 		if(maillet2)
+// 		{
+// 			AnimationFrame* animationFrameMaillet2 = new AnimationFrame(temps*1000, maillet2->getPosition(), Vecteur3(0, 0, maillet2->getAngle()));
+// 			AnimationRepriseFrame* animationRepriseFrameMaillet2 = new AnimationRepriseFrame(animationFrameMaillet2, maillet2);
+// 
+// 			listeAnimationFrame.push_back(animationRepriseFrameMaillet2);
+// 		}
+// 		if(rondelle)
+// 		{
+// 			AnimationFrame* animationFrameRondelle = new AnimationFrame(temps*1000, rondelle->getPosition(), Vecteur3(0, 0, rondelle->getAngle()));
+// 			AnimationRepriseFrame* animationRepriseFrameRondelle = new AnimationRepriseFrame(animationFrameRondelle, rondelle);
+// 
+// 			listeAnimationFrame.push_back(animationRepriseFrameRondelle);
+// 		}
+// 		IterationReplay* iterationReplay = new IterationReplay(temps*1000, listeAnimationFrame);
+// 		GestionnaireAnimations::obtenirInstance()->saveReplayFrame(iterationReplay);
+// 	}
 }
 
 ////////////////////////////////////////////////////////////////////////

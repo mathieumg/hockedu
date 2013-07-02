@@ -11,7 +11,7 @@
 #include "GestionnaireEtatModeJeu.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
-#include "GestionnaireAnimations.h"
+
 #include "Partie.h"
 #include "Terrain.h"
 #include "GestionnaireHUD.h"
@@ -41,7 +41,6 @@ GestionnaireEtatAbstrait(),mGameId(pGameId)
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
 	enfonce_ = false;
-    GestionnaireAnimations::obtenirInstance()->attach(this);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -298,18 +297,19 @@ void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
 {
     if(!pSubject->mReplaying)
     {
-        vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
-        vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-
-        AnimationFrame* frame[2];
-        frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
-        frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
-
-        Animation* animation = new Animation(BEZIER, true, true, true);
-        for(int i=0; i<2; i++)
-            animation->ajouterFrame(frame[i]);
-        animation->ajouterObjet(camera);
-        GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+            // TODO:: refactor Animation
+//         vue::Camera ancienneCamera = GestionnaireAnimations::obtenirInstance()->obtenirAncienneCamera();
+//         vue::Camera* camera = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+// 
+//         AnimationFrame* frame[2];
+//         frame[0] = new AnimationFrame(0, camera->obtenirPosition(), camera->obtenirPointVise(), camera->obtenirDirectionHaut());
+//         frame[1] = new AnimationFrame(500, ancienneCamera.obtenirPosition(), ancienneCamera.obtenirPointVise(), ancienneCamera.obtenirDirectionHaut());
+// 
+//         Animation* animation = new Animation(BEZIER, true, true, true);
+//         for(int i=0; i<2; i++)
+//             animation->ajouterFrame(frame[i]);
+//         animation->ajouterObjet(camera);
+//         GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
         Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
         if(wGame)
             wGame->delais(wGame->getMiseAuJeuDelai());

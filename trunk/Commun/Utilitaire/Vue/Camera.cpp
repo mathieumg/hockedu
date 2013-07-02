@@ -60,13 +60,11 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    Camera::Camera( const Vecteur3& position,
                    const Vecteur3& pointVise,
-                   const Vecteur3& directionHautCamera,
-                   const Vecteur3& directionHautMonde
+                   const Vecteur3& directionHautCamera
                    )
                    : position_(position),
 					 pointVise_(pointVise),
-                     directionHaut_(directionHautCamera),
-                     directionHautMonde_(directionHautMonde)
+                     directionHaut_(directionHautCamera)
    {
 	 //pointVise_ = new Vecteur3(pointVise);
    }
@@ -88,6 +86,7 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    void Camera::deplacerXY(float deplacementX, float deplacementY, bool avecPointVise)
    {
+       AnimationSubject::signalObservers();
 	   /*position_[VX]+=deplacementX;
 	   position_[VY]+=deplacementY;
 	   if(avecPointVise)
@@ -125,6 +124,7 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    void Camera::deplacerZ(float deplacement, bool bougePointVise, bool avecPointVise)
    {
+       AnimationSubject::signalObservers();
 	   Vecteur3 nouvellePosition = position_+Vecteur3(0,0,deplacement);
 	   if(isNewPosValid(nouvellePosition))
 	   {
@@ -148,7 +148,8 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////////
    void Camera::deplacerXYZ( Vecteur3 deplacement, bool avecPointVise )
    {
-	   Vecteur3 nouvellePosition = position_+deplacement;
+       AnimationSubject::signalObservers();
+       Vecteur3 nouvellePosition = position_+deplacement;
        if(isNewPosValid(nouvellePosition))
        {
 		   position_ = nouvellePosition;
@@ -182,7 +183,8 @@ namespace vue {
                           bool   empecheInversion //=true
                           )
    {
-	   // Deplacer le point viser pour donner l'illusion que la camera tourne sur elle meme
+       AnimationSubject::signalObservers();
+       // Deplacer le point viser pour donner l'illusion que la camera tourne sur elle meme
 
 	   // On calcule le rayon courant
 	   float r = (pointVise_-position_).norme();
@@ -225,7 +227,8 @@ namespace vue {
                           float rotationY
                           )
    {
-	   // On calcule le rayon courant
+       AnimationSubject::signalObservers();
+       // On calcule le rayon courant
 	   float r = (pointVise_-position_).norme();
 	   // On calcule les angles courants
 	   float theta = atan2(position_[VY]-(pointVise_)[VY],position_[VX]-(pointVise_)[VX]);
@@ -267,18 +270,7 @@ namespace vue {
                  directionHaut_[0] , directionHaut_[1] , directionHaut_[2] );
        
    }
-
-   void Camera::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-   {
-	   if(pAnimationResult.CanUpdatedPosition())
-			position_ = pAnimationResult.mPosition;
-	   if(pAnimationResult.CanUpdatedAngle())
-			pointVise_ = pAnimationResult.mAngle;
-	   if(pAnimationResult.CanUpdatedScale() &&  !pAnimationResult.mScale.estNul())
-			directionHaut_ = pAnimationResult.mScale;
-	   positionner();
-   }
-
+   
    ////////////////////////////////////////////////////////////////////////
    ///
    /// @fn void Camera::recalculerHaut()
@@ -321,7 +313,6 @@ namespace vue {
 	   this->assignerPosition(autreCamera.obtenirPosition());
 	   this->assignerPointVise(autreCamera.obtenirPointVise());
 	   this->assignerDirectionHaut(autreCamera.obtenirDirectionHaut());
-	   this->assignerDirectionHautMonde(autreCamera.obtenirDirectionHautMonde());
 	   return *this;
    }
 

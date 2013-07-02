@@ -75,7 +75,7 @@
 #include "EditionEventManager.h"
 #include "ForceField.h"
 #include "FieldRunnableStructs.h"
-#include "GestionnaireAnimations.h"
+
 
 
 #define TransmitEvent(e) if(!IsGameField()) EditionEventManager::TransmitEvent(e)
@@ -164,9 +164,6 @@ Terrain::Terrain(Partie* pGame):
 ////////////////////////////////////////////////////////////////////////
 Terrain::~Terrain()
 {
-    GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-    GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
-
     libererMemoire();
 
     if(mEditionZone)

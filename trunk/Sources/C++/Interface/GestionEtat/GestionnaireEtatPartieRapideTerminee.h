@@ -52,5 +52,8 @@ public:
 	virtual void animer( const float& temps );
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
+
+private:
+    int mIdAnimMallet,mIdAnimCam;
 };
 

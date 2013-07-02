@@ -29,6 +29,7 @@
 #include "Flags.h"
 #include "RazerGameTypeDef.h"
 #include "Enum_Declarations.h"
+#include "AnimationObserver.h"
 
 //Foward Declaration
 class NoeudComposite;
@@ -67,7 +68,7 @@ enum NodeFlags
 /// @author DGI-2990, Michael Ferris, Samuel Ledoux, Mathieu Parent
 /// @date 2007-01-24
 ///////////////////////////////////////////////////////////////////////////
-class NoeudAbstrait
+class NoeudAbstrait : public AnimationSubject
 {
 public:
 	friend VisiteurNoeudTest;

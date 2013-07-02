@@ -144,9 +144,8 @@
     <ClCompile Include="..\Externe\DirectorySearch\DirectorySearch.cpp" />
     <ClCompile Include="AideCollision.cpp" />
     <ClCompile Include="AideGL.cpp" />
-    <ClCompile Include="Animation.cpp" />
-    <ClCompile Include="AnimationFrame.cpp" />
-    <ClCompile Include="AnimationReprise.cpp" />
+    <ClCompile Include="AnimationBase.cpp" />
+    <ClCompile Include="AnimationCamera.cpp" />
     <ClCompile Include="BoiteEnvironnement.cpp" />
     <ClCompile Include="CEcritureFichierBinaire.cpp" />
     <ClCompile Include="CLectureFichierBinaire.cpp" />
@@ -156,12 +155,11 @@
     <ClCompile Include="EtatOpenGL.cpp" />
     <ClCompile Include="ExceptionJeu.cpp" />
     <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="GestionnaireAnimations.cpp" />
     <ClCompile Include="LumiereAbstraite.cpp" />
     <ClCompile Include="LumiereAmbiante.cpp" />
     <ClCompile Include="LumiereDirectionnelle.cpp" />
     <ClCompile Include="LumiereSpot.cpp" />
-    <ClCompile Include="ObjetAnimable.cpp" />
+    <ClCompile Include="ManagerAnimations.cpp" />
     <ClCompile Include="Phont.cpp" />
     <ClCompile Include="Plan3D.cpp" />
     <ClCompile Include="Solution_Defines.cpp" />
@@ -182,9 +180,11 @@
   <ItemGroup>
     <ClInclude Include="AideCollision.h" />
     <ClInclude Include="AideGL.h" />
-    <ClInclude Include="Animation.h" />
-    <ClInclude Include="AnimationFrame.h" />
-    <ClInclude Include="AnimationReprise.h" />
+    <ClInclude Include="AnimationAlgo.h" />
+    <ClInclude Include="AnimationBase.h" />
+    <ClInclude Include="AnimationCamera.h" />
+    <ClInclude Include="AnimationFrameDefinitions.h" />
+    <ClInclude Include="AnimationObserver.h" />
     <ClInclude Include="BoiteEnvironnement.h" />
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="CEcritureFichierBinaire.h" />
@@ -197,14 +197,13 @@
     <ClInclude Include="ExceptionJeu.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="GameTime.h" />
-    <ClInclude Include="GestionnaireAnimations.h" />
     <ClInclude Include="LignePointillee.h" />
     <ClInclude Include="LumiereAbstraite.h" />
     <ClInclude Include="LumiereAmbiante.h" />
     <ClInclude Include="LumiereDirectionnelle.h" />
     <ClInclude Include="LumiereSpot.h" />
+    <ClInclude Include="ManagerAnimations.h" />
     <ClInclude Include="MouseMoveObserver.h" />
-    <ClInclude Include="ObjetAnimable.h" />
     <ClInclude Include="ObserverPaternDefinitions.h" />
     <ClInclude Include="OnceVector.h" />
     <ClInclude Include="Phont.h" />
@@ -218,6 +217,7 @@
     <ClInclude Include="Solution_Defines.h" />
     <ClInclude Include="textfile.h" />
     <ClInclude Include="Utilitaire.h" />
+    <ClInclude Include="VariableTemplate.h" />
     <ClInclude Include="Vecteur.h" />
     <ClInclude Include="Vue\Camera.h" />
     <ClInclude Include="Vue\Projection.h" />

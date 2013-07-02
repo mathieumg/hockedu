@@ -15,6 +15,8 @@
 #include "Tournoi.h"
 #include "Camera.h"
 #include "Vue.h"
+#include "AnimationCamera.h"
+#include "ManagerAnimations.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -66,10 +68,10 @@ GestionnaireEtatPartieTournoiTerminee::~GestionnaireEtatPartieTournoiTerminee(vo
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_R ||  evenementClavier.obtenirTouche() == VJAK_CONTROL || GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+	if(evenementClavier.obtenirTouche() == VJAK_R ||  evenementClavier.obtenirTouche() == VJAK_CONTROL /*|| GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/)
 		return;
-	GestionnaireAnimations::obtenirInstance()->terminerReplay();
-	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
+// 	GestionnaireAnimations::obtenirInstance()->terminerReplay();
+// 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
 
 	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
 	if(tournoi->estTermine())
@@ -200,9 +202,9 @@ void GestionnaireEtatPartieTournoiTerminee::afficher()
     {
         renderBase(game->getField(),[&]() -> void{game->afficher();});
     }
-	if( GestionnaireAnimations::obtenirInstance()->estJouerReplay() )
-		GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
-	else
+// 	if( GestionnaireAnimations::obtenirInstance()->estJouerReplay() )
+// 		GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
+// 	else
 		GestionnaireHUD::obtenirInstance()->dessinerHUDTournoi();
 }
 
@@ -218,23 +220,19 @@ void GestionnaireEtatPartieTournoiTerminee::afficher()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
 {
-	// On enleve toutes les animation de camera precedente
-	GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
+    // Ajout de l'animation de camera pour pointer sur le tableau du tournoi
+    vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+    // On enleve toutes les animation de camera precedente
+    cameraCourante->AnimationSubject::signalObservers();
 
-	// Ajout de l'animation de camera pour pointer sur le tableau du tournoi
-	vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+    auto anim = ManagerAnimations::obtenirInstance()->CreateAnimation<AnimationCamera>();
+    AnimationCamera* cameraAnim = anim.second;
 
-	AnimationFrame* frame[3];
-	frame[0] = new AnimationFrame(0, cameraCourante->obtenirPosition(), cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
-	frame[1] = new AnimationFrame(1000, Vecteur3(-925, 0, 480),  Vecteur3(-1200, 0, 480), Vecteur3(0, 0, 1));
-	frame[2] = new AnimationFrame(1200, Vecteur3(-925, 0, 480),  Vecteur3(-1200, 0, 480), Vecteur3(0, 0, 1));
-
-	Animation* animation = new Animation(LINEAIRE, true, true, true);
-	for(int i=0; i<3; i++)
-		animation->ajouterFrame(frame[i]);
-
-	animation->ajouterObjet(cameraCourante);
-	GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+    cameraAnim->AddFrame(0, cameraCourante->obtenirPosition(),cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
+    cameraAnim->AddFrame(1, Vecteur3(-925, 0, 480),  Vecteur3(-1200, 0, 480), Vecteur3(0, 0, 1));
+    cameraAnim->AddFrame(1.2f, Vecteur3(-925, 0, 480),  Vecteur3(-1200, 0, 480), Vecteur3(0, 0, 1));
+    cameraAnim->SetCamera(cameraCourante);
+    cameraAnim->SetAlgo(ANIMATION_LINEAR);
 }
 
 ////////////////////////////////////////////////////////////////////////

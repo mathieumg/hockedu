@@ -258,32 +258,6 @@ void NoeudRondelle::updatePhysicBody()
 
 }
 
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-///
-/// /*Description*/
-///
-/// @param[in] const ObjectAnimationParameters & pAnimationResult
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudRondelle::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-{
-    if(pAnimationResult.CanUpdatedPosition())
-        setPosition(pAnimationResult.mPosition);
-    if(pAnimationResult.CanUpdatedAngle())
-        mAngle = pAnimationResult.mAngle[VZ];
-    if(pAnimationResult.CanUpdatedScale())
-    {
-        mScale = pAnimationResult.mScale;
-        updateRadius();
-    }
-    updateMatrice();
-}
-
 void NoeudRondelle::modifierVelocite( const Vecteur3& val )
 {
 #if BOX2D_PLAY

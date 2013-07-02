@@ -9,13 +9,18 @@
 //////////////////////////////////////////////////////////////////////////////
 #include "GestionnaireEtatPartieRapideTerminee.h"
 #include "GestionnaireHUD.h"
-#include "GestionnaireAnimations.h"
+
 #include "FacadeModele.h"
 #include "Partie.h"
 #include "SoundFMOD.h"
 #include "NoeudMaillet.h"
 #include "GestionnaireReseau.h"
 #include "PlayerAbstract.h"
+#include "ManagerAnimations.h"
+#include "AnimationCamera.h"
+#include "Camera.h"
+#include "Vue.h"
+#include "AnimationNodePosition.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -29,60 +34,60 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): GestionnaireEtatAbstrait()
+GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): GestionnaireEtatAbstrait(), mIdAnimCam(-1), mIdAnimMallet(-1)
 {
-	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
-	if(partie)
+    Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
+    if(partie)
     {
         partie->obtenirGameTime()->pause();
-		
+        
         // Animation qui lance le maillet du perdant dans le feu
         NoeudMaillet* mailletPerdant = NULL;
-		SPPlayerAbstract looser;
-        if(partie->obtenirPositionGagant() == GAGNANT_GAUCHE)
+        SPPlayerAbstract looser;
+        if(partie->obtenirPositionGagant() != GAGNANT_GAUCHE)
             looser = partie->obtenirJoueurGauche();
         else
             looser = partie->obtenirJoueurDroit();
 
-		if(looser)
-		{
-			mailletPerdant = looser->getControlingMallet();
+        if(looser)
+        {
+            mailletPerdant = looser->getControlingMallet();
 
-			if(mailletPerdant)
-			{
-				Vecteur3 positionDepart = mailletPerdant->getPosition();
-				Vecteur3 positionFinale = Vecteur3(-1170, -15, -55);
+            if(mailletPerdant)
+            {
+                Vecteur3 positionDepart = mailletPerdant->getPosition();
+                Vecteur3 positionFinale = Vecteur3(-1170, -15, -55);
 
-				vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+                vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
 
-				// Animation pour le maillet
-				AnimationFrame* frame[3];
-				frame[0] = new AnimationFrame(2000, positionDepart);
-				frame[1] = new AnimationFrame(4000, positionDepart+Vecteur3(0, 0, 120));
-				frame[2] = new AnimationFrame(5000, positionFinale);
-				Animation* animation = new Animation(LINEAIRE, true, false, false, false);
-				for(int i=0; i<3; i++)
-					animation->ajouterFrame(frame[i]);
-				animation->ajouterObjet(mailletPerdant);
-				GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-				Vecteur3 positionDepartCamera = cameraCourante->obtenirPosition();
-				// Animation pour la camera
-				AnimationFrame* frame2[3];
-				frame2[0] = new AnimationFrame(2000, positionDepartCamera, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
-				frame2[1] = new AnimationFrame(4000, positionDepartCamera+Vecteur3(0, 100, 0), positionDepart+Vecteur3(0, 0, 120), Vecteur3(0, 0, 1));
-				frame2[2] = new AnimationFrame(5000, positionDepartCamera+Vecteur3(0, 300, 0),  positionFinale, Vecteur3(0, 0, 1));
-				Animation* animation2 = new Animation(LINEAIRE, true, true, true, false);
-				for(int i=0; i<3; i++)
-					animation2->ajouterFrame(frame2[i]);
-				animation2->ajouterObjet(cameraCourante);
-				GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation2);
-			}
-		}
+                {
+                    // Animation pour le maillet
+                    auto anim = ManagerAnimations::obtenirInstance()->CreateAnimation<AnimationNodePosition>();
+                    mIdAnimMallet = anim.first;
+                    AnimationNodePosition* malletAnim = anim.second;
+                    malletAnim->AddFrame(2,positionDepart);
+                    malletAnim->AddFrame(4,positionDepart+Vecteur3(0, 0, 120));
+                    malletAnim->AddFrame(5,positionFinale);
+                    malletAnim->SetAlgo(ANIMATION_LINEAR);
+                    malletAnim->SetNode(mailletPerdant);
+                }
 
-       
+                {
+                    Vecteur3 positionDepartCamera = cameraCourante->obtenirPosition();
+                    // Animation pour la camera
+                    auto anim = ManagerAnimations::obtenirInstance()->CreateAnimation<AnimationCamera>();
+                    mIdAnimCam = anim.first;
+                    AnimationCamera* animation = anim.second;
+                    animation->AddFrame(2, positionDepartCamera, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
+                    animation->AddFrame(4, positionDepartCamera+Vecteur3(0, 100, 0), positionDepart+Vecteur3(0, 0, 120), Vecteur3(0, 0, 1));
+                    animation->AddFrame(5, positionDepartCamera+Vecteur3(0, 300, 0),  positionFinale, Vecteur3(0, 0, 1));
+
+                    animation->SetCamera(cameraCourante);
+                    animation->SetAlgo(ANIMATION_LINEAR);
+                }
+            }
+        }
     }
-
-
 }
 
 
@@ -99,7 +104,8 @@ GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): Ge
 ////////////////////////////////////////////////////////////////////////
 GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void)
 {
-
+    ManagerAnimations::obtenirInstance()->DeleteAnimation(mIdAnimCam);
+    ManagerAnimations::obtenirInstance()->DeleteAnimation(mIdAnimMallet);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -115,17 +121,17 @@ GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_R || evenementClavier.obtenirTouche() == VJAK_CONTROL || GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-		return;
-	GestionnaireAnimations::obtenirInstance()->terminerReplay();
-	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
-	FacadeModele::getInstance()->reinitialiserPartie();
-	FacadeModele::getInstance()->obtenirPartieCourante()->modifierEnPause(false);
+    if(evenementClavier.obtenirTouche() == VJAK_R || evenementClavier.obtenirTouche() == VJAK_CONTROL /*|| GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/)
+        return;
+// 	GestionnaireAnimations::obtenirInstance()->terminerReplay();
+// 	GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
+    FacadeModele::getInstance()->reinitialiserPartie();
+    FacadeModele::getInstance()->obtenirPartieCourante()->modifierEnPause(false);
     if(FacadeModele::getInstance()->obtenirPartieCourante()->isNetworkClientGame())
     {
         GestionnaireReseau::obtenirInstance()->transmitEvent(EXIT_NETWORK_GAME);
     }
-	EventManager::modifierEtat(ETAT_MODE_JEU);
+    EventManager::modifierEtat(ETAT_MODE_JEU);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -221,7 +227,7 @@ void GestionnaireEtatPartieRapideTerminee::rouletteSouris( EvenementRouletteSour
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireEtatPartieRapideTerminee::animer( const float& temps )
 {
-	SoundFMOD::obtenirInstance()->repeatAppSong();
+    SoundFMOD::obtenirInstance()->repeatAppSong();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -241,5 +247,5 @@ void GestionnaireEtatPartieRapideTerminee::afficher()
     {
         renderBase(game->getField(),[&]()->void{game->afficher();});
     }
-	GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
+    GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }

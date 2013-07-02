@@ -12,8 +12,7 @@
 
 
 #include "Vecteur.h"
-#include "ObjetAnimable.h"
-
+#include "AnimationObserver.h"
 
 namespace vue {
 
@@ -29,24 +28,22 @@ namespace vue {
    /// @author Martin Bisson
    /// @date 2006-12-15
    ///////////////////////////////////////////////////////////////////////////
-   class Camera : public ObjetAnimable
+   class Camera : public AnimationSubject
    {
    public:
       /// Constructeur à partir des coordonnées cartésiennes.
       Camera( const Vecteur3& position,
               const Vecteur3& pointVise,
-              const Vecteur3& directionHautCamera,
-              const Vecteur3& directionHautMonde );
+              const Vecteur3& directionHautCamera );
 
 	  Camera() {position_ = Vecteur3(0, 0, 0);
 				pointVise_ = Vecteur3(0, 0, 0);
-				directionHaut_ = Vecteur3(0, 0, 0);
-				directionHautMonde_ = Vecteur3(0, 0, 0);}
+				directionHaut_ = Vecteur3(0, 0, 0);}
 
 	  Camera& operator =(const Camera& autreCamera);
 
       /// Destructeur virtuel vide.
-      virtual ~Camera() {/*delete pointVise_;*/}
+      virtual ~Camera() {AnimationSubject::signalObservers();/*delete pointVise_;*/}
 
       /// Assigner la position de la caméra.
       inline void assignerPosition(const Vecteur3& position);
@@ -58,9 +55,6 @@ namespace vue {
       /// Assigner la direction du haut de la caméra.
       inline void assignerDirectionHaut(const Vecteur3& directionHaut);
 
-	  /// Assigner la direction du haut du monde
-	  inline void assignerDirectionHautMonde(const Vecteur3& directionHautMonde);
-
 
       /// Obtenir la position de la caméra.
       inline const Vecteur3& obtenirPosition() const;
@@ -68,8 +62,6 @@ namespace vue {
       inline const Vecteur3& obtenirPointVise() const;
       /// Obtenir la direction du haut de la caméra.
       inline const Vecteur3& obtenirDirectionHaut() const;
-	  /// Obtenir la direction du haut de la caméra.
-	  inline const Vecteur3& obtenirDirectionHautMonde() const;
 
       /// Déplacement dans le plan perpendiculaire à la direction visée.
       void deplacerXY(float deplacementX, float deplacementY, bool avecPointVise = false);
@@ -87,8 +79,6 @@ namespace vue {
       /// Positionner la caméra (appel à gluLookAt).
       void positionner() const;
 
-	  virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
-
 	  void recalculerHaut();
 
 	  Vecteur3 obtenirPosition();
@@ -100,9 +90,6 @@ namespace vue {
       Vecteur3 pointVise_;
       /// La direction du haut de la caméra.
       Vecteur3 directionHaut_;
-      /// La direction du haut du monde de la caméra.
-      Vecteur3 directionHautMonde_;
-
    };
 
 
@@ -177,23 +164,6 @@ namespace vue {
 
    ////////////////////////////////////////////////////////////////////////
    ///
-   /// @fn inline void Camera::assignerDirectionHautMonde(const Vecteur3& directionHautMonde)
-   ///
-   /// Cette fonction permet d'assigner la direction du haut du monde
-   ///
-   /// @param[in] directionHautMonde : La nouvelle direction du haut du monde.
-   ///
-   /// @return Aucune.
-   ///
-   ////////////////////////////////////////////////////////////////////////
-   inline void Camera::assignerDirectionHautMonde(const Vecteur3& directionHautMonde)
-   {
-	   directionHautMonde_ = directionHautMonde;
-   }
-
-
-   ////////////////////////////////////////////////////////////////////////
-   ///
    /// @fn inline const Vecteur3& Camera::obtenirPosition() const
    ///
    /// Cette fonction permet d'obtenir la position de la caméra.
@@ -234,20 +204,6 @@ namespace vue {
    inline const Vecteur3& Camera::obtenirDirectionHaut() const
    {
       return directionHaut_;
-   }
-
-   ////////////////////////////////////////////////////////////////////////
-   ///
-   /// @fn inline const Vecteur3& Camera::obtenirDirectionHautMonde() const
-   ///
-   /// Cette fonction permet d'obtenir la direction du haut du monde.
-   ///
-   /// @return La direction du haut du monde
-   ///
-   ////////////////////////////////////////////////////////////////////////
-   inline const Vecteur3& Camera::obtenirDirectionHautMonde() const
-   {
-	   return directionHautMonde_;
    }
 
 

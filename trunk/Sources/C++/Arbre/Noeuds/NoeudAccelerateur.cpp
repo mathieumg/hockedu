@@ -22,7 +22,7 @@
 #endif
 
 #if WIN32
-#include "GestionnaireAnimations.h"
+
 #endif
 
 
@@ -49,23 +49,6 @@ NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
-#if WIN32
-	AnimationFrame* frame[5];
-	frame[0] = new AnimationFrame(0, Vecteur3(50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
-	frame[1] = new AnimationFrame(200, Vecteur3(0, 50, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
-	frame[2] = new AnimationFrame(400, Vecteur3(-50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
-	frame[3] = new AnimationFrame(600, Vecteur3(0, -50, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
-	frame[4] = new AnimationFrame(800, Vecteur3(50, 0, 0), Vecteur3(0, 0, 0), Vecteur3(1, 1, 1));
-
-	Animation* animation = new Animation(BEZIER, true, true, true, true);
-	for(int i=0; i<5; i++)
-		animation->ajouterFrame(frame[i]);
-
-
-	animation->ajouterObjet(this);
-#endif
-
-	//GestionnaireAnimations::getInstance()->ajouterAnimation(animation);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -267,30 +250,6 @@ void NoeudAccelerateur::updatePhysicBody()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-///
-/// /*Description*/
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAccelerateur::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-{
-    if(pAnimationResult.CanUpdatedPosition())
-        setPosition(pAnimationResult.mPosition);
-    if(pAnimationResult.CanUpdatedAngle())
-        mAngle = pAnimationResult.mAngle[VZ];
-    if(pAnimationResult.CanUpdatedScale())
-    {
-        mScale = pAnimationResult.mScale;
-        updateRadius();
-    }
-    updateMatrice();
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn void NoeudAccelerateur::renderOpenGLES()
 ///
 /// /*Description*/
@@ -304,11 +263,6 @@ void NoeudAccelerateur::renderOpenGLES() const
     glColor4f(0.0f,1.0f,0.0f,1.0f);
     Super::renderOpenGLES();
 }
-
-
-
-
-
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}

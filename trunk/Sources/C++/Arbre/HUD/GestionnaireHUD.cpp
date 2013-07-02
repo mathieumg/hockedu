@@ -22,7 +22,7 @@
 #include "EventManager.h"
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireEtatAbstrait.h"
-#include "GestionnaireAnimations.h"
+
 #include "HUDBonus.h"
 #include "HUDForeverAlone.h"
 #include "Phont.h"
@@ -277,7 +277,7 @@ void GestionnaireHUD::creerHUDJeu()
     // ATTENTION Chaque surface doit avoir son propre conteneur de vertexes.
 
     // Surface pour les scores
-    HUDElementComparatif* panneauScores = new HUDElementComparatif([](){return !GestionnaireAnimations::obtenirInstance()->estJouerReplay();});
+    HUDElementComparatif* panneauScores = new HUDElementComparatif([](){return true/*!GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/;});
     panneauScores->modifierPosition(0.05f, 0.01f);
     panneauScores->modifierTaille(0.9f,0.1f);
 
@@ -377,7 +377,7 @@ void GestionnaireHUD::creerHUDJeu()
     
     HUDElementComparatif* panneauVainqueur = new HUDElementComparatif([](){
         return FacadeModele::getInstance()->obtenirPartieCourante()->partieTerminee() 
-            && !GestionnaireAnimations::obtenirInstance()->estJouerReplay();
+            /*&& !GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/;
     
     }, Vecteur4f(0.0f,0.0f,0.0f,0.8f));
     panneauVainqueur->modifierTaille(0.6f, 0.6f);
@@ -403,7 +403,7 @@ void GestionnaireHUD::creerHUDJeu()
     racineJeu_->add(panneauVainqueur);
 
     //panneau pour le replay.
-    HUDElementComparatif* panneauReplay = new HUDElementComparatif([]() {return GestionnaireAnimations::obtenirInstance()->estJouerReplay();});
+    HUDElementComparatif* panneauReplay = new HUDElementComparatif([]() {return false/*GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/;});
 
 
     ConteneurVertex2D* pointsReplay = new ConteneurVertex2D;

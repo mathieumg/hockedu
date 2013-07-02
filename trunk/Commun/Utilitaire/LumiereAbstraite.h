@@ -8,12 +8,9 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #pragma once
-//#include "glew.h"
-#define _WINSOCKAPI_
-#include <windows.h>
-#include "glew.h"
-#include <vector>
-#include "ObjetAnimable.h"
+#include "Vecteur.h"
+
+typedef float GLfloat;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class LumiereAbstraite
@@ -22,7 +19,7 @@
 /// @author Samuel Ledoux
 /// @date 2012-03-26
 ///////////////////////////////////////////////////////////////////////////
-class LumiereAbstraite : public ObjetAnimable
+class LumiereAbstraite
 {
 public:
 	/// Constructeur par parametre.
@@ -36,7 +33,6 @@ public:
 	/// fermer la lumiere voulu
 	virtual void eteindreLumiere();
 	/// Anime l'animation
-	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 
 protected:
 	int lienOpenGL_;

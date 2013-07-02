@@ -12,7 +12,6 @@
 #pragma warning( disable : 4290 )
 
 #include "NoeudComposite.h"
-#include "ObjetAnimable.h"
 #include "ExceptionJeu.h"
 #include "RunnableBreaker.h"
 class NoeudTable;
@@ -34,7 +33,7 @@ enum PuckFlags
 /// @date 2012-01-25
 ///////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////// 
-class NoeudRondelle : public NoeudAbstrait , public ObjetAnimable, public RunnableBreaker
+class NoeudRondelle : public NoeudAbstrait , public RunnableBreaker
 {
 public:
     typedef NoeudAbstrait Super;
@@ -94,12 +93,7 @@ public:
 
     /// Recreates the physics body according to current attributes
     virtual void updatePhysicBody();
-
-    /// Objet Animable interface
-    virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
-    //////////////////////////////////////////////////////////////////////////
-
-
+    
     static const float DEFAULT_RADIUS;
 private:
 #if MANUAL_PHYSICS_DETECTION

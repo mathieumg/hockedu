@@ -239,6 +239,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Commun\Utilitaire\AnimationNodePosition.cpp" />
     <ClCompile Include="Achievements\Achievements.cpp" />
     <ClCompile Include="Achievements\AchievementsManager.cpp" />
     <ClCompile Include="Achievements\LaunchAchievementLite.cpp" />
@@ -432,6 +433,7 @@
     <ClCompile Include="Tests\XMLTests.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\Commun\Utilitaire\AnimationNodePosition.h" />
     <ClInclude Include="..\C#\UIHeavyClient\UIHeavyClient\AchievementsEnums.h" />
     <ClInclude Include="Achievements\Achievements.h" />
     <ClInclude Include="Achievements\AchievementsManager.h" />

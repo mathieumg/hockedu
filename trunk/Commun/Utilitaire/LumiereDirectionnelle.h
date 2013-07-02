@@ -24,15 +24,8 @@ public:
 	LumiereDirectionnelle(GLfloat direction[4], GLfloat ambiante[4], GLfloat diffuse[4], GLfloat speculaire[4], int lienOpenGl, GLfloat attenuation[4]);
 	/// Destructeur
 	virtual ~LumiereDirectionnelle();
-	/// Anime l'animation
-	virtual void appliquerAnimation( const ObjectAnimationParameters& pAnimationResult );
 	/// Initialisation de la lumière
 	virtual void initLumiere();
-
-
-
-private:
-
 };
 
 

@@ -26,6 +26,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 #include "Projection.h"
+#include "AnimationCamera.h"
+#include "ManagerAnimations.h"
 
 
 namespace vue {
@@ -177,40 +179,32 @@ namespace vue {
 
 
 
-   void Vue::centrerCamera(float largeurVue,int pViewportNumber, AnimationTerminatedCallback pCallback)
+   void Vue::centrerCamera(float largeurVue,int pViewportNumber)
    {
-	   GestionnaireAnimations::obtenirInstance()->viderAnimationCamera();
+       vue::Camera* cameraCourante = &obtenirCamera(pViewportNumber);
+       cameraCourante->AnimationSubject::signalObservers();
+
        Vecteur3 positionOptimale = getOptimalPosition(largeurVue);
-	   vue::Camera* cameraCourante = &obtenirCamera(pViewportNumber);
        Vecteur3 cameraPos = cameraCourante->obtenirPosition();
 
        auto delta = cameraPos-positionOptimale;
-       float temps = delta.norme();
+       // time in sec
+       float temps = delta.norme()/1000.f;
        
-       if(temps>2000)
+       if(temps>2.f)
        {
-           temps = 2000;
+           temps = 2.f;
        }
-
-       if(temps < 500)
+       else if(temps < 0.5f)
        {
-           temps = 500;
+           temps = 0.5f;
        }
-       
-	   AnimationFrame* frame[4];
-	   frame[0] = new AnimationFrame(0, cameraPos, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
-	   frame[1] = new AnimationFrame(temps, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
-	   frame[2] = new AnimationFrame(temps+200, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
-	   frame[3] = new AnimationFrame(temps+300, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
+       AnimationCamera* animation = ManagerAnimations::obtenirInstance()->CreateAnimation<AnimationCamera>().second;
+       animation->AddFrame(0, cameraPos, cameraCourante->obtenirPointVise(), cameraCourante->obtenirDirectionHaut());
+       animation->AddFrame(temps, positionOptimale, Vecteur3(0, 0, 0), Vecteur3(0, 1, 0));
 
-
-	   Animation* animation = new Animation(LINEAIRE, true, true, true);
-       animation->mAnimationTerminatedCallback = pCallback;
-	   for(int i=0; i<4; i++)
-		   animation->ajouterFrame(frame[i]);
-
-	   animation->ajouterObjet(cameraCourante);
-	   GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
+       animation->SetCamera(cameraCourante);
+       animation->SetAlgo(ANIMATION_LINEAR);
    }
 
    ////////////////////////////////////////////////////////////////////////

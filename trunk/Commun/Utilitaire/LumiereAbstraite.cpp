@@ -9,6 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "LumiereAbstraite.h"
+
+#define _WINSOCKAPI_
+#include <windows.h>
+#include "glew.h"
+#include <vector>
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  LumiereAbstraite::LumiereAbstraite( GLfloat position, GLfloat ambiante, GLfloat diffuse, GLfloat speculaire, int lienOpenGl )
@@ -113,29 +118,6 @@ void LumiereAbstraite::initLumiere()
 	}
 
 }
-
-
-
-void LumiereAbstraite::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-{
-	if(pAnimationResult.CanUpdatedPosition())
-	{
-		for(int i=0; i<3; ++i)
-        {
-            ambiante_[i] = (float)pAnimationResult.mPosition[i];
-            diffuse_[i] = (float)pAnimationResult.mPosition[i];
-        }
-	}
-
-	if(pAnimationResult.CanUpdatedAngle())
-	{
-		if(pAnimationResult.mAngle[VX] < 0.5f)
-			eteindreLumiere();
-		else
-			allumerLumiere();
-	}
-}
-
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}

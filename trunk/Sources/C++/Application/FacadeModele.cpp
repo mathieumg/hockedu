@@ -57,8 +57,6 @@
 #include "PlayerHuman.h"
 #include <wtypes.h>
 #include "ArbreNoeudLibre.h"
-#include "GestionnaireAnimations.h"
-#include "AnimationReprise.h"
 #include "VuePerspectiveLibre.h"
 #include "VuePerspectiveCiel.h"
 #include "VuePerspectiveOrbit.h"
@@ -80,6 +78,7 @@
 #include "..\Achievements\LaunchAchievementLite.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
+#include "ManagerAnimations.h"
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -757,15 +756,12 @@ void FacadeModele::animer( const float& temps)
 
     RazerGameUtilities::ExecuteUpdateRunnables();
 
+    ManagerAnimations::obtenirInstance()->Tick(tempsReel);
     EventManager::miseAJourEvenementsRepetitifs(tempsReel);
     EventManager::animer(tempsReel);
     bool replaying = false;
-    if(GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-        replaying = true;
 
-    GestionnaireAnimations::obtenirInstance()->animer(tempsReel*1000);// Prends le temps en ms
-
-    if(replaying && obtenirPartieCourante() && !obtenirPartieCourante()->partieTerminee() && !GestionnaireAnimations::obtenirInstance()->estJouerReplay())
+    if(replaying && obtenirPartieCourante() && !obtenirPartieCourante()->partieTerminee())
     {
         obtenirPartieCourante()->obtenirGameTime()->unPause();
     }
@@ -1003,7 +999,6 @@ bool FacadeModele::passageModeTournoi()
     }
     ClearCurrentGame();
 
-    GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     Partie* wGame = tournoi_->obtenirPartieCourante();
     partieCourante_ = wGame->getUniqueGameId();
 
@@ -1065,7 +1060,6 @@ bool FacadeModele::passageModeJeu()
 
     ClearCurrentGame();
 
-    GestionnaireAnimations::obtenirInstance()->viderBufferReplay();
     //if(!adversaire_)
     //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
 
@@ -1180,64 +1174,12 @@ void FacadeModele::reinitialiserPartie()
 ////////////////////////////////////////////////////////////////////////
 void FacadeModele::initialiserVue()
 {
-
-
-
-//  vue_ = new vue::VueOrtho(
-//      vue::Camera(
-//         Vecteur3(0, 0, 150), Vecteur3(0, 0, 0),
-//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-//      0, 500, 0, 500,
-//      -1000, 10000, /*ZoomInMax*/60, /*ZoomOutMax*/1500, 1.25,
-//      -100, 100, -100, 100
-//      );
-    
-    
-//  vue_ = new vue::VuePerspectiveLibre(
-//      vue::Camera(Vecteur3(0, -0.0001, 200), Vecteur3(0, 0, 0),
-//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-//      0, 400, 0, 400,
-//      180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-//      -150, 150, -150, 150);
-
-//  vue_ = new vue::VuePerspectiveCiel(
-//      vue::Camera(Vecteur3(0, -100, 200), Vecteur3(0, 0, 0),
-//      Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
-//      0, 400, 0, 400,
-//      180, 10000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-//      -150, 150, -150, 150);
-
-
     vue_ = new vue::VuePerspectiveOrbit(
         vue::Camera(Vecteur3(0, -0.0001f, 300), Vecteur3(0, 0, 0),
-        Vecteur3(0, 1, 0)  , Vecteur3(0, 1, 0)),
+        Vecteur3(0, 1, 0)),
         0, 400, 0, 400,
         180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25f,
         -150, 150, -150, 150);
-
-    
-
-    /*AnimationFrame* frame[6];
-    frame[0] = new AnimationFrame(0, Vecteur3(-150, -75, 100));
-    frame[1] = new AnimationFrame(1000, Vecteur3(150, -75, 100));
-    frame[2] = new AnimationFrame(2000, Vecteur3(150, 75, 100));
-    frame[3] = new AnimationFrame(3000, Vecteur3(-150, 75, 100));
-    frame[4] = new AnimationFrame(4000, Vecteur3(-150, -75, 100));
-    frame[5] = new AnimationFrame(5000, Vecteur3(150, 0, 0));
-
-
-    Animation* animation = new Animation(CAMERALIBRE, BEZIER);
-    for(int i=0; i<6; i++)
-        animation->ajouterFrame(frame[i]);
-
-
-    animation->ajouterObjet((ObjetAnimable*)&(vue_->obtenirCamera()));
-    GestionnaireAnimations::obtenirInstance()->ajouterAnimation(animation);
-    */
-
-    
-
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1821,10 +1763,6 @@ void FacadeModele::togglePause()
                 wPaquet->setPlayer2Name(wGame->obtenirNomJoueurDroit());
                 RelayeurMessage::obtenirInstance()->relayerPaquetGame(wPaquet->getGameId(), wPaquet, TCP);
             }
-        }
-        else if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
-        {
-            wGame->modifierEnPause(!wGame->estEnPause());
         }
     }
 }

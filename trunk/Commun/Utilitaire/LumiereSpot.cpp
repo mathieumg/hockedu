@@ -9,9 +9,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 #include "LumiereSpot.h"
-#include "AnimationFrame.h"
-#include "Animation.h"
-#include "GestionnaireAnimations.h"
+#include "glew.h"
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -55,37 +53,6 @@ LumiereSpot::LumiereSpot(GLfloat position[4], GLfloat ambiante[4], GLfloat diffu
 ////////////////////////////////////////////////////////////////////////
 LumiereSpot::~LumiereSpot()
 {
-
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void LumiereSpot::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-///
-/// Permet de créé une animation
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void LumiereSpot::appliquerAnimation( const ObjectAnimationParameters& pAnimationResult )
-{
-	LumiereAbstraite::appliquerAnimation( pAnimationResult );
-	if(pAnimationResult.CanUpdatedAngle())
-	{
-		spotCutoff_ = pAnimationResult.mAngle[VY];
-	}
-	if(pAnimationResult.CanUpdatedScale())
-	{
-        Vecteur3 delta = pAnimationResult.mScale-position_;
-		//Vecteur3 delta( pAnimationResult.mScale[VX]-position_[VX], pAnimationResult.mScale[VY]-position_[VY], pAnimationResult.mScale[VZ]-position_[VZ]);
-		delta.normaliser();
-		spotDirection_[0] = (float)delta[0];
-		spotDirection_[1] = (float)delta[1];
-		spotDirection_[2] = (float)delta[2];
-
-	}
-	
 
 }
 

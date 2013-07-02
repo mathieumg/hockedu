@@ -207,7 +207,7 @@ bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
 {
     if(Super::add(point))
     {
-        point->attach(this);
+        point->PositionSubject::attach(this);
         coins_[getNBControlPoint()-1] = &point->getPosition();
         updateWallProperties();
         return true;
@@ -229,7 +229,7 @@ bool NodeWallEdition::onAddControlPoint( NodeControlPoint* point )
 void NodeWallEdition::onRemoveControlPoint( NodeControlPoint* point )
 {
     Super::unlinkChild(point);
-    point->detach(this);
+    point->PositionSubject::detach(this);
     coins_[getNBControlPoint()] = NULL;
     updateWallProperties();
 }

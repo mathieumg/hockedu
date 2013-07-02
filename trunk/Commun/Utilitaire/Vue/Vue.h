@@ -13,16 +13,12 @@
 
 #include "Camera.h"
 #include "Vecteur.h"
-#include "AnimationFrame.h"
-#include "Animation.h"
-#include "GestionnaireAnimations.h"
 
 
 
 namespace math {
    class Plan3D;
 }
-
 
 namespace vue {
 
@@ -116,7 +112,7 @@ namespace vue {
       /// Animation de la vue en fonction du temps
       virtual void animer(float temps);
 	  /// Centre la camera a l'origine pour voir la largeur du parametre
-	  virtual void centrerCamera(float largeurVue,int pViewportNumber=1, AnimationTerminatedCallback pCallback = 0);
+	  virtual void centrerCamera(float largeurVue,int pViewportNumber=1);
 
       ////////////////////////////////////////////////////////////////////////
       ///

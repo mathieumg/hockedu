@@ -9,7 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "SoundFMOD.h"
-#include "GestionnaireAnimations.h"
+
 #include <iostream>
 #include "RazerGameUtilities.h"
 
@@ -482,7 +482,7 @@ void SoundFMOD::playEffect( effect choice )
 	FMOD::Sound* current_song;
 	effects_group->getSound(choice,&current_song);
 	result = systemFmod->playSound(FMOD_CHANNEL_FREE, current_song, false, &effect_channel);
-	GestionnaireAnimations::obtenirInstance()->saveReplaySound(choice);
+	//GestionnaireAnimations::obtenirInstance()->saveReplaySound(choice);
 	ERRCHECK(result,);
 	systemFmod->update();
 }

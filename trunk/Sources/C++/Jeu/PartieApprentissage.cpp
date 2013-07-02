@@ -24,7 +24,7 @@ int CallbackGameApprentissageStatusUpdate(int pGameId, GameStatus pGameStatus)
 
 
 PartieApprentissage::PartieApprentissage(GameType gameType,int pNbButsGagnants,SPPlayerAbstract joueurGauche, SPPlayerAbstract joueurDroit, int uniqueGameId, const std::vector<GameUpdateCallback>& updateCallback)
-:Partie(gameType, pNbButsGagnants, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL), mAnimationMailletRenforcement(NULL)
+:Partie(gameType, pNbButsGagnants, joueurGauche, joueurDroit, uniqueGameId, updateCallback), mPreviousPuckPosition(0,0,0), mLeftLearningAi(NULL), mRightLearningAi(NULL)
 {
     if(joueurGauche->obtenirType() == JOUEUR_VIRTUEL_RENFORCEMENT)
     {
@@ -94,18 +94,18 @@ void PartieApprentissage::animerBase(const float& pTime)
     }
     Partie::animerBase(pTime);
 
-    if(mAnimationMailletRenforcement)
-    {
-        if(mAnimationMailletRenforcement->estTermine())
-        {
-            delete mAnimationMailletRenforcement;
-            mAnimationMailletRenforcement = 0;
-        }
-        else
-        {
-            mAnimationMailletRenforcement->animer(pTime * 1000.0f); // Prends temps en ms
-        }
-    }
+//     if(mAnimationMailletRenforcement)
+//     {
+//         if(mAnimationMailletRenforcement->estTermine())
+//         {
+//             delete mAnimationMailletRenforcement;
+//             mAnimationMailletRenforcement = 0;
+//         }
+//         else
+//         {
+//             mAnimationMailletRenforcement->animer(pTime * 1000.0f); // Prends temps en ms
+//         }
+//     }
 }
 
 /*

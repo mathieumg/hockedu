@@ -90,7 +90,10 @@ NoeudAbstrait::NoeudAbstrait(
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait::~NoeudAbstrait()
 {
-	clearPhysicsBody();
+    // cancel animations on deletion
+    AnimationSubject::signalObservers();
+
+    clearPhysicsBody();
     setField(NULL);
 
     // clean remaining modifiers in the node
