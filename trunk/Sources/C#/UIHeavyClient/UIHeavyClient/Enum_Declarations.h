@@ -254,6 +254,8 @@ typedef enum
         INVALID_BONUS_MIN       ,
         ASSIGNED_BONUS_MAX      ,
         INVALID_BONUS_MAX       ,
+        ASSIGNED_BONUS_TYPE      ,
+        INVALID_BONUS_TYPE       ,
         NB_PROPERTYASSIGNMENTVALIDATION
 }
 #if !CSHARP

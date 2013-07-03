@@ -88,6 +88,7 @@ CreateListDelegateImplementation(Bonus)
     //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
+#include "NoeudTable.h"
 
 
 
@@ -318,7 +319,14 @@ void NodeBonus::playTick( float temps)
         if(timeLeft < 0)
         {
             mCounting = false;
-            mBonusType = (BonusType)(rand()%NB_BONUS_TYPE);
+            mBonusType = generateNewBonusType();
+            // No bonuses available
+            if(mBonusType == NB_BONUS_TYPE)
+            {
+                mSpawnTimeDelaiTotal = 9999999.f;
+                // deactivate bonus
+                return;
+            }
 #if MIKE_DEBUG_
             //mBonusType = BONUS_TYPE_SPAWN_PUCK; // testing value
 #endif
@@ -579,6 +587,20 @@ void NodeBonus::updateMatrice()
     glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix); // Savegarde de la matrice courante dans le noeud
 
     glPopMatrix();
+}
+
+BonusType NodeBonus::generateNewBonusType() const
+{
+    auto field = getField();
+    if(field)
+    {
+        auto table = field->getTable();
+        if(table)
+        {
+            return table->getRandomBonus();
+        }
+    }
+    return (BonusType)(rand()%NB_BONUS_TYPE);
 }
 
 

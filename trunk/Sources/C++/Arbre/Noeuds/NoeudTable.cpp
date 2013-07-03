@@ -49,6 +49,9 @@ const int nbCorners = 4;
 const int nodeHeight[3] = {0,NoeudTable::NB_VERTICAL_VERTICES>>1,NoeudTable::NB_VERTICAL_VERTICES-1};
 const int nodeWidth[3] = {0,NoeudTable::NB_HORIZONTAL_VERTICES>>1,NoeudTable::NB_HORIZONTAL_VERTICES-1};
 
+const std::string BonusXmlTag = "BonusProp";
+
+
 CreateListDelegateImplementation(Table)
 {
 #if WIN32  
@@ -321,6 +324,15 @@ int NoeudTable::expectedChildCount()
 NoeudTable::NoeudTable(const std::string& typeNoeud)
    : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , mFrictionRatio(0.3f),mListRenderCorners(0)
 {
+    for(int i=0; i<NB_BONUS_TYPE; ++i)
+    {
+        mBonusProperties[i].type = BonusType(i);
+        mBonusProperties[i].enabled = true;
+        mBonusProperties[i].modified = false;
+        mBonusProperties[i].duration = 10.f;
+        mAvailableBonuses.push_back(mBonusProperties[i]);
+    }
+
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
 
@@ -1032,6 +1044,18 @@ XmlElement* NoeudTable::createXmlNode()
         XMLUtils::writeAttribute<float>(elementNoeud,name.str().c_str(),coef);
     }
 
+    for(int type=0; type<NB_BONUS_TYPE; ++type)
+    {
+        if(mBonusProperties[type].modified)
+        {
+            XmlElement* bonusProp = XMLUtils::createNode(BonusXmlTag.c_str());
+            XMLUtils::writeAttribute(bonusProp,"type", type);
+            XMLUtils::writeAttribute(bonusProp,"en", mBonusProperties[type].enabled);
+            XMLUtils::writeAttribute(bonusProp,"duration", mBonusProperties[type].duration);
+            XMLUtils::LinkEndChild(elementNoeud,bonusProp);
+        }
+    }
+
     return elementNoeud;
 }
 
@@ -1100,6 +1124,27 @@ bool NoeudTable::initFromXml( const XmlElement* element )
             {
                 checkf(0,"invalid position for a control point, ignoring node");
             }
+            else if(name == BonusXmlTag)
+            {
+                int type;
+                bool enable;
+                float duration;
+                if( !XMLUtils::readAttribute(child,"type", type) || type >= NB_BONUS_TYPE )
+                {
+                    continue;
+                }
+                if( !XMLUtils::readAttribute(child,"en", enable))
+                {
+                    continue;
+                }
+                if( !XMLUtils::readAttribute(child,"duration", duration))
+                {
+                    continue;
+                }
+                mBonusProperties[type].enabled = enable;
+                mBonusProperties[type].modified = true;
+                mBonusProperties[type].duration = duration;
+            }
             else
             {
                 CreateAndInitNodesFromXml(child);
@@ -1128,6 +1173,17 @@ bool NoeudTable::initFromXml( const XmlElement* element )
             butJoueur2_->updateLongueur(l1/l2);
         }
     }
+
+    // refresh available bonuses
+    mAvailableBonuses.clear();
+    for(int i=0; i<NB_BONUS_TYPE; ++i)
+    {
+        if(mBonusProperties[i].enabled)
+        {
+            mAvailableBonuses.push_back(mBonusProperties[i]);
+        }
+    }
+
 
     return true;
 }
@@ -1645,6 +1701,15 @@ float NoeudTable::GetWidth() const
         return aabb.GetSize()[VX];
     }
     return DEFAULT_SIZE[VX];
+}
+
+BonusType NoeudTable::getRandomBonus() const
+{
+    if(mAvailableBonuses.empty())
+    {
+        return NB_BONUS_TYPE;
+    }
+    return mAvailableBonuses[rand()%mAvailableBonuses.size()].type;
 }
 
 

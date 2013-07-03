@@ -1284,11 +1284,11 @@ void Terrain::appliquerPhysique( float temps )
                 {
                     if(mZoneTimer.Elapsed_Time_sec() > 10)
                     {
-                        if(mPuckZone == PUCK_ZONE_LEFT)
+                        if(mPuckZone == PUCK_ZONE_LEFT && mLeftForceField)
                         {
                             mLeftForceField->setActive(true);
                         }
-                        else if(mPuckZone == PUCK_ZONE_RIGHT)
+                        else if(mPuckZone == PUCK_ZONE_RIGHT && mRightForceField)
                         {
                             mRightForceField->setActive(true);
                         }
@@ -1735,7 +1735,7 @@ void Terrain::fullRebuild()
         mEditionZone->rebuild();
     }
 
-#if BOX2D_PLAY
+#if BOX2D_PLAY && 0
     if(IsGameField())
     {
         auto puck = getPuck();
@@ -3015,8 +3015,8 @@ void Terrain::setPuckZone( PuckZone pVal )
 #if BOX2D_PLAY
     if(mPuckZone == PUCK_ZONE_UNKNOWN)
     {
-         mLeftForceField->setActive(false);
-         mRightForceField->setActive(false);
+         if(mLeftForceField)mLeftForceField->setActive(false);
+         if(mRightForceField)mRightForceField->setActive(false);
     }
 #endif //BOX2D_PLAY
 }

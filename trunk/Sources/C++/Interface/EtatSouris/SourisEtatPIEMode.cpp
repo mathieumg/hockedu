@@ -36,7 +36,7 @@ SourisEtatPIEMode::SourisEtatPIEMode( Vecteur2i& pos ):shiftEnfonce_(false)
     shiftEnfonce_ = false;
     mMiddleMousePress = false;
 
-    mPIEGame = new Partie(GAME_TYPE_OFFLINE, Partie::POINTAGE_GAGNANT,SPPlayerHuman(new PlayerHuman("Left Player")),SPPlayerHuman(new PlayerHuman("Right Player")),-1);
+    mPIEGame = new Partie(GAME_TYPE_OFFLINE, 999999,SPPlayerHuman(new PlayerHuman("Left Player")),SPPlayerHuman(new PlayerHuman("Right Player")),-1);
     mPIEGame->getField()->setResizeTableModel(false);
     auto xml = FacadeModele::getInstance()->getEditionField()->creerNoeudXML();
     mPIEGame->setFieldName("PIEGame");

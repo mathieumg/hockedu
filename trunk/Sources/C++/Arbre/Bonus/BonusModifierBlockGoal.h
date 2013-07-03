@@ -55,8 +55,6 @@ private:
     /// maximum value possible to render the goalie,
     /// taken from the goal height
     class NoeudBut* mProtectedGoal;
-    /// pointer to the puck's position
-    const Vecteur3* mPuckPos;
     Vecteur3 mPosition;
     float mAngle; // en radian
 

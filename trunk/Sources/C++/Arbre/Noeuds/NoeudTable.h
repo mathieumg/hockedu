@@ -20,6 +20,14 @@ class NoeudBut;
 class NoeudGroupe;
 enum TypePosPoint;
 
+struct BonusProperty
+{
+    BonusType type;
+    bool enabled;
+    bool modified;
+    float duration;
+};
+
 typedef std::map<TypePosPoint,GroupeTripleAdresseFloat> ListeIndexPoints;
 ///////////////////////////////////////////////////////////////////////////
 /// @class NoeudTable
@@ -96,6 +104,8 @@ public:
    /// retrieves the max width of the table
    float GetWidth() const;
 
+   BonusType getRandomBonus() const;
+
    static const unsigned int NB_CONTROL_POINTS = 8;
    /// taille par défaut de table
    static const Vecteur3 DEFAULT_SIZE;
@@ -128,7 +138,8 @@ private:
    GLuint* mListRenderCorners;
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
-
+   BonusProperty mBonusProperties[NB_BONUS_TYPE];
+   std::vector<BonusProperty> mAvailableBonuses;
 /// Accesseurs
 public:
 

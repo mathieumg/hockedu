@@ -39,6 +39,7 @@ CreateListDelegateImplementation(Goaler)
     return GestionnaireModeles::CreerListe(pModel);
 }
 #endif
+#include "NoeudTable.h"
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -90,7 +91,6 @@ bool BonusModifierBlockGoal::Attach( NoeudRondelle* pPuck )
                 SoundFMOD::obtenirInstance()->playEffect(BONUS_BLOCK_GOAL_IN_EFFECT); 
 #endif
 
-                mPuckPos = &pPuck->getPosition();
                 mProtectedGoal = affectedGoal;
                 mOwner = mallet;
                 return mOwner->AddModifier(this);
@@ -160,7 +160,6 @@ bool BonusModifierBlockGoal::Apply()
 
             mPhysicBody->CreateFixture(&myFixtureDef); //add a fixture to the body
             mPhysicBody->SetUserData(this);
-
             return true;
         }
         // if any fixtures were found, it means that this node had a modifiation applied
@@ -246,7 +245,21 @@ void BonusModifierBlockGoal::render() const
 ////////////////////////////////////////////////////////////////////////
 void BonusModifierBlockGoal::Tick( float temps )
 {
-    getGoalPosition(mPosition,mAngle);
+    Vecteur3 aimPosition;
+    float aimAngle;
+    getGoalPosition(aimPosition,aimAngle);
+    Vecteur3 move = aimPosition-mPosition;
+    float SpeedSquare = (move/temps).norme();
+    static const float MaxSpeed = 150; // in pixel/s
+    float ratio = MaxSpeed/SpeedSquare;
+    if(ratio < 1)
+    {
+        move*= ratio;
+        aimPosition = mPosition+move;
+        aimAngle = mAngle + (aimAngle-mAngle)*ratio;
+    }
+    mPosition = aimPosition;
+    mAngle = aimAngle;
 #if BOX2D_PLAY
     if(mPhysicBody)
     {
@@ -273,11 +286,24 @@ void BonusModifierBlockGoal::getGoalPosition( Vecteur3& pos, float& angle ) cons
     if(mProtectedGoal)
     {
         pos = mProtectedGoal->getPosition();
-        
+        auto pucks = mProtectedGoal->getField()->getPucks();
+
+        Vecteur3 puckPos;
+        float closest = 9999999;
+        STL_ITERATE((*pucks),p)
+        {
+            float d = ((*p)->getPosition()-pos).norme2();
+            if(d<closest)
+            {
+                closest = d;
+                puckPos = (*p)->getPosition();
+            }
+        }
+
         float yPos = 0;
         float xPos = 0;
         // cache value for optim
-        const float puckHeight = (*mPuckPos)[VY];
+        const float puckHeight = puckPos[VY];
 
         if(puckHeight > 0)
         {
@@ -325,7 +351,7 @@ void BonusModifierBlockGoal::getGoalPosition( Vecteur3& pos, float& angle ) cons
         pos[VX] = xPos;
         pos[VY] = yPos;
 
-        auto delta = (*mPuckPos)-pos;
+        auto delta = puckPos-pos;
         angle = atan(delta[VY]/delta[VX]);
     }
 }
