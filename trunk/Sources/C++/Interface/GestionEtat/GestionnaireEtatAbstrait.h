@@ -95,7 +95,7 @@ public:
     // retourne vrai si on arrive a retrouver un nom valid
     bool GetMouseStateName(NomEtatSouris& outName);
 	static void CameraMovementFromKeyPressed( float deltaTemps );
-
+    void doubleClickEvent( EvenementSouris& evenementSouris );
 protected:
 	/// État de la souris
 	SourisEtatAbstrait* etatSouris_;

@@ -98,6 +98,7 @@ public:
 	static Vecteur3 mMouseGamePos;
 private:
     EventManager(){}
+    static class GameTime* mDoubleClickTimer;
 };
 
 #endif

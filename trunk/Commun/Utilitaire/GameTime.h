@@ -22,8 +22,8 @@ class GameTime
 {
 public:
 	/// Constructeurs
-	GameTime(void);
-	GameTime(clock_t currentTime);
+	GameTime(bool paused = true);
+	GameTime(clock_t currentTime, bool paused = true);
 	/// Destructeur
 	~GameTime(void);
 

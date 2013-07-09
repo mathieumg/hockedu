@@ -330,6 +330,14 @@ void GestionnaireEtatAbstrait::CameraMovementFromKeyPressed( float deltaTemps )
 	}
 }
 
+void GestionnaireEtatAbstrait::doubleClickEvent( EvenementSouris& evenementSouris )
+{
+    if (etatSouris_)
+    {
+        etatSouris_->doubleClickEvent(evenementSouris);
+    }
+}
+
 
 
 

@@ -107,6 +107,10 @@ GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 GestionnaireModeles::GestionnaireModeles()
 {
     int compteurTypeID = 0;
+
+    nameToTypeId_[RazerGameUtilities::NOM_RONDELLE] = ++compteurTypeID;
+    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_RONDELLE;
+
     nameToTypeId_[RazerGameUtilities::NOM_MURET] = ++compteurTypeID;
     typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MURET;
 

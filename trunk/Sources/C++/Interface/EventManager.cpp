@@ -25,6 +25,7 @@
 #include "GestionnaireEtatPartieTournoiTerminee.h"
 #include "GestionnaireEtatModeSimulation.h"
 #include "ConfigScene.h"
+#include "GameTime.h"
 
 std::set<ToucheClavier> pressedKeys;
 
@@ -33,7 +34,8 @@ Flags<char,NB_CAMERA_PRESSED_DIRECTIONS> EventManager::mCameraDirection;
 Flags<char,NB_MALLET_PRESSED_DIRECTIONS> EventManager::mMalletDirection;
 Vecteur2i EventManager::mMouseScreenPos;
 Vecteur3  EventManager::mMouseGamePos;
-
+GameTime* EventManager::mDoubleClickTimer = new GameTime(false);
+const float DoubleClickDelay = 500; // in ms
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GestionnaireEvenements::modifierEtat(GestionnaireEtatAbstrait* nouvelEtat)
@@ -285,7 +287,15 @@ void EventManager::sourisEnfoncee( EvenementSouris& evenementSouris )
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void EventManager::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	if(etatCourant_)etatCourant_->sourisRelachee(evenementSouris);
+    if(mDoubleClickTimer->Elapsed_Time_ms() < DoubleClickDelay)
+    {
+        if(etatCourant_)etatCourant_->doubleClickEvent(evenementSouris);
+    }
+    else
+    {
+        mDoubleClickTimer->reset_Time();
+        if(etatCourant_)etatCourant_->sourisRelachee(evenementSouris);
+    }
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@
 
 #pragma once
 #include "SourisEtatAbstrait.h"
+#include "Flags.h"
 
 
 
@@ -37,24 +38,30 @@ public:
 	virtual void sourisEnfoncee( EvenementSouris& evenementSouris );
 	/// Comportement lorsqu'un bouton de la souris est relaché.
 	virtual void sourisRelachee( EvenementSouris& evenementSouris );
-	/// Comportement lorsque la souris est déplacée.
+
+    void GetOpenGLSelectedList( ConteneurIdNoeuds &liste );
+
+    /// Comportement lorsque la souris est déplacée.
 	virtual void sourisDeplacee( EvenementSouris& evenementSouris );
 
 	/// Retourne l'état courant
 	virtual NomEtatSouris obtenirNomEtatSouris();
 
+    virtual void doubleClickEvent( EvenementSouris& evenementSouris );
+
 private:
-	/// Indique si un bouton de la souris a été enfoncé
-	bool estEnfoncee_;
-	/// Indique s'il s'agit d'une selection rectangle ou non
-	bool drag_;
-	Vecteur2i rectangleElastiqueAncienCoin_;
-	/// Conserve en mémoire la position de la souris depuis le dernier appel
-	Vecteur2i positionPrecedente_;
+    enum {
+        // true if the left mouse button is pressed
+        SELECTION_LEFT_CLICK_PRESSED, 
+        /// Indique s'il s'agit d'une selection rectangle ou non
+        SELECTION_MOUSE_DRAGGING, 
+        // flag telling if an undo stack has been pushed
+        SELECTION_UNDO_SENT, 
+        NB_SELECTION_FLAGS
+    };
+    Flags<char,NB_SELECTION_FLAGS> mFlags;
 	/// Conserve en mémoire la position de la souris lorsquelle a ete enfoncee
-	Vecteur2i positionEnfoncee_;
-	/// Conserver en mémoire si la touche ctrl est enfoncée.
-	bool ctrlEnfoncee_;
+	Vecteur2i mInitialMousePos;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

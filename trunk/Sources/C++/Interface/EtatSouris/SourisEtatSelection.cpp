@@ -19,6 +19,10 @@
 #include "Terrain.h"
 #include "VisiteurSelectionOpenGL.h"
 #include "CodesEvenements.h"
+#include "GestionnaireModeles.h"
+
+const ToucheClavier KeepCurrentSelectionModifier = VJAK_CONTROL;
+const ToucheClavier UnselectModifier = VJAK_SHIFT;
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -31,13 +35,9 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-SourisEtatSelection::SourisEtatSelection(  )
+SourisEtatSelection::SourisEtatSelection(  ):mFlags(0)
 {
-	estEnfoncee_ = false;
-	positionPrecedente_ = NULL;
-	positionEnfoncee_ = NULL;
-	drag_ = false;
-	ctrlEnfoncee_ = false;
+    mInitialMousePos = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -52,25 +52,17 @@ SourisEtatSelection::SourisEtatSelection(  )
 ////////////////////////////////////////////////////////////////////////
 SourisEtatSelection::~SourisEtatSelection(void)
 {
-	FacadeModele::getInstance()->modifierVariableZoomElastique(false);
+    FacadeModele::getInstance()->modifierVariableZoomElastique(false);
 }
 
 /// Comportement lorsqu'une touche du clavier est enfoncée.
 void SourisEtatSelection::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-	{
-		ctrlEnfoncee_ = true;
-	}
 }
 
 /// Comportement lorsqu'une touche du clavier est relâchée.
 void SourisEtatSelection::toucheRelachee( EvenementClavier& evenementClavier )
 {
-	if(evenementClavier.obtenirTouche() == VJAK_CONTROL)
-	{
-		ctrlEnfoncee_ = false;
-	}
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -86,12 +78,11 @@ void SourisEtatSelection::toucheRelachee( EvenementClavier& evenementClavier )
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatSelection::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
-	if(!estEnfoncee_ && evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-		estEnfoncee_ = true;
-		positionEnfoncee_ = evenementSouris.obtenirPosition();
-	}
-	
+    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
+    {
+        mFlags.SetFlag(true,SELECTION_LEFT_CLICK_PRESSED);
+        mInitialMousePos = evenementSouris.obtenirPosition();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -107,188 +98,61 @@ void SourisEtatSelection::sourisEnfoncee( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 {
-	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
-	{
-//         FacadeModele::getInstance()->modifierVariableZoomElastique(false);
-//         Vecteur3 avant,apres;
-//         FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[0],positionEnfoncee_[1],avant);
-//         FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[0],evenementSouris.obtenirPosition()[1],apres);
-//         FacadeModele::getInstance()->getEditionField()->selectNodes((Vecteur2&)avant,(Vecteur2&)apres,ctrlEnfoncee_);
-//         estEnfoncee_ = false;
-//         return;
+    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
+    {
+        auto field = FacadeModele::getInstance()->getEditionField();
+        const std::set<NoeudAbstrait*>& selection = field->getSelectedNodes();
+        /// old copy
+        std::set<NoeudAbstrait*> oldSelection = selection;
 
-        if(!ctrlEnfoncee_)
+        bool keepSelection = EventManager::IsKeyPressed(KeepCurrentSelectionModifier);
+        if(!keepSelection)
             FacadeModele::getInstance()->selectionArbre(false);
 
-//		if(drag_)
-		{
-			// DRAG
-//             FacadeModele::getInstance()->modifierVariableZoomElastique(false);
-// 
-//             Vecteur3 posCurVirt, posPrecedentVirt;
-//             FacadeModele::getInstance()->convertirClotureAVirtuelle(positionEnfoncee_[VX], positionEnfoncee_[VY], posCurVirt);
-//             FacadeModele::getInstance()->convertirClotureAVirtuelle(positionPrecedente_[VX], positionPrecedente_[VY], posPrecedentVirt);
-// 
-// 			glMatrixMode( GL_PROJECTION );
-// 			glLoadIdentity();
-// 			GLint viewport[4];
-// 			glGetIntegerv(GL_VIEWPORT,viewport);
-// 			gluPickMatrix(lastx,viewport[3]-lasty,50,50,viewport);
-// 
-// 
-// 			VisiteurSelection visiteur(positionEnfonce, positionPrecedente);
-// 			FacadeModele::getInstance()->visiterArbre(&visiteur);
-// 			visiteur.faireSelection();
-		}
-//		else
-		{
-			Vecteur2i centreSelection(positionPrecedente_);
-			Vecteur2i tailleSelection(1,1);
-			// On s'assure de desactiver le rectangle elastique
-			FacadeModele::getInstance()->modifierVariableZoomElastique(false);
-			
-			if(drag_)
-			{
+        ConteneurIdNoeuds liste;
+        GetOpenGLSelectedList(liste);
 
-				Vecteur2i d( (positionEnfoncee_-positionPrecedente_) );
-				centreSelection = positionPrecedente_+(d/2);
-				tailleSelection[VX] = abs(d[VX]);
-				tailleSelection[VY] = abs(d[VY]);
-			}
-
-			// Pre selelection
-			glMatrixMode( GL_PROJECTION );
-			//glPushMatrix();
-			glLoadIdentity();
-			GLint viewport[4];
-			glGetIntegerv(GL_VIEWPORT,viewport);
-			gluPickMatrix(centreSelection[VX],viewport[3]-centreSelection[VY],tailleSelection[VX],tailleSelection[VY],viewport);
-
-			FacadeModele::getInstance()->obtenirVue()->appliquerProjection();
-
-			const GLsizei taille = 1000;
-			GLuint tampon[taille];			
-			
-			//glInitNames();
-			glSelectBuffer( taille, tampon );
-			glRenderMode(GL_SELECT);
-
-			glMatrixMode( GL_MODELVIEW );
-			glLoadIdentity();
-			FacadeModele::getInstance()->obtenirVue()->appliquerCamera();
-			FacadeModele::getInstance()->getEditionField()->renderField();
-
-			int nbObjets = glRenderMode(GL_RENDER);
-			
-			GLuint* ptr = tampon;
-			
-			ConteneurIdNoeuds liste;
-
-			float zMinimum = 100000;
-			for(int i=0; i<nbObjets; i++)
-			{
-				bool ajouter = false;
-				int nbNoms = (*ptr);
-				ptr++;
-				float zMin = (float)(*ptr)/0xFFFFFFFF;
-				ptr++;
-				float zMax = (float)(*ptr)/0xFFFFFFFF;
-				ptr++;
-
-				if(nbNoms == 2 && (drag_ || zMin<zMinimum ))
-				{
-					// Si drag est a true, on ne ce souci meme pas du min en z
-					if(!drag_)
-					{
-						zMinimum = zMin;
-						liste.clear();
-					}
-					ajouter = true;
-				}
-				unsigned int idConcret;
-				for(int j=0; j<nbNoms; j++)
-				{
-					if(ajouter)
-					{
-						// j%2 == 1 donc j == 1 dans notre cas
-						if(j&1)
-						{
-							unsigned int typeId = (*ptr);
-							if(liste.find(typeId) == liste.end())
-							{
-								liste[typeId] = IdNoeuds();
-							}
-							liste[typeId].insert(idConcret);
-						}
-						else
-						{
-							idConcret = (*ptr);
-						}
-
-						// j == 0 on assigne le premier element
-						//(j&1 ? liste.back().second : liste.back().first ) = (*ptr);
-					}
-					ptr++;
-				}
-			}
-            auto field = FacadeModele::getInstance()->getEditionField();
-
-            const std::set<NoeudAbstrait*>& selection = field->getSelectedNodes();
-            /// old copy
-            std::set<NoeudAbstrait*> oldSelection = selection;
-
-            int selected = 0;
-			ConteneurIdNoeuds::const_iterator iter = liste.begin();
-			for(; iter != liste.end(); iter++)
-			{
-				VisiteurSelectionOpenGL visiteur(&iter->second,ctrlEnfoncee_);
-				NoeudGroupe* groupe = field->getTable()->obtenirGroupe(iter->first);
-				if(groupe)
-				{
-					groupe->acceptVisitor(visiteur);
-				}
-				else
-					FacadeModele::getInstance()->acceptVisitor(visiteur);
-
-                selected += visiteur.getNbSelected();
-			}
-
-            bool pushUndo = false;
-            if(oldSelection.size() == selection.size())
+        int selected = 0;
+        ConteneurIdNoeuds::const_iterator iter = liste.begin();
+        for(; iter != liste.end(); iter++)
+        {
+            VisiteurSelectionOpenGL visiteur(&iter->second,keepSelection);
+            NoeudGroupe* groupe = field->getTable()->obtenirGroupe(iter->first);
+            if(groupe)
             {
-                STL_ITERATE(selection,it)
-                {
-                    if(find(oldSelection.begin(),oldSelection.end(),*it) == oldSelection.end())
-                    {
-                        pushUndo = true;
-                        break;
-                    }
-                }
+                groupe->acceptVisitor(visiteur);
             }
             else
+                FacadeModele::getInstance()->acceptVisitor(visiteur);
+
+            selected += visiteur.getNbSelected();
+        }
+
+        mFlags.SetFlag(false,SELECTION_UNDO_SENT);
+        if(oldSelection.size() == selection.size())
+        {
+            STL_ITERATE(selection,it)
             {
-                pushUndo = true;
+                if(find(oldSelection.begin(),oldSelection.end(),*it) == oldSelection.end())
+                {
+                    mFlags.SetFlag(true,SELECTION_UNDO_SENT);
+                    break;
+                }
             }
+        }
+        else
+        {
+            mFlags.SetFlag(true,SELECTION_UNDO_SENT);
+        }
 
-            if(pushUndo)
-            {
-                field->pushUndoState();
-            }
+        if(mFlags.IsFlagSet(SELECTION_UNDO_SENT))
+        {
+            field->pushUndoState();
+        }
 
-
-			//glMatrixMode( GL_PROJECTION );
-		//	glPopMatrix();
-		//	glMatrixMode( GL_MODELVIEW );
-
-
-// 			VisiteurSelection visiteur(positionClic, positionClic);
-// 			FacadeModele::getInstance()->visiterArbre(&visiteur);
-			//visiteur.faireSelection();
-		}
-
-	}
-	estEnfoncee_ = false;
-	drag_ = false;
+        mFlags.SetFlag(false,SELECTION_LEFT_CLICK_PRESSED);
+        mFlags.SetFlag(false,SELECTION_MOUSE_DRAGGING);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -304,21 +168,18 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 void SourisEtatSelection::sourisDeplacee( EvenementSouris& evenementSouris )
 {
-	
-	// Mise à jour de la position
-	positionPrecedente_ = evenementSouris.obtenirPosition();
-	if(drag_)
-	{
-		FacadeModele::getInstance()->modifierVariableZoomElastique( estEnfoncee_,positionEnfoncee_,positionPrecedente_ );
-	}
-	
-	if(estEnfoncee_ && (abs(positionEnfoncee_[VX]-positionPrecedente_[VX])>5 || abs(positionEnfoncee_[VY]-positionPrecedente_[VY])>5))
-	{
-		drag_ = true;
-		rectangleElastiqueAncienCoin_ = positionEnfoncee_;
-	}
-		
-	
+    
+    // Mise à jour de la position
+    auto mousePos = evenementSouris.obtenirPosition();
+    if(mFlags.IsFlagSet(SELECTION_MOUSE_DRAGGING))
+    {
+        FacadeModele::getInstance()->modifierVariableZoomElastique( mFlags.IsFlagSet(SELECTION_LEFT_CLICK_PRESSED),mInitialMousePos,mousePos );
+    }
+    
+    if(mFlags.IsFlagSet(SELECTION_LEFT_CLICK_PRESSED) && (mInitialMousePos-mousePos).norme2() > 25)
+    {
+        mFlags.SetFlag(true,SELECTION_MOUSE_DRAGGING);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -333,7 +194,148 @@ void SourisEtatSelection::sourisDeplacee( EvenementSouris& evenementSouris )
 ////////////////////////////////////////////////////////////////////////
 NomEtatSouris SourisEtatSelection::obtenirNomEtatSouris()
 {
-	return ETAT_SOURIS_SELECTION;
+    return ETAT_SOURIS_SELECTION;
+}
+
+void SourisEtatSelection::doubleClickEvent( EvenementSouris& evenementSouris )
+{
+    if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_GAUCHE)
+    {
+
+        ConteneurIdNoeuds liste;
+        GetOpenGLSelectedList(liste);
+
+        auto field = FacadeModele::getInstance()->getEditionField();
+
+        bool keepSelection = EventManager::IsKeyPressed(KeepCurrentSelectionModifier);
+        bool unselect = EventManager::IsKeyPressed(UnselectModifier);
+
+        // assume a left click has been done therefor changing the selection
+        if(keepSelection)
+        {
+            if(mFlags.IsFlagSet(SELECTION_UNDO_SENT))
+                field->undoModification();
+        }
+        else
+        {
+            field->setTableItemsSelection(false);
+        }
+
+        auto table = field->getTable();
+        if(table)
+        {
+            STL_ITERATE(liste,it)
+            {
+                auto type = GestionnaireModeles::obtenirInstance()->obtenirNameFromTypeId(it->first);
+                auto group = table->obtenirGroupe(type);
+                if(group)
+                {
+                    for(unsigned int i=0; i<group->childCount(); ++i)
+                    {
+                        NoeudAbstrait* n = (group->find(i));
+                        n->setSelection(!unselect);
+                    }
+                }
+            }
+        }
+        field->pushUndoState();
+        mFlags.SetFlag(true,SELECTION_UNDO_SENT);
+        mFlags.SetFlag(false,SELECTION_LEFT_CLICK_PRESSED);
+        mFlags.SetFlag(false,SELECTION_MOUSE_DRAGGING);
+    }
+}
+
+void SourisEtatSelection::GetOpenGLSelectedList( ConteneurIdNoeuds &liste )
+{
+    const Vecteur2i& mousePos = EventManager::mMouseScreenPos;
+    Vecteur2i centreSelection(mousePos);
+    Vecteur2i tailleSelection(1,1);
+    // On s'assure de desactiver le rectangle elastique
+    FacadeModele::getInstance()->modifierVariableZoomElastique(false);
+
+    if(mFlags.IsFlagSet(SELECTION_MOUSE_DRAGGING))
+    {
+        Vecteur2i d( (mInitialMousePos-mousePos) );
+        centreSelection = mousePos+(d/2);
+        tailleSelection[VX] = abs(d[VX]);
+        tailleSelection[VY] = abs(d[VY]);
+    }
+
+    // Pre selelection
+    glMatrixMode( GL_PROJECTION );
+    //glPushMatrix();
+    glLoadIdentity();
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT,viewport);
+    gluPickMatrix(centreSelection[VX],viewport[3]-centreSelection[VY],tailleSelection[VX],tailleSelection[VY],viewport);
+
+    FacadeModele::getInstance()->obtenirVue()->appliquerProjection();
+
+    const GLsizei taille = 1000;
+    GLuint tampon[taille];			
+
+    //glInitNames();
+    glSelectBuffer( taille, tampon );
+    glRenderMode(GL_SELECT);
+
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+    FacadeModele::getInstance()->obtenirVue()->appliquerCamera();
+    FacadeModele::getInstance()->getEditionField()->renderField();
+
+    int nbObjets = glRenderMode(GL_RENDER);
+
+    GLuint* ptr = tampon;
+
+
+    float zMinimum = 100000;
+    for(int i=0; i<nbObjets; i++)
+    {
+        bool ajouter = false;
+        int nbNoms = (*ptr);
+        ptr++;
+        float zMin = (float)(*ptr)/0xFFFFFFFF;
+        ptr++;
+        float zMax = (float)(*ptr)/0xFFFFFFFF;
+        ptr++;
+
+        if(nbNoms == 2)
+        {
+            // Si drag est a true, on ne ce souci meme pas du min en z
+            if(!mFlags.IsFlagSet(SELECTION_MOUSE_DRAGGING))
+            {
+                zMinimum = zMin;
+                liste.clear();
+                ajouter = true;
+            }
+            else if(zMin<zMinimum)
+            {
+                ajouter = true;
+            }
+        }
+        unsigned int idConcret;
+        for(int j=0; j<nbNoms; j++)
+        {
+            if(ajouter)
+            {
+                // j%2 == 1 donc j == 1 dans notre cas
+                if(j&1)
+                {
+                    unsigned int typeId = (*ptr);
+                    if(liste.find(typeId) == liste.end())
+                    {
+                        liste[typeId] = IdNoeuds();
+                    }
+                    liste[typeId].insert(idConcret);
+                }
+                else
+                {
+                    idConcret = (*ptr);
+                }
+            }
+            ptr++;
+        }
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////////
