@@ -30,7 +30,7 @@ public:
     static int mGlobalMallet;
     static int mGlobalPucks;
 
-    static const int mEditionLimitMallet = 6;
+    static const int mEditionLimitMallet = 2;
     static const int mEditionLimitPucks = 1;
 private:
     static EditionEventReceived mEditionEventCallback;
