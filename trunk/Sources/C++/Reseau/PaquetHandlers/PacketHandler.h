@@ -30,10 +30,13 @@ public:
 #define getPacketHeaderSize() (sizeof(unsigned int) + sizeof(int) + sizeof(int) + sizeof(int))
 
     static HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
-    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
+    virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL); // Méthode pour lire les données d'un paquet pour un paquet de base
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau
+    static PacketHandler* GetHandler(unsigned int type); 
 protected:
-    virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder) = 0; // Méthode pour construire le paquet à envoyer
+    virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Méthode pour construire le paquet à envoyer
+private:
+    int packetType;
 };
 
 #define HANDLER_DECLARATION(name)                                                                                \

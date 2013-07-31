@@ -29,12 +29,19 @@ class Paquet
 public:
 	friend class UsinePaquet;
 
-	virtual ~Paquet() = 0;
+	virtual ~Paquet();
 
     static const unsigned int sequenceIdentification = 0xBD7DFF6F;
     static int CompteurNumeroPaquet;
 
-	virtual PacketTypes getOperation() const = 0;
+	virtual PacketTypes getOperation() const
+    {
+        if(mData)
+        {
+            return (PacketTypes)mData->GetType();
+        }
+        return (PacketTypes)PT_NONE;
+    }
 
     inline int getNbAssociatedQueries() const { return mNbAssociatedQueries; }
     // Attention, si la mauvaise valeur est mise, cela peut causer des GROS problemes
@@ -58,8 +65,9 @@ public:
     inline void forceSendBrokenSocket() {mForceSendEvenWhenSocketNotConnected = true;}
 
     inline bool isForcedToSendOnBrokenSocket() {return mForceSendEvenWhenSocketNotConnected;}
+    inline PacketDataBase* getData() const { return mData; }
+    inline void setData(PacketDataBase* val) { mData = val; }
 
-protected:
 	Paquet();
 private:
 	int mNbAssociatedQueries; // Nb de fois que le paquet doit etre envoyer (different de 1 si on fait un envoie de masse)
@@ -70,7 +78,7 @@ private:
     
     bool mForceSendEvenWhenSocketNotConnected;
     PacketDataBase* mData;
-	PaquetRunnableFunc mRunnableFunction;
+    PaquetRunnableFunc mRunnableFunction;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -30,7 +30,6 @@ HeaderFile.write(all[1])
 
 # writing necessary includes and declarations
 HeaderFile.write("class PacketReader;\nclass PacketBuilder;\n")
-HeaderFile.write("\nclass PacketDataBase{ public: virtual void ReceiveData(PacketReader& r) = 0; virtual void SendData(PacketBuilder& b) = 0; };\n\n")
 
 
 all = all[-1]
@@ -98,10 +97,13 @@ for block in all:
 enum = "enum PacketDataTypes\n{\n    PT_NONE=666,\n";
 for dataType in PacketsDefinitions.keys():
     enum += "    PT_"+dataType.upper()+",\n"
+enum += "    NB_PACKETDATATYPE,\n"
 enum += "};\n\n"
 
 HeaderFile.write(enum)
 ##############################################################################################
+
+HeaderFile.write("\nclass PacketDataBase{\npublic:\n    virtual void ReceiveData(PacketReader& r) = 0;\n    virtual void SendData(PacketBuilder& b) = 0;\n    virtual PacketDataTypes GetType() = 0;\n };\n\n")
 
 
 ## Writing Classes ###########################################################################
@@ -125,7 +127,7 @@ for dataType in PacketsDefinitions.keys():
                 dataClass += ";\n\n"
     dataClass += "    void ReceiveData(PacketReader& r);\n"
     dataClass += "    void SendData(PacketBuilder& b);\n"
-
+    dataClass += "    PacketDataTypes GetType(){ return PT_"+dataType.upper()+";}\n"
     dataClass += "};\n\n"
     HeaderFile.write(dataClass)
 
@@ -166,7 +168,8 @@ generators +=  "};                                                          \n"
 
 generators +=  "PacketDataBase* CreatePacketData(PacketDataTypes t)             \n"
 generators +=  "{                                                               \n"
-generators +=  "    return generators[t]();                                     \n"
+generators +=  "    unsigned int i = t-PT_NONE;                                     \n"
+generators +=  "    return i < NB_PACKETDATATYPE ? generators[i]() : NULL;                                     \n"
 generators +=  "}\n"
 
 SourceFile.write(generators)

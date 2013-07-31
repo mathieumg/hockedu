@@ -5,14 +5,14 @@
 #include "PacketsDefinitions.h"
 #include "PacketReader.h"
 #include "PacketBuilder.h"
-void PacketDataBonus::ReceiveData(PacketReader& r)
+void PacketDataChatMessage::ReceiveData(PacketReader& r)
 {
-    r >> mBonusPosition >> mBonusType >> mBonusAction >> mGameId >> test2;
+    r >> mTimestamp >> mMessage >> mIsTargetGroup >> mGroupName >> mOrigin;
 }
 
-void PacketDataBonus::SendData(PacketBuilder& b)
+void PacketDataChatMessage::SendData(PacketBuilder& b)
 {
-    b << mBonusPosition << mBonusType << mBonusAction << mGameId << test2;
+    b << mTimestamp << mMessage << mIsTargetGroup << mGroupName << mOrigin;
 }
 
 void PacketDataGameEvent::ReceiveData(PacketReader& r)
@@ -25,15 +25,28 @@ void PacketDataGameEvent::SendData(PacketBuilder& b)
     b << mGameId << mPlayer1Name << mPlayer2Name << mEvent << mEventOnPlayerLeft;
 }
 
+void PacketDataBonus::ReceiveData(PacketReader& r)
+{
+    r >> mBonusPosition >> mBonusType >> mBonusAction >> mGameId >> test2;
+}
+
+void PacketDataBonus::SendData(PacketBuilder& b)
+{
+    b << mBonusPosition << mBonusType << mBonusAction << mGameId << test2;
+}
+
 typedef PacketDataBase* (*PacketDataGenerator)();
-PacketDataBase* createPacketDataBonus(){return new PacketDataBonus();}
+PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
 PacketDataBase* createPacketDataGameEvent(){return new PacketDataGameEvent();}
-const PacketDataGenerator generators[2] =            
+PacketDataBase* createPacketDataBonus(){return new PacketDataBonus();}
+const PacketDataGenerator generators[3] =            
 {                                                           
-    createPacketDataBonus,
+    createPacketDataChatMessage,
     createPacketDataGameEvent,
+    createPacketDataBonus,
 };                                                          
 PacketDataBase* CreatePacketData(PacketDataTypes t)             
 {                                                               
-    return generators[t]();                                     
+    unsigned int i = t-PT_NONE;                                     
+    return i < NB_PACKETDATATYPE ? generators[i]() : NULL;                                     
 }

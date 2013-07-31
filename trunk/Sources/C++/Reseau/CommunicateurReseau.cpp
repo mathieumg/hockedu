@@ -44,7 +44,7 @@ void CommunicateurReseau::envoyerPaquetSync( Paquet* wPaquetAEnvoyer, SPSocket w
     PacketBuilder wPacketBuilder;
     wPacketBuilder.setCurrentByteOrder(BO_LITTLE_ENDIAN);
 
-    PacketHandler* wPacketHandler = PaquetHandlersArray[wPaquetAEnvoyer->getOperation()];
+    PacketHandler* wPacketHandler = PacketHandler::GetHandler(wPaquetAEnvoyer->getOperation());
 
     // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
     wPacketHandler->handlePacketPreparation(wPaquetAEnvoyer, wPacketBuilder);
@@ -630,7 +630,7 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 try
                 {
                     PacketTypes type = wPaquetAEnvoyer->paquet->getOperation();
-                    PacketHandler* wPacketHandler = PaquetHandlersArray[type];
+                    PacketHandler* wPacketHandler = PacketHandler::GetHandler(type);
                 
                     // On utilise le handler pour convertir le paquet en suite de char et l'envoyer
                     wPacketBuilder.clearBuffer(); // On s'assure que le buffer est vide
@@ -805,7 +805,7 @@ void* CommunicateurReseau::receivingThreadRoutine( void *arg )
                                         }
 #endif //!SHIPPING
 
-                                        PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
+                                        PacketHandler* wPacketHandler = PacketHandler::GetHandler(wPacketHeader.type);
                                         wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
 
                                     }
@@ -1224,7 +1224,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
             {
                 wPacketReader.append(wReceivedBytes, readBuffer+(sizeof(uint8_t)*getPacketHeaderSize()));
 
-                PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
+                PacketHandler* wPacketHandler = PacketHandler::GetHandler(wPacketHeader.type);
                 wPacketHandler->handlePacketReceptionSpecific( wPacketReader , GestionnaireReseau::obtenirInstance()->getController()->getRunnable(wPacketHeader.type) );
 
                 wMapNoSequence[wIP] = wPacketHeader.numeroPaquet;

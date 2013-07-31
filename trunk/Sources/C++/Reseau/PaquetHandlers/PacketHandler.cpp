@@ -2,13 +2,13 @@
 #include "../PacketReader.h"
 #include "../PacketBuilder.h"
 #include "../Paquets/Paquet.h"
-
+#include "PacketsDefinitions.h"
 
 HeaderPaquet PacketHandler::handlePacketHeaderReception( PacketReader& pPacketReader )
 {
     unsigned int seqId = pPacketReader.readUnsignedInteger();
-//     if ( Paquet::sequenceIdentification != seqId)
-//         return HeaderPaquet();
+    if ( Paquet::sequenceIdentification != seqId)
+        return HeaderPaquet();
 
     HeaderPaquet wHeaderPaquet;
     wHeaderPaquet.type = (PacketTypes)pPacketReader.readInteger();
@@ -25,6 +25,49 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
     pPacketBuilder << pPaquet->getNumeroPaquet() << (int)0;
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);
     pPacketBuilder.setSize();
+}
+
+// methodes temporaire pour différencier les anciens des nouveaux paquets
+
+void PacketHandler::handlePacketReceptionSpecific( PacketReader& pPacketReader, PaquetRunnableFunc pRunnable /*= NULL*/ )
+{
+    if(pRunnable)
+    {
+        Paquet* wPaquet = new Paquet();
+        wPaquet->setData(CreatePacketData((PacketDataTypes)packetType));
+        pRunnable(wPaquet);
+#if !SHIPPING
+        try
+        {
+            wPaquet->getOperation();
+            checkf("Packet not freed in runnable")
+        }
+        catch(...)
+        {
+
+        }
+#endif
+    }
+}
+
+void PacketHandler::handlePacketPreparationSpecific( Paquet* pPaquet, PacketBuilder& pPacketBuilder )
+{
+    if(pPaquet->getData())
+    {
+        pPaquet->getData()->SendData(pPacketBuilder);
+    }
+}
+
+PacketHandler baseHandler;
+PacketHandler* PacketHandler::GetHandler( unsigned int type )
+{
+    if(type >= NB_PACKET_TYPES)
+    {
+        PacketHandler* p = new PacketHandler();
+        p->packetType = (int)type;
+        return p;
+    }
+    return PaquetHandlersArray[type];
 }
 
 

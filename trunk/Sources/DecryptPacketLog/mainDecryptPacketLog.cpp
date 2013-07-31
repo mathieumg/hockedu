@@ -79,7 +79,7 @@ public:
                 bool wTaillePaquetValide = wPacketHeader.taillePaquet > 0;
                 if(wTaillePaquetValide)
                 {
-                    PacketHandler* wPacketHandler = PaquetHandlersArray[wPacketHeader.type];
+                    PacketHandler* wPacketHandler = PacketHandler::GetHandler(wPacketHeader.type);
                     wPacketHandler->handlePacketReceptionSpecific( mReader , FreePacket );
                 }
                 mOuput << std::endl;

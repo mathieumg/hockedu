@@ -11,33 +11,44 @@
 
 class PacketReader;
 class PacketBuilder;
-
-class PacketDataBase{ public: virtual void ReceiveData(PacketReader& r) = 0; virtual void SendData(PacketBuilder& b) = 0; };
-
 enum PacketDataTypes
 {
     PT_NONE=666,
-    PT_PACKETDATABONUS,
+    PT_PACKETDATACHATMESSAGE,
     PT_PACKETDATAGAMEEVENT,
+    PT_PACKETDATABONUS,
+    NB_PACKETDATATYPE,
 };
 
-class PacketDataBonus : public PacketDataBase
+
+class PacketDataBase{
+public:
+    virtual void ReceiveData(PacketReader& r) = 0;
+    virtual void SendData(PacketBuilder& b) = 0;
+    virtual PacketDataTypes GetType() = 0;
+ };
+
+class PacketDataChatMessage : public PacketDataBase
 {
 public:
-    // Position du bonus
-    Vecteur<float,3> mBonusPosition;
+    // Timestamp (should be the same as __int64)
+    int64_t mTimestamp;
 
-    //
-    BonusType mBonusType;
+    // Message a envoyer
+    std::string mMessage;
 
-    // Action a executer pour le bonus
-    PaquetBonusAction mBonusAction;
+    // True means the target is a group, false means it's only one player
+    bool mIsTargetGroup;
 
-    // Id de la game
-    int mGameId, test2;
+    // Or player name if mIsTragetGroup == false
+    std::string mGroupName;
+
+    // Mettre le nom du PC local pour eviter les loop infinies sur le network et eviter de recevoir ses propres messages
+    std::string mOrigin;
 
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
+    PacketDataTypes GetType(){ return PT_PACKETDATACHATMESSAGE;}
 };
 
 class PacketDataGameEvent : public PacketDataBase
@@ -60,6 +71,27 @@ public:
 
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
+    PacketDataTypes GetType(){ return PT_PACKETDATAGAMEEVENT;}
+};
+
+class PacketDataBonus : public PacketDataBase
+{
+public:
+    // Position du bonus
+    Vecteur<float,3> mBonusPosition;
+
+    //
+    BonusType mBonusType;
+
+    // Action a executer pour le bonus
+    PaquetBonusAction mBonusAction;
+
+    // Id de la game
+    int mGameId, test2;
+
+    void ReceiveData(PacketReader& r);
+    void SendData(PacketBuilder& b);
+    PacketDataTypes GetType(){ return PT_PACKETDATABONUS;}
 };
 
 PacketDataBase* CreatePacketData(PacketDataTypes t);
