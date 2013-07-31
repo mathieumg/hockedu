@@ -13,6 +13,7 @@
 #include <time.h>
 #include "UsinePaquet.h"
 #include "NetworkEnums.h"
+#include "PacketsDefinitions.h"
 class UsinePaquet;
 
 
@@ -68,7 +69,7 @@ private:
     clock_t mLastTick;
     
     bool mForceSendEvenWhenSocketNotConnected;
-
+    PacketDataBase* mData;
 	PaquetRunnableFunc mRunnableFunction;
 };
 

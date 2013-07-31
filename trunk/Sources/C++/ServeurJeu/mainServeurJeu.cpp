@@ -89,6 +89,10 @@ void ConnectLocal()
     const unsigned int preferredLan2Min = (172<<24) + (16 << 16);
     const unsigned int preferredLan2Max = (172<<24) + (31 << 16) + (255 << 8) + (255);
 
+    //10.0.0.0 - 10.255.255.255
+    const unsigned int preferredLan3Min = (10<<24);
+    const unsigned int preferredLan3Max = (10<<24) + (255 << 16) + (255 << 8) + (255);
+
     const char* wLocalIp = ObtenirAdresseIpLocaleAssociee(preferredSchool,preferredSchool);
     if(strlen(wLocalIp) == 0)
     {
@@ -96,12 +100,18 @@ void ConnectLocal()
         wLocalIp = ObtenirAdresseIpLocaleAssociee(preferredLan1Min,preferredLan1Max);
         if(strlen(wLocalIp)  == 0)
         {
+            delete[] wLocalIp;
             wLocalIp = ObtenirAdresseIpLocaleAssociee(preferredLan2Min,preferredLan2Max);
             if(strlen(wLocalIp)  == 0)
             {
                 delete[] wLocalIp;
-                connect("127.0.0.1"); // fallback if not a on a lan network
-                return;
+                wLocalIp = ObtenirAdresseIpLocaleAssociee(preferredLan3Min,preferredLan3Max);
+                if(strlen(wLocalIp)  == 0)
+                {
+                    delete[] wLocalIp;
+                    connect("127.0.0.1"); // fallback if not a on a lan network
+                    return;
+                }
             }
         }
     }

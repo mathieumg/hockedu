@@ -30,14 +30,3 @@ void PacketHandlerUserStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
         << wPaquet->getConnectionState();
 }
 
-
-
-int PacketHandlerUserStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
-
-
-    return  getSizeForString(wPaquet->getUserName())
-        + getSizeForInt();
-
-}

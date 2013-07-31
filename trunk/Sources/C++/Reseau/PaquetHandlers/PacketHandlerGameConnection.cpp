@@ -66,21 +66,3 @@ void PacketHandlerGameConnection::handlePacketPreparationSpecific(Paquet* pPaque
                     << wPaquet->getGameTime();
 
 }
-
-
-
-int PacketHandlerGameConnection::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetGameConnection* wPaquet = (PaquetGameConnection*) pPaquet;
-
-    return getSizeForInt() // GameId
-        + getSizeForInt() // GameServerId
-        + getSizeForString(wPaquet->getUsername()) // Username
-        + getSizeForString(wPaquet->getPassword()) // Password
-        + getSizeForInt() // ConnectionState
-        + getSizeForString(wPaquet->getGameServerIp()) // Server Ip
-        + getSizeForString(wPaquet->getMapName())
-        + getSizeForFloat()
-        ;
-
-}

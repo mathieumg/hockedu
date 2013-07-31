@@ -38,14 +38,3 @@ void PacketHandlerLoginInfo::handlePacketPreparationSpecific(Paquet* pPaquet, Pa
 
 }
 
-
-
-int PacketHandlerLoginInfo::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetLoginInfo* wPaquet = (PaquetLoginInfo*) pPaquet;
-
-
-    return  getSizeForString(wPaquet->getUsername())
-        +  getSizeForString(wPaquet->getPassword());
-
-}

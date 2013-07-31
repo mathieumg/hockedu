@@ -38,12 +38,3 @@ void PacketHandlerMaillet::handlePacketPreparationSpecific(Paquet* pPaquet, Pack
 
 }
 
-
-
-int PacketHandlerMaillet::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetMaillet* wPaquet = (PaquetMaillet*) pPaquet;
-
-    return getSizeForInt() + 2* getSizeForFloat() + getSizeForBool();
-
-}

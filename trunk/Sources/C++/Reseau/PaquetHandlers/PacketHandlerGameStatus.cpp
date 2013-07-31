@@ -84,25 +84,3 @@ void PacketHandlerGameStatus::handlePacketPreparationSpecific(Paquet* pPaquet, P
         << wGameInfos->getGameStatus();
 
 }
-
-
-
-int PacketHandlerGameStatus::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-    PartieServeurs* wGameInfos = wPaquet->getGameInfos();
-
-    return 
-            getSizeForInt()                                // ServerId
-        +   getSizeForInt()                                // GameId
-        +   getSizeForString(wGameInfos->getPlayer1Name()) // Player1 Name
-        +   getSizeForString(wGameInfos->getPlayer2Name()) // Player2 Name
-        +   getSizeForString(wGameInfos->getMapName())     // MapName
-        +   getSizeForString(wGameInfos->getGameName())    // GameName
-        +   getSizeForInt()                                // Player1 Score
-        +   getSizeForInt()                                // Player2 Score
-        +   getSizeFor64bInteger()                         // Time
-        +   getSizeForInt()                                // GameStatus
-        ;
-
-}

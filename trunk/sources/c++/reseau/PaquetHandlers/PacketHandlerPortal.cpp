@@ -30,12 +30,3 @@ void PacketHandlerPortal::handlePacketPreparationSpecific(Paquet* pPaquet, Packe
                    << wPaquet->getPosition()[VY];
 }
 
-
-
-int PacketHandlerPortal::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetPortal* wPaquet = (PaquetPortal*) pPaquet;
-
-    return  getSizeForInt() + 2 * getSizeForFloat();
-
-}

@@ -70,18 +70,3 @@ void PacketHandlerGameCreation::handlePacketPreparationSpecific(Paquet* pPaquet,
                     << wPaquet->getServerIP();
 }
 
-
-
-int PacketHandlerGameCreation::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetGameCreation* wPaquet = (PaquetGameCreation*) pPaquet;
-
-    return getSizeForString(wPaquet->getUsername()) // Username
-        +  getSizeForString(wPaquet->getGameName()) // GameName
-        +  getSizeForString(wPaquet->getMapName()) // MapName
-        +  getSizeForInt() // MapId
-        +  getSizeForString(wPaquet->getPassword()) // Password
-        +  getSizeForString(wPaquet->getServerIP()) // Server IP
-        +  getSizeForInt() // GameId
-        +  getSizeForInt(); // Server Id
-}

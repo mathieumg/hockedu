@@ -32,10 +32,8 @@ public:
     static HeaderPaquet handlePacketHeaderReception(PacketReader& pPacketReader); // Méthode pour lire le header d'un paquet
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL) = 0; // Méthode pour lire les données d'un paquet pour un paquet de base
     void handlePacketPreparation(Paquet* pPaquet, PacketBuilder& pPacketBuilder); // Methode pour la construction du paquet pour l'envoie sur le reseau
-    int getPacketSize(Paquet* pPaquet) const;
 protected:
     virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder) = 0; // Méthode pour construire le paquet à envoyer
-    virtual int getPacketSizeSpecific(Paquet* pPaquet) const = 0;
 };
 
 #define HANDLER_DECLARATION(name)                                                                                \
@@ -43,7 +41,6 @@ class PacketHandler##name :public PacketHandler {                               
 protected:                                                                                                       \
     virtual void handlePacketReceptionSpecific(PacketReader& pPacketReader, PaquetRunnableFunc pRunnable = NULL);\
     virtual void handlePacketPreparationSpecific(Paquet* pPaquet, PacketBuilder& pPacketBuilder);                \
-    virtual int getPacketSizeSpecific( Paquet* pPaquet ) const;                                                  \
 };                                                                                                               \
 
 HANDLER_DECLARATION(UserStatus);

@@ -17,9 +17,3 @@ void PacketHandlerConnAutomatique::handlePacketPreparationSpecific( Paquet* pPaq
 	// Stuff a Charles
 }
 
-
-int PacketHandlerConnAutomatique::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    // Stuff a Charles
-    return 0;
-}

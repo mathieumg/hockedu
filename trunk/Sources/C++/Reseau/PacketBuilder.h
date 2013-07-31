@@ -12,42 +12,17 @@ typedef unsigned char byte;
 #include "NetworkEnums.h"
 #include "Vecteur.h"
 
-namespace
-{
-    // Methode pour avoir la taille d'un string qui doit etre envoye par le network
-#if HANDLE_CHARACTERE_0
-#define getSizeForString(pString) ((int) (4 + pString.length())) // 5 = 4 pour le int et 1 pour caractere de fin
-#define getSizeForStringNoStringSize(pString) ((int) (pString.length() )) // 1 pour caractere de fin
-#else
-#define getSizeForString(pString) ((int) (5 + pString.length() )) // 5 = 4 pour le int et 1 pour caractere de fin
-#define getSizeForStringNoStringSize(pString) ((int) (1 + pString.length() )) // 1 pour caractere de fin
-#endif
-
-    // Methode pour avoir la taille d'un int qui doit etre envoye par le network
-#define getSizeForInt() (sizeof(int))
-
-    // Methode pour avoir la taille d'un float qui doit etre envoye par le network
-#define getSizeForFloat() (sizeof(float))
-
-    // Methode pour avoir la taille d'un double qui doit etre envoye par le network
-#define getSizeForDouble() (sizeof(double))
-
-    //Methode pour avoir la taille d'un char qui doit etre envoye par le network
-#define getSizeForChar() (sizeof(char))
-
-    //Methode pour avoir la taille d'un bool qui doit etre envoye par le network
-#define getSizeForBool() (sizeof(bool))
-
-    //Methode pour avoir la taille d'un int64_t qui doit etre envoye par le network
-#define getSizeFor64bInteger() (sizeof(int64_t))
-};
-
 class PacketBuilder
 {
 public:
 	PacketBuilder();
 	PacketBuilder(PacketBuilder& p);
 	~PacketBuilder();
+    void setSize()
+    {
+        checkf(mArrSize >= 16);
+        ((int&)mArrStart[12]) = mArrSize;
+    }
 
 	//Sets the current byte order to the specified value.
 	void setCurrentByteOrder(ByteOrder pNewByteOrder);

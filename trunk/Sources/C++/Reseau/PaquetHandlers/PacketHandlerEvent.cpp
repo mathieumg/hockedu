@@ -36,13 +36,3 @@ void PacketHandlerEvent::handlePacketPreparationSpecific(Paquet* pPaquet, Packet
         << wPaquet->getEventCode();
 
 }
-
-
-
-int PacketHandlerEvent::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
-
-    return  getSizeForString(wPaquet->getMessage())
-        + getSizeForInt();
-}

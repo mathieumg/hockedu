@@ -47,17 +47,3 @@ void PacketHandlerChatMessage::handlePacketPreparationSpecific(Paquet* pPaquet, 
 
 }
 
-
-
-int PacketHandlerChatMessage::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
-
-    return  getSizeForString(wPaquet->getMessage())
-        + getSizeFor64bInteger()
-        + getSizeForBool()
-        +  getSizeForString(wPaquet->getGroupName())
-        +  getSizeForString(wPaquet->getOrigin());
-
-}

@@ -22,15 +22,11 @@ void PacketHandler::handlePacketPreparation( Paquet* pPaquet, PacketBuilder& pPa
     PacketTypes wType = pPaquet->getOperation();
     // cast le type en int pour s'assurer d'utiliser 4 octet et que la lecture de l'autre cote soit cohérente
     pPacketBuilder << Paquet::sequenceIdentification << (int)wType;
-    pPacketBuilder << pPaquet->getNumeroPaquet() << getPacketSize(pPaquet);
+    pPacketBuilder << pPaquet->getNumeroPaquet() << (int)0;
     handlePacketPreparationSpecific(pPaquet, pPacketBuilder);
+    pPacketBuilder.setSize();
 }
 
-int PacketHandler::getPacketSize( Paquet* pPaquet ) const
-{
-    // Size de Paquet
-    return getPacketHeaderSize() + getPacketSizeSpecific(pPaquet);
-}
 
 
 PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES] =

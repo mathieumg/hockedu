@@ -36,12 +36,3 @@ void PacketHandlerBonus::handlePacketPreparationSpecific(Paquet* pPaquet, Packet
                    << wPaquet->getBonusPosition()[VY];
 }
 
-
-
-int PacketHandlerBonus::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetBonus* wPaquet = (PaquetBonus*) pPaquet;
-
-    return  3 * getSizeForInt() + 2 * getSizeForFloat();
-
-}

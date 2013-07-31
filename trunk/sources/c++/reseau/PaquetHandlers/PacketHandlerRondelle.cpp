@@ -37,15 +37,3 @@ void PacketHandlerRondelle::handlePacketPreparationSpecific(Paquet* pPaquet, Pac
         <<wPaquet->getVitesseRotation();
 
 }
-
-
-
-int PacketHandlerRondelle::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetRondelle* wPaquet = (PaquetRondelle*) pPaquet;
-
-
-    return  getSizeForInt()
-            + 5* getSizeForFloat();
-
-}

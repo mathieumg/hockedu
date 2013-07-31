@@ -49,7 +49,7 @@ int Paquet::CompteurNumeroPaquet = obtenirNumeroInitHazard();
 ///
 ////////////////////////////////////////////////////////////////////////
 Paquet::Paquet()
-    :mForceSendEvenWhenSocketNotConnected(false)
+    :mForceSendEvenWhenSocketNotConnected(false),mData(NULL)
 {
     mNbAssociatedQueries = 1; // Par defaut, on envoie le paquet qu'une seule fois
     mNumeroPaquet = ++CompteurNumeroPaquet;
@@ -67,7 +67,9 @@ Paquet::Paquet()
 ////////////////////////////////////////////////////////////////////////
 Paquet::~Paquet(void)
 {
-
+    if(mData)
+        delete mData;
+    mData = NULL;
 }
 
 ////////////////////////////////////////////////////////////////////////

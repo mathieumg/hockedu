@@ -51,17 +51,3 @@ void PacketHandlerGameEvent::handlePacketPreparationSpecific(Paquet* pPaquet, Pa
 
 }
 
-
-
-int PacketHandlerGameEvent::getPacketSizeSpecific( Paquet* pPaquet ) const
-{
-    PaquetGameEvent* wPaquet = (PaquetGameEvent*) pPaquet;
-
-    return getSizeForInt()                            // GameId
-        + getSizeForString(wPaquet->getPlayer1Name()) // Player1Name
-        + getSizeForString(wPaquet->getPlayer2Name()) // Player2Name
-        + getSizeForInt()                             // EventCode
-        + getSizeForBool()                            // Event on left
-        ;
-
-}
