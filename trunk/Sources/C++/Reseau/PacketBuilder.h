@@ -10,6 +10,7 @@ typedef unsigned char byte;
 #endif
 
 #include "NetworkEnums.h"
+#include "Vecteur.h"
 
 namespace
 {
@@ -118,6 +119,16 @@ public:
 	PacketBuilder& operator<<(double pDoubleToAdd) { addDouble(pDoubleToAdd); return *this; }
 	//Strings
 	PacketBuilder& operator<<(std::string pStringToAdd) { addString(pStringToAdd); return *this; }
+    //Vectors
+    template<class T,int N>
+    PacketBuilder& operator<<(Vecteur<T,N> pVector) { 
+        for(int i=0; i<N; ++i)
+        {
+            (*this )<< pVector[i];
+        }
+        return *this; 
+    }
+
 
 	//Generic overload
 	template<typename T>

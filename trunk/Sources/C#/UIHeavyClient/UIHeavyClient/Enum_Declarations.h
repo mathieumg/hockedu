@@ -355,6 +355,41 @@ PacketTypes
 #endif
 ;
 
+#if CSHARP
+public enum GameEventCode
+#else
+typedef enum
+#endif
+{
+    GAME_EVENT_READY, 
+    GAME_EVENT_START_GAME, 
+    GAME_EVENT_PAUSE_GAME_REQUESTED, 
+    GAME_EVENT_PAUSE_GAME_SIGNAL, 
+    GAME_EVENT_PAUSE_GAME_USER_DISCONNECTED, 
+    GAME_EVENT_PLAYER_SCORED, 
+    GAME_EVENT_GAME_ENDED, 
+    GAME_EVENT_CHANGE_LAST_MALLET, 
+    GAME_EVENT_RESET_PUCK,
+    GAME_EVENT_ADD_AI,
+    GAME_EVENT_ERROR
+}
+#if !CSHARP
+GameEventCode
+#endif
+;
+
+// Differents types de paquets
+#if CSHARP
+public enum PaquetBonusAction
+#else
+typedef enum
+#endif
+{BONUS_ACTION_SPAN, BONUS_ACTION_EXECUTE, BONUS_ACTION_END}
+#if !CSHARP
+PaquetBonusAction
+#endif
+;
+
 
 #if CSHARP
 }

@@ -18,6 +18,7 @@ typedef unsigned char byte;
 #endif
 
 #include "NetworkEnums.h"
+#include "Vecteur.h"
 
 
 class PacketReader
@@ -80,7 +81,27 @@ public:
 
     void clearBuffer();
 
+    PacketReader& operator>>(int32_t& val){ val = readInteger(); return *this; }
+    PacketReader& operator>>(std::string& val)
+    { 
+        int s = readInteger(); 
+        val.resize(s);
+        readString((uint8_t*)val.c_str(),s);
+        return *this; 
+    }
+    //Vectors
+    template<typename T,int N>
+    PacketReader& operator>>(Vecteur<T,N>& pVector) { 
+        for(int i=0; i<N; ++i)
+        {
+            (*this )>> pVector[i];
+        }
+        return *this; 
+    }
 
+    template<typename T>
+    PacketReader& operator>>(T& val){ val = readData<T>(); return *this; }
+    
 
 #if PACKET_DECRYPTOR
     bool mPrintingToOut;
@@ -157,7 +178,7 @@ T PacketReader::swapBytes( T& pValueToSwap )
 template<class T>
 T PacketReader::readData( )
 {
-    T wDataRead = 0;
+    T wDataRead = (T)0;
 #if PACKET_DECRYPTOR
     mInputFile.read((char*)&wDataRead,sizeof(T));
     std::cout << mInputFile.tellg() << std::endl;

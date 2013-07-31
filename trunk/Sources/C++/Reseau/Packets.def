@@ -1,0 +1,29 @@
+
+
+DO NOT REMOVE declaration or script building will fail
+Will simply write content in the header  ( good place for forward declaration and/or includes )
+###
+#include "Enum_Declarations.h"
+#include <string>
+#include "Vecteur.h"
+
+
+
+###
+
+PacketDataBonus
+{
+    Vecteur<float,3>  mBonusPosition; // Position du bonus
+    BonusType         mBonusType;
+    PaquetBonusAction mBonusAction; // Action a executer pour le bonus
+    int               mGameId, test2; // Id de la game
+}
+
+PacketDataGameEvent
+{
+    int             mGameId;              // GameId of the game you want to connect to
+    std::string     mPlayer1Name;         // PlayerName1
+    std::string     mPlayer2Name;         // PlayerName2
+    GameEventCode   mEvent;               // GameEvent
+    bool            mEventOnPlayerLeft;   // If the event is specified on the left player
+}

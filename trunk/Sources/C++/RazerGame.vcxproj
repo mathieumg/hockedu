@@ -100,6 +100,9 @@
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
     <IncludePath Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSdkDir)include;$(FrameworkSDKDir)\include;C:\Program Files\Java\jdk1.6.0_25\include;</IncludePath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <PreBuildEventUseInBuild>false</PreBuildEventUseInBuild>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
       <TargetEnvironment>X64</TargetEnvironment>
@@ -126,11 +129,17 @@
       <TargetMachine>MachineX64</TargetMachine>
     </Link>
     <PostBuildEvent>
-      <Command>$(SolutionDir)..\Java\LancerInterfaceGraphiqueTests.bat</Command>
+      <Command>py $(SolutionDir)\Reseau\BuildPacketsDefinitions.py</Command>
     </PostBuildEvent>
     <PostBuildEvent>
       <Message>Tests Unitaires</Message>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>py $(SolutionDir)\Reseau\BuildPacketsDefinitions.py</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Build Packets Definitions Files</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='WithJava|x64'">
     <Midl>
@@ -381,6 +390,7 @@
     <ClCompile Include="Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="Reseau\PacketBuilder.cpp" />
     <ClCompile Include="Reseau\PacketReader.cpp" />
+    <ClCompile Include="Reseau\PacketsDefinitions.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
@@ -581,6 +591,7 @@
     <ClInclude Include="Reseau\ObjetsGlobaux\PartieServeurs.h" />
     <ClInclude Include="Reseau\PacketBuilder.h" />
     <ClInclude Include="Reseau\PacketReader.h" />
+    <ClInclude Include="Reseau\PacketsDefinitions.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerConnAutomatique.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
@@ -621,6 +632,16 @@
     <ClInclude Include="Tests\UtilitaireTests.h" />
     <ClInclude Include="Tests\VisiteurNoeudTest.h" />
     <ClInclude Include="Tests\XMLTests.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Reseau\BuildPacketsDefinitions.py">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">call "$(SolutionDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Reseau\PacketsDefinitions.h;$(SolutionDir)\Reseau\PacketsDefinitions.cpp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Packets Definitions</Message>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Reseau\Packets.def</AdditionalInputs>
+    </CustomBuild>
+    <None Include="Reseau\Packets.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

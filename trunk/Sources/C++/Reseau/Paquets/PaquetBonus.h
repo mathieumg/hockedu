@@ -14,8 +14,7 @@
 
 class UsinePaquetBonus;
 
-// Differents types de paquets
-enum PaquetBonusAction {BONUS_ACTION_SPAN, BONUS_ACTION_EXECUTE, BONUS_ACTION_END};
+
 
 
 ///////////////////////////////////////////////////////////////////////////

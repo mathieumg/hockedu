@@ -668,6 +668,9 @@
     <ClCompile Include="..\..\Commun\Utilitaire\AnimationNodePosition.cpp">
       <Filter>Sources Files\Arbre</Filter>
     </ClCompile>
+    <ClCompile Include="Reseau\PacketsDefinitions.cpp">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1222,5 +1225,18 @@
     <ClInclude Include="..\..\Commun\Utilitaire\AnimationNodePosition.h">
       <Filter>Sources Files\Arbre</Filter>
     </ClInclude>
+    <ClInclude Include="Reseau\PacketsDefinitions.h">
+      <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Reseau\Packets.def">
+      <Filter>Sources Files\Reseau</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="Reseau\BuildPacketsDefinitions.py">
+      <Filter>Sources Files\Reseau</Filter>
+    </CustomBuild>
   </ItemGroup>
 </Project>
