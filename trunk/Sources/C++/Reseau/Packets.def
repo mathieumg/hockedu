@@ -6,6 +6,7 @@ Will simply write content in the header  ( good place for forward declaration an
 #include "Enum_Declarations.h"
 #include <string>
 #include "Vecteur.h"
+#include <stdint.h>
 
 
 

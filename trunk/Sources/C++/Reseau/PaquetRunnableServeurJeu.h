@@ -10,9 +10,7 @@
 namespace PaquetRunnable
 {
     // Delegates specifiques au serveur jeu
-
-    int RunnableAuthentificationServeurJeuServerGame(Paquet* pPaquet);
-
+    
     int RunnableChatMessageServerGame(Paquet* pPaquet);
 
     int RunnableUserStatusServerGame(Paquet* pPaquet);

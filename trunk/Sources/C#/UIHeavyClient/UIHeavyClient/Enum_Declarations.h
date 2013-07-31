@@ -334,10 +334,8 @@ public enum PacketTypes
 typedef enum
 #endif
 {
-    CONN_AUTOMATIQUE,
     EVENT,
     LOGIN_INFO,
-    CHAT_MESSAGE,
     USER_STATUS,
     GAME_STATUS,
     GAME_CREATION_REQUEST,

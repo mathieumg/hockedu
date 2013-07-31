@@ -29,12 +29,6 @@
     <ClCompile Include="..\Reseau\GestionnaireReseauServeurMaitre.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetChatMessage.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Reseau\RelayeurMessage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -62,16 +56,10 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandler.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\Paquet.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetConnAutomatique.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp">
@@ -197,6 +185,9 @@
     <ClCompile Include="..\Reseau\NetworkEnums.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\Reseau\PacketsDefinitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ControllerServeurMaitre.h">
@@ -204,9 +195,6 @@
     </ClInclude>
     <ClInclude Include="..\Reseau\GestionnaireReseauServeurMaitre.h">
       <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetChatMessage.h">
-      <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\RelayeurMessage.h">
       <Filter>Source Files</Filter>
@@ -230,9 +218,6 @@
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\Paquet.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetConnAutomatique.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h">
@@ -293,9 +278,6 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="..\reseau\Paquets\PaquetGameConnection.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetGameRegistration.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="GameServerManager.h">

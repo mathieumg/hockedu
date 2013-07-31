@@ -11,7 +11,6 @@
 #include <iomanip>
 #include <stdexcept>
 
-#include "Paquets\PaquetChatMessage.h"
 #include "RelayeurMessage.h"
 #include "Paquets\PaquetUserStatus.h"
 #include "Paquets\PaquetGameStatus.h"
@@ -38,56 +37,9 @@ SINGLETON_DECLARATION_CPP(PaquetRunnableServeurJeuHelper);
 /// ***** PAR CONVENTION, METTRE Game A LA FIN DU NOM DES DELEGATES
 
 
-int PaquetRunnable::RunnableAuthentificationServeurJeuServerGame( Paquet* pPaquet )
-{
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
-    std::ostringstream wTimeOutput;
-    time_t wT = time(0);
-    struct tm wTime;
-    if(_localtime64_s(&wTime, &wT))
-    {
-        // If time == NULL
-        std::cout << "[00:00:00]";
-    }
-    else
-    {
-        wTimeOutput << std::setfill('0') << "["
-            << std::setw(2) << wTime.tm_hour
-            << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_min
-            << std::setw(1) << ":"
-            << std::setw(2) << wTime.tm_sec
-            << std::setw(1) << "]";
-    }
-
-
-    wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
-    std::cout << wTimeOutput.str();
-
-    // On veut relayer le message a une personne en particulier ou a tout le monde
-    // On ne call donc pas delete dessus tout suite
-    if(wPaquet->IsTargetGroup())
-    {
-        // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
-    }
-    else
-    {
-        // On envoie a tout le monde
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, NULL, TCP);
-    }
-
-    return 0;
-}
-
-
-
-
-
 int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
+    PacketDataChatMessage* wData = (PacketDataChatMessage*) pPaquet->getData();
 
 
     std::ostringstream wTimeOutput;
@@ -110,22 +62,22 @@ int PaquetRunnable::RunnableChatMessageServerGame( Paquet* pPaquet )
     }
 
 
-    wTimeOutput << "[" << wPaquet->getOrigin() << "]: " << wPaquet->getMessage() << std::endl;
+    wTimeOutput << "[" << wData->mOrigin << "]: " << wData->mMessage << std::endl;
     std::cout << wTimeOutput.str();
 
     // On veut relayer le message a une personne en particulier ou a tout le monde
     // On ne call donc pas delete dessus tout suite
-    if(wPaquet->IsTargetGroup())
+    if(wData->mIsTargetGroup)
     {
         // On l'envoie a la personne dans groupName seulement
-        RelayeurMessage::obtenirInstance()->relayerPaquet(wPaquet->getGroupName(), wPaquet, TCP);
+        RelayeurMessage::obtenirInstance()->relayerPaquet(wData->mGroupName, pPaquet, TCP);
     }
     else
     {
         // On envoie a tout le monde
         std::set<std::string> wListeAIgnorer;
         wListeAIgnorer.insert("MasterServer");
-        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet, &wListeAIgnorer, TCP);
+        RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(pPaquet, &wListeAIgnorer, TCP);
     }
 
     return 0;

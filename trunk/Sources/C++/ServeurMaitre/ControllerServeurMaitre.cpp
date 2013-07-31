@@ -30,7 +30,7 @@ ControllerServeurMaitre::ControllerServeurMaitre()
     // Pas de connexion automatique pour le serveur maitre
     //mPaquetRunnables[CONN_AUTOMATIQUE]    = PaquetRunnable::RunnableConnAutomatiqueServer;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusMasterServer;
-    mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageMasterServer;
+    mPaquetRunnables[PT_PACKETDATACHATMESSAGE]= PaquetRunnable::RunnableChatMessageMasterServer;
     mPaquetRunnables[GAME_STATUS]           = PaquetRunnable::RunnableGameStatusMasterServer;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationMasterServer;
     mPaquetRunnables[GAME_CONNECTION]       = PaquetRunnable::RunnableGameConnectionMasterServer;

@@ -8,11 +8,8 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "UsinePaquet.h"
-#include "PaquetChatMessage.h"
-#include "PaquetConnAutomatique.h"
 #include "PaquetEvent.h"
 #include "PaquetLoginInfo.h"
-#include "PaquetChatMessage.h"
 #include "PaquetUserStatus.h"
 #include "PaquetGameStatus.h"
 #include "PaquetGameCreation.h"
@@ -23,8 +20,6 @@
 #include "PaquetPortal.h"
 #include "PaquetBonus.h"
                           
-PAQUET_FACTORY_IMPLEMENTATION(ChatMessage);
-PAQUET_FACTORY_IMPLEMENTATION(ConnAutomatique);
 PAQUET_FACTORY_IMPLEMENTATION(Event);
 PAQUET_FACTORY_IMPLEMENTATION(LoginInfo);
 PAQUET_FACTORY_IMPLEMENTATION(UserStatus);
@@ -40,10 +35,8 @@ PAQUET_FACTORY_IMPLEMENTATION(Bonus);
 
 const std::string PaquetNamesArray[NB_PACKET_TYPES] = 
 {
-   "CONN_AUTOMATIQUE"     ,//CONN_AUTOMATIQUE            
    "EVENT"                ,//EVENT                       
    "LOGIN_INFO"           ,//LOGIN_INFO
-   "CHAT_MESSAGE"         ,//CHAT_MESSAGE                
    "USER_STATUS"          ,//USER_STATUS                 
    "GAME_STATUS"          ,//GAME_STATUS                 
    "GAME_CREATION_REQUEST",//GAME_CREATION_REQUEST       
@@ -57,10 +50,8 @@ const std::string PaquetNamesArray[NB_PACKET_TYPES] =
 
 UsinePaquet* PaquetFactories[NB_PACKET_TYPES] =
 {
-    new UsinePaquetConnAutomatique           ,//CONN_AUTOMATIQUE            
     new UsinePaquetEvent                     ,//EVENT                       
     new UsinePaquetLoginInfo                 ,//LOGIN_INFO
-    new UsinePaquetChatMessage               ,//CHAT_MESSAGE                
     new UsinePaquetUserStatus                ,//USER_STATUS                 
     new UsinePaquetGameStatus                ,//GAME_STATUS                 
     new UsinePaquetGameCreation              ,//GAME_CREATION_REQUEST       

@@ -168,8 +168,8 @@ generators +=  "};                                                          \n"
 
 generators +=  "PacketDataBase* CreatePacketData(PacketDataTypes t)             \n"
 generators +=  "{                                                               \n"
-generators +=  "    unsigned int i = t-PT_NONE;                                     \n"
-generators +=  "    return i < NB_PACKETDATATYPE ? generators[i]() : NULL;                                     \n"
+generators +=  "    unsigned int i = t-PT_NONE-1;                                     \n"
+generators +=  "    return i < (NB_PACKETDATATYPE-PT_NONE) ? generators[i]() : NULL;                                     \n"
 generators +=  "}\n"
 
 SourceFile.write(generators)

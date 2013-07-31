@@ -11,7 +11,6 @@
 #include "GestionnaireReseauClientLourd.h"
 #include "PaquetHandlers\PacketHandler.h"
 #include "UsinePaquet.h"
-#include "PaquetChatMessage.h"
 #include "ControllerCSharp.h"
 #include "UsineNoeud.h"
 #include "PlayerHuman.h"

@@ -33,20 +33,14 @@ void PacketHandler::handlePacketReceptionSpecific( PacketReader& pPacketReader, 
 {
     if(pRunnable)
     {
-        Paquet* wPaquet = new Paquet();
-        wPaquet->setData(CreatePacketData((PacketDataTypes)packetType));
-        pRunnable(wPaquet);
-#if !SHIPPING
-        try
+        auto data = CreatePacketData((PacketDataTypes)packetType);
+        if(data)
         {
-            wPaquet->getOperation();
-            checkf("Packet not freed in runnable")
+            data->ReceiveData(pPacketReader);
+            Paquet* wPaquet = new Paquet();
+            wPaquet->setData(data);
+            pRunnable(wPaquet);
         }
-        catch(...)
-        {
-
-        }
-#endif
     }
 }
 
@@ -74,10 +68,8 @@ PacketHandler* PacketHandler::GetHandler( unsigned int type )
 
 PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES] =
 {
-    new PacketHandlerConnAutomatique,//CONN_AUTOMATIQUE,
     new PacketHandlerEvent          ,//EVENT,
     new PacketHandlerLoginInfo      ,//LOGIN_INFO,
-    new PacketHandlerChatMessage    ,//CHAT_MESSAGE,
     new PacketHandlerUserStatus     ,//USER_STATUS,
     new PacketHandlerGameStatus     ,//GAME_STATUS,
     new PacketHandlerGameCreation   ,//GAME_CREATION_REQUEST,

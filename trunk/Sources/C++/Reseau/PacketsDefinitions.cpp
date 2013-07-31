@@ -5,14 +5,14 @@
 #include "PacketsDefinitions.h"
 #include "PacketReader.h"
 #include "PacketBuilder.h"
-void PacketDataChatMessage::ReceiveData(PacketReader& r)
+void PacketDataBonus::ReceiveData(PacketReader& r)
 {
-    r >> mTimestamp >> mMessage >> mIsTargetGroup >> mGroupName >> mOrigin;
+    r >> mBonusPosition >> mBonusType >> mBonusAction >> mGameId >> test2;
 }
 
-void PacketDataChatMessage::SendData(PacketBuilder& b)
+void PacketDataBonus::SendData(PacketBuilder& b)
 {
-    b << mTimestamp << mMessage << mIsTargetGroup << mGroupName << mOrigin;
+    b << mBonusPosition << mBonusType << mBonusAction << mGameId << test2;
 }
 
 void PacketDataGameEvent::ReceiveData(PacketReader& r)
@@ -25,28 +25,28 @@ void PacketDataGameEvent::SendData(PacketBuilder& b)
     b << mGameId << mPlayer1Name << mPlayer2Name << mEvent << mEventOnPlayerLeft;
 }
 
-void PacketDataBonus::ReceiveData(PacketReader& r)
+void PacketDataChatMessage::ReceiveData(PacketReader& r)
 {
-    r >> mBonusPosition >> mBonusType >> mBonusAction >> mGameId >> test2;
+    r >> mTimestamp >> mMessage >> mIsTargetGroup >> mGroupName >> mOrigin;
 }
 
-void PacketDataBonus::SendData(PacketBuilder& b)
+void PacketDataChatMessage::SendData(PacketBuilder& b)
 {
-    b << mBonusPosition << mBonusType << mBonusAction << mGameId << test2;
+    b << mTimestamp << mMessage << mIsTargetGroup << mGroupName << mOrigin;
 }
 
 typedef PacketDataBase* (*PacketDataGenerator)();
-PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
-PacketDataBase* createPacketDataGameEvent(){return new PacketDataGameEvent();}
 PacketDataBase* createPacketDataBonus(){return new PacketDataBonus();}
+PacketDataBase* createPacketDataGameEvent(){return new PacketDataGameEvent();}
+PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
 const PacketDataGenerator generators[3] =            
 {                                                           
-    createPacketDataChatMessage,
-    createPacketDataGameEvent,
     createPacketDataBonus,
+    createPacketDataGameEvent,
+    createPacketDataChatMessage,
 };                                                          
 PacketDataBase* CreatePacketData(PacketDataTypes t)             
 {                                                               
-    unsigned int i = t-PT_NONE;                                     
-    return i < NB_PACKETDATATYPE ? generators[i]() : NULL;                                     
+    unsigned int i = t-PT_NONE-1;                                     
+    return i < (NB_PACKETDATATYPE-PT_NONE) ? generators[i]() : NULL;                                     
 }

@@ -129,12 +129,18 @@ void DisconnectMasterServer(  )
 
 void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) UsinePaquet::creerPaquet(CHAT_MESSAGE);
-    wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(false);
-    wPaquet->setGroupName("lobby");
-    wPaquet->setTimestamp(time(0));
-    wPaquet->setOrigin(pUsername);
+    Paquet* wPaquet = new Paquet();
+
+    auto data = (PacketDataChatMessage*)CreatePacketData(PT_PACKETDATACHATMESSAGE);
+    if(data)
+    {
+        data->mMessage = pMessage;
+        data->mIsTargetGroup = false;
+        data->mGroupName = "lobby";
+        data->mTimestamp = time(0);
+        data->mOrigin = pUsername;
+        wPaquet->setData(data);
+    }
 
     try
     {
@@ -147,12 +153,18 @@ void SendMessageDLL(char * pConnectionId, char* pUsername, char * pMessage)
 
 void SendMessageGameDLL( char * pMessage )
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) UsinePaquet::creerPaquet(CHAT_MESSAGE);
-    wPaquet->setMessage(pMessage);
-    wPaquet->setIsTargetGroup(false);
-    wPaquet->setGroupName("ingame");
-    wPaquet->setTimestamp(time(0));
-    wPaquet->setOrigin(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    Paquet* wPaquet = new Paquet();
+
+    auto data = (PacketDataChatMessage*)CreatePacketData(PT_PACKETDATACHATMESSAGE);
+    if(data)
+    {
+        data->mMessage = pMessage;
+        data->mIsTargetGroup = false;
+        data->mGroupName = "ingame";
+        data->mTimestamp = time(0);
+        data->mOrigin = GestionnaireReseau::obtenirInstance()->getPlayerName();
+        wPaquet->setData(data);
+    }
 
     try
     {

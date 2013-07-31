@@ -34,9 +34,8 @@ ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceiv
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
     mPaquetRunnables[EVENT]                 = PaquetRunnable::RunnableEvent;
-    mPaquetRunnables[CONN_AUTOMATIQUE]      = PaquetRunnable::RunnableConnAutomatiqueClient;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusClient;
-    mPaquetRunnables[CHAT_MESSAGE]          = PaquetRunnable::RunnableChatMessageClient;
+    mPaquetRunnables[PT_PACKETDATACHATMESSAGE]= PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[MAILLET]               = PaquetRunnable::RunnableMailletClient;
     mPaquetRunnables[RONDELLE]              = PaquetRunnable::RunnableRondelleClient;
     mPaquetRunnables[GAME_CREATION_REQUEST] = PaquetRunnable::RunnableGameCreationClient;

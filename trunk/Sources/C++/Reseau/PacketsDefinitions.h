@@ -6,6 +6,7 @@
 #include "Enum_Declarations.h"
 #include <string>
 #include "Vecteur.h"
+#include <stdint.h>
 
 
 
@@ -14,9 +15,9 @@ class PacketBuilder;
 enum PacketDataTypes
 {
     PT_NONE=666,
-    PT_PACKETDATACHATMESSAGE,
-    PT_PACKETDATAGAMEEVENT,
     PT_PACKETDATABONUS,
+    PT_PACKETDATAGAMEEVENT,
+    PT_PACKETDATACHATMESSAGE,
     NB_PACKETDATATYPE,
 };
 
@@ -28,27 +29,24 @@ public:
     virtual PacketDataTypes GetType() = 0;
  };
 
-class PacketDataChatMessage : public PacketDataBase
+class PacketDataBonus : public PacketDataBase
 {
 public:
-    // Timestamp (should be the same as __int64)
-    int64_t mTimestamp;
+    // Position du bonus
+    Vecteur<float,3> mBonusPosition;
 
-    // Message a envoyer
-    std::string mMessage;
+    //
+    BonusType mBonusType;
 
-    // True means the target is a group, false means it's only one player
-    bool mIsTargetGroup;
+    // Action a executer pour le bonus
+    PaquetBonusAction mBonusAction;
 
-    // Or player name if mIsTragetGroup == false
-    std::string mGroupName;
-
-    // Mettre le nom du PC local pour eviter les loop infinies sur le network et eviter de recevoir ses propres messages
-    std::string mOrigin;
+    // Id de la game
+    int mGameId, test2;
 
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
-    PacketDataTypes GetType(){ return PT_PACKETDATACHATMESSAGE;}
+    PacketDataTypes GetType(){ return PT_PACKETDATABONUS;}
 };
 
 class PacketDataGameEvent : public PacketDataBase
@@ -74,24 +72,27 @@ public:
     PacketDataTypes GetType(){ return PT_PACKETDATAGAMEEVENT;}
 };
 
-class PacketDataBonus : public PacketDataBase
+class PacketDataChatMessage : public PacketDataBase
 {
 public:
-    // Position du bonus
-    Vecteur<float,3> mBonusPosition;
+    // Timestamp (should be the same as __int64)
+    int64_t mTimestamp;
 
-    //
-    BonusType mBonusType;
+    // Message a envoyer
+    std::string mMessage;
 
-    // Action a executer pour le bonus
-    PaquetBonusAction mBonusAction;
+    // True means the target is a group, false means it's only one player
+    bool mIsTargetGroup;
 
-    // Id de la game
-    int mGameId, test2;
+    // Or player name if mIsTragetGroup == false
+    std::string mGroupName;
+
+    // Mettre le nom du PC local pour eviter les loop infinies sur le network et eviter de recevoir ses propres messages
+    std::string mOrigin;
 
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
-    PacketDataTypes GetType(){ return PT_PACKETDATABONUS;}
+    PacketDataTypes GetType(){ return PT_PACKETDATACHATMESSAGE;}
 };
 
 PacketDataBase* CreatePacketData(PacketDataTypes t);

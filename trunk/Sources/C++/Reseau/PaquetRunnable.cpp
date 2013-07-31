@@ -4,8 +4,6 @@
 #include "GestionnaireReseau.h"
 #include "Paquets/PaquetEvent.h"
 #include "Paquets/PaquetLoginInfo.h"
-#include "Paquets/PaquetChatMessage.h"
-#include "Paquets/PaquetConnAutomatique.h"
 #include "Paquets/PaquetUserStatus.h"
 #include "RelayeurMessage.h"
 
@@ -38,49 +36,13 @@ int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 // Gere la reception de messages de chat
 int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 {
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
+    PacketDataChatMessage* wData = (PacketDataChatMessage*) pPaquet->getData();
+    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wData->mOrigin.c_str(),wData->mMessage.c_str(), wData->mGroupName.c_str());
     
-    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str(), wPaquet->getGroupName().c_str());
-    
-    wPaquet->removeAssociatedQuery();
+    pPaquet->removeAssociatedQuery();
     return 0;
 }
 
-// Serveur jeu seulement
-// Gere la reception de messages de chat
-int PaquetRunnable::RunnableChatMessageServer( Paquet* pPaquet )
-{
-    PaquetChatMessage* wPaquet = (PaquetChatMessage*) pPaquet;
-
-    GestionnaireReseau::obtenirInstance()->transmitEvent(CHAT_MESSAGE_RECEIVED,wPaquet->getOrigin().c_str(),wPaquet->getMessage().c_str());
-    wPaquet->removeAssociatedQuery();
-    return 0;
-}
-
-
-// Client seulement
-// Doit recevoir la reponse de conn automatique du serveur
-int PaquetRunnable::RunnableConnAutomatiqueClient( Paquet* pPaquet )
-{
-    PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
-    // Implementer
-    return 0;
-}
-
-
-
-// Serveur jeu seulement.
-// Doit Recevoir la demande de conn automatique et repondre au client
-int PaquetRunnable::RunnableConnAutomatiqueServer( Paquet* pPaquet )
-{
-    PaquetConnAutomatique* wPaquet = (PaquetConnAutomatique*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
-
-    // Implementer
-    return 0;
-}
 
 // Client seulement
 // Doit gerer le status de connexion des autres utilisateurs
@@ -104,37 +66,6 @@ int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
 
     return 0;
 }
-
-
-// Pour serveur jeu
-// Doit gerer le status de connexion des autres utilisateurs
-int PaquetRunnable::RunnableUserStatusServer( Paquet* pPaquet )
-{
-    PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
-
-    return 0;
-}
-
-
-
-
-int PaquetRunnable::RunnableGameStatusClient( Paquet* pPaquet )
-{
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
-
-    return 0;
-}
-
-int PaquetRunnable::RunnableGameStatusServer( Paquet* pPaquet )
-{
-    PaquetGameStatus* wPaquet = (PaquetGameStatus*) pPaquet;
-    throw std::runtime_error("Not yet implemented");
-
-    return 0;
-}
-
 
 
 
