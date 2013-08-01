@@ -29,6 +29,7 @@ using System.Threading;
 using System.Net.NetworkInformation;
 using System.Net;
 using System.Diagnostics;
+using System.Xml;
 
 namespace UIHeavyClient
 {
@@ -146,7 +147,7 @@ namespace UIHeavyClient
         public ConnectionSuccessfulCallback mConnectionSuccessfulCallback = null;
 
         // The server list
-        Server[] listedServer;
+        List<Server> listedServer = new List<Server>();
 
         ////////////////////////////////////////////////////////////////////////
         /// @propertie string LoginControl.UserName
@@ -210,6 +211,44 @@ namespace UIHeavyClient
             errorMessageLabel.Content = message;
         }
 
+        private class UpdateComboBoxServerLambda
+        {
+            public int i;
+            public Server s;
+            public bool isAvailable;
+            public ComboBox serverComboBox;
+            public void Lambda()
+            {
+                ComboBoxItem buffer = new ComboBoxItem();
+                buffer.Content = s.mName + (isAvailable ? " (Online)" : " (Offline)");
+                buffer.Background = serverComboBox.Background;
+                buffer.Foreground = serverComboBox.Foreground;
+                int sel = serverComboBox.SelectedIndex;
+                // changing content can unselect item
+                serverComboBox.Items[i] = buffer;
+                serverComboBox.SelectedIndex = sel;
+            }
+        }
+
+        public void RefreshServersState()
+        {
+            Thread newThread = new Thread(new ThreadStart(() =>
+            {
+                int i = 0;
+                foreach (Server s in listedServer)
+                {
+                    bool isAvailable = TcpPing.ping(s.mIPAdress) && s.isAvailable;
+                    UpdateComboBoxServerLambda l = new UpdateComboBoxServerLambda();
+                    l.i = i;
+                    l.s = s;
+                    l.isAvailable = isAvailable;
+                    l.serverComboBox = serverComboBox;
+                    MainWindowHandler.mTaskManager.ExecuteTask(new Action(l.Lambda));
+                    ++i;
+                }
+            }));
+            newThread.Start();
+        }
         ////////////////////////////////////////////////////////////////////////
         /// @fn LoginControl.LoginControl()
         ///
@@ -237,23 +276,75 @@ namespace UIHeavyClient
             {
                 serverComboBox.IsEnabledChanged += ControlEnabledChanged;
                 ManualServerEntry.IsEnabledChanged += ControlEnabledChanged;
-                listedServer = new Server[]
+
+                try
                 {
-                    new Server("Main Server", "Hockedu.com"/*"173.231.120.124"*/),
-                    new Server("Local", "127.0.0.1"),
-                };
+                    XmlTextReader reader = new XmlTextReader("servers.xml");
+                    string name = string.Empty;
+                    while (reader.Read())
+                    {
+                        switch (reader.NodeType)
+                        {
+                            case XmlNodeType.Element: // The node is an element.
+                                name = reader.Name;
+                                break;
+                            case XmlNodeType.Text: //Display the text in each element.
+                                if (name != string.Empty)
+                                {
+                                    listedServer.Add(new Server(name, reader.Value));
+                                    name = string.Empty;
+                                }
+                                break;
+                            case XmlNodeType.EndElement: //Display the end of the element.
+                                break;
+                        }
+                    }
+                    reader.Close();
+                }
+                catch (System.Exception ex)
+                {
+                    listedServer.Add(new Server("MainServer", "hockedu.cloudapp.net"));
+                    listedServer.Add(new Server("SecondaryServer", "Hockedu.com"));
+                    listedServer.Add(new Server("Local", "127.0.0.1"));
+
+                    System.Console.WriteLine("Error reading server config file : {0}", ex.Message);
+                    try
+                    {
+                        XmlTextWriter writer = new XmlTextWriter("servers.xml", Encoding.UTF8);
+                        writer.WriteStartDocument();
+                        {
+                            writer.WriteStartElement("Servers");
+                            {
+                                writer.WriteElementString("MainServer", "hockedu.cloudapp.net");
+                                writer.WriteElementString("SecondaryServer", "hockedu.com");
+                                writer.WriteElementString("Local", "127.0.0.1");
+                            }
+                            writer.WriteEndElement();
+                        }
+                        writer.WriteEndDocument();
+                        writer.Close();
+                    }
+                    catch (System.Exception ex2)
+                    {
+                        System.Console.WriteLine("Error writing server config file : {0}", ex2.ToString());
+                    }
+                }
+                
 
                 foreach ( Server s in listedServer )
                 {
                     ComboBoxItem buffer = new ComboBoxItem();
-                    buffer.Content = s.mName;// +(s.isAvailable ? " (Actif)" : " (Inactif)");
+                    buffer.Content = s.mName + " (Pinging)";
                     buffer.Background = serverComboBox.Background;
                     buffer.Foreground = serverComboBox.Foreground;
 
                     serverComboBox.Items.Add( buffer );
                 }
-
                 serverComboBox.SelectedIndex = 0;
+
+                RefreshServersState();
+
+
             }
 
             cancelButton.IsEnabledChanged      += ControlEnabledChanged;
@@ -366,7 +457,7 @@ namespace UIHeavyClient
                         ipAdress = listedServer[serverComboBox.SelectedIndex].mIPAdress;
                         serverName = listedServer[serverComboBox.SelectedIndex].mName;
 
-                        if ( serverComboBox.SelectedIndex == 1 )
+                        if (serverName.Contains("Local"))
                         {
                             MainWindowHandler.StartServers();
                         }

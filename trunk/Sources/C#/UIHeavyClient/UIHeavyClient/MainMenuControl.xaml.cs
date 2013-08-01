@@ -176,6 +176,7 @@ namespace UIHeavyClient
             mOnlineGroupBox.Visibility = Visibility.Visible;
             mQuickPlayGroupBox.Visibility = Visibility.Hidden;
             mLoginControl.SetFocusToUserName();
+            mLoginControl.RefreshServersState();
         }
 
         ////////////////////////////////////////////////////////////////////////

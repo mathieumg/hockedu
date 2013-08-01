@@ -131,6 +131,7 @@
     <Compile Include="ServerMapPrompt.xaml.cs">
       <DependentUpon>ServerMapPrompt.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TcpPing.cs" />
     <Compile Include="UserControls\AchievementUnlocked.xaml.cs">
       <DependentUpon>AchievementUnlocked.xaml</DependentUpon>
     </Compile>
@@ -346,6 +347,11 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="HockeduLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="tcping.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
