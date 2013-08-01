@@ -334,7 +334,6 @@ public enum PacketTypes
 typedef enum
 #endif
 {
-    EVENT,
     LOGIN_INFO,
     USER_STATUS,
     GAME_STATUS,

@@ -89,7 +89,7 @@ Vecteur2 AIStratOffensiveRenforcement::appliquerStrategie( NoeudMaillet* maillet
 		int wTempsNecessaire = (int) ((wDistancePointImpactMaillet * rondelle->obtenirVelocite().norme()) / (context_.obtenirJv()->obtenirVitesse() * 13.0f));
 		//std::cout << "Temps necessaire: " << wTempsNecessaire << "\t Temps Impact: " << mTimeBeforeImpact << std::endl;
 
-		float wTempsUtilise = max(mTimeBeforeImpact, wTempsNecessaire);
+		float wTempsUtilise = (float)max(mTimeBeforeImpact, wTempsNecessaire);
 
         if(!joueurVirtuel->isLearning() && !tirReussi_)
         {

@@ -47,14 +47,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\Commun\Utilitaire\Solution_Defines.cpp" />
     <ClCompile Include="..\C++\Reseau\NetworkEnums.cpp" />
     <ClCompile Include="..\C++\Reseau\ObjetsGlobaux\JoueurServeurs.cpp" />
     <ClCompile Include="..\C++\Reseau\ObjetsGlobaux\PartieServeurs.cpp" />
     <ClCompile Include="..\C++\Reseau\PacketBuilder.cpp" />
     <ClCompile Include="..\C++\Reseau\PacketReader.cpp" />
+    <ClCompile Include="..\C++\Reseau\PacketsDefinitions.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp" />
@@ -66,7 +67,6 @@
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetBonus.cpp" />
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameCreation.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameEvent.cpp" />

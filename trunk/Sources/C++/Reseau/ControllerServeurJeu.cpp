@@ -61,7 +61,7 @@ int CallbackSetPatieSyncerServeurJeu(int pGameId, GameStatus)
 ControllerServeurJeu::ControllerServeurJeu()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT]                         = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[PT_PACKETDATAEVENT]            = PaquetRunnable::RunnableEvent;
     mPaquetRunnables[USER_STATUS]                   = PaquetRunnable::RunnableUserStatusServerGame;
     mPaquetRunnables[PT_PACKETDATACHATMESSAGE]      = PaquetRunnable::RunnableChatMessageServerGame;
     mPaquetRunnables[GAME_STATUS]                   = PaquetRunnable::RunnableGameStatusServerGame;

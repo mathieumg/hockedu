@@ -29,7 +29,6 @@
 #include "PaquetHandlers/PacketHandler.h"
 #include <utility>
 #include "Paquets/Paquet.h"
-#include "Paquets/PaquetEvent.h"
 
 ///Enet not yet used, only for initialisation of winsock so far.
 #include "enet/enet.h"
@@ -65,11 +64,13 @@ std::ofstream PacketRecvLogHandle;
 bool bLogCreated = false;
 bool bPacketLogCreated = false;
 bool bPacketRecvLogCreated = false;
+CRITICAL_SECTION CriticalSectionObjectSend,CriticalSectionObjectRecv;
 
 /// ne pas rename, utis/ comme extern ailleur
 std::string NETWORK_LOG_FILE_NAME = "GAME_LOG_";
 std::string NETWORK_PACKET_SENT_FILE_NAME = "GAME_PACKET_SENT_LOG_";
 std::string NETWORK_PACKET_RECV_FILE_NAME = "GAME_PACKET_RECV_LOG_";
+
 
 // Network Log setup
 // Methode pour creer le fichier de log
@@ -93,6 +94,7 @@ void PacketSentlogSetup()
 {
     if(!bPacketLogCreated)
     {
+        InitializeCriticalSection(&CriticalSectionObjectSend);
         FacadePortability::createDirectory("logs");
         time_t wTime = time(0);
         struct tm wTimeNow;
@@ -108,6 +110,7 @@ void PacketRecvlogSetup()
 {
     if(!bPacketRecvLogCreated)
     {
+        InitializeCriticalSection(&CriticalSectionObjectRecv);
         FacadePortability::createDirectory("logs");
         time_t wTime = time(0);
         struct tm wTimeNow;
@@ -809,11 +812,16 @@ void GestionnaireReseau::PacketSendToLog( const char* pMessage , int length )
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
     if(!PacketSentLogHandle.fail())
     {
-        unsigned int t = (unsigned int)time(0); // trunk it
-        PacketSentLogHandle.write((const char*)&t,4);
+        FILETIME ft_now;
+        GetSystemTimeAsFileTime(&ft_now);
+        int64_t ll_now = (LONGLONG)ft_now.dwLowDateTime + ((LONGLONG)(ft_now.dwHighDateTime) << 32LL);
+
+        EnterCriticalSection(&CriticalSectionObjectSend);
+        PacketSentLogHandle.write((const char*)&ll_now,8);
         PacketSentLogHandle.put(1);  //sending packet token
         PacketSentLogHandle.write(pMessage,length);
         PacketSentLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
+        LeaveCriticalSection(&CriticalSectionObjectSend);
     }
 }
 
@@ -835,11 +843,16 @@ void GestionnaireReseau::PacketReceivedToLog( const char* pMessage, int length )
     // On verifie que le fichier d'output a bien pu etre creer au demarrage
     if(!PacketRecvLogHandle.fail())
     {
-        unsigned int t = (unsigned int)time(0); // trunk it
-        PacketRecvLogHandle.write((const char*)&t,4);
+        FILETIME ft_now;
+        GetSystemTimeAsFileTime(&ft_now);
+        int64_t ll_now = (LONGLONG)ft_now.dwLowDateTime + ((LONGLONG)(ft_now.dwHighDateTime) << 32LL);
+
+        EnterCriticalSection(&CriticalSectionObjectRecv);
+        PacketRecvLogHandle.write((const char*)&ll_now,8);
         PacketRecvLogHandle.put(0); //receiving packet token
         PacketRecvLogHandle.write(pMessage,length);
         PacketRecvLogHandle.flush(); // Pour etre certain d'avoir tout meme si le programme crash
+        LeaveCriticalSection(&CriticalSectionObjectRecv);
     }
 }
 
@@ -1027,9 +1040,13 @@ void GestionnaireReseau::socketConnectionStateEvent( SPSocket pSocket, Connectio
 void GestionnaireReseau::disconnectClient( const std::string& pConnectionId, ConnectionType pConnectionType /*= TCP*/ )
 {
     SPSocket wSocket = getSocket(pConnectionId, pConnectionType);
-    PaquetEvent* wPaquet = (PaquetEvent*) UsinePaquet::creerPaquet(EVENT);
-    wPaquet->setEventCode(USER_DISCONNECTED);
-    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+
+    Paquet* wPaquet = new Paquet();
+    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+    data->mEventCode = USER_DISCONNECTED;
+    data->mMessage = GestionnaireReseau::obtenirInstance()->getPlayerName();
+    wPaquet->setData(data);
+
     CommunicateurReseau::envoyerPaquetSync(wPaquet, wSocket);
 }
 

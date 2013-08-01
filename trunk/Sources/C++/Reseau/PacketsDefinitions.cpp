@@ -5,24 +5,14 @@
 #include "PacketsDefinitions.h"
 #include "PacketReader.h"
 #include "PacketBuilder.h"
-void PacketDataBonus::ReceiveData(PacketReader& r)
+void PacketDataEvent::ReceiveData(PacketReader& r)
 {
-    r >> mBonusPosition >> mBonusType >> mBonusAction >> mGameId >> test2;
+    r >> mMessage >> mEventCode;
 }
 
-void PacketDataBonus::SendData(PacketBuilder& b)
+void PacketDataEvent::SendData(PacketBuilder& b)
 {
-    b << mBonusPosition << mBonusType << mBonusAction << mGameId << test2;
-}
-
-void PacketDataGameEvent::ReceiveData(PacketReader& r)
-{
-    r >> mGameId >> mPlayer1Name >> mPlayer2Name >> mEvent >> mEventOnPlayerLeft;
-}
-
-void PacketDataGameEvent::SendData(PacketBuilder& b)
-{
-    b << mGameId << mPlayer1Name << mPlayer2Name << mEvent << mEventOnPlayerLeft;
+    b << mMessage << mEventCode;
 }
 
 void PacketDataChatMessage::ReceiveData(PacketReader& r)
@@ -36,13 +26,11 @@ void PacketDataChatMessage::SendData(PacketBuilder& b)
 }
 
 typedef PacketDataBase* (*PacketDataGenerator)();
-PacketDataBase* createPacketDataBonus(){return new PacketDataBonus();}
-PacketDataBase* createPacketDataGameEvent(){return new PacketDataGameEvent();}
+PacketDataBase* createPacketDataEvent(){return new PacketDataEvent();}
 PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
-const PacketDataGenerator generators[3] =            
+const PacketDataGenerator generators[2] =            
 {                                                           
-    createPacketDataBonus,
-    createPacketDataGameEvent,
+    createPacketDataEvent,
     createPacketDataChatMessage,
 };                                                          
 PacketDataBase* CreatePacketData(PacketDataTypes t)             

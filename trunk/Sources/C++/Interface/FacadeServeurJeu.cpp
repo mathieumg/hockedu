@@ -13,7 +13,6 @@
 #include "..\Reseau\GestionnaireReseau.h"
 #include "..\Reseau\ControllerServeurJeu.h"
 #include "..\Reseau\PaquetHandlers\PacketHandler.h"
-#include "..\Reseau\Paquets\PaquetEvent.h"
 #include <stdexcept>
 #include <time.h>
 #include "GameManager.h"
@@ -43,9 +42,11 @@ void ConnectMasterServer(const std::string& wMasterServerIP)
     GestionnaireReseau* wGestionnaireReseau = GestionnaireReseau::obtenirInstance();
     wGestionnaireReseau->demarrerNouvelleConnection("MasterServer", wMasterServerIP, TCP);
 
-    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-    wPaquet->setEventCode(GAME_SERVER_AUTHENTICATION_REQUEST);
-    wPaquet->setMessage("");
+    Paquet* wPaquet = new Paquet();
+    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+    data->mEventCode = GAME_SERVER_AUTHENTICATION_REQUEST;
+    data->mMessage = "";
+    wPaquet->setData(data);
 
     SPSocket wSocketMasterServer = wGestionnaireReseau->getSocket("MasterServer", TCP);
     wSocketMasterServer->setOnConnectionCallback([wGestionnaireReseau, wPaquet]()->void {

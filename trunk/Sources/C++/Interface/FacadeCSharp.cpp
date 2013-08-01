@@ -14,7 +14,6 @@
 #include "FacadeModele.h"
 #include "..\Reseau\Paquets\PaquetGameEvent.h"
 #include "..\Reseau\RelayeurMessage.h"
-#include "..\Reseau\Paquets\PaquetEvent.h"
 #include "GameManager.h"
 #include "LaunchAchievementLite.h"
 #include "Partie.h"
@@ -115,14 +114,14 @@ void RequestLogin( char* pUsername, char* pPassword, char* pIpAdress )
 ////////////////////////////////////////////////////////////////////////
 void DisconnectMasterServer(  )
 {
-    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-    wPaquet->setEventCode(USER_DISCONNECTED);
-    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    Paquet* wPaquet = new Paquet();
+    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+    data->mEventCode = USER_DISCONNECTED;
+    data->mMessage = GestionnaireReseau::obtenirInstance()->getPlayerName();
+    wPaquet->setData(data);
     wPaquet->forceSendBrokenSocket();
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
-
     //Sleep(100);
-
     GestionnaireReseau::obtenirInstance()->removeSocket("MasterServer", TCP);
 }
 
@@ -882,9 +881,11 @@ void SetAchievementUnlocked( AchievementUnlockCallBack callback )
 ////////////////////////////////////////////////////////////////////////
 void requestGamesList()
 {
-    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-    wPaquet->setEventCode(GAMES_LIST_REQUEST);
-    wPaquet->setMessage(GestionnaireReseau::obtenirInstance()->getPlayerName());
+    Paquet* wPaquet = new Paquet();
+    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+    data->mEventCode = GAMES_LIST_REQUEST;
+    data->mMessage = GestionnaireReseau::obtenirInstance()->getPlayerName();
+    wPaquet->setData(data);
     GestionnaireReseau::obtenirInstance()->envoyerPaquet("MasterServer", wPaquet, TCP);
 }
 

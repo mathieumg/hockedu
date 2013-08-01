@@ -12,23 +12,6 @@ Will simply write content in the header  ( good place for forward declaration an
 
 ###
 
-PacketDataBonus
-{
-    Vecteur<float,3>  mBonusPosition; // Position du bonus
-    BonusType         mBonusType;
-    PaquetBonusAction mBonusAction; // Action a executer pour le bonus
-    int               mGameId, test2; // Id de la game
-}
-
-PacketDataGameEvent
-{
-    int             mGameId;              // GameId of the game you want to connect to
-    std::string     mPlayer1Name;         // PlayerName1
-    std::string     mPlayer2Name;         // PlayerName2
-    GameEventCode   mEvent;               // GameEvent
-    bool            mEventOnPlayerLeft;   // If the event is specified on the left player
-}
-
 PacketDataChatMessage
 {
     int64_t mTimestamp; // Timestamp (should be the same as __int64)
@@ -36,4 +19,10 @@ PacketDataChatMessage
     bool mIsTargetGroup; // True means the target is a group, false means it's only one player
     std::string mGroupName; // Or player name if mIsTragetGroup == false
     std::string mOrigin; // Mettre le nom du PC local pour eviter les loop infinies sur le network et eviter de recevoir ses propres messages
+}
+
+PacketDataEvent
+{
+    std::string mMessage; // Message a envoyer
+    EventCodes mEventCode; // Code d'erreur
 }

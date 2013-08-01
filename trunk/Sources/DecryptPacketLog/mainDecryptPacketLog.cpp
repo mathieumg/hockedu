@@ -5,8 +5,9 @@
 #include <fstream>
 #include <ctime>
 #include "PacketHandler.h"
-#include "PaquetEvent.h"
 #include <queue>
+#include "Paquet.h"
+#include <windows.h>
 
 
 int FreePacket(Paquet* p)
@@ -34,7 +35,7 @@ public:
     {
         if(mIsValid)
         {
-            mInput.read((char*)&mTimeStamp,4);
+            mInput.read((char*)&mTimeStamp,8);
             mIsValid = !mInput.eof();
             return mIsValid;
         }
@@ -46,11 +47,12 @@ public:
         {
             try
             {
-                struct tm wTimeNow;
-                time_t tt = mTimeStamp;
-                localtime_s( &wTimeNow, &tt );
-                mOuput << "[" << wTimeNow.tm_hour << ":" << wTimeNow.tm_min << ":" << wTimeNow.tm_sec << "] ";
-
+                FILETIME ft_convert;
+                ft_convert.dwHighDateTime = mTimeStamp>>32LL;
+                ft_convert.dwLowDateTime = (DWORD)mTimeStamp;
+                SYSTEMTIME t;
+                FileTimeToSystemTime(&ft_convert,&t);
+                mOuput << "[" << t.wHour << ":" << t.wMinute << ":" << t.wSecond << ":" << t.wMilliseconds << "] ";
 
                 mOuput << mFriendlyName;
                 char operationType;
@@ -101,7 +103,7 @@ public:
     }
 
 
-    unsigned int mTimeStamp;
+    int64_t mTimeStamp;
 private:
     PacketReader mReader;
     std::ifstream& mInput;
@@ -143,7 +145,7 @@ struct FileQueueElem
     bool operator<(const FileQueueElem& p)const
     {
         // on retourne l'inverse car un priority queue positionne le plus gros en haut
-        return difftime(file->mTimeStamp,p.file->mTimeStamp) > 0;
+        return file->mTimeStamp > p.file->mTimeStamp;
     }
 
 };

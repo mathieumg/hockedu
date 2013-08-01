@@ -68,7 +68,6 @@ PacketHandler* PacketHandler::GetHandler( unsigned int type )
 
 PacketHandler* PaquetHandlersArray[NB_PACKET_TYPES] =
 {
-    new PacketHandlerEvent          ,//EVENT,
     new PacketHandlerLoginInfo      ,//LOGIN_INFO,
     new PacketHandlerUserStatus     ,//USER_STATUS,
     new PacketHandlerGameStatus     ,//GAME_STATUS,

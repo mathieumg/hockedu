@@ -605,26 +605,29 @@ void* CommunicateurReseau::sendingThreadRoutine( void *arg )
                 SPSocket wSocket = wPaquetAEnvoyer->socket;
                 
                 // Fix crash && socket
-                if(!wSocket || wSocket->isPendingDelete() )
+                if(!wPaquet->isForcedToSendOnBrokenSocket())
                 {
-                    if(wPaquet)
+                    if(!wSocket || wSocket->isPendingDelete() )
                     {
-                        wPaquet->removeAssociatedQuery(); // fix leak
-                    }
-                    continue; // Si le socket est invalide, on drop le paquet
-                }
-                ConnectionState wConnectionState = wSocket->getConnectionState();
-                if(!wPaquet->isForcedToSendOnBrokenSocket() && (wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED))
-                {
-                    if (wConnectionState == CONNECTING)
-                    {
-                        // Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
-                        if(listeAEnvoyer->push(wPaquetAEnvoyer))
+                        if(wPaquet)
                         {
-                            FacadePortability::releaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
+                            wPaquet->removeAssociatedQuery(); // fix leak
                         }
+                        continue; // Si le socket est invalide, on drop le paquet
                     }
-                    continue;
+                    ConnectionState wConnectionState = wSocket->getConnectionState();
+                    if((wConnectionState == CONNECTING || wConnectionState == NOT_CONNECTED))
+                    {
+                        if (wConnectionState == CONNECTING)
+                        {
+                            // Socket probablement en attente de se faire connecter (on ne fait rien et on le met a la fin de la queue)
+                            if(listeAEnvoyer->push(wPaquetAEnvoyer))
+                            {
+                                FacadePortability::releaseSemaphore(wCommunicateurReseau->mHandleSemaphoreContentSend);
+                            }
+                        }
+                        continue;
+                    }
                 }
                 
                 try

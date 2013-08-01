@@ -21,9 +21,6 @@
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetBonus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetEvent.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameConnection.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameConnection.cpp">
@@ -106,6 +100,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="mainDecryptPacketLog.cpp" />
+    <ClCompile Include="..\..\Commun\Utilitaire\Solution_Defines.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\C++\Reseau\PacketsDefinitions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\C++\Reseau\Paquets\Paquet.h">

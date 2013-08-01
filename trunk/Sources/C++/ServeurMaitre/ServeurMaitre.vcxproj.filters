@@ -56,13 +56,7 @@
     <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandler.cpp">
       <Filter>Source Files\PacketHandlers</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
-      <Filter>Source Files\PacketHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="..\Reseau\Paquets\Paquet.cpp">
-      <Filter>Source Files\Paquets</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Reseau\Paquets\PaquetEvent.cpp">
       <Filter>Source Files\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="..\Reseau\Socket.cpp">
@@ -218,9 +212,6 @@
       <Filter>Source Files\PacketHandlers</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\Paquets\Paquet.h">
-      <Filter>Source Files\Paquets</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Reseau\Paquets\PaquetEvent.h">
       <Filter>Source Files\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="..\Reseau\GestionnaireReseau.h">

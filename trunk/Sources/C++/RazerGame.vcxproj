@@ -393,7 +393,6 @@
     <ClCompile Include="Reseau\PacketsDefinitions.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerGameEvent.cpp" />
@@ -410,7 +409,6 @@
     <ClCompile Include="Reseau\Paquets\PaquetBonus.cpp" />
     <ClCompile Include="reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameCreation.cpp" />
-    <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameEvent.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetGameStatus.cpp" />
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp" />
@@ -589,7 +587,6 @@
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PacketsDefinitions.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h" />
@@ -598,7 +595,6 @@
     <ClInclude Include="Reseau\Paquets\PaquetBonus.h" />
     <ClInclude Include="reseau\Paquets\PaquetGameConnection.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameCreation.h" />
-    <ClInclude Include="Reseau\Paquets\PaquetEvent.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameEvent.h" />
     <ClInclude Include="Reseau\Paquets\PaquetGameStatus.h" />
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h" />

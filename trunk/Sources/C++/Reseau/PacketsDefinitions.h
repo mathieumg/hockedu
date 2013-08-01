@@ -15,8 +15,7 @@ class PacketBuilder;
 enum PacketDataTypes
 {
     PT_NONE=666,
-    PT_PACKETDATABONUS,
-    PT_PACKETDATAGAMEEVENT,
+    PT_PACKETDATAEVENT,
     PT_PACKETDATACHATMESSAGE,
     NB_PACKETDATATYPE,
 };
@@ -29,47 +28,18 @@ public:
     virtual PacketDataTypes GetType() = 0;
  };
 
-class PacketDataBonus : public PacketDataBase
+class PacketDataEvent : public PacketDataBase
 {
 public:
-    // Position du bonus
-    Vecteur<float,3> mBonusPosition;
+    // Message a envoyer
+    std::string mMessage;
 
-    //
-    BonusType mBonusType;
-
-    // Action a executer pour le bonus
-    PaquetBonusAction mBonusAction;
-
-    // Id de la game
-    int mGameId, test2;
+    // Code d'erreur
+    EventCodes mEventCode;
 
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
-    PacketDataTypes GetType(){ return PT_PACKETDATABONUS;}
-};
-
-class PacketDataGameEvent : public PacketDataBase
-{
-public:
-    // GameId of the game you want to connect to
-    int mGameId;
-
-    // PlayerName1
-    std::string mPlayer1Name;
-
-    // PlayerName2
-    std::string mPlayer2Name;
-
-    // GameEvent
-    GameEventCode mEvent;
-
-    // If the event is specified on the left player
-    bool mEventOnPlayerLeft;
-
-    void ReceiveData(PacketReader& r);
-    void SendData(PacketBuilder& b);
-    PacketDataTypes GetType(){ return PT_PACKETDATAGAMEEVENT;}
+    PacketDataTypes GetType(){ return PT_PACKETDATAEVENT;}
 };
 
 class PacketDataChatMessage : public PacketDataBase

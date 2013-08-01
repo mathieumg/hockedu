@@ -2,7 +2,6 @@
 
 #include "PaquetRunnable.h"
 #include "GestionnaireReseau.h"
-#include "Paquets/PaquetEvent.h"
 #include "Paquets/PaquetLoginInfo.h"
 #include "Paquets/PaquetUserStatus.h"
 #include "RelayeurMessage.h"
@@ -23,10 +22,13 @@
 // Relance l'event au gestionnaire reseau
 int PaquetRunnable::RunnableEvent( Paquet* pPaquet )
 {
-    PaquetEvent* wPaquet = (PaquetEvent*) pPaquet;
-    GestionnaireReseau::obtenirInstance()->transmitEvent(EventCodes(wPaquet->getEventCode()), wPaquet->getMessage().c_str());
+    PacketDataEvent* wData = (PacketDataEvent*) pPaquet->getData();
+    if(wData)
+    {
+        GestionnaireReseau::obtenirInstance()->transmitEvent(wData->mEventCode, wData->mMessage.c_str());
 
-    wPaquet->removeAssociatedQuery(); // delete
+    }
+    pPaquet->removeAssociatedQuery(); // delete
     return 0;
 }
 

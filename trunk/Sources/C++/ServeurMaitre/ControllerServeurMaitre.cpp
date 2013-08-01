@@ -5,7 +5,6 @@
 #include "../Reseau/ExceptionsReseau/ExceptionReseauSocketDeconnecte.h"
 #include "CommunicateurBD.h"
 #include "ExceptionsReseau/ExceptionReseauBD.h"
-#include "../Reseau/Paquets/PaquetEvent.h"
 #include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 #include "GameServerManager.h"
 #include "../Reseau/RelayeurMessage.h"
@@ -25,10 +24,8 @@
 ControllerServeurMaitre::ControllerServeurMaitre()
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT]                 = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[PT_PACKETDATAEVENT]    = PaquetRunnable::RunnableEvent;
     mPaquetRunnables[LOGIN_INFO]            = PaquetRunnable::RunnableLoginInfoMasterServer;
-    // Pas de connexion automatique pour le serveur maitre
-    //mPaquetRunnables[CONN_AUTOMATIQUE]    = PaquetRunnable::RunnableConnAutomatiqueServer;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusMasterServer;
     mPaquetRunnables[PT_PACKETDATACHATMESSAGE]= PaquetRunnable::RunnableChatMessageMasterServer;
     mPaquetRunnables[GAME_STATUS]           = PaquetRunnable::RunnableGameStatusMasterServer;
@@ -81,11 +78,15 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                     std::string wServerIP = wAssociatedSocket->getAdresseDestination();
                     GameServerManager::obtenirInstance()->addNewGameServer(i, wServerIP, wIdentificationString);
 
-                    PaquetEvent* wReplyPacket = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-                    wReplyPacket->setEventCode(GAME_SERVER_AUTHENTICATION_REPLY);
                     std::stringstream message;
                     message << i;
-                    wReplyPacket->setMessage(message.str());
+                    
+                    Paquet* wReplyPacket = new Paquet();
+                    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+                    data->mEventCode = GAME_SERVER_AUTHENTICATION_REPLY;
+                    data->mMessage = message.str();
+                    wReplyPacket->setData(data);
+
                     NETWORK_LOG("Replying to server id %d. The server's IP is: %s",i,wAssociatedSocket->getAdresseDestination().c_str());
                     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wAssociatedSocket, wReplyPacket);
                 }
@@ -112,8 +113,6 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                 auto wGamesContainer = wGameServerIt->second->getGamesContainer();
                 for(auto wGameIt = wGamesContainer.begin(); wGameIt != wGamesContainer.end(); ++wGameIt)
                 {
-                    PaquetEvent* wPaquet = (PaquetEvent*)UsinePaquet::creerPaquet(EVENT);
-                    wPaquet->setEventCode(GAME_ADDED);
                     std::stringstream message("");
                     auto wGame = wGameIt->second;
                     const char SEPARATOR = '|';
@@ -124,7 +123,13 @@ void ControllerServeurMaitre::handleEvent( EventCodes pEventCode, va_list pListe
                             << wGame->getPlayer2Name()      << SEPARATOR
                             << (wGame->getPassword() == "" ? "false" : "true" ) << SEPARATOR
                             << wGame->getMapName();
-                    wPaquet->setMessage(message.str());
+
+                    Paquet* wPaquet = new Paquet();
+                    PacketDataEvent *data = (PacketDataEvent*)CreatePacketData(PT_PACKETDATAEVENT);
+                    data->mEventCode = GAME_ADDED;
+                    data->mMessage = message.str();
+                    wPaquet->setData(data);
+
                     GestionnaireReseau::obtenirInstance()->envoyerPaquet(wPlayerName, wPaquet, TCP);
                 }
             }

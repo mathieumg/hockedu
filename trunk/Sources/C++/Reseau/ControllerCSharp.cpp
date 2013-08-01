@@ -33,7 +33,7 @@ int CallbackSetPatieSyncerClientLourd(int pGameId, GameStatus)
 ControllerCSharp::ControllerCSharp():mEventReceivedCallback(NULL),mMessageReceivedCallBack(NULL)
 {
     // Ajouter tous les Runnables dependant de ce qui est handled selon le type de controlleur
-    mPaquetRunnables[EVENT]                 = PaquetRunnable::RunnableEvent;
+    mPaquetRunnables[PT_PACKETDATAEVENT]    = PaquetRunnable::RunnableEvent;
     mPaquetRunnables[USER_STATUS]           = PaquetRunnable::RunnableUserStatusClient;
     mPaquetRunnables[PT_PACKETDATACHATMESSAGE]= PaquetRunnable::RunnableChatMessageClient;
     mPaquetRunnables[MAILLET]               = PaquetRunnable::RunnableMailletClient;

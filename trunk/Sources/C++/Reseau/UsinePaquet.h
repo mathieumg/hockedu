@@ -49,7 +49,6 @@ protected:                                                     \
 {  return new Paquet##FactoryName();  }
 
 
-PAQUET_FACTORY_DECLARATION(Event          );
 PAQUET_FACTORY_DECLARATION(LoginInfo      );
 PAQUET_FACTORY_DECLARATION(UserStatus     );
 PAQUET_FACTORY_DECLARATION(GameStatus     );

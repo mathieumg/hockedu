@@ -8,7 +8,6 @@
 /// @{
 ///////////////////////////////////////////////////////////////////////////////
 #include "UsinePaquet.h"
-#include "PaquetEvent.h"
 #include "PaquetLoginInfo.h"
 #include "PaquetUserStatus.h"
 #include "PaquetGameStatus.h"
@@ -20,7 +19,6 @@
 #include "PaquetPortal.h"
 #include "PaquetBonus.h"
                           
-PAQUET_FACTORY_IMPLEMENTATION(Event);
 PAQUET_FACTORY_IMPLEMENTATION(LoginInfo);
 PAQUET_FACTORY_IMPLEMENTATION(UserStatus);
 PAQUET_FACTORY_IMPLEMENTATION(GameStatus);
@@ -35,7 +33,6 @@ PAQUET_FACTORY_IMPLEMENTATION(Bonus);
 
 const std::string PaquetNamesArray[NB_PACKET_TYPES] = 
 {
-   "EVENT"                ,//EVENT                       
    "LOGIN_INFO"           ,//LOGIN_INFO
    "USER_STATUS"          ,//USER_STATUS                 
    "GAME_STATUS"          ,//GAME_STATUS                 
@@ -50,7 +47,6 @@ const std::string PaquetNamesArray[NB_PACKET_TYPES] =
 
 UsinePaquet* PaquetFactories[NB_PACKET_TYPES] =
 {
-    new UsinePaquetEvent                     ,//EVENT                       
     new UsinePaquetLoginInfo                 ,//LOGIN_INFO
     new UsinePaquetUserStatus                ,//USER_STATUS                 
     new UsinePaquetGameStatus                ,//GAME_STATUS                 
