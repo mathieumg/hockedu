@@ -54,8 +54,6 @@
     <ClCompile Include="..\C++\Reseau\PacketReader.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandler.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerBonus.cpp" />
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp" />
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerEvent.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameConnection.cpp" />
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerGameCreation.cpp" />
@@ -68,8 +66,6 @@
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerUserStatus.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\Paquet.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetBonus.cpp" />
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetChatMessage.cpp" />
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetConnAutomatique.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetEvent.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameConnection.cpp" />
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetGameCreation.cpp" />

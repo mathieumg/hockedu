@@ -21,12 +21,6 @@
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetBonus.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetChatMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\Paquets\PaquetConnAutomatique.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\C++\Reseau\Paquets\PaquetEvent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -67,12 +61,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerBonus.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerChatMessage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerConnAutomatique.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\C++\Reseau\PaquetHandlers\PacketHandlerEvent.cpp">

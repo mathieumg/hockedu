@@ -1,5 +1,5 @@
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RazerGame", "RazerGame.vcxproj", "{67188F6B-27BE-4E93-A7EF-C512656343A1}"
 	ProjectSection(ProjectDependencies) = postProject
 		{98400D17-43A5-1A40-95BE-C53AC78E7694} = {98400D17-43A5-1A40-95BE-C53AC78E7694}
@@ -187,9 +187,7 @@ Global
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.PacketDecryptor|x64.ActiveCfg = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.PacketDecryptor|x64.Build.0 = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.Release|x64.ActiveCfg = Debug|x64
-		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.Release|x64.Build.0 = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.Shipping|x64.ActiveCfg = Debug|x64
-		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.Shipping|x64.Build.0 = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.SingleImage|x64.ActiveCfg = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.SingleImage|x64.Build.0 = Debug|x64
 		{DE667F19-6B5F-4C0E-9D71-6324C203F63C}.WithJava|x64.ActiveCfg = Debug|x64
