@@ -38,3 +38,14 @@ PacketDataBase* CreatePacketData(PacketDataTypes t)
     unsigned int i = t-PT_NONE-1;                                     
     return i < (NB_PACKETDATATYPE-PT_NONE) ? generators[i]() : NULL;                                     
 }
+std::string packetDataName[2] =                                     
+{                                                                   
+"PacketDataEvent",
+"PacketDataChatMessage",
+};                                                                  
+                                                                    
+std::string GetPacketDataName(PacketDataTypes t)                    
+{                                                                   
+    unsigned int i = t-PT_NONE-1;                                   
+    return i < (NB_PACKETDATATYPE-PT_NONE) ? packetDataName[i] : "";
+}                                                                   

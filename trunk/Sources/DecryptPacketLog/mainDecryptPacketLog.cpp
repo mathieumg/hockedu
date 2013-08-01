@@ -77,7 +77,15 @@ public:
                 HeaderPaquet wPacketHeader = PacketHandler::handlePacketHeaderReception(mReader);
                 mReader.mPrintingToOut = true;
 
-                mOuput << ": "<< PaquetNamesArray[wPacketHeader.type] << std::endl <<"\t";
+                mOuput << ": ";
+                if(wPacketHeader.type < NB_PACKET_TYPES)
+                    mOuput << PaquetNamesArray[wPacketHeader.type] ;
+                else if (wPacketHeader.type > PT_NONE && wPacketHeader.type < NB_PACKETDATATYPE)
+                {
+                    mOuput << GetPacketDataName((PacketDataTypes)wPacketHeader.type);
+                }
+                mOuput << std::endl <<"\t"; 
+
                 bool wTaillePaquetValide = wPacketHeader.taillePaquet > 0;
                 if(wTaillePaquetValide)
                 {

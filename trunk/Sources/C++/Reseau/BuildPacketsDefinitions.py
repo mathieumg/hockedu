@@ -157,6 +157,8 @@ for dataType in PacketsDefinitions.keys():
 
 ##############################################################################################
 
+##### PacketDataFactory ######################################################################
+
 generators =  "typedef PacketDataBase* (*PacketDataGenerator)();\n"
 for dataType in PacketsDefinitions.keys():
     generators +=  "PacketDataBase* create"+dataType+"(){return new "+dataType+"();}\n"
@@ -174,4 +176,28 @@ generators +=  "}\n"
 
 SourceFile.write(generators)
 HeaderFile.write("PacketDataBase* CreatePacketData(PacketDataTypes t);\n")
+##############################################################################################
+
+### Packet Data String Name ##################################################################
+
+HeaderFile.write("std::string GetPacketDataName(PacketDataTypes t);\n")
+
+packetDataStringName =  ""
+packetDataStringName += "std::string packetDataName[2] =                                     \n"
+packetDataStringName += "{                                                                   \n"
+for dataType in PacketsDefinitions.keys():
+    packetDataStringName +=  "\""+dataType+"\",\n"
+packetDataStringName += "};                                                                  \n"
+packetDataStringName += "                                                                    \n"
+packetDataStringName += "std::string GetPacketDataName(PacketDataTypes t)                    \n"
+packetDataStringName += "{                                                                   \n"
+packetDataStringName += "    unsigned int i = t-PT_NONE-1;                                   \n"
+packetDataStringName += "    return i < (NB_PACKETDATATYPE-PT_NONE) ? packetDataName[i] : \"\";\n"
+packetDataStringName += "}                                                                   \n"
+SourceFile.write(packetDataStringName)
+
+##############################################################################################
+
+
+
 print("{0} & {1} generated".format(HeaderFile.name,SourceFile.name))

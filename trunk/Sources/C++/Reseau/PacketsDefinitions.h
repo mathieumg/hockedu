@@ -66,3 +66,4 @@ public:
 };
 
 PacketDataBase* CreatePacketData(PacketDataTypes t);
+std::string GetPacketDataName(PacketDataTypes t);
