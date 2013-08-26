@@ -44,14 +44,19 @@ t = []
 ## Reading Definitions ###############################################
 readingName = True
 name = ""
-PacketsDefinitions = {}
+PacketsDefinitions = []
 for block in all:
     block = block.strip()
     if readingName:
         if len(block) > 0 :
-            name = block
-            PacketsDefinitions[name] = []
-            readingName = False
+            lines = block.split('\n')
+            for line in lines[::-1]:
+                # allowing for comments before the name
+                if(len(line)>0):
+                    name = line
+                    PacketsDefinitions.append((name, []))
+                    readingName = False
+                    break
     else:
         readingName = True
         comment = ""
@@ -89,13 +94,13 @@ for block in all:
                         else:
                             comment += content
                     if varPresent:
-                        PacketsDefinitions[name].append((type,vars,comment))
+                        PacketsDefinitions[-1][1].append((type,vars,comment))
                         comment = ""
 ##############################################################################################
         
 ## Writing Enum  ##################################################
 enum = "enum PacketDataTypes\n{\n    PT_NONE=666,\n";
-for dataType in PacketsDefinitions.keys():
+for dataType,content in PacketsDefinitions:
     enum += "    PT_"+dataType.upper()+",\n"
 enum += "    NB_PACKETDATATYPE,\n"
 enum += "};\n\n"
@@ -107,10 +112,10 @@ HeaderFile.write("\nclass PacketDataBase{\npublic:\n    virtual void ReceiveData
 
 
 ## Writing Classes ###########################################################################
-for dataType in PacketsDefinitions.keys():
+for dataType,content in PacketsDefinitions:
     dataClass = "class " + dataType + " : public PacketDataBase\n{\npublic:\n"
     sourceContent = ""
-    for variable in PacketsDefinitions[dataType]:
+    for variable in content:
         type = variable[0]
         names = variable[1]
         comments = variable[2]
@@ -134,8 +139,7 @@ for dataType in PacketsDefinitions.keys():
 
     sourceContent += "void "+dataType+"::ReceiveData(PacketReader& r)\n{\n"
     sourceContent += "    r >> "
-    for i in range(0,len(PacketsDefinitions[dataType])):
-        variable = PacketsDefinitions[dataType][i]
+    for variable in content:
         type = variable[0]
         names = variable[1]
         for n in names :
@@ -145,8 +149,7 @@ for dataType in PacketsDefinitions.keys():
 
     sourceContent += "void "+dataType+"::SendData(PacketBuilder& b)\n{\n"
     sourceContent += "    b << "
-    for i in range(0,len(PacketsDefinitions[dataType])):
-        variable = PacketsDefinitions[dataType][i]
+    for variable in content:
         type = variable[0]
         names = variable[1]
         for n in names :
@@ -160,11 +163,11 @@ for dataType in PacketsDefinitions.keys():
 ##### PacketDataFactory ######################################################################
 
 generators =  "typedef PacketDataBase* (*PacketDataGenerator)();\n"
-for dataType in PacketsDefinitions.keys():
+for dataType,content in PacketsDefinitions:
     generators +=  "PacketDataBase* create"+dataType+"(){return new "+dataType+"();}\n"
 generators +=  "const PacketDataGenerator generators["+str(len(PacketsDefinitions))+"] =            \n"
 generators +=  "{                                                           \n"
-for dataType in PacketsDefinitions.keys():
+for dataType,content in PacketsDefinitions:
     generators +=  "    create"+dataType+",\n"
 generators +=  "};                                                          \n"
 
@@ -183,10 +186,10 @@ HeaderFile.write("PacketDataBase* CreatePacketData(PacketDataTypes t);\n")
 HeaderFile.write("std::string GetPacketDataName(PacketDataTypes t);\n")
 
 packetDataStringName =  ""
-packetDataStringName += "std::string packetDataName[2] =                                     \n"
+packetDataStringName += "std::string packetDataName["+str(len(PacketsDefinitions))+"] =                                     \n"
 packetDataStringName += "{                                                                   \n"
-for dataType in PacketsDefinitions.keys():
-    packetDataStringName +=  "\""+dataType+"\",\n"
+for dataType,content in PacketsDefinitions:
+    packetDataStringName +=  "    \""+dataType+"\",\n"
 packetDataStringName += "};                                                                  \n"
 packetDataStringName += "                                                                    \n"
 packetDataStringName += "std::string GetPacketDataName(PacketDataTypes t)                    \n"
