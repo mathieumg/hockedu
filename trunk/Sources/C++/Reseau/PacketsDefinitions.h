@@ -15,8 +15,8 @@ class PacketBuilder;
 enum PacketDataTypes
 {
     PT_NONE=666,
-    PT_PACKETDATAEVENT,
     PT_PACKETDATACHATMESSAGE,
+    PT_PACKETDATAEVENT,
     NB_PACKETDATATYPE,
 };
 
@@ -27,20 +27,6 @@ public:
     virtual void SendData(PacketBuilder& b) = 0;
     virtual PacketDataTypes GetType() = 0;
  };
-
-class PacketDataEvent : public PacketDataBase
-{
-public:
-    // Message a envoyer
-    std::string mMessage;
-
-    // Code d'erreur
-    EventCodes mEventCode;
-
-    void ReceiveData(PacketReader& r);
-    void SendData(PacketBuilder& b);
-    PacketDataTypes GetType(){ return PT_PACKETDATAEVENT;}
-};
 
 class PacketDataChatMessage : public PacketDataBase
 {
@@ -63,6 +49,20 @@ public:
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
     PacketDataTypes GetType(){ return PT_PACKETDATACHATMESSAGE;}
+};
+
+class PacketDataEvent : public PacketDataBase
+{
+public:
+    // Message a envoyer
+    std::string mMessage;
+
+    // Code d'erreur
+    EventCodes mEventCode;
+
+    void ReceiveData(PacketReader& r);
+    void SendData(PacketBuilder& b);
+    PacketDataTypes GetType(){ return PT_PACKETDATAEVENT;}
 };
 
 PacketDataBase* CreatePacketData(PacketDataTypes t);

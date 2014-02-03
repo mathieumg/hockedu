@@ -5,16 +5,6 @@
 #include "PacketsDefinitions.h"
 #include "PacketReader.h"
 #include "PacketBuilder.h"
-void PacketDataEvent::ReceiveData(PacketReader& r)
-{
-    r >> mMessage >> mEventCode;
-}
-
-void PacketDataEvent::SendData(PacketBuilder& b)
-{
-    b << mMessage << mEventCode;
-}
-
 void PacketDataChatMessage::ReceiveData(PacketReader& r)
 {
     r >> mTimestamp >> mMessage >> mIsTargetGroup >> mGroupName >> mOrigin;
@@ -25,13 +15,23 @@ void PacketDataChatMessage::SendData(PacketBuilder& b)
     b << mTimestamp << mMessage << mIsTargetGroup << mGroupName << mOrigin;
 }
 
+void PacketDataEvent::ReceiveData(PacketReader& r)
+{
+    r >> mMessage >> mEventCode;
+}
+
+void PacketDataEvent::SendData(PacketBuilder& b)
+{
+    b << mMessage << mEventCode;
+}
+
 typedef PacketDataBase* (*PacketDataGenerator)();
-PacketDataBase* createPacketDataEvent(){return new PacketDataEvent();}
 PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
+PacketDataBase* createPacketDataEvent(){return new PacketDataEvent();}
 const PacketDataGenerator generators[2] =            
 {                                                           
-    createPacketDataEvent,
     createPacketDataChatMessage,
+    createPacketDataEvent,
 };                                                          
 PacketDataBase* CreatePacketData(PacketDataTypes t)             
 {                                                               
