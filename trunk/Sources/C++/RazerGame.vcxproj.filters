@@ -365,17 +365,11 @@
     <ClCompile Include="Reseau\PacketReader.cpp">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClCompile>
-    <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerEvent.cpp">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.cpp">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\PaquetHandlers\PacketHandler.cpp">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClCompile>
-    <ClCompile Include="Reseau\Paquets\PaquetEvent.cpp">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClCompile>
     <ClCompile Include="Reseau\Paquets\PaquetLoginInfo.cpp">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>
@@ -931,17 +925,11 @@
     <ClInclude Include="Reseau\Socket.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerEvent.h">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClInclude>
-    <ClInclude Include="Reseau\Paquets\PaquetEvent.h">
-      <Filter>Sources Files\Reseau\Global\Paquets</Filter>
     </ClInclude>
     <ClInclude Include="Reseau\Paquets\PaquetLoginInfo.h">
       <Filter>Sources Files\Reseau\Global\Paquets</Filter>

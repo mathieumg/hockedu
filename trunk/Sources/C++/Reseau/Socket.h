@@ -41,7 +41,7 @@ private:
 };
 
 
-typedef std::function<void ()> OnConnectionCallback;
+typedef std::function<void()> OnConnectionCallback;
 
 enum SocketFlags
 {

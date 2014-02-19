@@ -10,7 +10,7 @@
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>tinyxml_R_x64.lib;assimp_R_x64.lib;cppunit_R_x64.lib;Box2D_R.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>tinyxml_R_x64.lib;assimp_R_x64.lib;cppunit_R_x64.lib;Box2D_R_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />

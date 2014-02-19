@@ -78,7 +78,7 @@ public:
 	virtual void animer( const float& temps ) = 0;
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher(){}
-    static void renderBase(class Terrain* pField, RenderSpecific = NULL);
+    static void renderBase(class Terrain* pField, RenderSpecific = nullptr);
 
 	/// Modifier l'état de la souris
 	virtual void modifierEtatSouris(NomEtatSouris etatSouris);

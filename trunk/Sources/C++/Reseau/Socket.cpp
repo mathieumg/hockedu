@@ -25,7 +25,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 Socket::Socket(const std::string& pDestinationIP, const int& pPortNumber, ConnectionType pConType/*=TCP*/, InternetProtocol pIpProtocol /*=IPv4*/)
-    :mIpProtocol(pIpProtocol),mFlags(0),mOnConnectionCallback(NULL),mId("")
+:mIpProtocol( pIpProtocol ), mFlags( 0 ), mOnConnectionCallback( nullptr ), mId( "" )
 {
 	mConnectionType = pConType;
 	mSocketInfo = new sockaddr_in;
@@ -723,7 +723,7 @@ void Socket::setConnectionState( ConnectionState pConnectionState )
     if(mConnectionState != pConnectionState && pConnectionState == CONNECTED && mOnConnectionCallback)
     {
         mOnConnectionCallback();
-        mOnConnectionCallback = NULL;
+        mOnConnectionCallback = nullptr;
     }
 	mConnectionState = pConnectionState;
 
