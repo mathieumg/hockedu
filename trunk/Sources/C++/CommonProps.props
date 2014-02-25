@@ -11,7 +11,7 @@
       <ForcedIncludeFiles>Solution_Defines.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
-      <AdditionalLibraryDirectories>../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;../../Commun/Externe/Box2D/Libs;../../Commun/Externe/enet-1.3.7;$(SolutionDir)\lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../Commun/Externe/FreeType/lib;../../Commun/Externe/GLEW/lib;../../Commun/Externe/tinyxml/lib;../../Commun/Externe/assimp/lib;../../Commun/Externe/cppunit/lib;../../Commun/Externe/FMOD/lib;../../Commun/Externe/Box2D/lib;../../Commun/Externe/enet-1.3.7;../../Commun/Utilitaire/lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;fmodex64_vc.lib;wsock32.lib;enet64.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

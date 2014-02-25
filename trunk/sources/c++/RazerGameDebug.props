@@ -11,7 +11,7 @@
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>Box2D_D.lib;Utilitaire_D.lib;freetype246_D_x64.lib;tinyxml_D_x64.lib;assimp_D_x64.lib;cppunit_D_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Box2D_D_x64.lib;Utilitaire_D_x64.lib;freetype246_D_x64.lib;tinyxml_D_x64.lib;assimp_D_x64.lib;cppunit_D_x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
