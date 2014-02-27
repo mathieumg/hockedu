@@ -35,10 +35,7 @@ public:
 	friend NoeudCompositeTest;
 
 	/// Constructeur.
-	NoeudComposite(
-        RazerKey defaultKey,
-		const std::string& type = std::string( "" )
-		);
+	NoeudComposite(RazerKey);
 	/// Destructeur.
 	virtual ~NoeudComposite();
 
@@ -57,14 +54,14 @@ public:
     /// Efface le noeud passé en paramètre.
     virtual bool erase( const NoeudAbstrait* noeud );
 
-	/// Cherche un noeud par le type (sur un noeud constant).
-	virtual const NoeudAbstrait* find( const std::string& typeNoeud ) const;
-	/// Cherche un noeud par le type.
-	virtual NoeudAbstrait* find( const std::string& typeNoeud );
-	/// Cherche un noeud enfant selon l'indice (sur un noeud constant).
-	virtual const NoeudAbstrait* find( unsigned int indice ) const;
-	/// Cherche un noeud enfant selon l'indice.
-	virtual NoeudAbstrait* find( unsigned int indice );
+    /// Cherche un noeud par le type (sur un noeud constant).
+    virtual const NoeudAbstrait* find( const RazerKey typeNoeud ) const;
+    /// Cherche un noeud par le type.
+    virtual NoeudAbstrait* find( const RazerKey typeNoeud );
+    /// Cherche un noeud enfant selon l'indice (sur un noeud constant).
+    virtual const NoeudAbstrait* getChild( unsigned int indice ) const;
+    /// Cherche un noeud enfant selon l'indice.
+    virtual NoeudAbstrait* getChild( unsigned int indice );
 
 	/// Ajoute un noeud enfant.
 	virtual bool add( NoeudAbstrait* enfant );

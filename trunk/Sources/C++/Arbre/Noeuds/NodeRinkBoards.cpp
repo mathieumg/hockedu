@@ -34,7 +34,7 @@ PRAGMA_DISABLE_OPTIMIZATION
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n1),mPoint2(n2)
+    Super( RAZER_KEY_RINK_BOARD ), mPoint1( n1 ), mPoint2( n2 )
 {
     initBase();
     init(n1->mPosition,n2->mPosition,n1,n2);
@@ -54,7 +54,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n1, NoeudPoint* n2 ):
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(n),mPoint2(NULL)
+    Super( RAZER_KEY_RINK_BOARD ), mPoint1( n ), mPoint2( NULL )
 {
     initBase();
 
@@ -79,7 +79,7 @@ NodeRinkBoards::NodeRinkBoards( NoeudPoint* n, NoeudBut* but, bool haut ):
 ///
 ////////////////////////////////////////////////////////////////////////
 NodeRinkBoards::NodeRinkBoards( NoeudBut* but, NoeudPoint* n, bool haut ):
-    Super(RazerGameUtilities::NAME_RINK_BOARD), mPoint1(NULL),mPoint2(n)
+    Super( RAZER_KEY_RINK_BOARD ), mPoint1( NULL ), mPoint2( n )
 {
     initBase();
     init(haut? but->mTopPosition : but->mBottomPosition,

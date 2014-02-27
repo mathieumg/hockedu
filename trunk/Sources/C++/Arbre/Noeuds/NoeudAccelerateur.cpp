@@ -44,8 +44,8 @@ CreateListDelegateImplementation(Boost)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAccelerateur::NoeudAccelerateur(const std::string& typeNoeud)
-	: NoeudAbstrait(RAZER_KEY_BOOST,typeNoeud),bonusAccel_(1.50), activer_(true)
+NoeudAccelerateur::NoeudAccelerateur()
+	: NoeudAbstrait(RAZER_KEY_BOOST),bonusAccel_(1.50), activer_(true)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);

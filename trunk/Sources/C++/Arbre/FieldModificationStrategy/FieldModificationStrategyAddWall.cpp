@@ -24,7 +24,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type ) :
+FieldModificationStrategyAddWall::FieldModificationStrategyAddWall( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const RazerKey type ) :
     FieldModificationStrategyAddNode(field,pEvent,type), mCurrentPoint(NULL)
 {
     if(!createNextControlPoint())
@@ -146,7 +146,7 @@ bool FieldModificationStrategyAddWall::createNextControlPoint()
                 // cas du premier control point ajouté
                 pos = mNewNode->getPosition();
             }
-            mCurrentPoint = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            mCurrentPoint = new NodeControlPoint();
             mCurrentPoint->setPosition(pos);
             bool res = mNewNode->add(mCurrentPoint);
             checkf(res);

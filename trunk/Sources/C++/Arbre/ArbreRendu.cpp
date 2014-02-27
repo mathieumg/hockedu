@@ -27,7 +27,7 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 ArbreRendu::ArbreRendu(Terrain* pField)
-	: NoeudComposite(RAZER_KEY_ROOT_TREE,"racine")
+	: NoeudComposite(RAZER_KEY_ROOT_TREE)
 {
 	// On ne veut pas que ce noeud soit sélectionnable.
 	setCanBeSelected(false);
@@ -68,7 +68,7 @@ ArbreRendu::~ArbreRendu()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait* ArbreRendu::creerNoeud(
-	const std::string& typeNouveauNoeud
+    const RazerKey typeNouveauNoeud
 	) const
 {
 	RegistreUsines::const_iterator usine = usines_.find(typeNouveauNoeud);
@@ -113,8 +113,8 @@ NoeudAbstrait* ArbreRendu::creerNoeud(
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait* ArbreRendu::ajouterNouveauNoeud(
-	const std::string& typeParent,
-	const std::string& typeNouveauNoeud
+	const RazerKey typeParent,
+	const RazerKey typeNouveauNoeud
 	)
 {
 	NoeudAbstrait* parent = find(typeParent);
@@ -228,9 +228,12 @@ void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
     const ArbreRendu* treeRoot = GetTreeRoot();
     if(treeRoot)
     {
-        auto name = XMLUtils::GetNodeTag(child);
-        auto node = treeRoot->creerNoeud(name);
-        checkf(node,"Error creating node : %s",name );
+        //auto name = XMLUtils::GetNodeTag(child);
+        int id;
+        XMLUtils::readAttribute( child, "id", id );
+        auto node = treeRoot->creerNoeud((RazerKey)id);
+
+        checkf(node,"Error creating node : %d",id );
         if(node)
         {
             add(node);

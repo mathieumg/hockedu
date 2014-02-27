@@ -42,7 +42,7 @@ public:
     typedef NoeudComposite Super;
 
 	/// Constructeur à partir du type du noeud.
-   NoeudTable(const std::string& typeNoeud);
+   NoeudTable();
    /// Destructeur.
    virtual ~NoeudTable();
 
@@ -162,8 +162,7 @@ public:
 	void modifierCoefRebond(int quelBande, float coef) {bande_[quelBande]->setReboundRatio(coef);}
 
 	/// Accesseur des groupes de la table
-	NoeudGroupe* obtenirGroupe(std::string typeEnfant);
-	NoeudGroupe* obtenirGroupe(unsigned int typeIdEnfant);
+	NoeudGroupe* obtenirGroupe(RazerKey typeEnfant);
 	static const float rayonCercleCentre_;
 };
 

@@ -32,7 +32,7 @@ CPPUNIT_TEST_SUITE_REGISTRATION( NoeudAbstraitTest );
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstraitTest::setUp()
 {
-	noeud = new NoeudAbstrait(RAZER_KEY_NONE,"TestingNode");
+	noeud = new NoeudAbstrait(RAZER_KEY_NONE);
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -73,19 +73,7 @@ void NoeudAbstraitTest::testPositionRelative()
 	CPPUNIT_ASSERT( utilitaire::EGAL_ZERO(vecteur[2] - 4.4f) );
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void NoeudAbstraitTest::testType()
-///
-/// Cas de test: type de noeud
-///
-/// @return Aucune.
-///
-////////////////////////////////////////////////////////////////////////
-void NoeudAbstraitTest::testType()
-{
-	CPPUNIT_ASSERT( noeud->getType() == "TestingNode");
-}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -205,11 +193,11 @@ void NoeudAbstraitTest::testGetTreeRoot()
 {
     RazerGameTree tree(NULL);
 
-    NoeudComposite* c1 = new NoeudComposite(RAZER_KEY_NONE,""),
-        * c2 = new NoeudComposite(RAZER_KEY_NONE,""),
-        * c3 = new NoeudComposite(RAZER_KEY_NONE,""),
-        * c4 = new NoeudComposite(RAZER_KEY_NONE,""),
-        * c5 = new NoeudComposite(RAZER_KEY_NONE,"");
+    NoeudComposite* c1 = new NoeudComposite(RAZER_KEY_NONE),
+        *c2 = new NoeudComposite( RAZER_KEY_NONE ),
+        *c3 = new NoeudComposite( RAZER_KEY_NONE ),
+        *c4 = new NoeudComposite( RAZER_KEY_NONE ),
+        *c5 = new NoeudComposite( RAZER_KEY_NONE );
 
     c1->add(c2);
     c2->add(c3);

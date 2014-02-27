@@ -123,7 +123,7 @@ void VisiteurEcrireXML::visiterNoeudComposite( NoeudComposite* noeud )
 
 	for( unsigned int i = 0; i < noeud->childCount(); i++)
 	{
-		noeud->find(i)->acceptVisitor(*this);
+		noeud->getChild(i)->acceptVisitor(*this);
 	}
 
 

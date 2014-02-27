@@ -375,6 +375,7 @@
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
     <ClCompile Include="Physics\ForceField.cpp" />
+    <ClCompile Include="RenderOpenGL2.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="Reseau\ControllerCSharp.cpp" />
     <ClCompile Include="Reseau\ControllerInterface.cpp" />
@@ -569,6 +570,7 @@
     <ClInclude Include="Jeu\PartieSyncer.h" />
     <ClInclude Include="Jeu\Tournoi.h" />
     <ClInclude Include="Physics\ForceField.h" />
+    <ClInclude Include="RenderOpenGL2.h" />
     <ClInclude Include="Reseau\CommunicateurReseau.h" />
     <ClInclude Include="Reseau\ControllerCPP.h" />
     <ClInclude Include="Reseau\ControllerCSharp.h" />

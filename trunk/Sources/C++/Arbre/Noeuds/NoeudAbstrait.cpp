@@ -42,11 +42,9 @@ GLuint NoeudAbstrait::mIdGlCounter = 1;
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudAbstrait::NoeudAbstrait(
-    RazerKey defaultKey/* = RAZER_KEY_NONE*/,
-   const std::string& type //= std::string( "" )
+    RazerKey nodeKey/* = RAZER_KEY_NONE*/
    ) :
     mPhysicBody(NULL),
-    mType(type) ,
     mPosition(0) ,
     mFlags(1<<NODEFLAGS_VISIBLE|1<<NODEFLAGS_CAN_BE_SELECTED|1<<NODEFLAGS_RECORDABLE|1<<NODEFLAGS_CAN_BE_DELETED),
     mParent(0) , 
@@ -54,16 +52,18 @@ NoeudAbstrait::NoeudAbstrait(
     mGlId(mIdGlCounter++),
     mField(NULL),
     mWorld(NULL),
-    mDefaultNodeKey(defaultKey),
-    mSkinKey(defaultKey)
+    mNodeKey(nodeKey),
+    mSkinKey(nodeKey)
 {
+    mType = RazerGameUtilities::KeyToString( mNodeKey );
+    mRenderComponent = 0;
 	mScale[VX] = 1;
 	mScale[VY] = 1;
 	mScale[VZ] = 1;
-
+    
 #if WIN32
     mModePolygones = GL_FILL;
-    mGlTypeId = GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName(mType);
+    mGlTypeId = mNodeKey;// GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName( mType );
 #endif
 	// On charge la matrice identitee lors de la construction
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
@@ -95,6 +95,7 @@ NoeudAbstrait::~NoeudAbstrait()
 
     clearPhysicsBody();
     setField(NULL);
+    delete mRenderComponent;
 
     // clean remaining modifiers in the node
     for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
@@ -197,12 +198,11 @@ void NoeudAbstrait::deleteThis()
 /// @return const NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-const NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud ) const
+const NoeudAbstrait* NoeudAbstrait::find( const RazerKey typeNoeud ) const
 {
-   if (typeNoeud == mType)
-      return this;
-   else
-      return 0;
+    if (typeNoeud == mNodeKey)
+        return this;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -220,12 +220,11 @@ const NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud ) const
 /// @return NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud )
+NoeudAbstrait* NoeudAbstrait::find( const RazerKey typeNoeud )
 {
-   if (typeNoeud == mType)
-      return this;
-   else
-      return 0;
+    if( typeNoeud == mNodeKey )
+        return this;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -242,7 +241,7 @@ NoeudAbstrait* NoeudAbstrait::find( const std::string& typeNoeud )
 /// @return const NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-const NoeudAbstrait* NoeudAbstrait::find( unsigned int indice ) const
+const NoeudAbstrait* NoeudAbstrait::getChild( unsigned int indice ) const
 {
    return 0;
 }
@@ -261,7 +260,7 @@ const NoeudAbstrait* NoeudAbstrait::find( unsigned int indice ) const
 /// @return NoeudAbstrait* : Le pointeur vers le noeud s'il est trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudAbstrait::find( unsigned int indice )
+NoeudAbstrait* NoeudAbstrait::getChild( unsigned int indice )
 {
    return 0;
 }
@@ -785,7 +784,8 @@ void NoeudAbstrait::setCollisionVisitorAttributes( class VisiteurCollision* v )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudAbstrait::createXmlNode()
 {
-	XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
+    XmlElement* elementNoeud = XMLUtils::createNode( mType.c_str( ) );
+    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey);
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(mScale.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
@@ -794,7 +794,7 @@ XmlElement* NoeudAbstrait::createXmlNode()
     XMLUtils::writeAttribute(elementNoeud,"selectionnable",canBeSelected());
     XMLUtils::writeAttribute(elementNoeud,"selected",IsSelected());
 
-	return elementNoeud;
+    return elementNoeud;
 }
 
 
@@ -847,21 +847,22 @@ bool NoeudAbstrait::initFromXml( const XmlElement* element )
 	int intElem;
 	float floatElem;
     Vecteur3 pos;
+    const std::string type = RazerGameUtilities::KeyToString( mNodeKey );
     if(!XmlReadNodePosition(pos,element))
-		throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
+		throw ExceptionJeu("%s: Error reading node's position", type.c_str());
 	setPosition(pos);
     if( !XMLUtils::readArray(mScale.c_arr(),3,element,"echelle") )
-        throw ExceptionJeu("%s: Error reading node's scale", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's scale", type.c_str());
 
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
-        throw ExceptionJeu("%s: Error reading node's angle", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's angle", type.c_str());
     setAngle(floatElem);
     if( !XMLUtils::readAttribute(element,"affiche",intElem) )
-        throw ExceptionJeu("%s: Error reading node's visibility flag", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's visibility flag", type.c_str());
     setVisible(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
-        throw ExceptionJeu("%s: Error reading node's selection flag", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's selection flag", type.c_str());
     setCanBeSelected(intElem==1);
     
     if( !XMLUtils::readAttribute(element,"selected",intElem) )
@@ -1075,14 +1076,14 @@ const class ArbreRendu* NoeudAbstrait::GetTreeRoot() const
 ////////////////////////////////////////////////////////////////////////
 bool NoeudAbstrait::equals( NoeudAbstrait* n)
 {
-    return !!n &&
-    mType == n->mType &&
-    mModePolygones == n->mModePolygones &&
-    // permet de donner une certaine tolerance
-    (mPosition-n->mPosition).norme2() < 1 &&
-    mFlags == n->mFlags &&
-    mScale == n->mScale &&
-    mRadius == n->mRadius;
+    return 
+        !!n 
+        && mNodeKey == n->mNodeKey
+        && mModePolygones == n->mModePolygones
+        && (mPosition-n->mPosition).norme2() < 1 // permet de donner une certaine tolerance
+        && mFlags == n->mFlags
+        && mScale == n->mScale
+        && mRadius == n->mRadius;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -1231,7 +1232,7 @@ bool NoeudAbstrait::isWorldLocked() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudAbstrait::resetSkin()
+void NoeudAbstrait::revertSkin()
 {
     for(auto it =mSkinStack.begin(); it != mSkinStack.end(); ++it)
     {
@@ -1250,7 +1251,7 @@ void NoeudAbstrait::resetSkin()
     }
     else
     {
-        mSkinKey=mDefaultNodeKey;
+        mSkinKey=mNodeKey;
     }
 }
 

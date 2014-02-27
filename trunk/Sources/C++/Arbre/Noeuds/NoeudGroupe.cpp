@@ -24,8 +24,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudGroupe::NoeudGroupe(std::string type, std::string typeEnfants):
-NoeudComposite(RAZER_KEY_GROUP,type),typeEnfants_(typeEnfants)
+NoeudGroupe::NoeudGroupe( const RazerKey typeEnfants ) :
+NoeudComposite(RAZER_KEY_GROUP),typeEnfants_(typeEnfants)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -62,8 +62,8 @@ NoeudGroupe::~NoeudGroupe(void)
 XmlElement* NoeudGroupe::createXmlNode()
 {
 	XmlElement* element = XMLUtils::createNode(mType.c_str());
-
-    XMLUtils::writeAttribute(element,"TypeEnfants",typeEnfants_);
+    XMLUtils::writeAttribute( element, "id", (int)mNodeKey );
+    XMLUtils::writeAttribute( element,"TypeEnfants",(int)typeEnfants_);
 	
 	return element;
 }
@@ -81,18 +81,19 @@ XmlElement* NoeudGroupe::createXmlNode()
 ////////////////////////////////////////////////////////////////////////
 bool NoeudGroupe::initFromXml( const XmlElement* element )
 {
-    if(!XMLUtils::readAttribute(element,"TypeEnfants",typeEnfants_))
+    int typeId;
+    if( !XMLUtils::readAttribute( element, "TypeEnfants", typeId ) )
         return false;
+    typeEnfants_ = (RazerKey)typeId;
 
     const ArbreRendu* treeRoot = GetTreeRoot();
     if(treeRoot)
     {
         for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
         {
-            auto name = XMLUtils::GetNodeTag(child);
-            if(name != typeEnfants_)
+            if( !XMLUtils::readAttribute( child, "id", typeId ) || typeId != typeEnfants_ )
             {
-                throw ExceptionJeu("Attempting to create a node in a group that it doesn't belong",name);
+                throw ExceptionJeu("Attempting to create a node in a group that it doesn't belong",typeId);
             }
             CreateAndInitNodesFromXml(child);
         }

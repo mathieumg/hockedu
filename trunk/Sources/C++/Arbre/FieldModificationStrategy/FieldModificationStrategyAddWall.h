@@ -20,7 +20,7 @@
 class FieldModificationStrategyAddWall : public FieldModificationStrategyAddNode
 {
 public:
-    FieldModificationStrategyAddWall(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
+    FieldModificationStrategyAddWall(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const RazerKey type);
     ~FieldModificationStrategyAddWall();
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);

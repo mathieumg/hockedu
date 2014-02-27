@@ -273,7 +273,7 @@ void VisiteurSuppression::visiterEnfants( NoeudComposite* noeud )
 			i--;
 			nbrEnfant = noeud->childCount();
 		}
-		noeud->find(i)->acceptVisitor(*this);
+		noeud->getChild(i)->acceptVisitor(*this);
 	}
 
 	// Il faut faire la vérification une fois sorti de la boucle, car le test de la boucle for peut faire sortir
@@ -282,7 +282,7 @@ void VisiteurSuppression::visiterEnfants( NoeudComposite* noeud )
 	{
 		// il y a eu un enfant de supprimé au dernier passage
 		if(--i<noeud->childCount())
-			noeud->find(i)->acceptVisitor(*this);
+			noeud->getChild(i)->acceptVisitor(*this);
 	}
 }
 

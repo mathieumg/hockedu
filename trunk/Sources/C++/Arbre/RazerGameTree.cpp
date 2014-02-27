@@ -26,25 +26,23 @@
 RazerGameTree::RazerGameTree(class Terrain* pField,unsigned int limitMallet, unsigned int limitPuck):
     Super(pField)
 {
-	// Construction des usines
+    // Construction des usines
     if(pField && pField->IsGameField())
     {
-        ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNoeudMuret(RazerGameUtilities::NOM_MURET));
+        ajouterUsine(RAZER_KEY_WALL , new UsineNoeudMuret());
     }
     else
     {
-        ajouterUsine(RazerGameUtilities::NOM_MURET , new UsineNodeWallEdition(RazerGameUtilities::NOM_MURET));
+        ajouterUsine( RAZER_KEY_WALL, new UsineNodeWallEdition() );
     }
 
-
-	ajouterUsine(RazerGameUtilities::NOM_TABLE , new UsineNoeudTable(RazerGameUtilities::NOM_TABLE));
-	ajouterUsine(RazerGameUtilities::NOM_PORTAIL , new UsineNoeudPortail(RazerGameUtilities::NOM_PORTAIL));
-	ajouterUsine(RazerGameUtilities::NOM_RONDELLE , new UsineNoeudRondelle(RazerGameUtilities::NOM_RONDELLE,limitPuck));
-	ajouterUsine(RazerGameUtilities::NOM_MAILLET , new UsineNoeudMaillet(RazerGameUtilities::NOM_MAILLET,limitMallet));
-	ajouterUsine(RazerGameUtilities::NOM_ACCELERATEUR, new UsineNoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR));
-    ajouterUsine(RazerGameUtilities::NOM_GROUPE, new UsineNoeudGroupe(RazerGameUtilities::NOM_GROUPE));
-    ajouterUsine(RazerGameUtilities::NAME_BONUS, new UsineNodeBonus(RazerGameUtilities::NAME_BONUS));
-    //ajouterUsine(RazerGameUtilities::NAME_POLYGONE, new UsineNodePolygone(RazerGameUtilities::NAME_POLYGONE));
+    ajouterUsine(RAZER_KEY_TABLE, new UsineNoeudTable());
+    ajouterUsine(RAZER_KEY_PORTAL , new UsineNoeudPortail());
+    ajouterUsine(RAZER_KEY_PUCK, new UsineNoeudRondelle(limitPuck));
+    ajouterUsine(RAZER_KEY_MALLET, new UsineNoeudMaillet(limitMallet));
+    ajouterUsine(RAZER_KEY_BOOST, new UsineNoeudAccelerateur());
+    ajouterUsine(RAZER_KEY_GROUP, new UsineNoeudGroupe());
+    ajouterUsine(RAZER_KEY_BONUS, new UsineNodeBonus());
 }
 
 
@@ -73,17 +71,17 @@ RazerGameTree::~RazerGameTree()
 ////////////////////////////////////////////////////////////////////////
 NoeudTable* RazerGameTree::obtenirTable()
 {
-	int nbrEnfants = childCount();
-	const NoeudAbstrait* n;
+    int nbrEnfants = childCount();
+    const NoeudAbstrait* n;
 
-	for (int i = 0; i < nbrEnfants ; ++i)
-	{
-		n = find(i);
-		if(n->getType() == RazerGameUtilities::NOM_TABLE)
-			return (NoeudTable*)n;
-		
-	}
-	return NULL;
+    for (int i = 0; i < nbrEnfants ; ++i)
+    {
+        n = getChild(i);
+        if(n->getKey() == RAZER_KEY_TABLE)
+            return (NoeudTable*)n;
+        
+    }
+    return NULL;
 }
 
 

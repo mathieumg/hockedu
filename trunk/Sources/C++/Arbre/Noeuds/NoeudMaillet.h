@@ -36,7 +36,7 @@ public:
 private:
     /// Constructeur privé pour forcer a passer par l'usine
     /// Constructeur à partir du type du noeud.
-    NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit);
+    NoeudMaillet(unsigned int& malletCreated, unsigned int malletLimit);
 public:
     /// Destructeur.
     virtual ~NoeudMaillet();

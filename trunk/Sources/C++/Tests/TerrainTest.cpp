@@ -72,48 +72,6 @@ void TerrainTest::testVerifierValiditer()
 	CPPUNIT_ASSERT(terrain_->verifierValidite(false));
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn void TerrainTest::testInitialiser()
-///
-/// Test l'initialisation d'un terrain
-///
-///
-/// @return void
-///
-////////////////////////////////////////////////////////////////////////
-void TerrainTest::testInitialiser()
-{
-	terrain_->initialiser("terrainTest");
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtY() == ZoneEdition::DEFAUT_LIMITE_EXT_Y);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteExtX() == ZoneEdition::DEFAUT_LIMITE_EXT_X);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntY() == ZoneEdition::DEFAUT_LIMITE_INT_Y);
-    CPPUNIT_ASSERT(terrain_->mEditionZone->obtenirLimiteIntX() == ZoneEdition::DEFAUT_LIMITE_INT_X);
-
-	CPPUNIT_ASSERT(terrain_->mNewNodeTree);
-	CPPUNIT_ASSERT(terrain_->mNewNodeTree->childCount() == 0);
-	CPPUNIT_ASSERT(terrain_->mLogicTree);
-	CPPUNIT_ASSERT(terrain_->mTable);
-	CPPUNIT_ASSERT(terrain_->mTable->childCount() == NoeudTable::expectedChildCount());
-	NoeudGroupe* gAccel = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_ACCELERATEUR);
-	CPPUNIT_ASSERT(gAccel);
-	CPPUNIT_ASSERT(gAccel->childCount() == 0);
-	NoeudGroupe* gRondelle = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
-	CPPUNIT_ASSERT(gRondelle);
-	CPPUNIT_ASSERT(gRondelle->childCount() == 0);
-	NoeudGroupe* gPortail = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
-	CPPUNIT_ASSERT(gPortail);
-	CPPUNIT_ASSERT(gPortail->childCount() == 0);
-	NoeudGroupe* gMaillet = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
-	CPPUNIT_ASSERT(gMaillet);
-	CPPUNIT_ASSERT(gMaillet->childCount() == 0);
-	NoeudGroupe* gMuret = terrain_->mTable->obtenirGroupe(RazerGameUtilities::NOM_MURET);
-	CPPUNIT_ASSERT(gMuret);
-	CPPUNIT_ASSERT(gMuret->childCount() == 0);
-	CPPUNIT_ASSERT(terrain_->mFieldName == "terrainTest");
-
-}
-
 
 void TerrainTest::testInsideTable()
 {

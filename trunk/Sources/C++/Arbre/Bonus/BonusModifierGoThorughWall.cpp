@@ -141,7 +141,7 @@ bool BonusModifierGoThroughWall::Revert()
     auto rondelle = dynamic_cast<NoeudRondelle*>(mOwner);
     if(rondelle)
     {
-        rondelle->resetSkin();
+        rondelle->revertSkin();
     }
 
 #if BOX2D_PLAY  

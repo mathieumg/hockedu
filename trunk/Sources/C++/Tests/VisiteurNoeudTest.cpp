@@ -79,7 +79,7 @@ void VisiteurNoeudTest::tearDown()
 void VisiteurNoeudTest::testDeplacerObjet()
 {
 
-    NoeudAbstrait* n = new NoeudAbstrait(RAZER_KEY_NONE,"");
+    NoeudAbstrait* n = new NoeudAbstrait(RAZER_KEY_NONE);
 	n->setPosition(Vecteur3(0.0,0.0));
 	n->setSelection(true);
 	VisiteurDeplacement v(Vecteur2(25.0,-10.0));
@@ -101,11 +101,12 @@ void VisiteurNoeudTest::testDeplacerObjet()
 void VisiteurNoeudTest::testSelectionObjet()
 {
 	RazerGameTree* arbre = new RazerGameTree(NULL,999,999);
-	NoeudAbstrait	*noeud1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
-					*noeud2 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
-					*noeud3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL),
-					*noeud4 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET),
-					*noeud5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+    NoeudAbstrait	*noeud1 = arbre->creerNoeud( RAZER_KEY_MALLET ),
+                    *noeud2 = arbre->creerNoeud( RAZER_KEY_PORTAL ),
+                    *noeud3 = arbre->creerNoeud( RAZER_KEY_PORTAL ),
+                    *noeud4 = arbre->creerNoeud( RAZER_KEY_MALLET ),
+                    *noeud5 = arbre->creerNoeud( RAZER_KEY_PUCK );
+
 	arbre->add(noeud1);
 	arbre->add(noeud2);
 	arbre->add(noeud3);
@@ -173,16 +174,16 @@ void VisiteurNoeudTest::testSuppressionObjet()
 {
 	// Construction d'un arbre de test
 	RazerGameTree* arbre = new RazerGameTree(NULL,999,999);
-	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
-	NoeudAbstrait* n4 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
-	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
-	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
-	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
-	NoeudComposite* nC1 = new NoeudComposite(RAZER_KEY_NONE,"groupe1");
-	NoeudComposite* nC2 = new NoeudComposite(RAZER_KEY_NONE,"groupe2");
-	NoeudComposite* nC3 = new NoeudComposite(RAZER_KEY_NONE,"groupe3");
+    NoeudAbstrait* n1 = arbre->creerNoeud( RAZER_KEY_MALLET );
+    NoeudAbstrait* n2 = arbre->creerNoeud( RAZER_KEY_MALLET );
+    NoeudAbstrait* n3 = arbre->creerNoeud( RAZER_KEY_PORTAL );
+    NoeudAbstrait* n4 = arbre->creerNoeud( RAZER_KEY_PORTAL );
+    NoeudAbstrait* n5 = arbre->creerNoeud( RAZER_KEY_PUCK );
+    NoeudAbstrait* n6 = arbre->creerNoeud( RAZER_KEY_PUCK );
+    NoeudAbstrait* n7 = arbre->creerNoeud( RAZER_KEY_BOOST );
+	NoeudComposite* nC1 = new NoeudComposite(RAZER_KEY_NONE);
+	NoeudComposite* nC2 = new NoeudComposite(RAZER_KEY_NONE);
+	NoeudComposite* nC3 = new NoeudComposite(RAZER_KEY_NONE);
 
 	arbre->add(n1);
 	arbre->add(n2);

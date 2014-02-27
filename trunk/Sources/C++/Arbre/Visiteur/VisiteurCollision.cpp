@@ -118,7 +118,7 @@ void VisiteurCollision::visiterNoeudComposite( NoeudComposite* noeud )
 	
 	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->find(i)->acceptVisitor(*this);
+		noeud->getChild(i)->acceptVisitor(*this);
 	}
 
 	
@@ -551,7 +551,7 @@ void VisiteurCollision::detectionCollisionCercleSegment( NoeudAbstrait* noeud )
 bool VisiteurCollision::collisionPresente() const
 {
 	if(mNodeToVerify!=NULL)
-		if(mNodeToVerify->getType() == RazerGameUtilities::NAME_TABLE_CONTROL_POINT)
+		if(mNodeToVerify->getKey() == RAZER_KEY_TABLE_CONTROL_POINT)
 			return false;
 	return collision_;
 }

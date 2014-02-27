@@ -25,7 +25,7 @@ class NoeudMuret : public NodeWallAbstract
 public:
     typedef NodeWallAbstract Super;
    /// Constructeur à partir du type du noeud.
-   NoeudMuret(const std::string& typeNoeud);
+    NoeudMuret( );
    /// Destructeur.
    virtual ~NoeudMuret();
    

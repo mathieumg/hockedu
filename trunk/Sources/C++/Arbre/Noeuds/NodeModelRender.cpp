@@ -38,8 +38,8 @@ CreateListDelegateImplementation(Zamboni)
 /// @return void.
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeModelRender::NodeModelRender(const std::string& typeNoeud)
-   : NoeudComposite(RAZER_KEY_NONE,typeNoeud)
+NodeModelRender::NodeModelRender( RazerKey  id)
+   : NoeudComposite(id)
 {
 
 }

@@ -139,7 +139,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudComposite( NoeudComposite* noeu
 {
 	for (unsigned int i=0; i<noeud->childCount(); i++)
 	{
-		noeud->find(i)->acceptVisitor(*this);
+		noeud->getChild(i)->acceptVisitor(*this);
 	}
 }
 
@@ -432,7 +432,7 @@ void VisiteurModifierProprieteNoeud::visiterNoeudNeutre( NoeudAbstrait* noeud )
 		Vecteur3 oldEchelle; noeud->getScale(oldEchelle);
 
 
-		if(noeud->getType() == "portail")
+		if(noeud->getKey() == RAZER_KEY_PORTAL)
 			noeud->setScale(Vecteur3(echelle_, echelle_, 1));
 		else
 			noeud->setScale(Vecteur3(echelle_, echelle_, echelle_));

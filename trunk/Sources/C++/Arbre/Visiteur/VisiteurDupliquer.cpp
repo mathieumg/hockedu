@@ -89,11 +89,11 @@ void VisiteurDupliquer::visiterNoeudMuret( NodeWallAbstract* noeud )
     if(terrain && wall && wall->isAnyPointSelected())
 	{
         // assume ici qu'un muret relatif ne peut etre selectionné
-		NodeWallEdition* nouveauNoeud = (NodeWallEdition*)(arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType()));
+		NodeWallEdition* nouveauNoeud = (NodeWallEdition*)(arbre_->ajouterNouveauNoeud(RAZER_KEY_TABLE, noeud->getKey()));
 		if(nouveauNoeud)
 		{
-            NodeControlPoint* coin1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
-            NodeControlPoint* coin2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);
+            NodeControlPoint* coin1 = new NodeControlPoint();
+            NodeControlPoint* coin2 = new NodeControlPoint();
             auto pos1 = noeud->obtenirCoin1();
             auto pos2 = noeud->obtenirCoin2();
             pos1[VX] += 5;
@@ -233,7 +233,7 @@ void VisiteurDupliquer::visiterEnfants( NoeudComposite* noeud )
 	unsigned int nbrEnfant = noeud->childCount();
 	for (unsigned int i=0; i<nbrEnfant; ++i)
 	{
-		noeud->find(i)->acceptVisitor(*this);
+		noeud->getChild(i)->acceptVisitor(*this);
 	}
 }
 
@@ -253,7 +253,7 @@ void VisiteurDupliquer::dupliquerNoeud( NoeudAbstrait* noeud )
     Terrain* terrain = noeud->getField();
 	if(terrain && noeud -> IsSelected())
 	{
-		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RazerGameUtilities::NOM_TABLE, noeud->getType());
+		NoeudAbstrait* nouveauNoeud = arbre_->ajouterNouveauNoeud(RAZER_KEY_TABLE, noeud->getKey());
 		if(nouveauNoeud != 0)
 		{
             Vecteur2 position = noeud->getPosition().convertir<2>() + Vecteur2(noeud->getRadius(),noeud->getRadius());

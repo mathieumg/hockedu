@@ -1335,21 +1335,21 @@ bool FacadeModele::insideLimits( NoeudAbstrait* noeud )
 /// @return std::string : typeRetour de noeud si unique ou "" si vide ou multiple
 ///
 ////////////////////////////////////////////////////////////////////////
-std::string FacadeModele::obtenirTypeNoeudSelectionne()
+RazerKey FacadeModele::obtenirTypeNoeudSelectionne( )
 {
     VisiteurEstSelectione visiteur;
     acceptVisitor(visiteur);
     ConteneurNoeuds* noeudsSelectionnes = visiteur.obtenirListeNoeuds();
-    std::string typeRetour;
+    RazerKey typeRetour;
     if(!noeudsSelectionnes->empty())
-        typeRetour = (*noeudsSelectionnes)[0]->getType();
+        typeRetour = (*noeudsSelectionnes)[0]->getKey();
     else
-        return "";
+        return RAZER_KEY_NONE;
     for(unsigned int i = 0; i < noeudsSelectionnes->size(); i++)
     {
-        if((*noeudsSelectionnes)[i]->getType() != typeRetour)
+        if((*noeudsSelectionnes)[i]->getKey() != typeRetour)
         {
-            typeRetour = "";
+            typeRetour = RAZER_KEY_NONE;
             break;
         }
     }

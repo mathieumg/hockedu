@@ -59,8 +59,8 @@ CreateListDelegateImplementation(ControlPoint)
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeControlPoint::NodeControlPoint( const std::string& typeNoeud ):
-Super(RAZER_KEY_CONTROL_POINT,typeNoeud),mCanBeVisited(true),mHeightAngle(0)
+NodeControlPoint::NodeControlPoint():
+Super(RAZER_KEY_CONTROL_POINT),mCanBeVisited(true),mHeightAngle(0)
 {
     setDefaultRadius(DEFAULT_RADIUS);
 }
@@ -134,7 +134,7 @@ void NodeControlPoint::tick( const float& temps )
 XmlElement* NodeControlPoint::createXmlNode()
 {
     XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
-
+    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey );
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
 

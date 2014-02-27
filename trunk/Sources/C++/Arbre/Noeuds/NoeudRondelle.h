@@ -41,7 +41,7 @@ public:
 private:
     /// Constructeur privé pour forcer a passer par l'usine
     /// Constructeur à partir du type du noeud.
-    NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit);
+    NoeudRondelle(unsigned int& puckCreated, unsigned int puckLimit);
 public:
     /// Destructeur.
     virtual ~NoeudRondelle();

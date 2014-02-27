@@ -23,7 +23,7 @@ class NoeudGroupe: public NoeudComposite
 public:
     typedef NoeudComposite Super;
 	/// Contructeur
-	NoeudGroupe(std::string type, std::string typeEnfants = "");
+    NoeudGroupe( const RazerKey typeEnfants = RAZER_KEY_NONE );
 	/// Destructeur
 	virtual ~NoeudGroupe(void);
 
@@ -40,10 +40,13 @@ public:
 	/// Initialisation du NoeudGroupe à partir d'un element XML
 	virtual bool initFromXml(const XmlElement* element);
 	/// Accesseur de typeEnfants_
-	std::string obtenirTypeEnfants() const { return typeEnfants_; }
+    RazerKey obtenirTypeEnfants( ) const
+    {
+        return typeEnfants_;
+    }
 private:
 	/// Le type des éléments du groupe
-	std::string typeEnfants_;
+	RazerKey typeEnfants_;
 };
 
 ///////////////////////////////////////////////////////////////////////////////

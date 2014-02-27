@@ -28,7 +28,7 @@ class NodeControlPoint : public NoeudComposite, public PositionSubject
 public:
     typedef NoeudComposite Super;
 	/// Constructeur à partir du type du noeud.
-	NodeControlPoint( const std::string& typeNoeud);
+	NodeControlPoint();
 	/// Destructeur.
 	virtual ~NodeControlPoint();
 

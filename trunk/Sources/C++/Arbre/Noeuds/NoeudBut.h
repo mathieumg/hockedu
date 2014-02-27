@@ -29,7 +29,7 @@ public:
     typedef NoeudComposite Super;
     friend NodeRinkBoards;
 	/// Constructeur à partir du type du noeud.
-	NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
+	NoeudBut(int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent = NULL);
 	/// Destructeur.
 	virtual ~NoeudBut();
 

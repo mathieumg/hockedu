@@ -20,7 +20,7 @@
 class FieldModificationStrategyAddNode : public FieldModificationStrategyAbstract
 {
 public:
-    FieldModificationStrategyAddNode(FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS,const std::string& type);
+    FieldModificationStrategyAddNode( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS, const RazerKey );
     virtual ~FieldModificationStrategyAddNode();
 protected:
     virtual int receivedEventSpecific(const FieldModificationStrategyEvent& pEvent);
@@ -30,7 +30,7 @@ protected:
 
     void createNewNode(const Vecteur2& position);
     class NoeudAbstrait* mNewNode;
-    const std::string mType;
+    const RazerKey mNodeKey;
 
 };
 

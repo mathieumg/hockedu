@@ -17,6 +17,7 @@
 #include "VisiteurEcrireXML.h"
 #include "Terrain.h"
 #include "NoeudMaillet.h"
+#include "XMLUtils.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( ConfigSceneTest );
@@ -38,10 +39,10 @@ void ConfigSceneTest::setUp()
 {
 	// On initialise un arbre arbitraire pour les test
 	arbre = new RazerGameTree(NULL,999,999);
-	noeuds_[0] = arbre->creerNoeud(RazerGameUtilities::NOM_MURET);
-	noeuds_[1] = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL); 
-	noeuds_[2] = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE); 
-	noeuds_[3] = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+	noeuds_[0] = arbre->creerNoeud(RAZER_KEY_WALL);
+	noeuds_[1] = arbre->creerNoeud(RAZER_KEY_PORTAL); 
+	noeuds_[2] = arbre->creerNoeud(RAZER_KEY_PUCK); 
+	noeuds_[3] = arbre->creerNoeud(RAZER_KEY_MALLET);
 	if(noeuds_[0] != 0)
 	{
 		if(noeuds_[1] != 0)
@@ -100,17 +101,17 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
 {
 	arbre->empty();
 
-	NoeudAbstrait* n1 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* n2 = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-	NoeudAbstrait* n3 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
-	NoeudAbstrait* n4 = arbre->creerNoeud(RazerGameUtilities::NOM_PORTAIL);
-	NoeudAbstrait* n5 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
-	NoeudAbstrait* n6 = arbre->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
-	NoeudAbstrait* n7 = arbre->creerNoeud(RazerGameUtilities::NOM_ACCELERATEUR);
-	NoeudComposite* nC1 = new NoeudComposite(RAZER_KEY_NONE,"groupe1");
-	NoeudComposite* nC2 = new NoeudComposite(RAZER_KEY_NONE,"groupe2");
-	NoeudComposite* nC3 = new NoeudComposite(RAZER_KEY_NONE,"groupe3");
-	NoeudComposite* nC4 = new NoeudComposite(RAZER_KEY_NONE,"groupe4");
+    NoeudAbstrait* n1 = arbre->creerNoeud( RAZER_KEY_MALLET );
+    NoeudAbstrait* n2 = arbre->creerNoeud( RAZER_KEY_MALLET );
+    NoeudAbstrait* n3 = arbre->creerNoeud( RAZER_KEY_PORTAL );
+    NoeudAbstrait* n4 = arbre->creerNoeud( RAZER_KEY_PORTAL );
+    NoeudAbstrait* n5 = arbre->creerNoeud( RAZER_KEY_PUCK );
+    NoeudAbstrait* n6 = arbre->creerNoeud( RAZER_KEY_PUCK );
+    NoeudAbstrait* n7 = arbre->creerNoeud( RAZER_KEY_BOOST );
+    NoeudComposite* nC1 = new NoeudComposite( RAZER_KEY_GROUP );
+    NoeudComposite* nC2 = new NoeudComposite( RAZER_KEY_GROUP );
+    NoeudComposite* nC3 = new NoeudComposite( RAZER_KEY_GROUP );
+    NoeudComposite* nC4 = new NoeudComposite( RAZER_KEY_GROUP );
 
 	arbre->add(n1);
 	arbre->add(n2);
@@ -146,86 +147,87 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
     XMLUtils::SaveDocument(document,"tests_xml\\TestEnregistrement.xml" );
 	
 	// Lecture manuelle du document et vérification des noeuds lus (et de la non-existence de noeuds qui ne sont pas supposer exister
-	const XmlNode* elementConfiguration = XMLUtils::FirstChild(document.GetElem(),ConfigScene::ETIQUETTE_ARBRE), *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
+    const XmlNode* elementConfiguration = XMLUtils::FirstChild( document.GetElem(), ConfigScene::ETIQUETTE_ARBRE );
+    const XmlElement *child, *grantChild, *grantGrantChild;//, *grantGrantGrantChild;
 	CPPUNIT_ASSERT (elementConfiguration != NULL);
-    std::string name;
+    int nodeKey;
     {
         // n1
-        child = elementConfiguration->FirstChild();
+        child = elementConfiguration->FirstChildElement();
         CPPUNIT_ASSERT (child != NULL);
-        name = child->Value();
-        CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
+        XMLUtils::readAttribute( child, "id", nodeKey );
+        CPPUNIT_ASSERT(nodeKey == RAZER_KEY_MALLET);
 
         // n2
-        child = child->NextSibling();
+        child = child->NextSiblingElement();
         CPPUNIT_ASSERT (child != NULL);
-        name = child->Value();
-        CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_MAILLET);
+        XMLUtils::readAttribute( child, "id", nodeKey );
+        CPPUNIT_ASSERT( nodeKey == RAZER_KEY_MALLET );
 
         // nC1
-        child = child->NextSibling();
+        child = child->NextSiblingElement( );
         CPPUNIT_ASSERT (child != NULL);
-        name = child->Value();
-        CPPUNIT_ASSERT(name == "groupe1");
+        XMLUtils::readAttribute( child, "id", nodeKey );
+        CPPUNIT_ASSERT(nodeKey == RAZER_KEY_GROUP);
         {
             // n3
-            grantChild = child->FirstChild();
+            grantChild = child->FirstChildElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            name = grantChild->Value();
-            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
+            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            CPPUNIT_ASSERT(nodeKey == RAZER_KEY_PORTAL);
 
             // n4
-            grantChild = grantChild->NextSibling();
+            grantChild = grantChild->NextSiblingElement();
             CPPUNIT_ASSERT (grantChild != NULL);
-            name = grantChild->Value();
-            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_PORTAIL);
+            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            CPPUNIT_ASSERT( nodeKey == RAZER_KEY_PORTAL );
 
             // n'existe pas
-            grantChild = grantChild->NextSibling();
+            grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild == NULL);
         }
         // nC2
-        child = child->NextSibling();
+        child = child->NextSiblingElement( );
         CPPUNIT_ASSERT (child != NULL);
-        name = child->Value();
-        CPPUNIT_ASSERT(name == "groupe2");
+        XMLUtils::readAttribute( child, "id", nodeKey );
+        CPPUNIT_ASSERT( nodeKey == RAZER_KEY_GROUP );
         {
             {
                 // n5, car nC4 n'est pas enregistrable
-                grantChild = child->FirstChild();
+                grantChild = child->FirstChildElement( );
                 CPPUNIT_ASSERT (grantChild != NULL);
-                name = grantChild->Value();
-                CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
+                XMLUtils::readAttribute( grantChild,"id", nodeKey );
+                CPPUNIT_ASSERT(nodeKey == RAZER_KEY_PUCK);
             }
 
             // n6
-            grantChild = grantChild->NextSibling();
+            grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            name = grantChild->Value();
-            CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_RONDELLE);
+            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            CPPUNIT_ASSERT( nodeKey == RAZER_KEY_PUCK );
 
             // nC3
-            grantChild = grantChild->NextSibling();
+            grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            name = grantChild->Value();
-            CPPUNIT_ASSERT(name == "groupe3");
+            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            CPPUNIT_ASSERT( nodeKey == RAZER_KEY_GROUP );
             {
                 // n7
-                grantGrantChild = grantChild->FirstChild();
+                grantGrantChild = grantChild->FirstChildElement( );
                 CPPUNIT_ASSERT (grantGrantChild != NULL);
-                name = grantGrantChild->Value();
-                CPPUNIT_ASSERT(name == RazerGameUtilities::NOM_ACCELERATEUR);
+                XMLUtils::readAttribute( grantGrantChild,"id", nodeKey );
+                CPPUNIT_ASSERT( nodeKey == RAZER_KEY_BOOST );
 
                 // n'existe pas
-                grantGrantChild = grantGrantChild->NextSibling();
+                grantGrantChild = grantGrantChild->NextSiblingElement( );
                 CPPUNIT_ASSERT (grantGrantChild == NULL);
             }
 
             // n'existe pas
-            grantChild = grantChild->NextSibling();
+            grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild == NULL);
         }
-        child = child->NextSibling();
+        child = child->NextSiblingElement( );
         CPPUNIT_ASSERT (child == NULL);
     }
 	// Parcours de l'arbre complet

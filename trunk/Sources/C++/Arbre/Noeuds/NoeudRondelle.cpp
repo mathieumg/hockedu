@@ -61,8 +61,8 @@ CreateListDelegateImplementation(PuckTroll)
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudRondelle::NoeudRondelle(const std::string& typeNoeud, unsigned int& puckCreated, unsigned int puckLimit)
-    : NoeudAbstrait(RAZER_KEY_PUCK,typeNoeud),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
+NoeudRondelle::NoeudRondelle( unsigned int& puckCreated, unsigned int puckLimit)
+    : NoeudAbstrait(RAZER_KEY_PUCK),mNbPuckCreated(puckCreated),mLastHittingMallet(NULL)
 {
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);

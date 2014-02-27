@@ -155,8 +155,8 @@ void NodeBonus::getCubeColorVertexArrays(float* vertexArray, float* colorArray)
 /// @return void.
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeBonus::NodeBonus(const std::string& typeNoeud)
-   : Super(RAZER_KEY_BONUS,typeNoeud),mHeightAngle(0),mCounting(0)
+NodeBonus::NodeBonus()
+   : Super(RAZER_KEY_BONUS),mHeightAngle(0),mCounting(0)
 {
     // temp workaround, l'édition va le considérer comme un cercle pour un moment
     setDefaultRadius(DEFAULT_RADIUS);
@@ -403,9 +403,6 @@ void NodeBonus::ExecuteBonus( class NoeudRondelle* rondelle )
                     // so we finish it now
                     bonus->Complete();
                 }
-#if !SHIPPING
-                std::cout << "Bonus applied: " << BonusNamesArray[mBonusType] << "\t" << bonus->getOwner()->getType() << std::endl;
-#endif
             }
         }
     }

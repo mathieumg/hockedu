@@ -102,6 +102,9 @@
     <Filter Include="Sources Files\Jeu\AI\Renforcement">
       <UniqueIdentifier>{6b545438-cabd-41a9-b067-b0857ed88eb2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Render">
+      <UniqueIdentifier>{0229b755-9e70-4b70-aad9-53665200f096}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -653,6 +656,7 @@
     <ClCompile Include="Reseau\PacketsDefinitions.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="RenderOpenGL2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1194,6 +1198,9 @@
     </ClInclude>
     <ClInclude Include="Reseau\PacketsDefinitions.h">
       <Filter>Sources Files\Reseau</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderOpenGL2.h">
+      <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -24,7 +24,7 @@ public:
     typedef NoeudAbstrait Super;
 
 	/// Constructeur à partir du type du noeud.
-	NoeudAccelerateur(const std::string& typeNoeud);
+	NoeudAccelerateur();
 	/// Destructeur.
 	virtual ~NoeudAccelerateur();
 

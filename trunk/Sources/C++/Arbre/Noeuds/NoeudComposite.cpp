@@ -23,10 +23,9 @@
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudComposite::NoeudComposite(
-    RazerKey defaultKey,
-	const std::string& type //= std::string( "" )
+    RazerKey nodeKey
 	) :
-NoeudAbstrait(defaultKey,type)
+NoeudAbstrait(nodeKey)
 {
 
 }
@@ -157,10 +156,10 @@ bool NoeudComposite::erase( const NoeudAbstrait* noeud )
 ///
 ////////////////////////////////////////////////////////////////////////
 const NoeudAbstrait* NoeudComposite::find(
-	const std::string& typeNoeud
+	const RazerKey typeNoeud
 	) const
 {
-	if ( typeNoeud == mType ) {
+	if ( typeNoeud == mNodeKey ) {
 		return this;
 	}
 	else {
@@ -189,9 +188,9 @@ const NoeudAbstrait* NoeudComposite::find(
 /// @return NoeudAbstrait* : Noeud recherché ou 0 si le noeud n'est pas trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudComposite::find(const std::string& typeNoeud)
+NoeudAbstrait* NoeudComposite::find(const RazerKey typeNoeud)
 {
-	if ( typeNoeud == mType ) {
+	if ( typeNoeud == mNodeKey ) {
 		return this;
 	}
 	else {
@@ -220,7 +219,7 @@ NoeudAbstrait* NoeudComposite::find(const std::string& typeNoeud)
 /// @return const NoeudAbstrait* : Noeud recherché ou 0 si le noeud n'est pas trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-const NoeudAbstrait* NoeudComposite::find( unsigned int indice ) const
+const NoeudAbstrait* NoeudComposite::getChild( unsigned int indice ) const
 {
     if ( indice < (unsigned int)enfants_.size() ) {
 		return enfants_[indice];
@@ -242,7 +241,7 @@ const NoeudAbstrait* NoeudComposite::find( unsigned int indice ) const
 /// @return Noeud recherché ou 0 si le noeud n'est pas trouvé.
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAbstrait* NoeudComposite::find( unsigned int indice )
+NoeudAbstrait* NoeudComposite::getChild( unsigned int indice )
 {
 	if ( (indice < enfants_.size()) ) {
 		return enfants_[indice];

@@ -46,8 +46,8 @@ CreateListDelegateImplementation(TableControlPoint)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudPoint::NoeudPoint( const std::string& typeNoeud, float coordX, float coordY, TypePosPoint typePosNoeud)
-	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT,typeNoeud) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud),mCanBeVisited(true)
+NoeudPoint::NoeudPoint( float coordX, float coordY, TypePosPoint typePosNoeud)
+	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud),mCanBeVisited(true)
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -301,7 +301,7 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 XmlElement* NoeudPoint::createXmlNode()
 {
     XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
-
+    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey );
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
     XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
@@ -342,7 +342,7 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
         {
             throw ExceptionJeu("XML node not representing a goal after a table control point");
         }
-        NoeudBut* but = dynamic_cast<NoeudBut*>(find(0));
+        NoeudBut* but = dynamic_cast<NoeudBut*>(getChild(0));
         checkf(but,"but manquant sur le point, regardez constructeur table");
         if(but)
         {

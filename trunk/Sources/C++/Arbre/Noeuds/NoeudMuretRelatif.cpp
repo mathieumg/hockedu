@@ -105,7 +105,7 @@ void NoeudMuretRelatif::init( const Vecteur3& pCorner1, const Vecteur3& pCorner2
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMuretRelatif::NoeudMuretRelatif( const std::string& type ):
+NoeudMuretRelatif::NoeudMuretRelatif( const RazerKey type ) :
     Super(type), mUpdatingCornerPosition(false)
 {
     coins_[0] = NULL;

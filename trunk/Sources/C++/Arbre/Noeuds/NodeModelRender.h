@@ -25,7 +25,7 @@ class NodeModelRender : public NoeudComposite
 {
 public:
 	/// Constructeur à partir du type du noeud.
-	NodeModelRender(const std::string& typeNoeud);
+	NodeModelRender(RazerKey);
 	/// Destructeur.
 	virtual ~NodeModelRender();
 

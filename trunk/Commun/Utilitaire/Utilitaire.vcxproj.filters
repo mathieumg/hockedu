@@ -116,6 +116,7 @@
     <ClCompile Include="AnimationCamera.cpp">
       <Filter>Sources Files</Filter>
     </ClCompile>
+    <ClCompile Include="IRenderComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AideCollision.h">
@@ -272,6 +273,9 @@
       <Filter>Sources Files</Filter>
     </ClInclude>
     <ClInclude Include="AnimationFrameDefinitions.h">
+      <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IRenderComponent.h">
       <Filter>Sources Files</Filter>
     </ClInclude>
   </ItemGroup>

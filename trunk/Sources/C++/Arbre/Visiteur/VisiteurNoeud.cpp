@@ -71,7 +71,7 @@ void VisiteurNoeud::visiterNoeudComposite( NoeudComposite* noeud )
     unsigned int nbrEnfant = noeud->childCount();
     for (unsigned int i=0; i<nbrEnfant; ++i)
     {
-        noeud->find(i)->acceptVisitor(*this);
+        noeud->getChild(i)->acceptVisitor(*this);
     }
 }
 

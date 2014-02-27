@@ -24,7 +24,7 @@ class NoeudAffichage : public NoeudAbstrait, HUDElement
 {
 public:
    /// Constructeur à partir du type du noeud.
-   NoeudAffichage(const std::string& typeNoeud);
+   NoeudAffichage();
    /// Destructeur.
    virtual ~NoeudAffichage();
 

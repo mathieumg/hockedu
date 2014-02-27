@@ -346,7 +346,7 @@ public:
 	void modifierDeplacement(Vecteur2 deplacement);
 	void modifierRotation( float angle );
 	/// retourne le type des noeuds selectionné
-	std::string obtenirTypeNoeudSelectionne();
+	RazerKey obtenirTypeNoeudSelectionne();
 	/// Obtention d'un joueur
 	SPPlayerAbstract obtenirJoueur(std::string nom);
 	/// Obtention de la liste triées des joueurs

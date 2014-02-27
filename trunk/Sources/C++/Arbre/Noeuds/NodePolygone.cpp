@@ -39,8 +39,8 @@ T sign(T val)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NodePolygone::NodePolygone( const std::string& type ):
-    Super(RAZER_KEY_POLYGON,type),ControlPointMutableAbstract(8)
+NodePolygone::NodePolygone( ):
+    Super(RAZER_KEY_POLYGON),ControlPointMutableAbstract(8)
 {
 
 }

@@ -55,8 +55,8 @@ CreateListDelegateImplementation(Goal)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudBut::NoeudBut(const std::string& typeNoeud, int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
-   : NoeudComposite(RAZER_KEY_GOAL,typeNoeud), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
+NoeudBut::NoeudBut(int joueur, NoeudPoint * coinHaut, NoeudPoint * coinBas, NoeudComposite* pParent)
+   : NoeudComposite(RAZER_KEY_GOAL), joueur_(joueur), coinHaut_(coinHaut), coinBas_(coinBas), mBottomAngle(0),mTopAngle(0), mPuckCatcher(NULL),mCachedPuckRadius(NoeudRondelle::DEFAULT_RADIUS)
 {
     if(pParent)
     {

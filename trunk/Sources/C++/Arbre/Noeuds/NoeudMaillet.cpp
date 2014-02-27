@@ -55,8 +55,8 @@ CreateListDelegateImplementation(Mallet)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMaillet::NoeudMaillet(const std::string& typeNoeud, unsigned int& malletCreated, unsigned int malletLimit)
-   : NoeudAbstrait(RAZER_KEY_MALLET,typeNoeud), mPlayer(0),mNbMalletCreated(malletCreated)
+NoeudMaillet::NoeudMaillet(unsigned int& malletCreated, unsigned int malletLimit)
+   : NoeudAbstrait(RAZER_KEY_MALLET), mPlayer(0),mNbMalletCreated(malletCreated)
 #if BOX2D_PLAY
 , mMouseJoint(NULL),mMouseBody(NULL)
 #endif

@@ -105,7 +105,7 @@ bool BonusModifierSpawnPuck::Apply()
         auto tree = field->getLogicTree();
         if(tree)
         {
-            auto mNewNode = tree->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+            auto mNewNode = tree->creerNoeud(RAZER_KEY_PUCK);
             if(mNewNode)
             {
                 mNewNode->setPosition(mOwner->getPosition());

@@ -27,7 +27,7 @@ class NoeudMuretRelatif :
 public:
     typedef NodeWallAbstract Super;
 
-    NoeudMuretRelatif(const std::string& type);
+    NoeudMuretRelatif(const RazerKey);
     virtual ~NoeudMuretRelatif() = 0;
 
     /// fonction de comparaison de 2 noeuds

@@ -61,17 +61,17 @@ CreateListDelegateImplementation(Table)
     return 0;
 }
 
-const std::string* GroupTypes[] =
+const RazerKey GroupTypes[] =
 {
-    &RazerGameUtilities::NAME_TABLE_CONTROL_POINT ,
-    &RazerGameUtilities::NAME_RINK_BOARD          ,
-    &RazerGameUtilities::NOM_MAILLET              ,
-    &RazerGameUtilities::NOM_RONDELLE             ,
-    &RazerGameUtilities::NOM_ACCELERATEUR         ,
-    &RazerGameUtilities::NOM_MURET                ,
-    &RazerGameUtilities::NOM_PORTAIL              ,
-    &RazerGameUtilities::NAME_BONUS               ,
-    &RazerGameUtilities::NAME_POLYGONE            ,
+    RAZER_KEY_TABLE_CONTROL_POINT
+    ,RAZER_KEY_RINK_BOARD
+    ,RAZER_KEY_MALLET
+    ,RAZER_KEY_PUCK
+    ,RAZER_KEY_BOOST
+    ,RAZER_KEY_WALL
+    ,RAZER_KEY_PORTAL
+    ,RAZER_KEY_BONUS
+    ,RAZER_KEY_POLYGON
 };
 const int NB_GROUP_TYPES = ARRAY_COUNT(GroupTypes);
 
@@ -321,8 +321,8 @@ int NoeudTable::expectedChildCount()
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudTable::NoeudTable(const std::string& typeNoeud)
-   : NoeudComposite(RAZER_KEY_TABLE,typeNoeud) , mFrictionRatio(0.3f),mListRenderCorners(0)
+NoeudTable::NoeudTable()
+   : NoeudComposite(RAZER_KEY_TABLE) , mFrictionRatio(0.3f),mListRenderCorners(0)
 {
     for(int i=0; i<NB_BONUS_TYPE; ++i)
     {
@@ -339,7 +339,7 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
     for(int i=0; i<NB_GROUP_TYPES; ++i)
     {
         /// Groupe destine a contenir les noeud concret pour un meilleur parcours d'arbre
-        NoeudGroupe* group = new NoeudGroupe(RazerGameUtilities::NOM_GROUPE,*GroupTypes[i]);
+        NoeudGroupe* group = new NoeudGroupe(GroupTypes[i]);
         add(group);
     }
 
@@ -352,14 +352,14 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
 
     /// Création des 8 points de la table
-    NoeudPoint* hautGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,hauteurTable/2, POSITION_HAUT_GAUCHE);
-    NoeudPoint* hautMilieu_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,0,hauteurTable/2, POSITION_HAUT_MILIEU);
-    NoeudPoint* hautDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,hauteurTable/2, POSITION_HAUT_DROITE);
-    NoeudPoint* milieuGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,0, POSITION_MILIEU_GAUCHE);
-    NoeudPoint* milieuDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,0, POSITION_MILIEU_DROITE);
-    NoeudPoint* basGauche_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,-longueurTable/2,-hauteurTable/2, POSITION_BAS_GAUCHE);
-    NoeudPoint* basMilieu_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,0,-hauteurTable/2, POSITION_BAS_MILIEU);
-    NoeudPoint* basDroite_= new NoeudPoint(RazerGameUtilities::NAME_TABLE_CONTROL_POINT,longueurTable/2,-hauteurTable/2, POSITION_BAS_DROITE);
+    NoeudPoint* hautGauche_ = new NoeudPoint( -longueurTable / 2, hauteurTable / 2, POSITION_HAUT_GAUCHE );
+    NoeudPoint* hautMilieu_ = new NoeudPoint( 0, hauteurTable / 2, POSITION_HAUT_MILIEU );
+    NoeudPoint* hautDroite_ = new NoeudPoint( longueurTable / 2, hauteurTable / 2, POSITION_HAUT_DROITE );
+    NoeudPoint* milieuGauche_ = new NoeudPoint( -longueurTable / 2, 0, POSITION_MILIEU_GAUCHE );
+    NoeudPoint* milieuDroite_ = new NoeudPoint( longueurTable / 2, 0, POSITION_MILIEU_DROITE );
+    NoeudPoint* basGauche_ = new NoeudPoint( -longueurTable / 2, -hauteurTable / 2, POSITION_BAS_GAUCHE );
+    NoeudPoint* basMilieu_ = new NoeudPoint( 0, -hauteurTable / 2, POSITION_BAS_MILIEU );
+    NoeudPoint* basDroite_ = new NoeudPoint( longueurTable / 2, -hauteurTable / 2, POSITION_BAS_DROITE );
 
     /// Ajout du point symétrique à chacun des points
     hautGauche_->modifierPointSym(hautDroite_);
@@ -413,8 +413,8 @@ NoeudTable::NoeudTable(const std::string& typeNoeud)
 
     
     // Allocation de l'espace mémoire pour les but et on donne les paramètre nécessaire à l'affichage
-    butJoueur1_ = new NoeudBut(RazerGameUtilities::NOM_BUT,1,hautGauche_,basGauche_,milieuGauche_);
-    butJoueur2_ = new NoeudBut(RazerGameUtilities::NOM_BUT,2,hautDroite_,basDroite_,milieuDroite_);
+    butJoueur1_ = new NoeudBut(1,hautGauche_,basGauche_,milieuGauche_);
+    butJoueur2_ = new NoeudBut(2,hautDroite_,basDroite_,milieuDroite_);
     butJoueur1_->modifierButAdverse(butJoueur2_);
     butJoueur2_->modifierButAdverse(butJoueur1_);
 
@@ -756,7 +756,7 @@ void NoeudTable::acceptVisitor( VisiteurNoeud& v )
 bool NoeudTable::add( NoeudAbstrait* enfant )
 {
     // si un groupe existe pour ce type de noeud on lui assigne
-    NoeudGroupe* g = obtenirGroupe(enfant->getType());
+    NoeudGroupe* g = obtenirGroupe(enfant->getKey());
     if(g)
     {
         return g->add(enfant);
@@ -910,12 +910,12 @@ NodeWallAbstract* NoeudTable::detectionCollisionGrandeVitesseMuret( const Vecteu
 {
     float distance = 9999999;
     NodeWallAbstract* retour = 0;
-    NoeudGroupe* groupe = obtenirGroupe(RazerGameUtilities::NOM_MURET);
+    NoeudGroupe* groupe = obtenirGroupe(RAZER_KEY_WALL);
     if(groupe)
     {
         for(unsigned int i=0; i<groupe->childCount(); ++i)
         {
-            NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(groupe->find(i));
+            NodeWallAbstract* muret = dynamic_cast<NodeWallAbstract*>(groupe->getChild(i));
             if(muret)
             {
                 Vecteur2 point1 = muret->obtenirCoin1().convertir<2>();
@@ -1200,12 +1200,12 @@ bool NoeudTable::initFromXml( const XmlElement* element )
 /// @return NoeudGroupe* le groupe contenant ce type d'enfants, 0 si la table n'a pas de groupe de ce type
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudGroupe* NoeudTable::obtenirGroupe(std::string typeEnfant)
+NoeudGroupe* NoeudTable::obtenirGroupe(RazerKey typeEnfant)
 {
     unsigned int nbEnfants = childCount();
     for(unsigned int i=0; i<nbEnfants; i++)
     {
-        NoeudGroupe *g = dynamic_cast<NoeudGroupe *>(find(i));
+        NoeudGroupe *g = dynamic_cast<NoeudGroupe *>(getChild(i));
         if (g)
         {
             if(g->obtenirTypeEnfants() == typeEnfant)
@@ -1215,24 +1215,6 @@ NoeudGroupe* NoeudTable::obtenirGroupe(std::string typeEnfant)
     return 0;
 }
 
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn NoeudGroupe* NoeudTable::obtenirGroupe( unsigned int typeIdEnfant )
-///
-/// /*Description*/
-///
-/// @param[in] unsigned int typeIdEnfant
-///
-/// @return NoeudGroupe*
-///
-////////////////////////////////////////////////////////////////////////
-NoeudGroupe* NoeudTable::obtenirGroupe( unsigned int typeIdEnfant )
-{
-#if WIN32
-    return obtenirGroupe(GestionnaireModeles::obtenirInstance()->obtenirNameFromTypeId(typeIdEnfant));
-#endif
-    return NULL;
-}
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -1252,7 +1234,7 @@ NoeudGroupe* NoeudTable::obtenirGroupe( unsigned int typeIdEnfant )
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::reassignerParentBandeExt()
 {
-    NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(obtenirGroupe(RazerGameUtilities::NOM_MURET));
+    NoeudGroupe *groupe = dynamic_cast<NoeudGroupe *>(obtenirGroupe(RAZER_KEY_WALL));
     if (groupe)
     {
         for(unsigned int i=0; i<NB_BANDES; ++i)

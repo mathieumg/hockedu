@@ -73,10 +73,7 @@ class NoeudAbstrait : public AnimationSubject
 public:
 	friend VisiteurNoeudTest;
 	/// Constructeur.
-	NoeudAbstrait(
-        RazerKey defaultKey,
-		const std::string& type = std::string( "" )
-		);
+	NoeudAbstrait(RazerKey);
 	/// Destructeur.
 	virtual ~NoeudAbstrait();
 
@@ -97,13 +94,13 @@ public:
     void deleteThis();
 
 	/// Cherche un noeud par le type (sur un noeud constant).
-	virtual const NoeudAbstrait* find( const std::string& typeNoeud ) const;
+	virtual const NoeudAbstrait* find( const RazerKey typeNoeud ) const;
 	/// Cherche un noeud par le type.
-	virtual NoeudAbstrait* find( const std::string& typeNoeud );
+    virtual NoeudAbstrait* find( const RazerKey typeNoeud );
 	/// Cherche un noeud enfant selon l'indice (sur un noeud constant).
-	virtual const NoeudAbstrait* find( unsigned int indice ) const;
+	virtual const NoeudAbstrait* getChild( unsigned int indice ) const;
 	/// Cherche un noeud enfant selon l'indice.
-	virtual NoeudAbstrait* find( unsigned int indice );
+	virtual NoeudAbstrait* getChild( unsigned int indice );
 
 	/// Ajoute un noeud enfant.
 	virtual bool add( NoeudAbstrait* enfant );
@@ -195,10 +192,9 @@ protected:
 
     class b2Body* mPhysicBody;
 
-    /// Type du noeud.
-	std::string      mType;
     /// Key defining this node, can also be used to reset the skin
-    RazerKey mDefaultNodeKey;
+    std::string mType;
+    RazerKey mNodeKey;
 
     /// represent the key for the current skin
     RazerKey mSkinKey;
@@ -245,20 +241,24 @@ private:
 	/// Pointeur sur le terrain que le noeud est inclu dedans, Null si le noeud n'est pas sur un terrain
 	Terrain* mField;
     class b2World* mWorld;
-
+    class IRenderComponent* mRenderComponent;
 
 	/// Accesseurs
 public:
     virtual const class ArbreRendu* GetTreeRoot() const;
 
     /// Accessors of mDefaultNodeKey
-    inline RazerKey getDefaultNodeKey() const { return mDefaultNodeKey; }
-    inline void setDefaultNodeKey(RazerKey pVal) { mDefaultNodeKey = pVal;setSkinKey(pVal); }
+    inline RazerKey getDefaultNodeKey() const { return mNodeKey; }
+    inline void setDefaultNodeKey(RazerKey pVal) { mNodeKey = pVal;setSkinKey(pVal); }
     /// Accessors of mSkinKey
     inline RazerKey getSkinKey() const { return mSkinKey; }
     inline void setSkinKey( RazerKey pVal) { mSkinKey = pVal; mSkinStack.push_back(pVal); }
+    inline void forceSkin( RazerKey pVal )
+    {
+        mSkinKey = pVal;
+    }
     /// reapply old skin to the object, need to have called setSkin before hand
-    void resetSkin();
+    void revertSkin();
 
     /// Obtient le parent de ce noeud.
     inline NoeudComposite* getParent(){return mParent;}
@@ -282,8 +282,7 @@ public:
 	virtual float getAngle() const;
 
     /// Obtient le type du noeud.
-    inline const std::string& getType() const;
-    inline const RazerKey getKey()const {return RazerGameUtilities::StringToKey(mType);}
+    inline const RazerKey getKey()const;
 
     /// Écrit l'état de l'affichage du du noeud.
     inline void setVisible( bool affiche );
@@ -365,9 +364,9 @@ public:
 /// @return const std::string& : Le type du noeud.
 ///
 ////////////////////////////////////////////////////////////////////////
-inline const std::string& NoeudAbstrait::getType() const
+inline const RazerKey NoeudAbstrait::getKey() const
 {
-	return mType;
+	return mNodeKey;
 }
 
 ////////////////////////////////////////////////////////////////////////

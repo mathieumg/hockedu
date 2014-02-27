@@ -26,8 +26,8 @@
 /// @return Aucune (constructeur).
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudAffichage::NoeudAffichage(const std::string& typeNoeud)
-   : NoeudAbstrait(RAZER_KEY_MODEL_1,typeNoeud)
+NoeudAffichage::NoeudAffichage()
+   : NoeudAbstrait(RAZER_KEY_MODEL_3)
 {   
 	setVisible(false);
 	mScale = Vecteur3(5, 5, 5);

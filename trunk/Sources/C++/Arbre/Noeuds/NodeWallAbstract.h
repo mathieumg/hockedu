@@ -25,7 +25,7 @@ class NodeWallAbstract : public NoeudComposite
 public:
     typedef NoeudComposite Super;
    /// Constructeur à partir du type du noeud.
-   NodeWallAbstract(const std::string& typeNoeud);
+   NodeWallAbstract(const RazerKey);
    /// Destructeur.
    virtual ~NodeWallAbstract();
 

@@ -24,7 +24,7 @@ class NodePolygone : public NoeudComposite, public ControlPointMutableAbstract, 
 public:
     typedef NoeudComposite Super;
 	/// Constructeurs par paramètres
-	NodePolygone(const std::string& type);
+	NodePolygone();
     virtual ~NodePolygone();
     virtual void renderReal()const;
     /// Ajoute un noeud enfant.

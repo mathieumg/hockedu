@@ -24,8 +24,8 @@
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NoeudMuret::NoeudMuret(const std::string& typeNoeud)
-	: Super(typeNoeud)
+NoeudMuret::NoeudMuret( )
+	: Super(RAZER_KEY_WALL)
 {
 }
 

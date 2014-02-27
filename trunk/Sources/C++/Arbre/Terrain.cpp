@@ -489,12 +489,12 @@ void Terrain::initialiserArbreRendu()
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        NoeudAbstrait* piece = new NodeModelRender(RAZER_KEY_HOUSE);
         piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {
-            mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
+            mZamboni = new NodeModelRender(RAZER_KEY_ZAMBONI);
             mRenderTree->add(mZamboni);
         }
     }
@@ -512,7 +512,7 @@ void Terrain::initialiserArbreRendu()
     }
 
     // Ajout d'une table de base au terrain
-    mTable = new NoeudTable(RazerGameUtilities::NOM_TABLE);
+    mTable = new NoeudTable();
     mLogicTree->add(mTable);
 
     // Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
@@ -538,12 +538,12 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     if(!mRenderTree)
     {
         mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NodeModelRender(RazerGameUtilities::NOM_HOUSE);
+        NoeudAbstrait* piece = new NodeModelRender( RAZER_KEY_HOUSE );
         piece->setSkinKey(RAZER_KEY_HOUSE);
         mRenderTree->add(piece);
         if(IsGameField())
         {
-            mZamboni = new NodeModelRender(RazerGameUtilities::NAME_ZAMBONI);
+            mZamboni = new NodeModelRender( RAZER_KEY_ZAMBONI );
             mRenderTree->add(mZamboni);
         }
     }
@@ -669,9 +669,9 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
 void Terrain::creerTerrainParDefaut(const std::string& nom)
 {
     initialiser(nom);
-    NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-    NoeudAbstrait* maillet2 = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_MAILLET);
-    NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RazerGameUtilities::NOM_RONDELLE);
+    NoeudAbstrait* maillet1 = getLogicTree()->creerNoeud(RAZER_KEY_MALLET );
+    NoeudAbstrait* maillet2 = getLogicTree( )->creerNoeud( RAZER_KEY_MALLET );
+    NoeudAbstrait* rondelle = getLogicTree()->creerNoeud(RAZER_KEY_PUCK);
 
     maillet1->setPosition(mTable->obtenirPoint(POSITION_MILIEU_GAUCHE)->getPosition()/2.0);
     maillet2->setPosition(mTable->obtenirPoint(POSITION_MILIEU_DROITE)->getPosition()/2.0);
@@ -738,7 +738,7 @@ void Terrain::createRandomField(const std::string& nom)
 #define AddAccel(x,y,acc,e)                                                             \
     if(rand()&1)                                                                        \
     {                                                                                   \
-    NoeudAccelerateur* a = new NoeudAccelerateur(RazerGameUtilities::NOM_ACCELERATEUR); \
+    NoeudAccelerateur* a = new NoeudAccelerateur(); \
     a->setPosition(Vecteur3((float)x,(float)y));                                        \
     a->modifierBonusAccel((float)acc);                                                  \
     a->setScale(Vecteur3((float)e,(float)e,1));                                         \
@@ -756,7 +756,7 @@ void Terrain::createRandomField(const std::string& nom)
 #define AddPortal(x,y,e)                                                              \
     if(rand()&1)                                                                      \
     {                                                                                 \
-    NoeudPortail* a = new NoeudPortail(RazerGameUtilities::NOM_PORTAIL);              \
+    NoeudPortail* a = new NoeudPortail();              \
     a->setPosition(Vecteur3((float)x,(float)y));                                      \
     a->setScale(Vecteur3((float)e,(float)e,1));                                       \
     mTable->add(a);                                                                   \
@@ -773,7 +773,7 @@ void Terrain::createRandomField(const std::string& nom)
     {                                                                                           \
         if(IsGameField())                                                                       \
         {                                                                                       \
-            NoeudMuret* muret = new NoeudMuret(RazerGameUtilities::NOM_MURET);                  \
+            NoeudMuret* muret = new NoeudMuret();                  \
             muret->setScale(Vecteur3(1,(float)e,1));                                            \
             muret->assignerPositionCoin(1,Vecteur3((float)x1,(float)y1));                       \
             muret->assignerPositionCoin(2,Vecteur3((float)x2,(float)y2));                       \
@@ -782,9 +782,9 @@ void Terrain::createRandomField(const std::string& nom)
         }                                                                                       \
         else                                                                                    \
         {                                                                                       \
-            NodeWallEdition* wall = new NodeWallEdition(RazerGameUtilities::NOM_MURET);         \
-            NodeControlPoint* p1 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
-            NodeControlPoint* p2 = new NodeControlPoint(RazerGameUtilities::NAME_CONTROL_POINT);\
+            NodeWallEdition* wall = new NodeWallEdition();         \
+            NodeControlPoint* p1 = new NodeControlPoint();\
+            NodeControlPoint* p2 = new NodeControlPoint();\
             wall->add(p1);                                                                      \
             wall->add(p2);                                                                      \
             p1->setPosition(Vecteur3((float)x1,(float)y1));                                     \
@@ -805,7 +805,7 @@ void Terrain::createRandomField(const std::string& nom)
 #define AddBonus(x,y,e)                                             \
     if(rand()&1)                                                    \
     {                                                               \
-    NodeBonus* b = new NodeBonus(RazerGameUtilities::NAME_BONUS);   \
+    NodeBonus* b = new NodeBonus();   \
     b->setPosition(Vecteur3((float)x,(float)y));                    \
     b->setScale(Vecteur3((float)e,(float)e,1));                     \
     mTable->add(b);                                                 \
@@ -998,7 +998,7 @@ bool Terrain::insideLimits( NoeudAbstrait* noeud )
     if(zone)
     {
         auto aabb = zone->getAABBExt();
-        if( noeud->getType() == RazerGameUtilities::NOM_MURET)
+        if( noeud->getKey() == RAZER_KEY_WALL)
         {
             Vecteur2 intersection;
             NodeWallAbstract *muret = (NodeWallAbstract *)noeud;
@@ -1042,14 +1042,14 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
     }
     float hauteurBut = mTable->obtenirBut(1)->obtenirHauteurBut();
 
-    static const std::string typeNoeudModifiable[] = {
-        RazerGameUtilities::NOM_RONDELLE,
-        RazerGameUtilities::NOM_MAILLET,
-        RazerGameUtilities::NOM_ACCELERATEUR,
-        RazerGameUtilities::NOM_PORTAIL,
-        RazerGameUtilities::NOM_MURET,
-        RazerGameUtilities::NAME_BONUS,
-        RazerGameUtilities::NAME_POLYGONE,
+    static const RazerKey typeNoeudModifiable[] = {
+        RAZER_KEY_PUCK
+        ,RAZER_KEY_MALLET
+        ,RAZER_KEY_BOOST
+        ,RAZER_KEY_PORTAL
+        ,RAZER_KEY_WALL
+        ,RAZER_KEY_BONUS
+        ,RAZER_KEY_POLYGON
     };
     const unsigned int nbTypeModifiable = ARRAY_COUNT(typeNoeudModifiable);
 
@@ -1063,9 +1063,9 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         {
             for(unsigned int j=0; j<g->childCount(); ++j)
             {
-                NoeudAbstrait* n = g->find(j);
+                NoeudAbstrait* n = g->getChild(j);
                 // On verifie que le type est bon, surtout utile pour les bande exterieur qui ont un nom different et doivent etre ignorer par cette methode
-                if(n->getType() == typeNoeudModifiable[i])
+                if(n->getKey() == typeNoeudModifiable[i])
                 {
                     if(!mTable->estSurTable(n) )
                     {
@@ -1091,7 +1091,7 @@ bool Terrain::verifierValidite( bool afficherErreur /*= true*/, bool deleteExter
         utilitaire::afficherErreur("Warning : Items present outside the table\nmight invalidate when trying to play.");
     }
 
-    auto g = mTable->obtenirGroupe(RazerGameUtilities::NOM_PORTAIL);
+    auto g = mTable->obtenirGroupe(RAZER_KEY_PORTAL);
     checkf(g);
     if(g && g->childCount() == 1)
     {
@@ -1221,12 +1221,12 @@ NoeudRondelle* Terrain::getPuck() const
 
     if(getTable())
     {
-        NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
+        NoeudComposite* g = (NoeudComposite*)getTable()->obtenirGroupe(RAZER_KEY_PUCK);
         if(g)
         {
             for(unsigned int i=0; i<g->childCount(); ++i)
             {
-                NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
+                NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->getChild(i));
                 if(r)
                     return r;
             }
@@ -1433,7 +1433,7 @@ void Terrain::BeginContact( b2Contact* contact )
                             while(!portailDeSortie || portailDeSortie == portail)
                             {
                                 int noPortailDeSortie = rand()%nbEnfant;
-                                portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->find(noPortailDeSortie));
+                                portailDeSortie = dynamic_cast<NoeudPortail*>(groupe->getChild(noPortailDeSortie));
                             }
 
                             NoeudRondelle* rondelle = (NoeudRondelle*)bodies[0]->GetUserData();
@@ -1889,13 +1889,13 @@ NoeudMaillet* Terrain::getLeftMallet() const
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
-        NoeudGroupe* g = getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+        NoeudGroupe* g = getTable()->obtenirGroupe(RAZER_KEY_MALLET);
         checkf(g, "Groupe pour les maillets manquant");
         if(g)
         {
             for(unsigned int i=0; i<g->childCount(); ++i)
             {
-                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->getChild(i));
                 if( m->getPosition()[VX] <= 0 )
                     maillet = m;
             }
@@ -1926,13 +1926,13 @@ NoeudMaillet* Terrain::getRightMallet() const
     NoeudMaillet* maillet = NULL;
     if(getTable())
     {
-        NoeudGroupe* g = getTable()->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+        NoeudGroupe* g = getTable()->obtenirGroupe(RAZER_KEY_MALLET);
         checkf(g, "Groupe pour les maillets manquant");
         if(g)
         {
             for(unsigned int i=0; i<g->childCount(); ++i)
             {
-                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->find(i));
+                NoeudMaillet* m = dynamic_cast<NoeudMaillet *>(g->getChild(i));
                 if(m->getPosition()[VX]>0)
                     maillet = m;
             }
@@ -2326,13 +2326,13 @@ void Terrain::initNecessaryPointersForGame()
     if(IsGameField())
     {
         {
-            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_MAILLET);
+            NoeudGroupe* g = mTable->obtenirGroupe(RAZER_KEY_MALLET);
             checkf(g, "Groupe pour les maillets manquant");
             if(g)
             {
                 for(unsigned int i=0; i<g->childCount(); ++i)
                 {
-                    NoeudMaillet* m = (NoeudMaillet*)(g->find(i));
+                    NoeudMaillet* m = (NoeudMaillet*)(g->getChild(i));
                     if(m->getPosition()[VX] <= 0)
                     {
                         mGreenTeam.push_back(m);
@@ -2350,7 +2350,7 @@ void Terrain::initNecessaryPointersForGame()
             }
         }
         {
-            NoeudGroupe* g = mTable->obtenirGroupe(RazerGameUtilities::NOM_RONDELLE);
+            NoeudGroupe* g = mTable->obtenirGroupe(RAZER_KEY_PUCK);
             checkf(g, "Groupe pour la rondelle manquante");
             if(g)
             {
@@ -2358,7 +2358,7 @@ void Terrain::initNecessaryPointersForGame()
                 mPucks = (const std::vector<NoeudRondelle*>*)&g->getChilds();
                 for(unsigned int i=0; i<g->childCount(); ++i)
                 {
-                    NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->find(i));
+                    NoeudRondelle* r = dynamic_cast<NoeudRondelle *>(g->getChild(i));
                     if(r)
                     {
                         r->modifierPositionOriginale(r->getPosition());
@@ -2544,37 +2544,37 @@ int Terrain::BeginModification(FieldModificationStrategyType type, const FieldMo
         break;
     case FIELD_MODIFICATION_ADD_PORTAL:
         {
-            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_PORTAIL);
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RAZER_KEY_PORTAL);
             mModifStrategy = addModif;
         }
         break;
     case FIELD_MODIFICATION_ADD_BOOST:
         {
-            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_ACCELERATEUR);
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RAZER_KEY_BOOST);
             mModifStrategy = addModif;
         }
         break;
     case FIELD_MODIFICATION_ADD_WALL:
         {
-            FieldModificationStrategyAddWall* addModif = new FieldModificationStrategyAddWall(this,beginEvent,RazerGameUtilities::NOM_MURET);
+            FieldModificationStrategyAddWall* addModif = new FieldModificationStrategyAddWall(this,beginEvent,RAZER_KEY_WALL);
             mModifStrategy = addModif;
         }
         break;
     case FIELD_MODIFICATION_ADD_MALLET:
         {
-            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_MAILLET);
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RAZER_KEY_MALLET);
             mModifStrategy = addModif;
         }
         break;
     case FIELD_MODIFICATION_ADD_PUCK:
         {
-            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NOM_RONDELLE);
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RAZER_KEY_PUCK);
             mModifStrategy = addModif;
         }
         break;
     case FIELD_MODIFICATION_ADD_BONUS:
         {
-            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RazerGameUtilities::NAME_BONUS);
+            FieldModificationStrategyAddNode* addModif = new FieldModificationStrategyAddNode(this,beginEvent,RAZER_KEY_BONUS);
             mModifStrategy = addModif;
         }
         break;

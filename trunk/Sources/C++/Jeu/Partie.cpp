@@ -60,7 +60,7 @@ mGameType(gameType),mMiseAuJeuDelai(4100), mNbButsGagnants(pNbButsGagnants)
     modifierJoueurGauche(joueurGauche);
     modifierJoueurDroit(joueurDroit);
     mClockLastTick = 0;
-    chiffres_ = new NoeudAffichage("3");
+    chiffres_ = new NoeudAffichage();
     mField = new Terrain(this);
     mFieldSimulation = new Terrain(this);
     mFieldSimulation->setIsSimulation(true);
@@ -411,7 +411,7 @@ void Partie::reinitialiserPartie()
     pointsJoueurGauche_ = 0;
     pointsJoueurDroit_ = 0;
     // Reinitialisation du noeudAffichage Chiffre
-    chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
+    chiffres_->forceSkin(RAZER_KEY_MODEL_3);
     chiffres_->setVisible(false);
     tempsJeu_.unPause();
     tempsJeu_.reset_Time();
@@ -587,7 +587,7 @@ void Partie::updateMinuterie( int time )
         if(clock() > mClockDelaisDone-1000)
         {
             mClockDelaisDone = 0;
-            chiffres_->setSkinKey(RAZER_KEY_MODEL_3);
+            chiffres_->forceSkin( RAZER_KEY_MODEL_3 );
             chiffres_->setVisible(false);
             setGameStatus(GAME_STARTED);
             mClockLastTick = 0;
@@ -609,7 +609,7 @@ void Partie::updateMinuterie( int time )
                     return;
                 chiffres_->setVisible(true);
                 SoundFMOD::obtenirInstance()->playEffect(BEEP_EFFECT);
-                chiffres_->setSkinKey(RazerKey(RAZER_KEY_MODEL_1+lequel-1));
+                chiffres_->forceSkin( RazerKey( RAZER_KEY_MODEL_1 + lequel - 1 ) );
                 chiffres_->resetEchelle();
 
                 if(lequel == 2)

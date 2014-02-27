@@ -49,8 +49,8 @@ CreateListDelegateImplementation(Wall)
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeWallAbstract::NodeWallAbstract(const std::string& typeNoeud)
-	: Super(RAZER_KEY_WALL,typeNoeud)
+NodeWallAbstract::NodeWallAbstract( const RazerKey typeNoeud )
+	: Super(typeNoeud)
 {
 	mReboundRatio = 0.75f;
 }

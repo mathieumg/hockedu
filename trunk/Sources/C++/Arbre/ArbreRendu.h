@@ -65,18 +65,18 @@ public:
 
    /// Ajoute une usine associée à un type de noeud.
    inline void ajouterUsine(
-      const std::string& type, const UsineNoeud* usine
+       const RazerKey type, const UsineNoeud* usine
       );
 
    /// Crée un nouveau noeud.
    NoeudAbstrait* creerNoeud(
-      const std::string& typeNouveauNoeud
+       const RazerKey typeNouveauNoeud
       ) const;
 
    /// Crée et ajoute un nouveau noeud à l'arbre.
    NoeudAbstrait* ajouterNouveauNoeud(
-      const std::string& nomParent,
-      const std::string& typeNouveauNoeud
+       const RazerKey nomParent,
+       const RazerKey typeNouveauNoeud
       );
 
    /// Calcule la profondeur maximale possible pour l'arbre de rendu.
@@ -93,7 +93,7 @@ public:
 private:
    /// Définition du type pour l'association du nom d'un type vers l'usine
    /// correspondante.
-    typedef HashMap< std::string, const UsineNoeud* > RegistreUsines;
+    typedef HashMap< RazerKey, const UsineNoeud* > RegistreUsines;
    /// Association du nom d'un type vers l'usine correspondante.
    RegistreUsines usines_;
 };
@@ -114,7 +114,7 @@ private:
 ///
 ////////////////////////////////////////////////////////////////////////
 inline void ArbreRendu::ajouterUsine(
-   const std::string& type, const UsineNoeud* usine
+    const RazerKey type, const UsineNoeud* usine
    )
 {
    usines_[type] = usine;

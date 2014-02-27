@@ -211,23 +211,23 @@ void NoeudCompositeTest::effacerEnfantsTest()
 ////////////////////////////////////////////////////////////////////////
 void NoeudCompositeTest::chercherEnfantTest()
 {
-	CPPUNIT_ASSERT(arbre->find(0) == enfants[0]);
-	CPPUNIT_ASSERT(arbre->find(1) == enfants[1]);
+	CPPUNIT_ASSERT(arbre->getChild(0) == enfants[0]);
+	CPPUNIT_ASSERT(arbre->getChild(1) == enfants[1]);
 	// Test pour la recherche avec un index hors de l'intervalle
-	CPPUNIT_ASSERT(arbre->find(2) == 0);
-	CPPUNIT_ASSERT(enfants[0]->find(0) == enfants[2]);
-	CPPUNIT_ASSERT(enfants[2]->find(0) == enfants[3]);
-	CPPUNIT_ASSERT(enfants[2]->find(1) == enfants[4]);
+	CPPUNIT_ASSERT(arbre->getChild(2) == 0);
+	CPPUNIT_ASSERT(enfants[0]->getChild(0) == enfants[2]);
+	CPPUNIT_ASSERT(enfants[2]->getChild(0) == enfants[3]);
+	CPPUNIT_ASSERT(enfants[2]->getChild(1) == enfants[4]);
 
 	arbre->empty();
-	enfants[0] = new NoeudComposite(RAZER_KEY_NONE,"maillet");
-	enfants[1] = new NoeudComposite(RAZER_KEY_NONE,"maillet");
-	enfants[2] = new NoeudComposite(RAZER_KEY_NONE,"portail");
+	enfants[0] = new NoeudComposite(RAZER_KEY_MALLET);
+	enfants[1] = new NoeudComposite(RAZER_KEY_MALLET);
+	enfants[2] = new NoeudComposite(RAZER_KEY_PORTAL);
 	arbre->add(enfants[0]);
 	arbre->add(enfants[1]);
 	enfants[0]->add(enfants[2]);
-	CPPUNIT_ASSERT(arbre->find("maillet") == enfants[0]);
-	CPPUNIT_ASSERT(arbre->find("portail") == enfants[2]);
+    CPPUNIT_ASSERT( arbre->find( RAZER_KEY_MALLET ) == enfants[0] );
+    CPPUNIT_ASSERT( arbre->find( RAZER_KEY_PORTAL ) == enfants[2] );
 
 }
 
@@ -296,7 +296,7 @@ void NoeudCompositeTest::modificationTerrain()
 {
 	Terrain* terrain = new Terrain(NULL);
 
-	NoeudAbstrait* n = arbre->creerNoeud(RazerGameUtilities::NOM_MAILLET);
+    NoeudAbstrait* n = arbre->creerNoeud( RAZER_KEY_MALLET );
     
 	// Assignation d'un terrain a la racine d'un arbre
 	arbre->setField(terrain);

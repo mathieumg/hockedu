@@ -26,8 +26,8 @@
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-NodeWallEdition::NodeWallEdition( const std::string& type ):
-    Super(type),ControlPointMutableAbstract(2)
+NodeWallEdition::NodeWallEdition( ):
+Super( RAZER_KEY_WALL ), ControlPointMutableAbstract( 2 )
 {
 
 }
@@ -169,7 +169,7 @@ bool NodeWallEdition::initFromXml( const XmlElement* element )
         {
             throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
         }
-        NodeControlPoint* point = new NodeControlPoint(name);
+        NodeControlPoint* point = new NodeControlPoint();
         point->initFromXml(child);
         // on fait l'ajout apres pour mettre a jour limité le nombre de fois qu'on mets a jour les propriétés du noeud.
         if(!addControlPoint(point))

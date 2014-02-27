@@ -24,7 +24,7 @@ class NodeBonus : public NoeudAbstrait
 public:
     typedef NoeudAbstrait Super;
     /// Constructeur à partir du type du noeud.
-    NodeBonus(const std::string& typeNoeud);
+    NodeBonus();
     /// Destructeur.
     virtual ~NodeBonus();
 

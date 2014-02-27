@@ -23,8 +23,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-FieldModificationStrategyAddNode::FieldModificationStrategyAddNode( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS, const std::string& type ) :
-    FIELDMODIFICATIONSTRATEGYABSTRACT_INIT, mNewNode(NULL), mType(type)
+FieldModificationStrategyAddNode::FieldModificationStrategyAddNode( FIELDMODIFICATIONSTRATEGYABSTRACT_PARAMETERS, const RazerKey type ) :
+    FIELDMODIFICATIONSTRATEGYABSTRACT_INIT, mNewNode(NULL), mNodeKey(type)
 {
     createNewNode(pEvent.mPosition);
 }
@@ -121,7 +121,7 @@ void FieldModificationStrategyAddNode::createNewNode(const Vecteur2& position)
     auto tree = mField->getLogicTree();
     if(tree)
     {
-        mNewNode = tree->creerNoeud(mType);
+        mNewNode = tree->creerNoeud(mNodeKey);
         if(mNewNode)
         {
             mNewNode->setPosition(position);

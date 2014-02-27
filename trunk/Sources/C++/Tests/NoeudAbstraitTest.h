@@ -33,7 +33,6 @@ class NoeudAbstraitTest : public CppUnit::TestFixture
 	// =================================================================
   CPPUNIT_TEST_SUITE( NoeudAbstraitTest );
   CPPUNIT_TEST( testPositionRelative );
-  CPPUNIT_TEST( testType );
   CPPUNIT_TEST( testEtat );
   CPPUNIT_TEST( testSelection );
   CPPUNIT_TEST( testEnfants );
@@ -60,9 +59,6 @@ public:
 
 	/// Cas de test: écriture/lecture de la position relative
 	void testPositionRelative();
-
-	/// Cas de test: type de noeud
-	void testType();
 
 	/// Cas de test: définition/obtention de l'état (booléens) du noeud
 	void testEtat();

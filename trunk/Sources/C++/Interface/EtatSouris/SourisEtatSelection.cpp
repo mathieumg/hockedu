@@ -117,7 +117,7 @@ void SourisEtatSelection::sourisRelachee( EvenementSouris& evenementSouris )
         for(; iter != liste.end(); iter++)
         {
             VisiteurSelectionOpenGL visiteur(&iter->second,keepSelection);
-            NoeudGroupe* groupe = field->getTable()->obtenirGroupe(iter->first);
+            NoeudGroupe* groupe = field->getTable()->obtenirGroupe((RazerKey)iter->first);
             if(groupe)
             {
                 groupe->acceptVisitor(visiteur);
@@ -226,13 +226,12 @@ void SourisEtatSelection::doubleClickEvent( EvenementSouris& evenementSouris )
         {
             STL_ITERATE(liste,it)
             {
-                auto type = GestionnaireModeles::obtenirInstance()->obtenirNameFromTypeId(it->first);
-                auto group = table->obtenirGroupe(type);
+                auto group = table->obtenirGroupe( (RazerKey)it->first );
                 if(group)
                 {
                     for(unsigned int i=0; i<group->childCount(); ++i)
                     {
-                        NoeudAbstrait* n = (group->find(i));
+                        NoeudAbstrait* n = (group->getChild(i));
                         n->setSelection(!unselect);
                     }
                 }
