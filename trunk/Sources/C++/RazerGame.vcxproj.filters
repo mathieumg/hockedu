@@ -161,9 +161,6 @@
     <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp">
       <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\FacadeJNI.cpp">
-      <Filter>Sources Files\Interface</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NoeudPortail.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
     </ClCompile>
@@ -661,9 +658,6 @@
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
       <Filter>Sources Files\Application</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\FacadeJNI.h">
-      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
     <ClInclude Include="Configuration\ConfigScene.h">
       <Filter>Sources Files\Configuration</Filter>

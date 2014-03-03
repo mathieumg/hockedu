@@ -9,15 +9,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#if WITH_JAVA  
-#include "jni.h"
-#endif //WITH_JAVA  
 
 typedef int ToucheClavier;
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class EvenementClavier
-/// @brief Classe qui sert d'interface des événements du clavier provenant de Java
+/// @brief Classe qui sert d'interface des événements du clavier provenant du GUI
 ///
 /// @author Charles Etienne
 /// @date 2012-01-25
@@ -25,11 +22,6 @@ typedef int ToucheClavier;
 class EvenementClavier
 {
 public:
-#if WITH_JAVA  
-	/// Constructeurs par objet Java
-	EvenementClavier(JNIEnv* env, jobject& evenementClavier);
-#endif //WITH_JAVA  
-
 	/// Constructeur par paramètres
 	EvenementClavier(ToucheClavier touche);
 

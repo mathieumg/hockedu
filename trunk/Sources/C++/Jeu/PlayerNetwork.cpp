@@ -28,38 +28,6 @@ PlayerNetwork::PlayerNetwork(std::string nom) : PlayerAbstract(nom)
 	type_ = JOUEUR_NETWORK;
 }
 
-#if WITH_JAVA  
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn JoueurNetwork::JoueurNetwork( JNIEnv* env, jobject& joueurHumain )
-///
-/// Constructeur qui initialisela le joueur network à partir d'un objet Java.
-///
-/// @param[in] env : l'environnement Java.
-/// @param[in] joueurHumain : un joueur humain précédement déclaré en Java
-///
-/// @return
-///
-////////////////////////////////////////////////////////////////////////
-PlayerNetwork::PlayerNetwork( JNIEnv* env, jobject& joueurHumain ) : PlayerAbstract("")
-{
-    // NE DEVRAIT PAS ETRE UTILISE
-
-
-	// Obtention de la classe
-	jclass classe = env->GetObjectClass(joueurHumain);
-
-	// Obtention du nom
-	jmethodID obtenirNom = env->GetMethodID(classe, "obtenirNom", "()Ljava/lang/String;");
-	jstring nom = (jstring)env->CallObjectMethod(joueurHumain, obtenirNom);
-
-	// Modification des attributs
-	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
-	type_ = JOUEUR_NETWORK;
-
-}
-#endif //WITH_JAVA  
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurNetwork::~JoueurNetwork( )

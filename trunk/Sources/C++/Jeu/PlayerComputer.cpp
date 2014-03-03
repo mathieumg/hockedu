@@ -35,48 +35,6 @@ PlayerComputer::PlayerComputer(std::string nom, unsigned int vitesse, unsigned i
     setAiMaillet(new AIMaillet(this));
 }
 
-#ifdef WITH_JAVA
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn JoueurVirtuel::JoueurVirtuel( JNIEnv* env, jobject& joueurVirtuel )
-///
-/// Constructeur qui initialise le joueur virtuel à partir d'un objet Java.
-///
-/// @param[in] env : l'environnement Java.
-/// @param[in] joueurVirtuel : un joueur virtuel précédement déclaré en Java
-///
-/// @return
-///
-////////////////////////////////////////////////////////////////////////
-PlayerComputer::PlayerComputer( JNIEnv* env, jobject& joueurVirtuel ) : PlayerAbstract("") ,aiMaillet_(NULL)
-{
-	// Obtention de la classe
-	jclass classe = env->GetObjectClass(joueurVirtuel);
-
-	// Obtention du nom
-	jmethodID obtenirNom = env->GetMethodID(classe, "obtenirNom", "()Ljava/lang/String;");
-	jstring nom = (jstring)env->CallObjectMethod(joueurVirtuel, obtenirNom);
-	
-	// Obtention de la vitesse
-	jmethodID obtenirVitesse = env->GetMethodID(classe, "obtenirVitesse", "()I");
-	jint vitesse = env->CallIntMethod(joueurVirtuel, obtenirVitesse);
-
-	// Obtention de la probabilité d'échec
-	jmethodID obtenirProbabiliteEchec = env->GetMethodID(classe, "obtenirProbabiliteEchec", "()I");
-	jint probabiliteEchec = env->CallIntMethod(joueurVirtuel, obtenirProbabiliteEchec);
-
-	// Modification des attributs
-	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
-	vitesse_ = (unsigned int)(vitesse/100.0*500.0);
-	probabiliteEchec_ = probabiliteEchec;
-	type_ = JOUEUR_VIRTUEL;
-
-    setAiMaillet(new AIMaillet(this));
-
-}
-
-
-#endif // WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn JoueurVirtuel::~JoueurVirtuel( )

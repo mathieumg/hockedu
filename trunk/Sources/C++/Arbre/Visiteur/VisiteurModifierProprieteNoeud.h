@@ -11,9 +11,6 @@
 #pragma once
 #include "VisiteurNoeud.h"
 
-#if WITH_JAVA
-#include <jni.h>
-#endif
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class VisiteurModifierProprieteNoeud
@@ -26,10 +23,6 @@ class VisiteurModifierProprieteNoeud :
 	public VisiteurNoeud
 {
 public:
-#if WITH_JAVA
-	/// Constructeur par paramètre
-	VisiteurModifierProprieteNoeud(JNIEnv* env, jobject& modificateur);
-#endif
 	/// Destructeur
     virtual ~VisiteurModifierProprieteNoeud(void);
 

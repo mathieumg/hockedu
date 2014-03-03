@@ -17,7 +17,7 @@
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class EvenementSouris
-/// @brief Classe qui sert d'interface des événements souris provenant de Java
+/// @brief Classe qui sert d'interface des événements souris provenant du gui
 ///
 /// @author Michael Ferris
 /// @date 2012-01-24

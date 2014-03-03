@@ -10,29 +10,6 @@
 
 #include "EvenementClavier.h"
 
-#ifdef WITH_JAVA
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn EvenementClavier::EvenementClavier(JNIEnv* env, jobject& evenementClavier)
-///
-/// Construit un événement clavier avec un objet Java.
-///
-/// @param[in] JNIEnv* env : L'environnement Java.
-/// @param[in] jobject& evenementClavier : L'événement clavier lu en Java.
-///
-/// @return 
-///
-////////////////////////////////////////////////////////////////////////
-EvenementClavier::EvenementClavier(JNIEnv* env, jobject& evenementClavier)
-{
-	jclass classe = env->GetObjectClass(evenementClavier);
-	
-	// Appel de mouseEvent.getKeyCode()
-	jmethodID getKeyCode = env->GetMethodID(classe, "getKeyCode", "()I");
-	touche_ = env->CallIntMethod(evenementClavier, getKeyCode);
-}
-
-#endif // WITH_JAVA
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn EvenementClavier::EvenementClavier( ToucheClavier touche ) :touche_(touche)

@@ -35,7 +35,7 @@ int ExecuteUnitTest()
 {
     bool reussite = BancTests::obtenirInstance()->executer();
     // Visual Studio interprète le code de retour 0 comme une réussite et le code
-    // de retour 1 comme un échec. Nous transmettons le code de retour à Java
+    // de retour 1 comme un échec. Nous transmettons le code de retour au UI
     // qui le transmet directement comme code de sortie du programme.
     return reussite ? 0 : 1;
 }
@@ -292,7 +292,6 @@ void WindowResized(int largeur, int hauteur)
         Vecteur2i(0,0),
         Vecteur2i(largeur, hauteur)
         );
-    FacadeModele::getInstance()->rafraichirFenetre();
     GestionnaireHUD::obtenirInstance()->setRatio(largeur/(float)hauteur);
 }
 

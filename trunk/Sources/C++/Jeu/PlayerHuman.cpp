@@ -27,36 +27,7 @@
 PlayerHuman::PlayerHuman(std::string nom) : PlayerAbstract(nom), mControllerType(CONTROLLER_TYPE_MOUSE)
 {
 	type_ = JOUEUR_HUMAIN;
-}
-
-#if WITH_JAVA  
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn JoueurHumain::JoueurHumain( JNIEnv* env, jobject& joueurHumain )
-///
-/// Constructeur qui initialisela le joueur virtuel à partir d'un objet Java.
-///
-/// @param[in] env : l'environnement Java.
-/// @param[in] joueurHumain : un joueur humain précédement déclaré en Java
-///
-/// @return
-///
-////////////////////////////////////////////////////////////////////////
-PlayerHuman::PlayerHuman( JNIEnv* env, jobject& joueurHumain ) : PlayerAbstract("")
-{
-	// Obtention de la classe
-	jclass classe = env->GetObjectClass(joueurHumain);
-
-	// Obtention du nom
-	jmethodID obtenirNom = env->GetMethodID(classe, "obtenirNom", "()Ljava/lang/String;");
-	jstring nom = (jstring)env->CallObjectMethod(joueurHumain, obtenirNom);
-
-	// Modification des attributs
-	modifierNom(RazerGameUtilities::obtenirChaineISO(env, &nom));
-	type_ = JOUEUR_HUMAIN;
-
-}
-#endif //WITH_JAVA  
+} 
 
 ////////////////////////////////////////////////////////////////////////
 ///

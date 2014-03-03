@@ -9,10 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "PlayerAbstract.h"
-#if WITH_JAVA  
-#include <jni.h>
-#endif //WITH_JAVA  
+#include "PlayerAbstract.h" 
 #include "NoeudRondelle.h"
 #include <memory>
 
@@ -31,11 +28,6 @@ public:
 
 	/// Constructeur par paramètres
 	PlayerComputer(std::string nom = "", unsigned int vitesse = 0, unsigned int probabiliteEchec = 0);
-
-#if WITH_JAVA  
-	/// Constructeur par objet Java
-	PlayerComputer(JNIEnv* env, jobject& joueurVirtuel);
-#endif //WITH_JAVA  
 
 	/// Destructeur virtuel
 	virtual ~PlayerComputer(void);
