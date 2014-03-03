@@ -25,23 +25,36 @@ void PacketDataEvent::SendData(PacketBuilder& b)
     b << mMessage << mEventCode;
 }
 
+void PacketDataUserStatus::ReceiveData(PacketReader& r)
+{
+    r >> mUserName >> mConnectionState;
+}
+
+void PacketDataUserStatus::SendData(PacketBuilder& b)
+{
+    b << mUserName << mConnectionState;
+}
+
 typedef PacketDataBase* (*PacketDataGenerator)();
 PacketDataBase* createPacketDataChatMessage(){return new PacketDataChatMessage();}
 PacketDataBase* createPacketDataEvent(){return new PacketDataEvent();}
-const PacketDataGenerator generators[2] =            
+PacketDataBase* createPacketDataUserStatus(){return new PacketDataUserStatus();}
+const PacketDataGenerator generators[3] =            
 {                                                           
     createPacketDataChatMessage,
     createPacketDataEvent,
+    createPacketDataUserStatus,
 };                                                          
 PacketDataBase* CreatePacketData(PacketDataTypes t)             
 {                                                               
     unsigned int i = t-PT_NONE-1;                                     
     return i < (NB_PACKETDATATYPE-PT_NONE) ? generators[i]() : NULL;                                     
 }
-std::string packetDataName[2] =                                     
+std::string packetDataName[3] =                                     
 {                                                                   
-"PacketDataEvent",
-"PacketDataChatMessage",
+    "PacketDataChatMessage",
+    "PacketDataEvent",
+    "PacketDataUserStatus",
 };                                                                  
                                                                     
 std::string GetPacketDataName(PacketDataTypes t)                    

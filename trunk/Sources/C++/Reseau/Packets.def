@@ -7,7 +7,7 @@ Will simply write content in the header  ( good place for forward declaration an
 #include <string>
 #include "Vecteur.h"
 #include <stdint.h>
-
+#include "NetworkEnums.h"
 
 
 ###
@@ -25,4 +25,11 @@ PacketDataEvent
 {
     std::string mMessage; // Message a envoyer
     EventCodes mEventCode; // Code d'erreur
+}
+
+//Classe qui represente une modification du status de connection d'un user connecte au Chat
+PacketDataUserStatus
+{
+    std::string mUserName;
+    ConnectionState mConnectionState;
 }

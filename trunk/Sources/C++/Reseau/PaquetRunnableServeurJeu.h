@@ -13,7 +13,6 @@ namespace PaquetRunnable
     
     int RunnableChatMessageServerGame(Paquet* pPaquet);
 
-    int RunnableUserStatusServerGame(Paquet* pPaquet);
 
     int RunnableGameStatusServerGame(Paquet* pPaquet);
 

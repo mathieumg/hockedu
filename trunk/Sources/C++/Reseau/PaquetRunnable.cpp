@@ -50,15 +50,15 @@ int PaquetRunnable::RunnableChatMessageClient( Paquet* pPaquet )
 // Doit gerer le status de connexion des autres utilisateurs
 int PaquetRunnable::RunnableUserStatusClient( Paquet* pPaquet )
 {
-    PaquetUserStatus* wPaquet = (PaquetUserStatus*) pPaquet;
+    PacketDataUserStatus* wData = (PacketDataUserStatus*)pPaquet->getData();
 
-    switch(wPaquet->getConnectionState())
+    switch(wData->mConnectionState)
     {
     case CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wPaquet->getUserName().c_str());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_CONNECTED,wData->mUserName.c_str());
         break;
     case NOT_CONNECTED:
-        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wPaquet->getUserName().c_str());
+        GestionnaireReseau::obtenirInstance()->transmitEvent(SERVER_USER_DISCONNECTED,wData->mUserName.c_str());
         break;
     case CONNECTING:
         std::cout << " is reconnecting" << std::endl;

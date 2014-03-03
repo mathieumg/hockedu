@@ -70,7 +70,9 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 	const ConnectionState& wConnState = pEvent.mState;
 	const std::string& wPlayerName = pEvent.mPlayerName;
 
-	PaquetUserStatus* wPaquet = (PaquetUserStatus*) UsinePaquet::creerPaquet(USER_STATUS);
+	Paquet* wPacket = new Paquet();
+    PacketDataUserStatus* wData = (PacketDataUserStatus*)CreatePacketData(PT_PACKETDATAUSERSTATUS);
+    
 
 	if(wConnState == CONNECTED) // Si le socket vient de se connecter, on lui envoie la liste de tous les players connectes
 	{
@@ -93,14 +95,14 @@ void GestionnaireReseauServeurMaitre::SocketStateCallback( const ConnectionState
 	}
 	if(wPlayerName.size() == 0 || "GameServer" == wPlayerName || "MasterServer" == wPlayerName)
 	{
-        wPaquet->removeAssociatedQuery(); // delete
+        wPacket->removeAssociatedQuery(); // delete
 	}
 	else
 	{
-		wPaquet->setUserName(wPlayerName);
-		wPaquet->setConnectionState(wConnState);
+		wPacket->setUserName(wPlayerName);
+		wPacket->setConnectionState(wConnState);
 
-		RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPaquet);
+		RelayeurMessage::obtenirInstance()->relayerPaquetGlobalement(wPacket);
 	}
 }
 

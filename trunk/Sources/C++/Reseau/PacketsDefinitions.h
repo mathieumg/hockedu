@@ -7,7 +7,7 @@
 #include <string>
 #include "Vecteur.h"
 #include <stdint.h>
-
+#include "NetworkEnums.h"
 
 
 class PacketReader;
@@ -17,6 +17,7 @@ enum PacketDataTypes
     PT_NONE=666,
     PT_PACKETDATACHATMESSAGE,
     PT_PACKETDATAEVENT,
+    PT_PACKETDATAUSERSTATUS,
     NB_PACKETDATATYPE,
 };
 
@@ -63,6 +64,20 @@ public:
     void ReceiveData(PacketReader& r);
     void SendData(PacketBuilder& b);
     PacketDataTypes GetType(){ return PT_PACKETDATAEVENT;}
+};
+
+class PacketDataUserStatus : public PacketDataBase
+{
+public:
+    //
+    std::string mUserName;
+
+    //
+    ConnectionState mConnectionState;
+
+    void ReceiveData(PacketReader& r);
+    void SendData(PacketBuilder& b);
+    PacketDataTypes GetType(){ return PT_PACKETDATAUSERSTATUS;}
 };
 
 PacketDataBase* CreatePacketData(PacketDataTypes t);

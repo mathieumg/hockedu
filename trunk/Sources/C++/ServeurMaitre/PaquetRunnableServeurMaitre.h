@@ -11,8 +11,6 @@ namespace PaquetRunnable
 
     int RunnableChatMessageMasterServer(Paquet* pPaquet);
 
-    int RunnableUserStatusMasterServer(Paquet* pPaquet);
-
     int RunnableGameCreationMasterServer( Paquet* pPaquet );
 
     int RunnableGameConnectionMasterServer( Paquet* pPaquet );

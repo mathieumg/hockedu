@@ -120,7 +120,8 @@ for dataType,content in PacketsDefinitions:
         names = variable[1]
         comments = variable[2]
         # add comments first
-        dataClass += "    //"+comments+"\n"
+        if len(comments) > 0 :
+            dataClass += "    //"+comments+"\n"
         #print type
         dataClass += "    "+type+" "
         #print variable names
