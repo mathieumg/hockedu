@@ -23,10 +23,6 @@
 #include "GameManager.h"
 #include "Enum_Declarations.h"
 
-#if WITH_JAVA
-#include "jni.h"
-#endif
-
 class VisiteurNoeud;
 class NoeudAbstrait;
 class NoeudRondelle;
@@ -128,8 +124,6 @@ public:
     void DrawSelectionRectangle() const;
     /// Indique qu'il est temps de faire un rendu
     void SignalRender();
-	/// Indique que la fenêtre doit être réaffichée sans le faire directement.
-	void rafraichirFenetre() const;
 
 	/// Initialisation de la vue par défaut
 	void initialiserVue();
@@ -189,11 +183,6 @@ public:
 	void selectionArbre(bool selectionner);
 	/// Verifie si la position du noeud est valide (dans l'aire de jeu et pas sur un autre noeud)
 	bool positionNoeudValide(NoeudAbstrait* noeudAVerifier);
-
-#if WITH_JAVA  
-	/// Retourne les informations sur le noeud selectionne
-	jobject obtenirAttributsNoeudSelectionne(JNIEnv* env);
-#endif
 
 	/// Verifie si la position n'entre pas en collision
 	bool validerPositionNoeud(NoeudAbstrait* noeudAValider, bool flag = false);

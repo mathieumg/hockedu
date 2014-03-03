@@ -14,16 +14,11 @@
 #include "Enum_Declarations.h"
 enum ModesCamera {CAMERA_FIXE, CAMERA_ORBIT, CAMERA_LIBRE};
 
-/* Pour toute modification, veuillez mettre a jour la map dans
-Java_ca_polymtl_inf2990_GestionnaireEvenements_actionPerformed()   pour la compatibilité java
-et dans 
-.cs
-*/
-
+// Pour toute modification, veuillez mettre a jour la map dans EditionModeControl.xaml.cs
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class FacadeModele
-/// @brief Classe qui permet de repartir les actions recu par le java selon les besoins
+/// @brief Classe qui permet de repartir les actions recu par le gui selon les besoins
 ///
 /// @author Michael Ferris
 /// @date 2012-03-09

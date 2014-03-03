@@ -9,10 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "PlayerAbstract.h"
-#if WITH_JAVA  
-#include <jni.h>
-#endif //WITH_JAVA  
+#include "PlayerAbstract.h" 
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class JoueurNetwork
@@ -26,10 +23,6 @@ class PlayerNetwork : public PlayerAbstract
 public:
 	/// Constructeur par paramètres
 	PlayerNetwork(std::string nom = "");
-#if WITH_JAVA  
-	/// Constructeur par objet Java
-	PlayerNetwork(JNIEnv* env, jobject& joueurHumain);
-#endif //WITH_JAVA  
 	/// Destructeur virtuel
 	virtual ~PlayerNetwork(void);
 

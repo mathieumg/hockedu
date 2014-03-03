@@ -56,9 +56,6 @@ public:
     static void LoadFieldFromFile( const std::string& pFilePath, Terrain& pField );
     static void SaveFieldToFile( const std::string& nomFichier, Terrain& pField  );
 
-    /// Effectue une conversion entre une chaîne Java et une chaîne C++.
-    static std::string obtenirChaineISO(void* env, void* chaine);
-
     /// Permet d'exécuter du code sur un thread spécifique au moment opportun
     static void RunOnRenderThread(Runnable* run, bool pForceQueue = false);
     static void ExecuteRenderRunnables();

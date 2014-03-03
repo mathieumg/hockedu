@@ -10,43 +10,6 @@
 
 
 #include "EvenementSouris.h"
-
-#if WITH_JAVA
-#include <jni.h>
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn EvenementSouris( JNIEnv* env, jobject& evenementSouris )
-///
-/// Constructeur par paramètre qui créer des objets C++ à partir de
-/// l'environnement Java pour facilité l'utilisation
-///
-/// @param[in] env : pointeur vers l'environnement Java
-/// @param[in] evenementSouris : objet java contenant l'information de l'événement souris
-///
-/// @return Aucune (constructeur).
-///
-////////////////////////////////////////////////////////////////////////
-EvenementSouris::EvenementSouris( void* envVoid, void* evenementSourisVoid )
-{
-    JNIEnv* env = (JNIEnv*)envVoid;
-    jobject& evenementSouris = *(jobject*)evenementSourisVoid;
-	jclass classe = env->GetObjectClass(evenementSouris);
-	jmethodID getButton = env->GetMethodID(classe, "getButton", "()I");
-	bouton_ = BoutonSouris(env->CallIntMethod(evenementSouris, getButton));
-
-	//Appel de evenementSouris.getX()
-	jmethodID getX = env->GetMethodID(classe, "getX", "()I");
-	jint x = env->CallIntMethod(evenementSouris, getX);
-
-	//Appel de evenementSouris.getY()
-	jmethodID getY = env->GetMethodID(classe, "getY", "()I");
-	jint y = env->CallIntMethod(evenementSouris, getY);
-	
-	position_ = Vecteur2i(x,y);
-}
-#endif
-
-
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn EvenementSouris( const EvenementSouris& evenementSouris )
