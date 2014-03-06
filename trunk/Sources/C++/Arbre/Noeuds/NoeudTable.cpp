@@ -1126,6 +1126,7 @@ bool NoeudTable::initFromXml( const XmlElement* element )
                 obtenirPoint( typeNoeud )->initFromXml( child );
                 controlPointVisited |= 1 << typeNoeud;
             }
+                break;
             case RAZER_KEY_GROUP:
             {
                 // compatibilité ancienne version
@@ -1134,10 +1135,12 @@ bool NoeudTable::initFromXml( const XmlElement* element )
                     CreateAndInitNodesFromXml( groupChild );
                 }
             }
+                break;
             case RAZER_KEY_CONTROL_POINT:
             {
                 checkf( 0, "invalid position for a control point, ignoring node" );
             }
+                break;
             case RAZER_KEY_BONUS_PROPERTIES:
             {
                 for( auto bonusProp = XMLUtils::FirstChildElement( child ); bonusProp; bonusProp = XMLUtils::NextSibling( bonusProp ) )
@@ -1162,6 +1165,7 @@ bool NoeudTable::initFromXml( const XmlElement* element )
                     mBonusProperties[type].duration = duration;
                 }
             }
+                break;
             default:
                 CreateAndInitNodesFromXml( child );
                 break;
