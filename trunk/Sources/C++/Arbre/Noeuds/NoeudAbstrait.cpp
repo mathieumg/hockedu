@@ -61,7 +61,7 @@ NoeudAbstrait::NoeudAbstrait(
 	mScale[VX] = 1;
 	mScale[VY] = 1;
 	mScale[VZ] = 1;
-    
+    setDefaultRadius( 0.f );
 #if WIN32
     mModePolygones = GL_FILL;
     mGlTypeId = mNodeKey;// GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName( mType );
@@ -1082,7 +1082,7 @@ bool NoeudAbstrait::equals( NoeudAbstrait* n)
         && mModePolygones == n->mModePolygones
         && (mPosition-n->mPosition).norme2() < 1 // permet de donner une certaine tolerance
         && mFlags == n->mFlags
-        && mScale == n->mScale
+        && ( mScale - n->mScale ).norme2( ) < 1 // permet de donner une certaine tolerance
         && mRadius == n->mRadius;
 }
 
