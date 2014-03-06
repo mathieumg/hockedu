@@ -106,31 +106,7 @@ GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireModeles::GestionnaireModeles()
 {
-    int compteurTypeID = 0;
 
-    nameToTypeId_[RazerGameUtilities::NOM_RONDELLE] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_RONDELLE;
-
-    nameToTypeId_[RazerGameUtilities::NOM_MURET] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MURET;
-
-    nameToTypeId_[RazerGameUtilities::NOM_PORTAIL] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_PORTAIL;
-
-    nameToTypeId_[RazerGameUtilities::NOM_ACCELERATEUR] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_ACCELERATEUR;
-
-    nameToTypeId_[RazerGameUtilities::NOM_MAILLET] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NOM_MAILLET;
-
-    nameToTypeId_[RazerGameUtilities::NAME_TABLE_CONTROL_POINT] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_TABLE_CONTROL_POINT;
-
-    nameToTypeId_[RazerGameUtilities::NAME_CONTROL_POINT] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_CONTROL_POINT;
-
-    nameToTypeId_[RazerGameUtilities::NAME_BONUS] = ++compteurTypeID;
-    typeIdToName_[compteurTypeID] = RazerGameUtilities::NAME_BONUS;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -306,44 +282,6 @@ void GestionnaireModeles::recharger( Modele3DKey type )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn std::string GestionnaireModeles::obtenirNameFromTypeId( const GLuint& typeId ) const
-///
-/// permet de connaître le nom du type a partir de son ID
-///
-/// @param[in] const GLuint & typeId
-///
-/// @return std::string : le nom du type concret si trouve ou une chaine vide s'il n'existe pas
-///
-////////////////////////////////////////////////////////////////////////
-std::string GestionnaireModeles::obtenirNameFromTypeId( const GLuint& typeId ) const
-{
-	TypeIdToName::const_iterator iter = typeIdToName_.find(typeId);
-	if(iter != typeIdToName_.end())
-		return iter->second;
-	return "";
-}
-
-////////////////////////////////////////////////////////////////////////
-///
-/// @fn GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string name ) const
-///
-/// permet de connaître le ID d'un type partir de son nom
-///
-/// @param[in] const std::string name
-///
-/// @return GLuint : le ID du type ayant ce nom, ou 0 s'il ne le trouve pas
-///
-////////////////////////////////////////////////////////////////////////
-GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) const
-{
-	NameToTypeId::const_iterator iter = nameToTypeId_.find(name);
-	if(iter != nameToTypeId_.end())
-		return iter->second;
-	return 0;
-}
-
-////////////////////////////////////////////////////////////////////////
-///
 /// @fn void GestionnaireModeles::initialiser()
 ///
 /// Effectue l'initialisation du Gestionnaire de modèle
@@ -355,7 +293,7 @@ GLuint GestionnaireModeles::obtenirTypeIdFromName( const std::string& name ) con
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    //tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));

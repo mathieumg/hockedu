@@ -208,6 +208,7 @@ typedef enum
         RAZER_KEY_SELECTION_BODY      ,
         RAZER_KEY_FORCE_FIELD         ,
         RAZER_KEY_SKIN_MALLET_RED     ,
+        RAZER_KEY_BONUS_PROPERTIES    ,
 
         NB_RAZER_KEYS
     }

@@ -29,6 +29,7 @@
 
 
 GLuint NoeudAbstrait::mIdGlCounter = 1;
+const char* NoeudAbstrait::ETIQUETTE_KEY = "key";
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -55,7 +56,7 @@ NoeudAbstrait::NoeudAbstrait(
     mNodeKey(nodeKey),
     mSkinKey(nodeKey)
 {
-    mType = RazerGameUtilities::KeyToString( mNodeKey );
+    mNodeName = RazerGameUtilities::KeyToString( mNodeKey );
     mRenderComponent = 0;
 	mScale[VX] = 1;
 	mScale[VY] = 1;
@@ -784,8 +785,8 @@ void NoeudAbstrait::setCollisionVisitorAttributes( class VisiteurCollision* v )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudAbstrait::createXmlNode()
 {
-    XmlElement* elementNoeud = XMLUtils::createNode( mType.c_str( ) );
-    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey);
+    XmlElement* elementNoeud = XMLUtils::createNode( mNodeName.c_str( ) );
+    XMLUtils::writeAttribute( elementNoeud, ETIQUETTE_KEY, (int)mNodeKey );
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeArray(mScale.c_arr(),3,elementNoeud,"echelle");
     XMLUtils::writeAttribute(elementNoeud,"angle",mAngle);
@@ -847,22 +848,21 @@ bool NoeudAbstrait::initFromXml( const XmlElement* element )
 	int intElem;
 	float floatElem;
     Vecteur3 pos;
-    const std::string type = RazerGameUtilities::KeyToString( mNodeKey );
     if(!XmlReadNodePosition(pos,element))
-		throw ExceptionJeu("%s: Error reading node's position", type.c_str());
+		throw ExceptionJeu("%s: Error reading node's position", mNodeName.c_str());
 	setPosition(pos);
     if( !XMLUtils::readArray(mScale.c_arr(),3,element,"echelle") )
-        throw ExceptionJeu("%s: Error reading node's scale", type.c_str());
+        throw ExceptionJeu("%s: Error reading node's scale", mNodeName.c_str());
 
     if( !XMLUtils::readAttribute(element,"angle",floatElem) )
-        throw ExceptionJeu("%s: Error reading node's angle", type.c_str());
+        throw ExceptionJeu("%s: Error reading node's angle", mNodeName.c_str());
     setAngle(floatElem);
     if( !XMLUtils::readAttribute(element,"affiche",intElem) )
-        throw ExceptionJeu("%s: Error reading node's visibility flag", type.c_str());
+        throw ExceptionJeu("%s: Error reading node's visibility flag", mNodeName.c_str());
     setVisible(intElem==1);
 
     if( !XMLUtils::readAttribute(element,"selectionnable",intElem) )
-        throw ExceptionJeu("%s: Error reading node's selection flag", type.c_str());
+        throw ExceptionJeu("%s: Error reading node's selection flag", mNodeName.c_str());
     setCanBeSelected(intElem==1);
     
     if( !XMLUtils::readAttribute(element,"selected",intElem) )

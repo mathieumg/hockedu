@@ -164,10 +164,10 @@ bool NodeWallEdition::initFromXml( const XmlElement* element )
     // Lecture des position a partir de point de control
     for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
     {
-        auto name = XMLUtils::GetNodeTag(child);
-        if( name != RazerGameUtilities::NAME_CONTROL_POINT)
+        int key;
+        if( XMLUtils::readAttribute( child ,ETIQUETTE_KEY, key) && key != RAZER_KEY_CONTROL_POINT )
         {
-            throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
+            throw ExceptionJeu("Wall Node: unrecognized xml node: %s",RazerGameUtilities::KeyToString((RazerKey)key));
         }
         NodeControlPoint* point = new NodeControlPoint();
         point->initFromXml(child);

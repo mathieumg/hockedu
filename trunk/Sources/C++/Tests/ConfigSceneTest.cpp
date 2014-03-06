@@ -155,31 +155,31 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
         // n1
         child = elementConfiguration->FirstChildElement();
         CPPUNIT_ASSERT (child != NULL);
-        XMLUtils::readAttribute( child, "id", nodeKey );
+        XMLUtils::readAttribute( child, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
         CPPUNIT_ASSERT(nodeKey == RAZER_KEY_MALLET);
 
         // n2
         child = child->NextSiblingElement();
         CPPUNIT_ASSERT (child != NULL);
-        XMLUtils::readAttribute( child, "id", nodeKey );
+        XMLUtils::readAttribute( child, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
         CPPUNIT_ASSERT( nodeKey == RAZER_KEY_MALLET );
 
         // nC1
         child = child->NextSiblingElement( );
         CPPUNIT_ASSERT (child != NULL);
-        XMLUtils::readAttribute( child, "id", nodeKey );
+        XMLUtils::readAttribute( child, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
         CPPUNIT_ASSERT(nodeKey == RAZER_KEY_GROUP);
         {
             // n3
             grantChild = child->FirstChildElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            XMLUtils::readAttribute( grantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
             CPPUNIT_ASSERT(nodeKey == RAZER_KEY_PORTAL);
 
             // n4
             grantChild = grantChild->NextSiblingElement();
             CPPUNIT_ASSERT (grantChild != NULL);
-            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            XMLUtils::readAttribute( grantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
             CPPUNIT_ASSERT( nodeKey == RAZER_KEY_PORTAL );
 
             // n'existe pas
@@ -189,33 +189,33 @@ void ConfigSceneTest::testEcritureArbreRenduXML()
         // nC2
         child = child->NextSiblingElement( );
         CPPUNIT_ASSERT (child != NULL);
-        XMLUtils::readAttribute( child, "id", nodeKey );
+        XMLUtils::readAttribute( child, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
         CPPUNIT_ASSERT( nodeKey == RAZER_KEY_GROUP );
         {
             {
                 // n5, car nC4 n'est pas enregistrable
                 grantChild = child->FirstChildElement( );
                 CPPUNIT_ASSERT (grantChild != NULL);
-                XMLUtils::readAttribute( grantChild,"id", nodeKey );
+                XMLUtils::readAttribute( grantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
                 CPPUNIT_ASSERT(nodeKey == RAZER_KEY_PUCK);
             }
 
             // n6
             grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            XMLUtils::readAttribute( grantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
             CPPUNIT_ASSERT( nodeKey == RAZER_KEY_PUCK );
 
             // nC3
             grantChild = grantChild->NextSiblingElement( );
             CPPUNIT_ASSERT (grantChild != NULL);
-            XMLUtils::readAttribute( grantChild,"id", nodeKey );
+            XMLUtils::readAttribute( grantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
             CPPUNIT_ASSERT( nodeKey == RAZER_KEY_GROUP );
             {
                 // n7
                 grantGrantChild = grantChild->FirstChildElement( );
                 CPPUNIT_ASSERT (grantGrantChild != NULL);
-                XMLUtils::readAttribute( grantGrantChild,"id", nodeKey );
+                XMLUtils::readAttribute( grantGrantChild, NoeudAbstrait::ETIQUETTE_KEY, nodeKey );
                 CPPUNIT_ASSERT( nodeKey == RAZER_KEY_BOOST );
 
                 // n'existe pas

@@ -228,9 +228,8 @@ void NoeudComposite::CreateAndInitNodesFromXml( const XmlElement* child )
     const ArbreRendu* treeRoot = GetTreeRoot();
     if(treeRoot)
     {
-        //auto name = XMLUtils::GetNodeTag(child);
         int id;
-        XMLUtils::readAttribute( child, "id", id );
+        XMLUtils::readAttribute( child, ETIQUETTE_KEY, id );
         auto node = treeRoot->creerNoeud((RazerKey)id);
 
         checkf(node,"Error creating node : %d",id );

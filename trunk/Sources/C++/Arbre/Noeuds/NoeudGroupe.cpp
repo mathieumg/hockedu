@@ -61,8 +61,8 @@ NoeudGroupe::~NoeudGroupe(void)
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudGroupe::createXmlNode()
 {
-	XmlElement* element = XMLUtils::createNode(mType.c_str());
-    XMLUtils::writeAttribute( element, "id", (int)mNodeKey );
+	XmlElement* element = XMLUtils::createNode(mNodeName.c_str());
+    XMLUtils::writeAttribute( element, ETIQUETTE_KEY, (int)mNodeKey );
     XMLUtils::writeAttribute( element,"TypeEnfants",(int)typeEnfants_);
 	
 	return element;
@@ -91,7 +91,7 @@ bool NoeudGroupe::initFromXml( const XmlElement* element )
     {
         for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
         {
-            if( !XMLUtils::readAttribute( child, "id", typeId ) || typeId != typeEnfants_ )
+            if( !XMLUtils::readAttribute( child, ETIQUETTE_KEY, typeId ) || typeId != typeEnfants_ )
             {
                 throw ExceptionJeu("Attempting to create a node in a group that it doesn't belong",typeId);
             }
@@ -100,7 +100,7 @@ bool NoeudGroupe::initFromXml( const XmlElement* element )
     }
     else
     {
-        throw ExceptionJeu("%s : Missing tree root",mType.c_str());
+        throw ExceptionJeu("%s : Missing tree root",mNodeName.c_str());
     }
 
 	return true;

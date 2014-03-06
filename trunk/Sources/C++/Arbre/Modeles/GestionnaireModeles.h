@@ -33,10 +33,6 @@ public:
     void obtenirListe(Modele3DKey key, GLuint& liste);
 	/// Rechargement d'un modèle
     void recharger(Modele3DKey type);
-	/// permet de connaître le nom du type a partir de son ID
-	std::string obtenirNameFromTypeId(const GLuint& typeId) const;
-	/// permet de connaître le ID d'un partir de son nom
-    GLuint obtenirTypeIdFromName(const std::string& name) const;
 	/// Ajout d'un modele
     void ajoutModele(Modele3DKey key, Modele3D* modele3d);
 	/// Création d'une liste
@@ -73,10 +69,6 @@ private:
 	/// Map dans laquelle sont stockés les listes
 	typedef std::map<Modele3DKey,GLuint> BanqueListes;
 	BanqueListes banqueListes;
-
-	/// Tables de référence entre les types concrets des noeuds et un numéro
-	NameToTypeId nameToTypeId_;
-	TypeIdToName typeIdToName_; 
 
     HANDLE mLoadingThread;
 };

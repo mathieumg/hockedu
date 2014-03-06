@@ -133,8 +133,8 @@ void NodeControlPoint::tick( const float& temps )
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NodeControlPoint::createXmlNode()
 {
-    XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
-    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey );
+    XmlElement* elementNoeud = XMLUtils::createNode(mNodeName.c_str());
+    XMLUtils::writeAttribute( elementNoeud, ETIQUETTE_KEY, (int)mNodeKey );
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
 
@@ -157,7 +157,7 @@ bool NodeControlPoint::initFromXml( const XmlElement* element )
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
-        throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's position", mNodeName.c_str());
     setPosition(pos);
 
     bool selected;

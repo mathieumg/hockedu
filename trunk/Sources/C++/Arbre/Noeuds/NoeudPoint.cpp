@@ -300,8 +300,8 @@ Vecteur3 NoeudPoint::calculerDeplacementMax( Vecteur3 posAbsActuel, Vecteur3 dep
 ////////////////////////////////////////////////////////////////////////
 XmlElement* NoeudPoint::createXmlNode()
 {
-    XmlElement* elementNoeud = XMLUtils::createNode(mType.c_str());
-    XMLUtils::writeAttribute( elementNoeud, "id", (int)mNodeKey );
+    XmlElement* elementNoeud = XMLUtils::createNode(mNodeName.c_str());
+    XMLUtils::writeAttribute( elementNoeud, ETIQUETTE_KEY, (int)mNodeKey );
     XmlWriteNodePosition(elementNoeud);
     XMLUtils::writeAttribute<int>(elementNoeud,"typePosNoeud",typePosNoeud_);
     XMLUtils::writeAttribute(elementNoeud,"selection",IsSelected());
@@ -325,7 +325,7 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     // faire l'initialisaiton des attribut concernant le point en premier pour que la suite puisse les utiliser
     Vecteur3 pos;
     if( !XmlReadNodePosition(pos,element) )
-        throw ExceptionJeu("%s: Error reading node's position", mType.c_str());
+        throw ExceptionJeu("%s: Error reading node's position", mNodeName.c_str());
     setPosition(pos);
     int intElem;
     if(!XMLUtils::readAttribute(element,"typePosNoeud",intElem))
@@ -337,8 +337,9 @@ bool NoeudPoint::initFromXml( const XmlElement* element )
     if(typePosNoeud_ == POSITION_MILIEU_DROITE || typePosNoeud_ == POSITION_MILIEU_GAUCHE)
     {
         auto child = XMLUtils::FirstChildElement(element);
-        auto name = XMLUtils::GetNodeTag(child);
-        if(name != RazerGameUtilities::NOM_BUT)
+        int k;
+        bool read = XMLUtils::readAttribute( child, ETIQUETTE_KEY, k );
+        if(!read || k != RAZER_KEY_GOAL)
         {
             throw ExceptionJeu("XML node not representing a goal after a table control point");
         }

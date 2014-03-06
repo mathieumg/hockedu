@@ -158,7 +158,6 @@
     <ClCompile Include="EtatOpenGL.cpp" />
     <ClCompile Include="ExceptionJeu.cpp" />
     <ClCompile Include="GameTime.cpp" />
-    <ClCompile Include="IRenderComponent.cpp" />
     <ClCompile Include="LumiereAbstraite.cpp" />
     <ClCompile Include="LumiereAmbiante.cpp" />
     <ClCompile Include="LumiereDirectionnelle.cpp" />

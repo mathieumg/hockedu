@@ -167,14 +167,14 @@ bool NoeudMuret::initFromXml( const XmlElement* element )
     Vecteur3* cornerPos[2] = {&positionCoin1_,&positionCoin2_};
     for( auto child = XMLUtils::FirstChildElement(element); child; child = XMLUtils::NextSibling(child) )
     {
-        auto name = XMLUtils::GetNodeTag(child);
-        if( cornerNumber>1 || name != RazerGameUtilities::NAME_CONTROL_POINT)
+        int key;
+        if( cornerNumber>1 || XMLUtils::readAttribute( child, ETIQUETTE_KEY, key ) && key != RAZER_KEY_CONTROL_POINT )
         {
-            throw ExceptionJeu("Wall Node: unrecognized xml node: %s",name);
+            throw ExceptionJeu( "Wall Node: unrecognized xml node: %s", RazerGameUtilities::KeyToString( (RazerKey)key ) );
         }
         Vecteur3 pos;
         if(!XmlReadNodePosition(pos,child))
-            throw ExceptionJeu("Error reading wall's position",name);
+            throw ExceptionJeu( "Error reading wall's position", RazerGameUtilities::KeyToString( (RazerKey)key ) );
         *cornerPos[cornerNumber++] = pos;
     }
 

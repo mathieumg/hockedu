@@ -56,7 +56,7 @@ public:
 
 namespace XMLUtils
 {
-    static const std::string XmlFieldVersion = "3.0";
+    static const std::string XmlFieldVersion = "3.1";
     
     ///private use
     const char* MakeName(const char* name, int index);

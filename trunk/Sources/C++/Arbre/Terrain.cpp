@@ -2015,7 +2015,7 @@ bool Terrain::FixCollidingObjects()
     bool tableValide = false;
 
     static const int n = 5;
-    static const std::string groups[n] = {
+    static const RazerKey groups[n] = {
         RazerGameUtilities::NOM_ACCELERATEUR,
         RazerGameUtilities::NOM_RONDELLE,
         RazerGameUtilities::NOM_MURET,

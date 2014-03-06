@@ -186,14 +186,16 @@ public:
     virtual void clearPhysicsBody();
 
     bool containsModifiers()const {return !!mModifiers.size();}
-
+    static const char* ETIQUETTE_KEY;
 protected:
 
 
     class b2Body* mPhysicBody;
 
+    
+    // Name of the node for display,debug or xml purposes
+    std::string mNodeName;
     /// Key defining this node, can also be used to reset the skin
-    std::string mType;
     RazerKey mNodeKey;
 
     /// represent the key for the current skin

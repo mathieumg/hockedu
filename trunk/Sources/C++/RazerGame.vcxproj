@@ -307,7 +307,6 @@
     <ClCompile Include="Jeu\PartieSyncer.cpp" />
     <ClCompile Include="Jeu\Tournoi.cpp" />
     <ClCompile Include="Physics\ForceField.cpp" />
-    <ClCompile Include="RenderOpenGL2.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="Reseau\ControllerCSharp.cpp" />
     <ClCompile Include="Reseau\ControllerInterface.cpp" />

@@ -375,59 +375,46 @@ void RazerGameUtilities::ApplyFilters( b2FixtureDef& def,RazerKey key, bool inGa
 }
 #endif //BOX2D_INTEGRATED
 
-
+const char* RazerGameUtilities::RazerKeyToString[NB_RAZER_KEYS] =
+{
+    "None"                //RAZER_KEY_NONE
+    , "Boost"               //RAZER_KEY_BOOST
+    , "House"               //RAZER_KEY_HOUSE
+    , "Goal"                //RAZER_KEY_GOAL
+    , "Wall"                //RAZER_KEY_WALL
+    , "Rink_board"          //RAZER_KEY_RINK_BOARD
+    , "Table"               //RAZER_KEY_TABLE
+    , "Portal"              //RAZER_KEY_PORTAL
+    , "Puck"                //RAZER_KEY_PUCK
+    , "Puck_catcher"        //RAZER_KEY_PUCK_CATCHER
+    , "Puck_troll"          //RAZER_KEY_PUCK_TROLL
+    , "Mallet"              //RAZER_KEY_MALLET
+    , "Table_control_point" //RAZER_KEY_TABLE_CONTROL_POINT
+    , "Control_point"       //RAZER_KEY_CONTROL_POINT
+    , "Group"               //RAZER_KEY_GROUP
+    , "Polygon"             //RAZER_KEY_POLYGON
+    , "Zamboni"             //RAZER_KEY_ZAMBONI
+    , "Empty_bonus"         //RAZER_KEY_EMPTY_BONUS
+    , "Bonus"               //RAZER_KEY_BONUS
+    , "Goaler"              //RAZER_KEY_GOALER
+    , "Fan"                 //RAZER_KEY_FAN
+    , "Pause"               //RAZER_KEY_PAUSE
+    , "Model_1"             //RAZER_KEY_MODEL_1
+    , "Model_2"             //RAZER_KEY_MODEL_2
+    , "Model_3"             //RAZER_KEY_MODEL_3
+    , "Root_tree"           //RAZER_KEY_ROOT_TREE
+    , "Zone_edition"        //RAZER_KEY_ZONE_EDITION
+    , "Selection_body"      //RAZER_KEY_SELECTION_BODY
+    , "Force_field"         //RAZER_KEY_FORCE_FIELD
+    , "Skin_mallet_red"     //RAZER_KEY_SKIN_MALLET_RED
+    , "Bonus_properties"    //RAZER_KEY_BONUS_PROPERTIES
+};
 
 /// La chaîne représentant le dossier.
 const std::string RazerGameUtilities::NOM_DOSSIER_MEDIA = "../media/";
 
 /// La chaîne représentant l'extension.
 const std::string RazerGameUtilities::NOM_EXTENSION = ".obj";
-
-/// La chaîne représentant le type de la piece.
-const std::string RazerGameUtilities::NOM_HOUSE = "piece";
-
-/// La chaîne représentant le type des buts.
-const std::string RazerGameUtilities::NOM_BUT = "but_milieu";
-
-/// La chaîne représentant le type des murets.
-const std::string RazerGameUtilities::NOM_MURET = "muret";
-
-/// La chaîne représentant le type des murets.
-const std::string RazerGameUtilities::NAME_RINK_BOARD = "rink_board";
-
-/// La chaîne représentant le type de la table de jeu.
-const std::string RazerGameUtilities::NOM_TABLE = "table";
-
-/// La chaîne représentant le type des portails.
-const std::string RazerGameUtilities::NOM_PORTAIL = "portail";
-
-/// La chaîne représentant le type de la rondelle.
-const std::string RazerGameUtilities::NOM_RONDELLE = "rondelle";
-
-/// La chaîne représentant le type des maillets.
-const std::string RazerGameUtilities::NOM_MAILLET = "maillet";
-
-/// La chaîne représentant le type des accelerateurs.
-const std::string RazerGameUtilities::NOM_ACCELERATEUR = "accelerateur";
-
-/// La chaîne représentant le type des points pour le redimensionnement de la table.
-const std::string RazerGameUtilities::NAME_TABLE_CONTROL_POINT = "table_point";
-
-/// La chaîne représentant le type des points de controle d'objet.
-const std::string RazerGameUtilities::NAME_CONTROL_POINT = "control_point";
-
-/// La chaîne représentant le type des Zamboni.
-const std::string RazerGameUtilities::NAME_ZAMBONI = "zamboni";
-
-/// La chaîne représentant le type des groupes
-const std::string RazerGameUtilities::NOM_GROUPE = "Groupe";
-
-const std::string RazerGameUtilities::NAME_POLYGONE = "polygone";
-const std::string RazerGameUtilities::NAME_EMPTY_BONUS = "EmptyBonus";
-const std::string RazerGameUtilities::NAME_BONUS = "bonus";
-const std::string RazerGameUtilities::NAME_GOALER = "goaler";
-
-const RazerGameUtilities::StringToKeyMap* RazerGameUtilities::StringTypeToEnum = NULL;
 
 ///////////////////////////////////////////////////////////////////////////////
 /// @}
