@@ -29,6 +29,21 @@ BoutonSouris
 ;
 
 #if CSHARP
+public enum AssertHandleMode
+#else
+typedef enum
+#endif
+{
+    ASSERT_Break,
+    ASSERT_Ignore,
+    ASSERT_IgnoreAll,
+}
+#if !CSHARP
+AssertHandleMode
+#endif
+;
+
+#if CSHARP
 public enum ActionType
 #else
 typedef enum

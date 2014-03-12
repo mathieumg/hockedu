@@ -23,6 +23,8 @@
 #include <algorithm>
 #include <stdarg.h>
 #include <iostream>
+#include "Utilitaire.h"
+#include "Enum_Declarations.h"
 
 /**
 * Helper function to write formatted output using an argument list
@@ -90,12 +92,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 
     if(!bIsAssertIgnored)
     {
-        appDebugBreak();
-    }
-
-    if(!bIsAssertIgnored)
-    {
-        AssertHandleMode HandleMode = DisplayAssertMessage( displayMessage.c_str() );
+        AssertHandleMode HandleMode = utilitaire::DisplayAssertMessage( displayMessage.c_str( ) );
         switch( HandleMode )
         {
         case ASSERT_IgnoreAll:
@@ -104,7 +101,6 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
         case ASSERT_Ignore:
             bIsAssertIgnored = true;
             break;
-
         case ASSERT_Break:
             // fall through
         default:
@@ -112,40 +108,13 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
         }
     }
 
-    
+    if( !bIsAssertIgnored )
+    {
+        appDebugBreak();
+    }
 
 }
 
-
-/** Displays an assert dialog AssertMsg with choice to BREAK, IGNORE or IGNORE ALL (release builds only) */
-AssertHandleMode __cdecl DisplayAssertMessage( const char *message)
-{
-    enum AssertHandleMode HandleMode = ASSERT_IgnoreAll;
-    //char TempStr[4096];
-#if WIN32
-    std::string MessageStr = "Press [Abort] Dynamic Breakpoint\nPress [Retry] to ignore the assertion and continue\nPress [Ignore] to *always* ignore this assertion\n\n";
-
-    // Also add the instructions
-    MessageStr += message;
-
-    int Result = MessageBoxA( NULL, MessageStr.c_str(), "Assertion Failed", MB_ICONERROR | MB_ABORTRETRYIGNORE | MB_TOPMOST );
-    if( Result == IDABORT)
-    {
-        HandleMode = ASSERT_Break;
-    }
-    else if( Result == IDRETRY )
-    {
-        HandleMode = ASSERT_Ignore;
-    }
-    else if (Result == IDIGNORE)
-    {
-        HandleMode = ASSERT_IgnoreAll;
-    }
-#else
-    std::cerr << "checkf failed : " <<message <<std::endl;
-#endif
-    return HandleMode;
-}
 
 ////////////////////////////////////////////////////////////////////////
 ///

@@ -43,6 +43,9 @@ public:
 
 	void initialiser();
 
+    // creates a new render component 
+    class IRenderComponent* createRenderComponent() const;
+
     bool isStillLoadingModel() const;
 
     /// Debug usage, do not call unless certain.

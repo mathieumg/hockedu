@@ -19,6 +19,7 @@
 #include <Box2D/Box2D.h>
 #endif
 
+#include "IRenderComponent.h"
 #include "NoeudAbstrait.h"
 #include "NoeudComposite.h"
 #include "VisiteurCollision.h"
@@ -57,14 +58,15 @@ NoeudAbstrait::NoeudAbstrait(
     mSkinKey(nodeKey)
 {
     mNodeName = RazerGameUtilities::KeyToString( mNodeKey );
-    mRenderComponent = 0;
+    mRenderComponent = GestionnaireModeles::obtenirInstance( )->createRenderComponent();
+    mRenderComponent->setNode( this );
 	mScale[VX] = 1;
 	mScale[VY] = 1;
 	mScale[VZ] = 1;
     setDefaultRadius( 0.f );
 #if WIN32
     mModePolygones = GL_FILL;
-    mGlTypeId = mNodeKey;// GestionnaireModeles::obtenirInstance()->obtenirTypeIdFromName( mType );
+    mGlTypeId = mNodeKey;
 #endif
 	// On charge la matrice identitee lors de la construction
 	// On garde en memoire la matrice d'origine (devrait etre NULL)
@@ -476,72 +478,13 @@ void NoeudAbstrait::render() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::renderReal() const
 {
-    if(isVisible())
+    mRenderComponent->render( );
+    // Renders all the modifiers present on the node
+    for( auto it = mModifiers.begin(); it != mModifiers.end(); ++it )
     {
-#if !__APPLE__
-        // Renders all the modifiers present on the node
-        for(auto it = mModifiers.begin(); it != mModifiers.end(); ++it)
-        {
-            (*it)->render();
-        }
-
-        GLuint liste;	
-        GestionnaireModeles::obtenirInstance()->obtenirListe(getSkinKey(),liste);
-        // Si aucune liste n'est trouvé, on sort de la fonction.
-        if(liste==NULL)
-            return;
-#endif
-        glTranslatef(mPosition[0], mPosition[1], mPosition[2]);
-        glPushMatrix();
-
-        // Effectue les mise a l'echelle et les rotations
-        glMultMatrixf(mTransformationMatrix);
-
-        glPushAttrib( GL_ALL_ATTRIB_BITS );
-        if(isHightlighted() || IsSelected())
-        {
-            glEnable(GL_COLOR_LOGIC_OP);
-            glLogicOp(GL_COPY_INVERTED);
-        }
-
-#if !__APPLE__
-        GLint renderMode;
-        glGetIntegerv(GL_RENDER_MODE,&renderMode);
-        if(renderMode == GL_SELECT && canBeSelected())
-        {
-            // Push du id du noeud sur la pile de nom
-            glPushName(mGlId);
-            // Push du id du type du noeud sur la pile de nom
-            glPushName(mGlTypeId);
-            glCallList(liste); // Dessin de l'objet avec les textures
-            glPopName();
-            glPopName();
-        }
-        else
-        {
-            glCallList(liste); // Dessin de l'objet avec les textures
-        }
-
-
-#else
-        auto field = getField();
-        if(!field || !field->renderAppleNode(getSkinKey()))
-        {
-            glDisable(GL_BLEND);
-            renderOpenGLES();
-            glEnable(GL_BLEND);
-        }
-        
-#endif
-        if(isHightlighted() || IsSelected())
-        {
-            glDisable(GL_COLOR_LOGIC_OP);
-        }
-        // Restauration des attributs
-        glPopAttrib();
-
-        glPopMatrix();
+        ( *it )->render();
     }
+    
 }
 
 ////////////////////////////////////////////////////////////////////////

@@ -653,6 +653,9 @@
     <ClCompile Include="Reseau\PacketsDefinitions.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
+    <ClCompile Include="Render\RenderOpenGL2.cpp">
+      <Filter>Sources Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1192,8 +1195,8 @@
     <ClInclude Include="Reseau\PacketsDefinitions.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
-    <ClInclude Include="RenderOpenGL2.h">
-      <Filter>Sources Files</Filter>
+    <ClInclude Include="Render\RenderOpenGL2.h">
+      <Filter>Sources Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

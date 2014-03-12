@@ -33,7 +33,7 @@ using System.Collections;
 
 namespace UIHeavyClient
 {
-    public delegate void DisplayMessageCallback(string message);
+    public delegate AssertHandleMode DisplayMessageCallback(string message, bool abortretryignore);
 
     ///////////////////////////////////////////////////////////////////////////
     /// @class MainWindow
@@ -119,9 +119,48 @@ namespace UIHeavyClient
 
         static DisplayMessageCallback mDisplayMessageCallback = DisplayMessage;
 
-        public static void DisplayMessage(string message)
+        public static AssertHandleMode DisplayMessage(string message, bool abortretryignore)
         {
-            MessageBoxResult dr = System.Windows.MessageBox.Show(message, "System Message", MessageBoxButton.OK);
+            string caption = "System Message";
+            string MessageStr = message;
+
+            MessageBoxButton button = MessageBoxButton.OK;
+            MessageBoxImage icon = MessageBoxImage.Warning;
+            if (abortretryignore)
+            {
+                MessageStr = "Press [Yes] Dynamic Breakpoint\nPress [No] to ignore the assertion and continue\nPress [Cancel] to *always* ignore this assertion\n\n" + message;
+                button = MessageBoxButton.YesNoCancel;
+                icon = MessageBoxImage.Error;
+            }
+
+            // Display message box
+            MessageBoxResult result = System.Windows.MessageBox.Show(MessageStr, caption, button, icon);
+
+            AssertHandleMode mode = AssertHandleMode.ASSERT_Break;
+            // Process message box results 
+            switch (result)
+            {
+                case MessageBoxResult.Yes:
+                    mode = AssertHandleMode.ASSERT_Break;
+                    // User pressed Yes button 
+                    // ... 
+                    break;
+                case MessageBoxResult.No:
+                    mode = AssertHandleMode.ASSERT_Ignore;
+                    // User pressed No button 
+                    // ... 
+                    break;
+                case MessageBoxResult.Cancel:
+                    mode = AssertHandleMode.ASSERT_IgnoreAll;
+                    // User pressed Cancel button 
+                    // ... 
+                    break;
+                case MessageBoxResult.OK:
+                    // User pressed Cancel button 
+                    // ... 
+                    break;
+            }
+            return mode;
         }
 
 
@@ -1143,6 +1182,7 @@ namespace UIHeavyClient
             // Rachel
             EditionModeControl.Rachel();
         }
+
     }
 }
 

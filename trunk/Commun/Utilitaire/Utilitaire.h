@@ -12,10 +12,11 @@
 
 #include "Vecteur.h"
 #include <sstream>
+#include "Enum_Declarations.h"
 
 struct b2Vec2;
 
-typedef void (*DisplayMessageCallback)(const char* message);
+typedef AssertHandleMode( *DisplayMessageCallback )( const char* message, bool abortretryignore );
 
 namespace utilitaire {
 	/// Définition d'un type d'entier non signé.
@@ -37,6 +38,8 @@ namespace utilitaire {
 	/// Fonction globale pour l'affichage d'erreur.
 	void afficherErreur(const std::string& message);
     extern DisplayMessageCallback mDisplayMessageCallback;
+    // Affiche un message d'assesrtion
+    AssertHandleMode __cdecl DisplayAssertMessage( const char *message );
 
 	/// Pour convertir les angles de radians en degrés.
 	float RAD_TO_DEG( float AngleRad );

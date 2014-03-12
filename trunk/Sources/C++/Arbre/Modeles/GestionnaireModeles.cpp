@@ -15,6 +15,7 @@
 #include "FacadeModele.h"
 #include "AideGL.h"
 #include "Runnable.h"
+#include "RenderOpenGL2.h"
 
 // pour le warning sur getenv();
 #pragma warning(disable:4996)
@@ -293,7 +294,7 @@ void GestionnaireModeles::recharger( Modele3DKey type )
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
+    //tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
 	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));
@@ -396,8 +397,10 @@ void GestionnaireModeles::ReloadModels()
     initialiser();
 }
 
-
-
+IRenderComponent* GestionnaireModeles::createRenderComponent() const
+{
+    return new RenderOpenGL2();
+}
 
 
 ////////////////////////////////////////////////////////////////////////

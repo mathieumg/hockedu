@@ -311,7 +311,7 @@ public:
 	/// Modifie la valeur de la collision
 	inline void setHighlight(bool estEnCollision) {mFlags.SetFlag(estEnCollision,NODEFLAGS_HIGHTLIGHT);}
 	/// Retourne la valeur de collision_
-	inline bool isHightlighted() const {return mFlags.IsFlagSet(NODEFLAGS_HIGHTLIGHT);}
+	inline bool isHighlighted() const {return mFlags.IsFlagSet(NODEFLAGS_HIGHTLIGHT);}
 
 	/// Retourne le rayon du noeud
 	virtual float getRadius() const;

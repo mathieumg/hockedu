@@ -57,20 +57,7 @@
 #define PRAGMA_ENABLE_OPTIMIZATION
 #endif
 
-#if WIN32
 
-#elif __APPLE__
-#define GLdouble GLfloat
-#define glPushAttrib(x)
-#define glPopAttrib()
-#define glPolygonMode(x,y)
-#define glGetDoublev glGetFloatv
-#define glMultMatrixd glMultMatrixf
-#else
-typedef float GLdouble;
-typedef unsigned int GLuint;
-#define GLenum unsigned int
-#endif
 
 
 // Méthode utilitaire
@@ -100,16 +87,8 @@ void appDebugBreak();
 int GetVarArgs( char* Dest, int DestSize, int Count, const char*& Fmt, va_list ArgPtr );
 #define GET_VARARGS(msg,msgsize,len,lastarg,fmt) { va_list ap; va_start(ap,lastarg);GetVarArgs(msg,msgsize,len,fmt,ap); }
 
-// Affiche un message d'assesrtion
-enum AssertHandleMode {
-    ASSERT_Break,
-    ASSERT_Ignore,
-    ASSERT_IgnoreAll,
-};
-AssertHandleMode __cdecl DisplayAssertMessage( const char *message );
-
 /** Failed assertion handler.  Warning: May be called at library startup time. */
-void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, const char* Format="", ... );
+void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, const char* Format = "", ... );
 
 // Utilitaire
 #if __INTEL_COMPILER
@@ -122,8 +101,10 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 // Fonction pour faire la verification
 #if !SHIPPING
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
+#define checkOpenGl {GLenum err = glGetError(); checkf(!err,"OpenGL error %s\n", aidegl::obtenirMessageErreur(err).c_str());}
 #else
 #define checkf(expr, ...)
+#define checkOpenGl 
 #endif
 
 #ifndef WINDOWS
@@ -133,4 +114,19 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define memcpy_s(dstArray, dstArrayLen, srcArray, srcArrayLen) { memcpy(dstArray, srcArray, srcArrayLen); }
 #define sscanf_s sscanf
 #define _localtime64_s(tmStructReference, time_tReference) { time(time_tReference); tmStructReference = localtime(time_tReference); return (tMStructReference == NULL); }
+#endif
+
+#if WINDOWS
+
+#elif __APPLE__
+#define GLdouble GLfloat
+#define glPushAttrib(x)
+#define glPopAttrib()
+#define glPolygonMode(x,y)
+#define glGetDoublev glGetFloatv
+#define glMultMatrixd glMultMatrixf
+#else
+typedef float GLdouble;
+typedef unsigned int GLuint;
+#define GLenum unsigned int
 #endif
