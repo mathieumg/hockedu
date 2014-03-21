@@ -54,6 +54,7 @@ GameControllerAbstract()
     addPos( 7 );
     p.X() += 1;
     addPos( 5 );
+#undef addpos(x)
 }
 
 ////////////////////////////////////////////////////////////////////////
