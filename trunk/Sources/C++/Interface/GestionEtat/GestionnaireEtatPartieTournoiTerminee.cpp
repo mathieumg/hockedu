@@ -79,11 +79,11 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 		// Demander pour Rejouer le tournoi
 		tournoi->reinitialiserTournoi();
 		FacadeModele::getInstance()->enregistrerTournoi(tournoi);
-		FacadeModele::getInstance()->passageModeTournoi();
+		FacadeModele::getInstance()->changeControler(GAME_CONTROLLER_TOURNAMENT);
 	}
 	else
 	{
-		FacadeModele::getInstance()->passageModeTournoi();
+        FacadeModele::getInstance()->changeControler( GAME_CONTROLLER_TOURNAMENT );
 	}
 	tournoi->obtenirPartieCourante()->modifierEnPause(false);
 	EventManager::modifierEtat(ETAT_MODE_TOURNOI);

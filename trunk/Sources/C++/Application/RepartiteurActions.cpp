@@ -120,9 +120,9 @@ RepartiteurActions::~RepartiteurActions()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::appelerMethodeAction( ActionType action )
 {
-	if(banqueActions_.find(action) != banqueActions_.end())
-		return (this ->*(banqueActions_[action]))();
-	return false;
+    if(banqueActions_.find(action) != banqueActions_.end())
+        return (this ->*(banqueActions_[action]))();
+    return false;
 }
 
 
@@ -138,8 +138,8 @@ bool RepartiteurActions::appelerMethodeAction( ActionType action )
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonCamera()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
-	return true;
+    EventManager::modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -154,8 +154,8 @@ bool RepartiteurActions::actionBoutonCamera()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonOrbit()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
-	return true;
+    EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
+    return true;
 }
 
 
@@ -172,8 +172,8 @@ bool RepartiteurActions::actionBoutonOrbit()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomElastique()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
-	return true;
+    EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_ELASTIQUE);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -188,8 +188,8 @@ bool RepartiteurActions::actionBoutonZoomElastique()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonZoomProportionnel()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
-	return true;
+    EventManager::modifierEtatSouris(ETAT_SOURIS_ZOOM_PROPORTIONNEL);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -204,8 +204,8 @@ bool RepartiteurActions::actionBoutonZoomProportionnel()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSelection()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_SELECTION);
-	return true; 
+    EventManager::modifierEtatSouris(ETAT_SOURIS_SELECTION);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -220,8 +220,8 @@ bool RepartiteurActions::actionBoutonSelection()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationDeplacement()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
-	return true; 
+    EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_DEPLACEMENT);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -236,8 +236,8 @@ bool RepartiteurActions::actionBoutonTransformationDeplacement()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationRotation()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
-	return true; 
+    EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ROTATION);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -252,8 +252,8 @@ bool RepartiteurActions::actionBoutonTransformationRotation()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonTransformationEchelle()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
-	return true; 
+    EventManager::modifierEtatSouris(ETAT_SOURIS_TRANSFORMATION_ECHELLE);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -268,8 +268,8 @@ bool RepartiteurActions::actionBoutonTransformationEchelle()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonSupprimer()
 {
-	FacadeModele::getInstance()->getEditionField()->deleteSelectedNodes();
-	return true; 
+    FacadeModele::getInstance()->getEditionField()->deleteSelectedNodes();
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -284,9 +284,9 @@ bool RepartiteurActions::actionBoutonSupprimer()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonEditionNouveau()
 {
-	EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
-	FacadeModele::getInstance()->reinitialiserTerrain();	
-	return true; 
+    EventManager::modifierEtatSouris(ETAT_SOURIS_ORBIT);
+    FacadeModele::getInstance()->reinitialiserTerrain();	
+    return true; 
 }
 
 
@@ -302,8 +302,8 @@ bool RepartiteurActions::actionBoutonEditionNouveau()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionReinitialiserPartie()
 {
-	FacadeModele::getInstance()->reinitialiserPartie();
-	return true; 
+    FacadeModele::getInstance()->reinitialiserPartie();
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -318,9 +318,9 @@ bool RepartiteurActions::actionReinitialiserPartie()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonInsererPortail()
 {
-	FacadeModele::getInstance()->selectionArbre(false);
-	EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
-	return true; 
+    FacadeModele::getInstance()->selectionArbre(false);
+    EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_PORTAIL);
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -337,7 +337,7 @@ bool RepartiteurActions::actionBoutonInsererMuret()
 {
     FacadeModele::getInstance()->selectionArbre(false);
     EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MURET);
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -354,7 +354,7 @@ bool RepartiteurActions::actionBoutonInsererMaillet()
 {
     FacadeModele::getInstance()->selectionArbre(false);
     EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_MAILLET);
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -371,7 +371,7 @@ bool RepartiteurActions::actionBoutonInsererRondelle()
 {
     FacadeModele::getInstance()->selectionArbre(false);
     EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_RONDELLE);
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -388,7 +388,7 @@ bool RepartiteurActions::actionBoutonInsererAccelerateur()
 {
     FacadeModele::getInstance()->selectionArbre(false);
     EventManager::modifierEtatSouris(ETAT_SOURIS_AJOUTER_ACCELERATEUR);
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -420,8 +420,8 @@ bool RepartiteurActions::actionBoutonInsererBonus()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionBoutonDupliquer()
 {
-	FacadeModele::getInstance()->getEditionField()->duplicateSelection();
-	return true; 
+    FacadeModele::getInstance()->getEditionField()->duplicateSelection();
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -438,8 +438,8 @@ bool RepartiteurActions::actionBoutonAllerModeJeu()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-	bool retour = FacadeModele::getInstance()->passageModeJeu();
-	return retour;
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_GAME );
+    return retour;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -456,8 +456,8 @@ bool RepartiteurActions::actionBoutonAllerModeEdition()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-	bool retour =  FacadeModele::getInstance()->passageModeEdition();
-	return retour;
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_EDITION_LOAD_DEFAULT);
+    return retour;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -474,8 +474,8 @@ bool RepartiteurActions::actionBoutonAllerModeEditionOnline()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-	bool retour =  FacadeModele::getInstance()->passageModeEdition(false);
-	return retour;
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_EDITION );
+    return retour;
 }
 
 
@@ -493,8 +493,8 @@ bool RepartiteurActions::actionBoutonAllerModeTournoi()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-	bool retour =  FacadeModele::getInstance()->passageModeTournoi();
-	return retour;
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_TOURNAMENT );
+    return retour;
 }
 
 
@@ -513,8 +513,8 @@ bool RepartiteurActions::actionBoutonAllerMenuPrincipal()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-    bool retour = FacadeModele::getInstance()->passageMenuPrincipal();
-	return retour;
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_MENU );
+    return retour;
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -531,7 +531,7 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
 {
     // important de signaler le modele avant de faire le changement d'état, car
     // celui-ci utilise des informations du modèle pour s'initialiser
-    bool retour = FacadeModele::getInstance()->passageModeSimulation();
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_SIMULATION );
     return retour;
 }
 
@@ -549,10 +549,10 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionTogglePauseJeu()
 {
-	FacadeModele::getInstance()->togglePause();
+    FacadeModele::getInstance()->togglePause();
     FacadeModele* wCrash = 0;
     wCrash->animer(0.3f);
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -613,7 +613,7 @@ bool RepartiteurActions::actionReplay()
 // 		    GestionnaireAnimations::obtenirInstance()->jouerReplay(FacadeModele::getInstance()->obtenirVue()->obtenirCamera());
 // 	    }
 //     }
-	return true; 
+    return true; 
 }
 
 
@@ -630,22 +630,22 @@ bool RepartiteurActions::actionReplay()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionChangerModeCameraFixe()
 {
-	int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
-	FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
 
-	vue::VuePerspectiveCiel* nouvelleVue = new vue::VuePerspectiveCiel(
-		vue::Camera(Vecteur3(0, -50, 300), Vecteur3(0, 0, 0),
-		Vecteur3(0, 1, 0)),
-		0, 400, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-		-150, 150, -150, 150);
-	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    vue::VuePerspectiveCiel* nouvelleVue = new vue::VuePerspectiveCiel(
+        vue::Camera(Vecteur3(0, -50, 300), Vecteur3(0, 0, 0),
+        Vecteur3(0, 1, 0)),
+        0, 400, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+        -150, 150, -150, 150);
+    nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
     FacadeModele::getInstance()->resetCurrentZoom();
-	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->modifierVue(nouvelleVue);
     FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
-	return true; 
+    return true; 
 }
 
 
@@ -661,21 +661,21 @@ bool RepartiteurActions::actionChangerModeCameraFixe()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionChangerModeCameraOrbite()
 {
-	vue::Camera cameraCourante = FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-	int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
-	FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    vue::Camera cameraCourante = FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
 
-	vue::VuePerspectiveOrbit* nouvelleVue = new vue::VuePerspectiveOrbit(
-		cameraCourante,
-		0, 400, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-		-150, 150, -150, 150);
-	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    vue::VuePerspectiveOrbit* nouvelleVue = new vue::VuePerspectiveOrbit(
+        cameraCourante,
+        0, 400, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+        -150, 150, -150, 150);
+    nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
-	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->modifierVue(nouvelleVue);
     FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
 
-	return true; 
+    return true; 
 }
 
 
@@ -691,19 +691,19 @@ bool RepartiteurActions::actionChangerModeCameraOrbite()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionChangerModeCameraLibre()
 {
-	vue::Camera cameraCourante = FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
-	int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
-	FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    vue::Camera cameraCourante = FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
 
 
-	vue::VuePerspectiveLibre* nouvelleVue = new vue::VuePerspectiveLibre(
-		cameraCourante,
-		0, 300, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-		-150, 150, -150, 150);
-	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    vue::VuePerspectiveLibre* nouvelleVue = new vue::VuePerspectiveLibre(
+        cameraCourante,
+        0, 300, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+        -150, 150, -150, 150);
+    nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
-	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->modifierVue(nouvelleVue);
     return true; 
 }
 
@@ -719,22 +719,22 @@ bool RepartiteurActions::actionChangerModeCameraLibre()
 ////////////////////////////////////////////////////////////////////////
 bool RepartiteurActions::actionChangerModeCameraSplit()
 {
-	int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
-	FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture(xMinCourant, xMaxCourant, yMinCourant, yMaxCourant);
 
-	vue::Vue* nouvelleVue = new vue::VuePerspectiveSplit(
-		vue::Camera(Vecteur3(-200.0, 0.0, 75.0), Vecteur3(0, 0, 0),
-		Vecteur3(0, 0, 1)),
-		0, 400, 0, 400,
-		180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
-		-150, 150, -150, 150);
-	FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
-	nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
+    vue::Vue* nouvelleVue = new vue::VuePerspectiveSplit(
+        vue::Camera(Vecteur3(-200.0, 0.0, 75.0), Vecteur3(0, 0, 0),
+        Vecteur3(0, 0, 1)),
+        0, 400, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/15000, 1.25,
+        -150, 150, -150, 150);
+    FacadeModele::getInstance()->obtenirVue()->centrerCamera(FacadeModele::getInstance()->getTableWidth());
+    nouvelleVue->redimensionnerFenetre(Vecteur2i(xMinCourant, yMinCourant), Vecteur2i(xMaxCourant, yMaxCourant));
 
 
-	FacadeModele::getInstance()->modifierVue(nouvelleVue);
+    FacadeModele::getInstance()->modifierVue(nouvelleVue);
 
-	return true; 
+    return true; 
 }
 
 ////////////////////////////////////////////////////////////////////////

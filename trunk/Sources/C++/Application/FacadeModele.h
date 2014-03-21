@@ -158,12 +158,7 @@ public:
 	/// Assignation des variables pour le zoom elastique
 	void modifierVariableZoomElastique(bool actif, Vecteur2i coin1 = Vecteur2i(), Vecteur2i coin2 = Vecteur2i());
 
-	/// Changements d'états
-	bool passageModeEdition(bool pLoadDefaultXML = true);
-	bool passageModeJeu(); 
-	bool passageModeTournoi();
-	bool passageMenuPrincipal();
-    bool passageModeSimulation();
+
     /// Ends tournament and clear current game's memory
     void ClearCurrentGame();
 
@@ -239,6 +234,7 @@ public:
 
     inline void resetCurrentZoom(){mCurrentZoom = 0;}
 
+    bool changeControler( GameController controller );
 private:
    /// Constructeur par défaut.
    FacadeModele();
@@ -253,6 +249,12 @@ private:
    /// Liberation de la mémoire
    void libererMemoire();
 
+   /// Changements d'états
+   bool passageModeEdition( bool pLoadDefaultXML);
+   bool passageModeJeu();
+   bool passageModeTournoi();
+   bool passageMenuPrincipal();
+   bool passageModeSimulation();
 
 	/// Pointeur vers l'instance unique de la classe.
 	static FacadeModele* instance_;

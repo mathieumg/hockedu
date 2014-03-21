@@ -896,6 +896,39 @@ void FacadeModele::ClearCurrentGame()
     
 }
 
+bool FacadeModele::changeControler( GameController controller )
+{
+    ClearCurrentGame();
+    mEditionField->libererMemoire();
+    bool res = false;
+    switch( controller )
+    {
+    case GAME_CONTROLLER_EDITION: 
+        res = passageModeEdition(false); 
+        break;
+    case GAME_CONTROLLER_EDITION_LOAD_DEFAULT: 
+        res = passageModeEdition( true ); 
+        break;
+    case GAME_CONTROLLER_GAME: 
+        res = passageModeJeu( );
+        break;
+    case GAME_CONTROLLER_TOURNAMENT: 
+        res = passageModeTournoi( );
+        break;
+    case GAME_CONTROLLER_MENU: 
+        res = passageMenuPrincipal( );
+        break;
+    case GAME_CONTROLLER_SIMULATION: 
+        res = passageModeSimulation( );
+        break;
+    default:
+        break;
+    }
+
+    return res;
+}
+
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn bool FacadeModele::passageModeEdition()
@@ -908,11 +941,10 @@ void FacadeModele::ClearCurrentGame()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeEdition(bool pLoadDefaultXML /*= true*/)
 {
-    ClearCurrentGame();
-	if(pLoadDefaultXML)
-	{
-		RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
-	}
+    if(pLoadDefaultXML)
+    {
+        RazerGameUtilities::LoadFieldFromFile(FICHIER_TERRAIN_EN_COURS,*mEditionField);
+    }
     getEditionField()->setTableControlPointVisible(true);
 
     EventManager::modifierEtat(ETAT_MODE_EDITION);
@@ -932,9 +964,6 @@ bool FacadeModele::passageModeEdition(bool pLoadDefaultXML /*= true*/)
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeSimulation()
 {
-    mEditionField->libererMemoire();
-    ClearCurrentGame();
-
     EventManager::modifierEtat(ETAT_MODE_SIMULATION);
     return true;
 }
@@ -951,26 +980,11 @@ bool FacadeModele::passageModeSimulation()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeTournoi()
 {
-    mEditionField->libererMemoire();
-#ifdef WIN32
-    static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
-    auto NormalCursor = GetCursor();
-    SetCursor(loadingCursor);
-#endif
-
-    // Attend que tous les modeles soit charger
-    while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
-
-#ifdef WIN32
-    SetCursor(NormalCursor);
-#endif
-
     if(!tournoi_)
     {
         utilitaire::afficherErreur("Le modele ne contient pas de tournoi a jouer");
         return false;
     }
-    ClearCurrentGame();
 
     Partie* wGame = tournoi_->obtenirPartieCourante();
     partieCourante_ = wGame->getUniqueGameId();
@@ -1016,27 +1030,6 @@ bool FacadeModele::passageModeTournoi()
 ////////////////////////////////////////////////////////////////////////
 bool FacadeModele::passageModeJeu()
 {
-    mEditionField->libererMemoire();
-
-// #ifdef WIN32
-//     static auto loadingCursor = LoadCursor(NULL,IDC_WAIT);
-//     auto NormalCursor = GetCursor();
-//     SetCursor(loadingCursor);
-// #endif
-// 
-//     // Attend que tous les modeles soit charger
-//     while(GestionnaireModeles::obtenirInstance()->isStillLoadingModel()){}
-// 
-// #ifdef WIN32
-//     SetCursor(NormalCursor);
-// #endif
-
-    ClearCurrentGame();
-
-    //if(!adversaire_)
-    //    adversaire_ = SPJoueurAbstrait(new JoueurHumain("Joueur Droit"));
-
-
     // Jeu local
     if(prochainePartie_ == -1)
     {
@@ -1073,18 +1066,16 @@ bool FacadeModele::passageModeJeu()
         }
     }
 
-    
-
     // On enregistre apres avoir desactiver les points pour ne pas les voir si on reinitialise la partie
-	Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
-	if(wGame)
-	{
-		obtenirVue()->centrerCamera(wGame->getField()->GetTableWidth());
-	}
-	else
-	{
-		obtenirVue()->centrerCamera(500); // Valeur par defaut ??
-	}
+    Partie* wGame = GameManager::obtenirInstance()->getGame(partieCourante_);
+    if(wGame)
+    {
+        obtenirVue()->centrerCamera(wGame->getField()->GetTableWidth());
+    }
+    else
+    {
+        obtenirVue()->centrerCamera(500); // Valeur par defaut ??
+    }
     
 
     EventManager::modifierEtat(ETAT_MODE_JEU);
@@ -1103,11 +1094,6 @@ bool FacadeModele::passageModeJeu()
 bool FacadeModele::passageMenuPrincipal()
 {
     Achievements::LaunchEvent(ACHIEVEMENT_EVENT_MAIN_SCREEN_LOADED);
-    mEditionField->libererMemoire();
-    ClearCurrentGame();
-    
-    selectionArbre(false);
-
     SoundFMOD::obtenirInstance()->playApplicationSong(STARTUP_SONG);
     EventManager::modifierEtat(ETAT_MENU_PRINCIPAL);
     return true;
@@ -1695,11 +1681,11 @@ void FacadeModele::initialiserNuanceurs()
     const char *ns = textFileRead( "nuanceurSommets.glsl" );
     const char *nf = textFileRead( "nuanceurFragments.glsl" );
 
-	if(ns == 0 || nf == 0)
-	{
-		utilitaire::afficherErreur("Error loading shader files \"nuanceurSommets.glsl & nuanceurFragments.glsl\"");
-		return;
-	}
+    if(ns == 0 || nf == 0)
+    {
+        utilitaire::afficherErreur("Error loading shader files \"nuanceurSommets.glsl & nuanceurFragments.glsl\"");
+        return;
+    }
 
     // créer le programme
     progPhong_ = glCreateProgram();
