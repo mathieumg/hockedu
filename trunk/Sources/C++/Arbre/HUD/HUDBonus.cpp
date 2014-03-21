@@ -53,7 +53,7 @@ void HUDBonus::initSurfaces()
     vertex->push_back(Vecteur2f(0,0));
     mSurface = new HUDSurfaceGL(GL_QUADS,vertex,Vecteur4f(1,1,1,1));
     mSurface->modifierTaille(0.05f,0.05f);
-    mTimerElement = new HUDTexte(TEXTE,Vecteur4f(1,1,1,1));
+    mTimerElement = new HUDTexte("",Vecteur4f(1,1,1,1));
 }
 
 ////////////////////////////////////////////////////////////////////////
