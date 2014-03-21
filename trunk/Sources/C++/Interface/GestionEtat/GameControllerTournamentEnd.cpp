@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatPartieTournoiTerminee.cpp
+/// @file GameControllerTournamentEnd.cpp
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-04-13
 /// @version 1.0 
@@ -7,7 +7,7 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-#include "GestionnaireEtatPartieTournoiTerminee.h"
+#include "GameControllerTournamentEnd.h"
 #include "GestionnaireHUD.h"
 #include "FacadeModele.h"
 #include "Partie.h"
@@ -21,7 +21,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee( void )
+/// @fn  GameControllerTournamentEnd::GameControllerTournamentEnd( void )
 ///
 /// Constructeur
 ///
@@ -30,7 +30,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(): GestionnaireEtatAbstrait()
+GameControllerTournamentEnd::GameControllerTournamentEnd(): GameControllerAbstract()
 {
 	pointerCameraSurScoreBoard();
 	Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
@@ -41,7 +41,7 @@ GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(): 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatPartieTournoiTerminee::~GestionnaireEtatPartieTournoiTerminee( void )
+/// @fn  GameControllerTournamentEnd::~GameControllerTournamentEnd( void )
 ///
 /// Destructeur
 ///
@@ -50,14 +50,14 @@ GestionnaireEtatPartieTournoiTerminee::GestionnaireEtatPartieTournoiTerminee(): 
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieTournoiTerminee::~GestionnaireEtatPartieTournoiTerminee(void)
+GameControllerTournamentEnd::~GameControllerTournamentEnd(void)
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerTournamentEnd::toucheEnfoncee( EvenementClavier& evenementClavier )
 ///
 /// Comportement pour une touche enfoncée
 ///
@@ -66,7 +66,7 @@ GestionnaireEtatPartieTournoiTerminee::~GestionnaireEtatPartieTournoiTerminee(vo
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
+void GameControllerTournamentEnd::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
 	if(evenementClavier.obtenirTouche() == VJAK_R ||  evenementClavier.obtenirTouche() == VJAK_CONTROL /*|| GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/)
 		return;
@@ -91,7 +91,7 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::toucheRelachee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerTournamentEnd::toucheRelachee( EvenementClavier& evenementClavier )
 ///
 /// Comportement pour une touche relachée
 ///
@@ -100,14 +100,14 @@ void GestionnaireEtatPartieTournoiTerminee::toucheEnfoncee( EvenementClavier& ev
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerTournamentEnd::toucheRelachee( EvenementClavier& evenementClavier )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::sourisEnfoncee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerTournamentEnd::sourisEnfoncee( EvenementSouris& evenementSouris )
 ///
 /// Comportement pour un bouton de souris enfoncé
 ///
@@ -116,14 +116,14 @@ void GestionnaireEtatPartieTournoiTerminee::toucheRelachee( EvenementClavier& ev
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerTournamentEnd::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerTournamentEnd::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Comportement pour un bouton de souris relâché
 ///
@@ -132,14 +132,14 @@ void GestionnaireEtatPartieTournoiTerminee::sourisEnfoncee( EvenementSouris& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerTournamentEnd::sourisRelachee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerTournamentEnd::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Comportement lorsque la souris est déplacée
 ///
@@ -148,14 +148,14 @@ void GestionnaireEtatPartieTournoiTerminee::sourisRelachee( EvenementSouris& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerTournamentEnd::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+/// @fn void GameControllerTournamentEnd::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 ///
 /// Comportement lorsqu'on bouge la roulette de la souris
 ///
@@ -164,14 +164,14 @@ void GestionnaireEtatPartieTournoiTerminee::sourisDeplacee( EvenementSouris& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerTournamentEnd::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::animer( const float& temps )
+/// @fn void GameControllerTournamentEnd::animer( const float& temps )
 ///
 /// Comportement de la methode animer 
 ///
@@ -180,14 +180,14 @@ void GestionnaireEtatPartieTournoiTerminee::rouletteSouris( EvenementRouletteSou
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::animer( const float& temps )
+void GameControllerTournamentEnd::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->repeatAppSong();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::afficher()
+/// @fn void GameControllerTournamentEnd::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -195,7 +195,7 @@ void GestionnaireEtatPartieTournoiTerminee::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::afficher()
+void GameControllerTournamentEnd::afficher()
 {
     auto game = FacadeModele::getInstance()->obtenirPartieCourante();
     if(game)
@@ -210,7 +210,7 @@ void GestionnaireEtatPartieTournoiTerminee::afficher()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
+/// @fn void GameControllerTournamentEnd::pointerCameraSurScoreBoard()
 ///
 /// On vise la camera sur le tableau
 ///
@@ -218,7 +218,7 @@ void GestionnaireEtatPartieTournoiTerminee::afficher()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
+void GameControllerTournamentEnd::pointerCameraSurScoreBoard()
 {
     // Ajout de l'animation de camera pour pointer sur le tableau du tournoi
     vue::Camera* cameraCourante = &FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
@@ -237,7 +237,7 @@ void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieTournoiTerminee::updateObserver( const ReplaySubject* pSubject )
+/// @fn void GameControllerTournamentEnd::updateObserver( const ReplaySubject* pSubject )
 ///
 /// /*Description*/
 ///
@@ -246,7 +246,7 @@ void GestionnaireEtatPartieTournoiTerminee::pointerCameraSurScoreBoard()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieTournoiTerminee::updateObserver( const ReplaySubject* pSubject )
+void GameControllerTournamentEnd::updateObserver( const ReplaySubject* pSubject )
 {
     if(!pSubject->mReplaying)
     {

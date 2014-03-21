@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatMenuPrincipal.cpp
+/// @file GameControllerMenu.cpp
 /// @author Vincent Lemire
 /// @date 2012-03-02
 /// @version 1.0 
@@ -8,12 +8,12 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "GestionnaireEtatMenuPrincipal.h"
+#include "GameControllerMenu.h"
 #include "SoundFMOD.h"
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn GestionnaireEtatMenuPrincipal::GestionnaireEtatMenuPrincipal(GestionnaireEvenements* contexte) : GestionnaireEtatAbstrait(contexte)
+/// @fn GameControllerMenu::GameControllerMenu(GestionnaireEvenements* contexte) : GameControllerAbstract(contexte)
 ///
 /// Constructeur qui initialise le contexte et mets un événement de souris par défaut.
 ///
@@ -22,14 +22,14 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatMenuPrincipal::GestionnaireEtatMenuPrincipal() : GestionnaireEtatAbstrait()
+GameControllerMenu::GameControllerMenu() : GameControllerAbstract()
 {
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::toucheEnfoncee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerMenu::toucheEnfoncee( EvenementClavier& evenementClavier )
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'une touche.
 ///
@@ -38,13 +38,13 @@ GestionnaireEtatMenuPrincipal::GestionnaireEtatMenuPrincipal() : GestionnaireEta
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::toucheEnfoncee( EvenementClavier& evenementClavier )
+void GameControllerMenu::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::toucheRelachee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerMenu::toucheRelachee( EvenementClavier& evenementClavier )
 ///
 /// Fonction qui gère les événements liés au relâchement d'une touche.
 ///
@@ -53,13 +53,13 @@ void GestionnaireEtatMenuPrincipal::toucheEnfoncee( EvenementClavier& evenementC
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerMenu::toucheRelachee( EvenementClavier& evenementClavier )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::sourisEnfoncee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerMenu::sourisEnfoncee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'un bouton de la souris.
 ///
@@ -68,13 +68,13 @@ void GestionnaireEtatMenuPrincipal::toucheRelachee( EvenementClavier& evenementC
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerMenu::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerMenu::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Fonction qui gère les événements liés au relâchement d'un bouton de la souris.
 ///
@@ -83,13 +83,13 @@ void GestionnaireEtatMenuPrincipal::sourisEnfoncee( EvenementSouris& evenementSo
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerMenu::sourisRelachee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerMenu::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Fonction qui gère les événements liés au déplacement d'un bouton de la souris.
 ///
@@ -98,13 +98,13 @@ void GestionnaireEtatMenuPrincipal::sourisRelachee( EvenementSouris& evenementSo
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerMenu::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+/// @fn void GameControllerMenu::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 ///
 /// Fonction qui gère les événements liés au déplacement de la roulette de la souris
 ///
@@ -113,13 +113,13 @@ void GestionnaireEtatMenuPrincipal::sourisDeplacee( EvenementSouris& evenementSo
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerMenu::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatMenuPrincipal::animer( const float& temps )
+/// @fn void GameControllerMenu::animer( const float& temps )
 ///
 /// Animations du menu principal.
 ///
@@ -128,7 +128,7 @@ void GestionnaireEtatMenuPrincipal::rouletteSouris( EvenementRouletteSouris& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatMenuPrincipal::animer( const float& temps )
+void GameControllerMenu::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->repeatAppSong();
 }

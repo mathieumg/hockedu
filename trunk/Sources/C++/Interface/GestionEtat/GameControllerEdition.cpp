@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "GestionnaireEtatModeEdition.h"
+#include "GameControllerEdition.h"
 #include "FacadeModele.h"
 #include "SourisEtatAbstrait.h"
 #include "GestionnaireModeles.h"
@@ -23,7 +23,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(GestionnaireEvenements* contexte)
+/// @fn GameControllerEdition::GameControllerEdition(GestionnaireEvenements* contexte)
 ///
 /// Constructeur qui initialise le contexte et mets un événement de souris par défaut.
 ///
@@ -32,8 +32,8 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeEdition::GestionnaireEtatModeEdition(Terrain* pField):
-GestionnaireEtatAbstrait(),mField(pField)
+GameControllerEdition::GameControllerEdition(Terrain* pField):
+GameControllerAbstract(),mField(pField)
 {
     mAutoSaveTimer.unPause();
     shiftEnfonce_ = false;
@@ -46,7 +46,7 @@ GestionnaireEtatAbstrait(),mField(pField)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerEdition::toucheEnfoncee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'une touche.
 ///
@@ -55,7 +55,7 @@ GestionnaireEtatAbstrait(),mField(pField)
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClavier)
+void GameControllerEdition::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
     ToucheClavier touche = evenementClavier.obtenirTouche();
     
@@ -72,7 +72,7 @@ void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClav
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::toucheRelachee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerEdition::toucheRelachee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés au relâchement d'une touche.
 ///
@@ -81,7 +81,7 @@ void GestionnaireEtatModeEdition::toucheEnfoncee(EvenementClavier& evenementClav
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerEdition::toucheRelachee( EvenementClavier& evenementClavier )
 {
     ToucheClavier touche = evenementClavier.obtenirTouche();
     if(etatSouris_)
@@ -102,7 +102,7 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
 }
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::sourisEnfoncee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerEdition::sourisEnfoncee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'un bouton de la souris.
 ///
@@ -111,7 +111,7 @@ void GestionnaireEtatModeEdition::toucheRelachee( EvenementClavier& evenementCla
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerEdition::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
     if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
         enfonce_ = true;
@@ -123,7 +123,7 @@ void GestionnaireEtatModeEdition::sourisEnfoncee( EvenementSouris& evenementSour
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::sourisRelachee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerEdition::sourisRelachee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au relâchement d'un bouton de la souris.
 ///
@@ -132,7 +132,7 @@ void GestionnaireEtatModeEdition::sourisEnfoncee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerEdition::sourisRelachee( EvenementSouris& evenementSouris )
 {
     if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
         enfonce_ = false;
@@ -146,7 +146,7 @@ void GestionnaireEtatModeEdition::sourisRelachee( EvenementSouris& evenementSour
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::sourisRelachee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerEdition::sourisRelachee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement d'un bouton de la souris.
 ///
@@ -155,7 +155,7 @@ void GestionnaireEtatModeEdition::sourisRelachee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerEdition::sourisDeplacee( EvenementSouris& evenementSouris )
 {
     if(enfonce_ && boutonEnfonce_==BOUTON_SOURIS_MILIEU)
     {
@@ -179,7 +179,7 @@ void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSour
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
+/// @fn void GameControllerEdition::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement de la roulette de la souris
 ///
@@ -188,17 +188,17 @@ void GestionnaireEtatModeEdition::sourisDeplacee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerEdition::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
     // Application du zoom.
     //evenementRouletteSouris
-    GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
+    GameControllerAbstract::rouletteSouris(evenementRouletteSouris);
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
+/// @fn void GameControllerEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 ///
 /// Fonction qui appelle les fonctions qui doivent etre repetees tant que le bouton est enfonce
 ///
@@ -207,14 +207,14 @@ void GestionnaireEtatModeEdition::rouletteSouris( EvenementRouletteSouris& evene
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
+void GameControllerEdition::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-	GestionnaireEtatAbstrait::CameraMovementFromKeyPressed(deltaTemps);
+	GameControllerAbstract::CameraMovementFromKeyPressed(deltaTemps);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::animer( const float& temps )
+/// @fn void GameControllerEdition::animer( const float& temps )
 ///
 /// Animation dans le mode édition.
 ///
@@ -223,7 +223,7 @@ void GestionnaireEtatModeEdition::miseAJourEvenementsRepetitifs( float deltaTemp
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::animer( const float& temps )
+void GameControllerEdition::animer( const float& temps )
 {
     if(!etatSouris_ || !etatSouris_->OverrideAnimate(temps))
     {
@@ -246,7 +246,7 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::afficher()
+/// @fn void GameControllerEdition::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -254,7 +254,7 @@ void GestionnaireEtatModeEdition::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::afficher()
+void GameControllerEdition::afficher()
 {
     if(!etatSouris_ || !etatSouris_->OverrideRender())
     {
@@ -264,7 +264,7 @@ void GestionnaireEtatModeEdition::afficher()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
+/// @fn void GameControllerEdition::modifierEtatSouris( NomEtatSouris etatSouris )
 ///
 /// /*Description*/
 ///
@@ -273,7 +273,7 @@ void GestionnaireEtatModeEdition::afficher()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeEdition::modifierEtatSouris( NomEtatSouris etatSouris )
+void GameControllerEdition::modifierEtatSouris( NomEtatSouris etatSouris )
 {
     clearMouseState(etatSouris);
     if(!etatSouris_)

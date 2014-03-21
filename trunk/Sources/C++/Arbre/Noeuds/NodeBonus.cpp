@@ -9,13 +9,17 @@
 ///////////////////////////////////////////////////////////////////////////
 #include "NodeBonus.h"
 #include "Terrain.h"
+
 #if BOX2D_INTEGRATED  
 #include <Box2D/Box2D.h>
 #endif
+
 #include "Utilitaire.h"
 #include "VisiteurNoeud.h"
 #include "BonusModifierAbstract.h"
 #include "BonusModifierFactory.h"
+#include "Partie.h"
+#include "NoeudTable.h"
 
 const Vecteur3 DEFAULT_SIZE = Vecteur3(15, 15, 1);
 const float DEFAULT_RADIUS = 8;
@@ -88,7 +92,7 @@ CreateListDelegateImplementation(Bonus)
     //return RazerGameUtilities::CreateListSphereDefault(pModel,DEFAULT_RADIUS);
 }
 #endif
-#include "NoeudTable.h"
+
 
 
 

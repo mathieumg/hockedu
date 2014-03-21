@@ -43,7 +43,6 @@
 #include "DecodeString.h"
 #include "PlayerComputer.h"
 #include "Tournoi.h"
-#include "GestionnaireEtatModeJeu.h"
 #include "NoeudTable.h"
 #include "NoeudAccelerateur.h"
 #include "GestionnaireModeles.h"
@@ -70,15 +69,17 @@
 #include "DebugRenderBox2D.h"
 #include "HUDTexte.h"
 #include "VisiteurFunction.h"
-#include "..\Reseau\GestionnaireReseau.h"
+#include "GestionnaireReseau.h"
 #include "ExceptionJeu.h"
 #include "GameManager.h"
 #include "BonusModifierFactory.h"
 #include "SoundFMOD.h"
-#include "..\Achievements\LaunchAchievementLite.h"
-#include "..\Reseau\Paquets\PaquetGameEvent.h"
-#include "..\Reseau\RelayeurMessage.h"
+#include "LaunchAchievementLite.h"
+#include "PaquetGameEvent.h"
+#include "RelayeurMessage.h"
 #include "ManagerAnimations.h"
+#include "GameManager.h"
+
 
 /// Pointeur vers l'instance unique de la classe.
 FacadeModele* FacadeModele::instance_ = 0;
@@ -1837,6 +1838,11 @@ void FacadeModele::reinitialiserRondelle()
             partie->miseAuJeu(false);
         }
     }
+}
+
+Partie* FacadeModele::obtenirPartieCourante() const
+{
+    return GameManager::obtenirInstance()->getGame( partieCourante_ );
 }
 
 

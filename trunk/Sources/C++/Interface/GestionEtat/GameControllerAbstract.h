@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatAbstrait.h
+/// @file GameControllerAbstract.h
 /// @author Vincent Lemire
 /// @date 2012-01-20
 /// @version 1.0 
@@ -43,24 +43,24 @@ enum NomEtatSouris{
 //typedef void(*RenderSpecific)();
 typedef std::function<void()> RenderSpecific;
 ////////////////////////////////////////////////////////////////////////////
-/// @class GestionnaireEtatAbstrait
+/// @class GameControllerAbstract
 /// @brief Classe abstraite dont les héritières gereront les états selon le
 /// patron state.
 ///
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatAbstrait
+class GameControllerAbstract
 {
 public:
 	/// Requis pour l'accomplissement de tests.
 	friend GestionnaireEvenementsTest;
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatAbstrait();
+	GameControllerAbstract();
 
 	/// Destructeur
-	virtual ~GestionnaireEtatAbstrait();
+	virtual ~GameControllerAbstract();
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee(EvenementClavier& evenementClavier) = 0;

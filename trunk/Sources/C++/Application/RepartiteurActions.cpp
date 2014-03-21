@@ -11,7 +11,7 @@
 #include "RepartiteurActions.h"
 #include "FacadeModele.h"
 #include "EventManager.h"
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 
 #include "VuePerspectiveCiel.h"
 #include "VuePerspectiveOrbit.h"

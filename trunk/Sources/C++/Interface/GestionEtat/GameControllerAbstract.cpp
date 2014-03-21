@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatAbstrait.cpp
+/// @file GameControllerAbstract.cpp
 /// @author Vincent Lemire
 /// @date 2012-01-20
 /// @version 1.0 
@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "FacadeModele.h"
 #include "SourisEtatDeplacerFenetre.h"
 #include "SourisEtatOrbit.h"
@@ -30,7 +30,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn GestionnaireEtatAbstrait::GestionnaireEtatAbstrait(GestionnaireEvenements* contexte)
+/// @fn GameControllerAbstract::GameControllerAbstract(GestionnaireEvenements* contexte)
 ///
 /// Constructeur. Initialise le pointeur sur l'état de la souris et le contexte.
 ///
@@ -39,20 +39,20 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatAbstrait::GestionnaireEtatAbstrait() :etatSouris_(0)
+GameControllerAbstract::GameControllerAbstract() :etatSouris_(0)
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
+/// @fn GameControllerAbstract::~GameControllerAbstract()
 ///
 /// Destructeur de la classe; Désalloue la mémoire allouée pour l'état de souris.
 ///
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
+GameControllerAbstract::~GameControllerAbstract()
 {
 	if(etatSouris_ != NULL)
 		delete etatSouris_;
@@ -62,7 +62,7 @@ GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
+/// @fn void GameControllerAbstract::clearMouseState( NomEtatSouris newState )
 ///
 /// clear mouse state memory if the newState is different from current
 ///
@@ -71,7 +71,7 @@ GestionnaireEtatAbstrait::~GestionnaireEtatAbstrait()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
+void GameControllerAbstract::clearMouseState( NomEtatSouris newState )
 {
     if((unsigned int)newState < NB_ETATS_SOURIS)
     {
@@ -87,7 +87,7 @@ void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
+/// @fn void GameControllerAbstract::modifierEtatSouris( NomEtatSouris etatSouris )
 ///
 /// /*Description*/
 ///
@@ -96,7 +96,7 @@ void GestionnaireEtatAbstrait::clearMouseState( NomEtatSouris newState )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
+void GameControllerAbstract::modifierEtatSouris( NomEtatSouris etatSouris )
 {
 	clearMouseState(etatSouris);
     if(!etatSouris_)
@@ -114,7 +114,7 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn bool GestionnaireEtatAbstrait::GetMouseStateName( NomEtatSouris& outName )
+/// @fn bool GameControllerAbstract::GetMouseStateName( NomEtatSouris& outName )
 ///
 // retourne vrai si on arrive a retrouver un nom valid
 ///
@@ -123,7 +123,7 @@ void GestionnaireEtatAbstrait::modifierEtatSouris( NomEtatSouris etatSouris )
 /// @return bool
 ///
 ////////////////////////////////////////////////////////////////////////
-bool GestionnaireEtatAbstrait::GetMouseStateName( NomEtatSouris& outName )
+bool GameControllerAbstract::GetMouseStateName( NomEtatSouris& outName )
 {
     bool nameFound = true;
     if(etatSouris_)
@@ -140,7 +140,7 @@ bool GestionnaireEtatAbstrait::GetMouseStateName( NomEtatSouris& outName )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatAbstrait::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+/// @fn void GameControllerAbstract::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 ///
 /// /*Description*/
 ///
@@ -149,21 +149,21 @@ bool GestionnaireEtatAbstrait::GetMouseStateName( NomEtatSouris& outName )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatAbstrait::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerAbstract::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
 	FacadeModele::getInstance()->zoom(evenementRouletteSouris.obtenirNbCoches());
 }
 
 
 
-void GestionnaireEtatAbstrait::miseAJourEvenementsRepetitifs( float deltaTemps )
+void GameControllerAbstract::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, const float& temps )
+/// @fn void GameControllerAbstract::gestionAnimationEnJeu( Partie* partieCourante, const float& temps )
 ///
 /// /*Description*/
 ///
@@ -173,7 +173,7 @@ void GestionnaireEtatAbstrait::miseAJourEvenementsRepetitifs( float deltaTemps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, const float& temps )
+void GameControllerAbstract::gestionAnimationEnJeu( Partie* partieCourante, const float& temps )
 {
     // TODO:: refactor Animation
 // 	if(!GestionnaireAnimations::obtenirInstance()->estJouerReplay())
@@ -228,7 +228,7 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatAbstrait::renderBase( class Terrain* pField, RenderSpecific /*= NULL*/ )
+/// @fn void GameControllerAbstract::renderBase( class Terrain* pField, RenderSpecific /*= NULL*/ )
 ///
 /// /*Description*/
 ///
@@ -238,7 +238,7 @@ void GestionnaireEtatAbstrait::gestionAnimationEnJeu( Partie* partieCourante, co
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatAbstrait::renderBase( Terrain* pField, RenderSpecific pSpecificRender/*= NULL*/ )
+void GameControllerAbstract::renderBase( Terrain* pField, RenderSpecific pSpecificRender/*= NULL*/ )
 {
     auto vue = FacadeModele::getInstance()->obtenirVue();
     if(vue)
@@ -290,7 +290,7 @@ void GestionnaireEtatAbstrait::renderBase( Terrain* pField, RenderSpecific pSpec
     }
 }
 
-void GestionnaireEtatAbstrait::CameraMovementFromKeyPressed( float deltaTemps )
+void GameControllerAbstract::CameraMovementFromKeyPressed( float deltaTemps )
 {
 	int tempsMs = (int)(deltaTemps*1000);
 	if(EventManager::mCameraDirection.mValue)
@@ -330,7 +330,7 @@ void GestionnaireEtatAbstrait::CameraMovementFromKeyPressed( float deltaTemps )
 	}
 }
 
-void GestionnaireEtatAbstrait::doubleClickEvent( EvenementSouris& evenementSouris )
+void GameControllerAbstract::doubleClickEvent( EvenementSouris& evenementSouris )
 {
     if (etatSouris_)
     {

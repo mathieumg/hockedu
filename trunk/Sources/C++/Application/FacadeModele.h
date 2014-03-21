@@ -20,7 +20,6 @@
 #include "GameTime.h"
 #include <queue>
 #include <hash_map>
-#include "GameManager.h"
 #include "Enum_Declarations.h"
 
 class VisiteurNoeud;
@@ -87,7 +86,7 @@ public:
 
 	/// Pour les test unitaires
 	friend GestionnaireEvenementsTest;
-    friend AIRenforcementTest;
+    friend class AIRenforcementTest;
     //friend __declspec(dllexport) void startLearningAI(char* pReinforcementProfileName, int pSpeed, int pFailProb);
 
 	/// Obtient l'instance unique de la classe.
@@ -350,7 +349,7 @@ public:
 	float getTableWidth();
 
 	/// Accesseur pour la partie courante
-	Partie* obtenirPartieCourante() const { return GameManager::obtenirInstance()->getGame(partieCourante_); }
+	Partie* obtenirPartieCourante() const;
     /// Accesseur de partieCourante_ (id de la partie)
     int obtenirPartieCouranteId() const { return partieCourante_; }
 	/// Fonction changer l'etat de pause

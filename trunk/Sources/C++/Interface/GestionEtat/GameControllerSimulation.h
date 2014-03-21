@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeSimulation.h
+/// @file GameControllerSimulation.h
 /// @author Michael Ferris
 /// @date 2013-03-03
 /// @version 1.0 
@@ -11,27 +11,27 @@
 #ifndef GESTIONNAIREETATMODESIMULATION_H
 #define GESTIONNAIREETATMODESIMULATION_H
 
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include <vector>
 
 typedef int IDPartie;
 typedef std::vector<IDPartie> GamesContainer;
 
 ////////////////////////////////////////////////////////////////////////////
-/// @class GestionnaireEtatModeSimulation
+/// @class GameControllerSimulation
 /// @brief Classe qui gère les événement l'affichage 
 ///         et la mise a jours lorsqu'en mode simulation
 ///
 /// @author Michael Ferris
 /// @date 2013-03-03
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeSimulation : public GestionnaireEtatAbstrait
+class GameControllerSimulation : public GameControllerAbstract
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeSimulation();
+	GameControllerSimulation();
 	/// Destructeur virtuel
-	virtual ~GestionnaireEtatModeSimulation();
+	virtual ~GameControllerSimulation();
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee(EvenementClavier& evenementClavier);

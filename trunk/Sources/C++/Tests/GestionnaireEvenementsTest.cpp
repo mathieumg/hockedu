@@ -22,12 +22,12 @@
 #include "SourisEtatSelection.h"
 #include "SourisEtatZoomProportionnel.h"
 #include "RazerGameTree.h"
-#include "GestionnaireEtatMenuPrincipal.h"
-#include "GestionnaireEtatModeEdition.h"
-#include "GestionnaireEtatModeJeu.h"
-#include "GestionnaireEtatModeTournoi.h"
-#include "GestionnaireEtatPartieRapideTerminee.h"
-#include "GestionnaireEtatPartieTournoiTerminee.h"
+#include "GameControllerMenu.h"
+#include "GameControllerEdition.h"
+#include "GameControllerQuickPlay.h"
+#include "GameControllerTournament.h"
+#include "GameControllerQuickPlayEnd.h"
+#include "GameControllerTournamentEnd.h"
 
 // Enregistrement de la suite de tests au sein du registre
 CPPUNIT_TEST_SUITE_REGISTRATION( GestionnaireEvenementsTest );
@@ -84,17 +84,17 @@ void GestionnaireEvenementsTest::testChangementEtat()
 {
 	// Modification de l'état
 	EventManager::modifierEtat( ETAT_MENU_PRINCIPAL );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatMenuPrincipal*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerMenu*>(EventManager::etatCourant_));
     EventManager::modifierEtat( ETAT_MODE_EDITION           );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeEdition*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerEdition*>(EventManager::etatCourant_));
     EventManager::modifierEtat( ETAT_MODE_JEU               );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeJeu*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerQuickPlay*>(EventManager::etatCourant_));
     EventManager::modifierEtat( ETAT_MODE_TOURNOI           );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatModeTournoi*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerTournament*>(EventManager::etatCourant_));
     EventManager::modifierEtat( ETAT_PARTIE_RAPIDE_TERMINEE );
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieRapideTerminee*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerQuickPlayEnd*>(EventManager::etatCourant_));
     EventManager::modifierEtat( ETAT_PARTIE_TOURNOI_TERMINEE);
-    CPPUNIT_ASSERT(!!dynamic_cast<GestionnaireEtatPartieTournoiTerminee*>(EventManager::etatCourant_));
+    CPPUNIT_ASSERT(!!dynamic_cast<GameControllerTournamentEnd*>(EventManager::etatCourant_));
 }
 
 ////////////////////////////////////////////////////////////////////////

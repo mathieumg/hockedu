@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeJeu.cpp
+/// @file GameControllerQuickPlay.cpp
 /// @author Vincent Lemire
 /// @date 2012-01-20
 /// @version 1.0 
@@ -8,24 +8,25 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "GestionnaireEtatModeJeu.h"
+#include "GameControllerQuickPlay.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
 
 #include "Partie.h"
 #include "Terrain.h"
 #include "GestionnaireHUD.h"
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
 #include "FacadeCSharp.h"
+#include "GameManager.h"
 
 
 
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( GestionnaireEvenements* contexte )
+/// @fn  GameControllerQuickPlay::GameControllerQuickPlay( GestionnaireEvenements* contexte )
 ///
 /// Constructeur qui initialise les valeurs requises pour faire fonctionner le gestionnaire. 
 /// Place l'état par défaut à Sélection.
@@ -35,8 +36,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeJeu::GestionnaireEtatModeJeu( int pGameId ):
-GestionnaireEtatAbstrait(),mGameId(pGameId)
+GameControllerQuickPlay::GameControllerQuickPlay( int pGameId ):
+GameControllerAbstract(),mGameId(pGameId)
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 	shiftEnfonce_ = false;
@@ -45,14 +46,14 @@ GestionnaireEtatAbstrait(),mGameId(pGameId)
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
+/// @fn  GameControllerQuickPlay::~GameControllerQuickPlay()
 ///
 /// Destructeur virtuel
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
+GameControllerQuickPlay::~GameControllerQuickPlay()
 {
 
 }
@@ -60,7 +61,7 @@ GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerQuickPlay::toucheEnfoncee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'une touche.
 ///
@@ -69,7 +70,7 @@ GestionnaireEtatModeJeu::~GestionnaireEtatModeJeu()
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
+void GameControllerQuickPlay::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
 
@@ -101,7 +102,7 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::toucheRelachee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerQuickPlay::toucheRelachee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés au relâchement d'une touche.
 ///
@@ -110,7 +111,7 @@ void GestionnaireEtatModeJeu::toucheEnfoncee(EvenementClavier& evenementClavier)
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerQuickPlay::toucheRelachee( EvenementClavier& evenementClavier )
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
 
@@ -128,7 +129,7 @@ void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::sourisEnfoncee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerQuickPlay::sourisEnfoncee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'un bouton de la souris.
 ///
@@ -137,7 +138,7 @@ void GestionnaireEtatModeJeu::toucheRelachee( EvenementClavier& evenementClavier
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlay::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
 	// VERIF ETAT PAUSE
 	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
@@ -152,7 +153,7 @@ void GestionnaireEtatModeJeu::sourisEnfoncee( EvenementSouris& evenementSouris )
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::sourisRelachee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerQuickPlay::sourisRelachee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au relâchement d'un bouton de la souris.
 ///
@@ -161,7 +162,7 @@ void GestionnaireEtatModeJeu::sourisEnfoncee( EvenementSouris& evenementSouris )
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlay::sourisRelachee( EvenementSouris& evenementSouris )
 {
 	// VERIF ETAT PAUSE
 	if(evenementSouris.obtenirBouton()==BOUTON_SOURIS_MILIEU)
@@ -174,7 +175,7 @@ void GestionnaireEtatModeJeu::sourisRelachee( EvenementSouris& evenementSouris )
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::sourisDeplacee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerQuickPlay::sourisDeplacee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement d'un bouton de la souris.
 ///
@@ -183,7 +184,7 @@ void GestionnaireEtatModeJeu::sourisRelachee( EvenementSouris& evenementSouris )
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlay::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 	Vecteur3 coordonneesSouris, anciennePos;
 	FacadeModele::getInstance()->convertirClotureAVirtuelle(evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], coordonneesSouris);
@@ -212,7 +213,7 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
+/// @fn void GameControllerQuickPlay::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement de la roulette de la souris
 ///
@@ -221,14 +222,14 @@ void GestionnaireEtatModeJeu::sourisDeplacee( EvenementSouris& evenementSouris )
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerQuickPlay::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
+	GameControllerAbstract::rouletteSouris(evenementRouletteSouris);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::animer( const float& temps )
+/// @fn void GameControllerQuickPlay::animer( const float& temps )
 ///
 /// Animation du mode jeu.
 ///
@@ -237,7 +238,7 @@ void GestionnaireEtatModeJeu::rouletteSouris( EvenementRouletteSouris& evenement
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::animer( const float& temps )
+void GameControllerQuickPlay::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
 	Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
@@ -259,7 +260,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::afficher()
+/// @fn void GameControllerQuickPlay::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -267,7 +268,7 @@ void GestionnaireEtatModeJeu::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::afficher()
+void GameControllerQuickPlay::afficher()
 {
     Partie* wGame = GameManager::obtenirInstance()->getGame(mGameId);
     if(wGame)
@@ -277,14 +278,14 @@ void GestionnaireEtatModeJeu::afficher()
     GestionnaireHUD::obtenirInstance()->dessinerHUDJeu();
 }
 
-void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )
+void GameControllerQuickPlay::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
-	GestionnaireEtatAbstrait::CameraMovementFromKeyPressed(deltaTemps);
+	GameControllerAbstract::CameraMovementFromKeyPressed(deltaTemps);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
+/// @fn void GameControllerQuickPlay::updateObserver( const ReplaySubject* pSubject )
 ///
 /// /*Description*/
 ///
@@ -293,7 +294,7 @@ void GestionnaireEtatModeJeu::miseAJourEvenementsRepetitifs( float deltaTemps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeJeu::updateObserver( const ReplaySubject* pSubject )
+void GameControllerQuickPlay::updateObserver( const ReplaySubject* pSubject )
 {
     if(!pSubject->mReplaying)
     {

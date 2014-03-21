@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeTournoi.cpp
+/// @file GameControllerTournament.cpp
 /// @author Vincent Lemire
 /// @date 2012-03-02
 /// @version 1.0 
@@ -8,7 +8,7 @@
 /// @{
 //////////////////////////////////////////////////////////////////////////////
 
-#include "GestionnaireEtatModeTournoi.h"
+#include "GameControllerTournament.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
 #include "Partie.h"
@@ -20,7 +20,7 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(GestionnaireEvenements* contexte) : GestionnaireEtatAbstrait(contexte)
+/// @fn GameControllerTournament::GameControllerTournament(GestionnaireEvenements* contexte) : GameControllerAbstract(contexte)
 ///
 /// Constructeur qui initialise le contexte et mets un événement de souris par défaut.
 ///
@@ -29,7 +29,7 @@
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : GestionnaireEtatAbstrait(), mTournoi(tournoi)
+GameControllerTournament::GameControllerTournament(Tournoi* tournoi) : GameControllerAbstract(), mTournoi(tournoi)
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
 }
@@ -37,7 +37,7 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : Ges
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerTournament::toucheEnfoncee( EvenementClavier& evenementClavier )
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'une touche.
 ///
@@ -46,7 +46,7 @@ GestionnaireEtatModeTournoi::GestionnaireEtatModeTournoi(Tournoi* tournoi) : Ges
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementClavier )
+void GameControllerTournament::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
     ToucheClavier touche = evenementClavier.obtenirTouche();
 	
@@ -62,7 +62,7 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerTournament::toucheRelachee( EvenementClavier& evenementClavier )
 ///
 /// Fonction qui gère les événements liés au relâchement d'une touche.
 ///
@@ -71,13 +71,13 @@ void GestionnaireEtatModeTournoi::toucheEnfoncee( EvenementClavier& evenementCla
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerTournament::toucheRelachee( EvenementClavier& evenementClavier )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::sourisEnfoncee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerTournament::sourisEnfoncee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'un bouton de la souris.
 ///
@@ -86,13 +86,13 @@ void GestionnaireEtatModeTournoi::toucheRelachee( EvenementClavier& evenementCla
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerTournament::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerTournament::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Fonction qui gère les événements liés au relâchement d'un bouton de la souris.
 ///
@@ -101,13 +101,13 @@ void GestionnaireEtatModeTournoi::sourisEnfoncee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerTournament::sourisRelachee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerTournament::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Fonction qui gère les événements liés au déplacement d'un bouton de la souris.
 ///
@@ -116,13 +116,13 @@ void GestionnaireEtatModeTournoi::sourisRelachee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerTournament::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+/// @fn void GameControllerTournament::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 ///
 /// Fonction qui gère les événements liés au déplacement de la roulette de la souris
 ///
@@ -131,14 +131,14 @@ void GestionnaireEtatModeTournoi::sourisDeplacee( EvenementSouris& evenementSour
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerTournament::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
+	GameControllerAbstract::rouletteSouris(evenementRouletteSouris);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::animer( const float& temps )
+/// @fn void GameControllerTournament::animer( const float& temps )
 ///
 /// /*Description*/
 ///
@@ -147,7 +147,7 @@ void GestionnaireEtatModeTournoi::rouletteSouris( EvenementRouletteSouris& evene
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::animer( const float& temps )
+void GameControllerTournament::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
 
@@ -175,7 +175,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::afficher()
+/// @fn void GameControllerTournament::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -183,7 +183,7 @@ void GestionnaireEtatModeTournoi::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::afficher()
+void GameControllerTournament::afficher()
 {
 	Tournoi* tournoi = FacadeModele::getInstance()->obtenirTournoi();
     if(tournoi)
@@ -207,7 +207,7 @@ void GestionnaireEtatModeTournoi::afficher()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeTournoi::updateObserver( const ReplaySubject* pSubject )
+/// @fn void GameControllerTournament::updateObserver( const ReplaySubject* pSubject )
 ///
 /// /*Description*/
 ///
@@ -216,7 +216,7 @@ void GestionnaireEtatModeTournoi::afficher()
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeTournoi::updateObserver( const ReplaySubject* pSubject )
+void GameControllerTournament::updateObserver( const ReplaySubject* pSubject )
 {
     if(!pSubject->mReplaying)
     {

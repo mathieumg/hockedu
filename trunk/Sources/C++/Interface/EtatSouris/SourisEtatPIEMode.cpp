@@ -310,7 +310,7 @@ bool SourisEtatPIEMode::OverrideRender()
     if(!mInitialised)
         return false;
 
-    GestionnaireEtatAbstrait::renderBase(mPIEGame->getField(),[this]() -> void{mPIEGame->afficher();});
+    GameControllerAbstract::renderBase(mPIEGame->getField(),[this]() -> void{mPIEGame->afficher();});
     return true;
 }
 

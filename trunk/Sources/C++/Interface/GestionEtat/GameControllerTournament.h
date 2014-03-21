@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeTournoi.h
+/// @file GameControllerTournament.h
 /// @author Vincent Lemire
 /// @date 2012-03-02
 /// @version 1.0 
@@ -9,24 +9,24 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #pragma once
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "ReplayObserver.h"
 
 
 class Tournoi;
 
 ////////////////////////////////////////////////////////////////////////////
-/// @class GestionnaireEtatModeTournoi
+/// @class GameControllerTournament
 /// @brief Gère le logiciel lorsque l'utilisateur est en tournoi 
 ///
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeTournoi : public GestionnaireEtatAbstrait, public ReplayObserver
+class GameControllerTournament : public GameControllerAbstract, public ReplayObserver
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeTournoi(Tournoi* tournoi);
+	GameControllerTournament(Tournoi* tournoi);
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );
