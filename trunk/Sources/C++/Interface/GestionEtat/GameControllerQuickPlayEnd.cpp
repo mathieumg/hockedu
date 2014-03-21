@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatPartieRapideTerminee.cpp
+/// @file GameControllerQuickPlayEnd.cpp
 /// @author Vincent Lemire, Michael Ferris
 /// @date 2012-04-13
 /// @version 1.0 
@@ -7,7 +7,7 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-#include "GestionnaireEtatPartieRapideTerminee.h"
+#include "GameControllerQuickPlayEnd.h"
 #include "GestionnaireHUD.h"
 
 #include "FacadeModele.h"
@@ -25,7 +25,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee( void )
+/// @fn  GameControllerQuickPlayEnd::GameControllerQuickPlayEnd( void )
 ///
 /// Constructeur
 ///
@@ -34,7 +34,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): GestionnaireEtatAbstrait(), mIdAnimCam(-1), mIdAnimMallet(-1)
+GameControllerQuickPlayEnd::GameControllerQuickPlayEnd(): GameControllerAbstract(), mIdAnimCam(-1), mIdAnimMallet(-1)
 {
     Partie* partie = FacadeModele::getInstance()->obtenirPartieCourante();
     if(partie)
@@ -93,7 +93,7 @@ GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): Ge
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee( void )
+/// @fn  GameControllerQuickPlayEnd::~GameControllerQuickPlayEnd( void )
 ///
 /// Destructeur
 ///
@@ -102,7 +102,7 @@ GestionnaireEtatPartieRapideTerminee::GestionnaireEtatPartieRapideTerminee(): Ge
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void)
+GameControllerQuickPlayEnd::~GameControllerQuickPlayEnd(void)
 {
     ManagerAnimations::obtenirInstance()->DeleteAnimation(mIdAnimCam);
     ManagerAnimations::obtenirInstance()->DeleteAnimation(mIdAnimMallet);
@@ -110,7 +110,7 @@ GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerQuickPlayEnd::toucheEnfoncee( EvenementClavier& evenementClavier )
 ///
 /// Comportement pour une touche enfoncée
 ///
@@ -119,7 +119,7 @@ GestionnaireEtatPartieRapideTerminee::~GestionnaireEtatPartieRapideTerminee(void
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& evenementClavier )
+void GameControllerQuickPlayEnd::toucheEnfoncee( EvenementClavier& evenementClavier )
 {
     if(evenementClavier.obtenirTouche() == VJAK_R || evenementClavier.obtenirTouche() == VJAK_CONTROL /*|| GestionnaireAnimations::obtenirInstance()->estJouerReplay()*/)
         return;
@@ -136,7 +136,7 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::toucheRelachee( EvenementClavier& evenementClavier )
+/// @fn void GameControllerQuickPlayEnd::toucheRelachee( EvenementClavier& evenementClavier )
 ///
 /// Comportement pour une touche relachée
 ///
@@ -145,14 +145,14 @@ void GestionnaireEtatPartieRapideTerminee::toucheEnfoncee( EvenementClavier& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerQuickPlayEnd::toucheRelachee( EvenementClavier& evenementClavier )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::sourisEnfoncee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerQuickPlayEnd::sourisEnfoncee( EvenementSouris& evenementSouris )
 ///
 /// Comportement pour un bouton de souris enfoncé
 ///
@@ -161,14 +161,14 @@ void GestionnaireEtatPartieRapideTerminee::toucheRelachee( EvenementClavier& eve
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlayEnd::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::sourisRelachee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerQuickPlayEnd::sourisRelachee( EvenementSouris& evenementSouris )
 ///
 /// Comportement pour un bouton de souris relâché
 ///
@@ -177,14 +177,14 @@ void GestionnaireEtatPartieRapideTerminee::sourisEnfoncee( EvenementSouris& even
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlayEnd::sourisRelachee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::sourisDeplacee( EvenementSouris& evenementSouris )
+/// @fn void GameControllerQuickPlayEnd::sourisDeplacee( EvenementSouris& evenementSouris )
 ///
 /// Comportement lorsque la souris est déplacée
 ///
@@ -193,14 +193,14 @@ void GestionnaireEtatPartieRapideTerminee::sourisRelachee( EvenementSouris& even
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerQuickPlayEnd::sourisDeplacee( EvenementSouris& evenementSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+/// @fn void GameControllerQuickPlayEnd::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 ///
 /// Comportement lorsqu'on bouge la roulette de la souris
 ///
@@ -209,14 +209,14 @@ void GestionnaireEtatPartieRapideTerminee::sourisDeplacee( EvenementSouris& even
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerQuickPlayEnd::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
 
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::animer( const float& temps )
+/// @fn void GameControllerQuickPlayEnd::animer( const float& temps )
 ///
 /// Comportement de la methode animer 
 ///
@@ -225,14 +225,14 @@ void GestionnaireEtatPartieRapideTerminee::rouletteSouris( EvenementRouletteSour
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::animer( const float& temps )
+void GameControllerQuickPlayEnd::animer( const float& temps )
 {
     SoundFMOD::obtenirInstance()->repeatAppSong();
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatPartieRapideTerminee::afficher()
+/// @fn void GameControllerQuickPlayEnd::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -240,7 +240,7 @@ void GestionnaireEtatPartieRapideTerminee::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatPartieRapideTerminee::afficher()
+void GameControllerQuickPlayEnd::afficher()
 {
     auto game = FacadeModele::getInstance()->obtenirPartieCourante();
     if(game)

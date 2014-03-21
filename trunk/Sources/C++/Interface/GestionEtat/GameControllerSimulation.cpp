@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeSimulation.cpp
+/// @file GameControllerSimulation.cpp
 /// @author Michael Ferris
 /// @date 2013-03-03
 /// @version 1.0 
@@ -7,14 +7,14 @@
 /// @addtogroup razergame RazerGame
 /// @{
 //////////////////////////////////////////////////////////////////////////////
-#include "GestionnaireEtatModeSimulation.h"
+#include "GameControllerSimulation.h"
 #include "FacadeModele.h"
 #include "ConfigScene.h"
 
 #include "Partie.h"
 #include "Terrain.h"
 #include "GestionnaireHUD.h"
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
 #include "PlayerComputer.h"
@@ -34,7 +34,7 @@
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatModeSimulation::GestionnaireEtatModeSimulation( GestionnaireEvenements* contexte )
+/// @fn  GameControllerSimulation::GameControllerSimulation( GestionnaireEvenements* contexte )
 ///
 /// Constructeur qui initialise les valeurs requises pour faire fonctionner le gestionnaire. 
 /// Place l'état par défaut à Sélection.
@@ -44,8 +44,8 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeSimulation::GestionnaireEtatModeSimulation( ):
-GestionnaireEtatAbstrait()
+GameControllerSimulation::GameControllerSimulation( ):
+GameControllerAbstract()
 {
 	modifierEtatSouris(ETAT_SOURIS_AUCUN);
     
@@ -83,14 +83,14 @@ GestionnaireEtatAbstrait()
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn  GestionnaireEtatModeSimulation::~GestionnaireEtatModeSimulation()
+/// @fn  GameControllerSimulation::~GameControllerSimulation()
 ///
 /// Destructeur virtuel
 ///
 /// @return Aucune.
 ///
 ////////////////////////////////////////////////////////////////////////
-GestionnaireEtatModeSimulation::~GestionnaireEtatModeSimulation()
+GameControllerSimulation::~GameControllerSimulation()
 {
     // remettre la vue par defaut
     FacadeModele::getInstance()->initialiserVue();
@@ -105,7 +105,7 @@ GestionnaireEtatModeSimulation::~GestionnaireEtatModeSimulation()
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::toucheEnfoncee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerSimulation::toucheEnfoncee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'une touche.
 ///
@@ -114,14 +114,14 @@ GestionnaireEtatModeSimulation::~GestionnaireEtatModeSimulation()
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::toucheEnfoncee(EvenementClavier& evenementClavier)
+void GameControllerSimulation::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 }
 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::toucheRelachee(EvenementClavier& evenementClavier)
+/// @fn void GameControllerSimulation::toucheRelachee(EvenementClavier& evenementClavier)
 ///
 /// Fonction qui gère les événements liés au relâchement d'une touche.
 ///
@@ -130,14 +130,14 @@ void GestionnaireEtatModeSimulation::toucheEnfoncee(EvenementClavier& evenementC
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::toucheRelachee( EvenementClavier& evenementClavier )
+void GameControllerSimulation::toucheRelachee( EvenementClavier& evenementClavier )
 {
 
 }
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::sourisEnfoncee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerSimulation::sourisEnfoncee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés à l'enfoncement d'un bouton de la souris.
 ///
@@ -146,7 +146,7 @@ void GestionnaireEtatModeSimulation::toucheRelachee( EvenementClavier& evenement
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::sourisEnfoncee( EvenementSouris& evenementSouris )
+void GameControllerSimulation::sourisEnfoncee( EvenementSouris& evenementSouris )
 {
     if (etatSouris_)
     {
@@ -156,7 +156,7 @@ void GestionnaireEtatModeSimulation::sourisEnfoncee( EvenementSouris& evenementS
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::sourisRelachee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerSimulation::sourisRelachee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au relâchement d'un bouton de la souris.
 ///
@@ -165,7 +165,7 @@ void GestionnaireEtatModeSimulation::sourisEnfoncee( EvenementSouris& evenementS
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::sourisRelachee( EvenementSouris& evenementSouris )
+void GameControllerSimulation::sourisRelachee( EvenementSouris& evenementSouris )
 {
     if (etatSouris_)
     {
@@ -175,7 +175,7 @@ void GestionnaireEtatModeSimulation::sourisRelachee( EvenementSouris& evenementS
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::sourisDeplacee(EvenementSouris& evenementSouris)
+/// @fn void GameControllerSimulation::sourisDeplacee(EvenementSouris& evenementSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement d'un bouton de la souris.
 ///
@@ -184,7 +184,7 @@ void GestionnaireEtatModeSimulation::sourisRelachee( EvenementSouris& evenementS
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::sourisDeplacee( EvenementSouris& evenementSouris )
+void GameControllerSimulation::sourisDeplacee( EvenementSouris& evenementSouris )
 {
     if (etatSouris_)
     {
@@ -194,7 +194,7 @@ void GestionnaireEtatModeSimulation::sourisDeplacee( EvenementSouris& evenementS
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
+/// @fn void GameControllerSimulation::rouletteSouris(EvenementRouletteSouris& evenementRouletteSouris)
 ///
 /// Fonction qui gère les événements liés au déplacement de la roulette de la souris
 ///
@@ -203,14 +203,14 @@ void GestionnaireEtatModeSimulation::sourisDeplacee( EvenementSouris& evenementS
 /// @return Aucune.
 ///
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
+void GameControllerSimulation::rouletteSouris( EvenementRouletteSouris& evenementRouletteSouris )
 {
-	GestionnaireEtatAbstrait::rouletteSouris(evenementRouletteSouris);
+	GameControllerAbstract::rouletteSouris(evenementRouletteSouris);
 }
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::animer( const float& temps )
+/// @fn void GameControllerSimulation::animer( const float& temps )
 ///
 /// Animation du mode jeu.
 ///
@@ -219,7 +219,7 @@ void GestionnaireEtatModeSimulation::rouletteSouris( EvenementRouletteSouris& ev
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::animer( const float& temps )
+void GameControllerSimulation::animer( const float& temps )
 {
 	SoundFMOD::obtenirInstance()->change_song_if_end();
 
@@ -237,7 +237,7 @@ void GestionnaireEtatModeSimulation::animer( const float& temps )
 
 ////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEtatModeSimulation::afficher()
+/// @fn void GameControllerSimulation::afficher()
 ///
 /// Permet d'effectuer l'affichage specifique a l'etat
 ///
@@ -245,7 +245,7 @@ void GestionnaireEtatModeSimulation::animer( const float& temps )
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void GestionnaireEtatModeSimulation::afficher()
+void GameControllerSimulation::afficher()
 {
     auto vue = FacadeModele::getInstance()->obtenirVue();
     if(vue)
@@ -295,7 +295,7 @@ void GestionnaireEtatModeSimulation::afficher()
     }
 }
 
-void GestionnaireEtatModeSimulation::miseAJourEvenementsRepetitifs( float deltaTemps )
+void GameControllerSimulation::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 
 }

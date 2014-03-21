@@ -29,6 +29,24 @@ BoutonSouris
 ;
 
 #if CSHARP
+public enum GameController
+#else
+typedef enum
+#endif
+{
+    GAME_CONTROLLER_EDITION
+    , GAME_CONTROLLER_EDITION_LOAD_DEFAULT
+    , GAME_CONTROLLER_GAME
+    , GAME_CONTROLLER_TOURNAMENT
+    , GAME_CONTROLLER_MENU
+    , GAME_CONTROLLER_SIMULATION
+}
+#if !CSHARP
+GameController
+#endif
+;
+
+#if CSHARP
 public enum ActionType
 #else
 typedef enum

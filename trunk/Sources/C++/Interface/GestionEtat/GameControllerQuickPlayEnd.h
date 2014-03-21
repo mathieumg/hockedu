@@ -1,19 +1,34 @@
-#pragma once
-#include "GestionnaireEtatAbstrait.h"
-#include "ReplayObserver.h"
+//////////////////////////////////////////////////////////////////////////////
+/// @file GameControllerQuickPlayEnd.h
+/// @author Vincent Lemire, Michael Ferris
+/// @date 2012-04-13
+/// @version 1.0 
+///
+/// @addtogroup razergame RazerGame
+/// @{
+//////////////////////////////////////////////////////////////////////////////
 
-class GestionnaireEtatPartieTournoiTerminee :
-	public GestionnaireEtatAbstrait, public ReplayObserver
+
+#pragma once
+#include "GameControllerAbstract.h"
+
+
+////////////////////////////////////////////////////////////////////////////
+/// @class GameControllerQuickPlayEnd
+/// @brief Classe abstraite dont les héritières gereront les états selon le
+/// patron state.
+///
+/// @author Vincent Lemire, Michael Ferris
+/// @date 2012-04-13
+////////////////////////////////////////////////////////////////////////////
+class GameControllerQuickPlayEnd :
+	public GameControllerAbstract
 {
 public:
 	/// Constructeur
-	GestionnaireEtatPartieTournoiTerminee();
-
-	/// On vise la camera sur le tableau
-	void pointerCameraSurScoreBoard();
-
+	GameControllerQuickPlayEnd();
 	/// Destructeur
-	virtual ~GestionnaireEtatPartieTournoiTerminee(void);
+	virtual ~GameControllerQuickPlayEnd(void);
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee( EvenementClavier& evenementClavier );
@@ -38,7 +53,7 @@ public:
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
 
-    virtual void updateObserver( const ReplaySubject* pSubject );
-
+private:
+    int mIdAnimMallet,mIdAnimCam;
 };
 

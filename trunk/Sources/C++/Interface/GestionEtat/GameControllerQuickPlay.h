@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeJeu.h
+/// @file GameControllerQuickPlay.h
 /// @author Vincent Lemire
 /// @date 2012-01-20
 /// @version 1.0 
@@ -11,23 +11,23 @@
 #ifndef GESTIONNAIREETATMODEJEU_H
 #define GESTIONNAIREETATMODEJEU_H
 
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "ReplayObserver.h"
 
 ////////////////////////////////////////////////////////////////////////////
-/// @class GestionnaireEtatModeJeu
+/// @class GameControllerQuickPlay
 /// @brief Classe qui gère les événement lors du mode jeu
 ///
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeJeu : public GestionnaireEtatAbstrait , public ReplayObserver
+class GameControllerQuickPlay : public GameControllerAbstract , public ReplayObserver
 {
 public:
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeJeu(int pGameId);
+	GameControllerQuickPlay(int pGameId);
 	/// Destructeur virtuel
-	virtual ~GestionnaireEtatModeJeu();
+	virtual ~GameControllerQuickPlay();
 
 	/// Comportement pour une touche enfoncée
 	virtual void toucheEnfoncee(EvenementClavier& evenementClavier);

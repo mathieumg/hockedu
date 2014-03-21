@@ -1,5 +1,5 @@
 //////////////////////////////////////////////////////////////////////////////
-/// @file GestionnaireEtatModeEdition.h
+/// @file GameControllerEdition.h
 /// @author Vincent Lemire
 /// @date 2012-01-20
 /// @version 1.0 
@@ -11,27 +11,27 @@
 #ifndef GESTIONNAIREETATMODEEDITION_H
 #define GESTIONNAIREETATMODEEDITION_H
 
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #include "GameTime.h"
 
 class GestionnaireEvenementsTest;
 class Terrain;
 ////////////////////////////////////////////////////////////////////////////
-/// @class GestionnaireEtatAbstrait
+/// @class GameControllerAbstract
 /// @brief Classe qui gère les événement lors du mode édition
 ///
 /// @author Vincent Lemire
 /// @date 2012-01-20
 ////////////////////////////////////////////////////////////////////////////
-class GestionnaireEtatModeEdition : public GestionnaireEtatAbstrait
+class GameControllerEdition : public GameControllerAbstract
 {
 public:
-    typedef GestionnaireEtatAbstrait Super;
+    typedef GameControllerAbstract Super;
 	/// utile pour les tests.
 	friend GestionnaireEvenementsTest;
 
 	/// Constructeur par paramètre.
-	GestionnaireEtatModeEdition(Terrain* pField);
+	GameControllerEdition(Terrain* pField);
 
     virtual void modifierEtatSouris(NomEtatSouris etatSouris);
 

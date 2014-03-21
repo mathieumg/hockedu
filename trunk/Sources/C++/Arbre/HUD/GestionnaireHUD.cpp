@@ -21,7 +21,7 @@
 #include "GestionnaireModeles.h"
 #include "EventManager.h"
 #include "SourisEtatAbstrait.h"
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 
 #include "HUDBonus.h"
 #include "HUDForeverAlone.h"

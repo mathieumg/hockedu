@@ -17,7 +17,7 @@
 #include "Flags.h"
 
 class GestionnaireEvenementsTest;
-class GestionnaireEtatAbstrait;
+class GameControllerAbstract;
 
 
 enum EtatGestion{
@@ -89,7 +89,7 @@ public:
     static void animer(float temps);
 
 	/// Ceci est un pointeur vers le gestionnaire d'événement auquel renvoyer les différents événements, comme le clavier ou la souris, selon l'état courant
-	static GestionnaireEtatAbstrait* etatCourant_; 
+	static GameControllerAbstract* etatCourant_; 
 
 	/// flags used to cache key pressed for camera movement and mallet movement
 	static Flags<char,NB_CAMERA_PRESSED_DIRECTIONS> mCameraDirection;
