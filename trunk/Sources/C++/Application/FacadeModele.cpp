@@ -922,6 +922,10 @@ bool FacadeModele::changeControler( GameController controller )
     case GAME_CONTROLLER_SIMULATION: 
         res = passageModeSimulation( );
         break;
+    case GAME_CONTROLLER_GAME_OF_LIFE:
+        EventManager::modifierEtat(ETAT_MODE_GAME_OF_LIFE);
+        res = true;
+        break;
     default:
         break;
     }

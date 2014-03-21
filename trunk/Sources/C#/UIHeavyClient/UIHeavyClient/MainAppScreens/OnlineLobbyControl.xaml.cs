@@ -304,7 +304,7 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         private void mRandomButton_Click(object sender, RoutedEventArgs e)
         {
-            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = true;
+            MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = true;
             requestMatchmaking();
         }
 
@@ -340,7 +340,7 @@ namespace UIHeavyClient
         {
             if (messageTextBox.Text!="")
             {
-                Chat.SendMessageDLL("MasterServer", MainWindowHandler.Context.MainMenuControl.LoginControlElement.UserName, messageTextBox.Text);
+                Chat.SendMessageDLL("MasterServer", MainWindowHandler.Context.gMainMenuControl.LoginControlElement.UserName, messageTextBox.Text);
                 messageTextBox.Clear();
             }
         }
@@ -368,21 +368,21 @@ namespace UIHeavyClient
                     MainWindowHandler.GoToPlayMode(ActionType.ACTION_ALLER_MODE_JEU);
                     MainWindowHandler.Context.RestartGameMenuHandle(true);
                     MainWindowHandler.Context.ReplayMenuHandle(true);
-                    MainWindowHandler.Context.PlayModeControl.HandleChatVisibility(true);
+                    MainWindowHandler.Context.gPlayModeControl.HandleChatVisibility(true);
                 }
             });
         }
         public void CallbackMapListForMapDownload( List<UserMapDetailedJSON> pList )
         {
             // Une fois qu'on a charge la liste des maps, on trouve la bonne 
-            string wMapToFind = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.mapName;
-            string wAuthor    = MainWindowHandler.Context.OnlineLobbyControl.mGameWaitingToConnect.creatorName;
+            string wMapToFind = MainWindowHandler.Context.gOnlineLobbyControl.mGameWaitingToConnect.mapName;
+            string wAuthor    = MainWindowHandler.Context.gOnlineLobbyControl.mGameWaitingToConnect.creatorName;
             foreach (UserMapDetailedJSON wMap in pList)
             {
                 if (wMap.name == wMapToFind && wMap.author == wAuthor)
                 {
                     // Trouve, pas besoin du user_id pcq la map devrait etre publique si une partie a ete creee avec
-                    MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, "", MainWindowHandler.Context.OnlineLobbyControl.CallbackMapDownloaded);
+                    MainWindowHandler.Context.gOnlineLobbyControl.mHttpManager.downloadMap(Convert.ToInt32(LoginControl.mLoginInfo.mUserId), wMap.id, "", MainWindowHandler.Context.gOnlineLobbyControl.CallbackMapDownloaded);
                     break;
                 }
             }
@@ -405,7 +405,7 @@ namespace UIHeavyClient
 
             if (id >= 0 && EventCodes.NB_EVENT_CODES > id)
             {
-                OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+                OnlineLobbyControl wThis = MainWindowHandler.Context.gOnlineLobbyControl;
                 switch (id)
                 {
                     case EventCodes.GAME_CREATION_FAILED:
@@ -413,22 +413,22 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
                                 if ( message == "1" )
                                 {
-                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "No Game Server Found" );
+                                    MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack( "No Game Server Found" );
                                 }
                                 else if ( message == "2" )
                                 {
-                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "A game with that name already exists" );
+                                    MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack( "A game with that name already exists" );
                                 }
                                 else
                                 {
-                                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack( "Game creation failed for unknown reason." );
+                                    MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack( "Game creation failed for unknown reason." );
                                 }
                             }
                         });
@@ -495,13 +495,13 @@ namespace UIHeavyClient
                         });
 
                         // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                        if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                        if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                         {
-                            MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                            MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
                             // Download la map pour la partie et on ne change pas de state avant que ce soit termine
                             // La seule facon de trouver les infos de la bonne map est d'aller chercher la liste et de trouver celle avec le bon nom
-                            MainWindowHandler.Context.OnlineLobbyControl.mHttpManager.getPublicMapList(wThis.CallbackMapListForMapDownload);
+                            MainWindowHandler.Context.gOnlineLobbyControl.mHttpManager.getPublicMapList(wThis.CallbackMapListForMapDownload);
                         }
                     }
                     break;
@@ -510,13 +510,13 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("You are already connected to this game...");
                             }
                         });
                     }
@@ -526,13 +526,13 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("This game already have two player... try another one!");
                             }
                         });
                     }
@@ -542,13 +542,13 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame = false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame = false;
 
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("This game doesn't exist anymore... try another one!");
                             }
                         });
                     }
@@ -558,13 +558,13 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame=false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame=false;
 
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("Wrong Password");
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("Wrong Password");
                             }
                         });
                     }
@@ -574,13 +574,13 @@ namespace UIHeavyClient
                         MainWindowHandler.mTaskManager.ExecuteTask(() =>
                         {
                             // Faire un check pour savoir si on a vraiment demander de se connecter ou de creer une partie
-                            if (MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame)
+                            if (MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame)
                             {
-                                MainWindowHandler.Context.OnlineLobbyControl.mIsWaitingForOnlineGame=false;
+                                MainWindowHandler.Context.gOnlineLobbyControl.mIsWaitingForOnlineGame=false;
 
-                                MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                                MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                                MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("An error occured while joining game.");
+                                MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                                MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                                MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("An error occured while joining game.");
                             }
                         });
                     }
@@ -641,9 +641,9 @@ namespace UIHeavyClient
             {
                 MainWindowHandler.mTaskManager.ExecuteTask(() =>
                 {
-                    MainWindowHandler.Context.OnlineLobbyControl.HandleUIButtons(true);
-                    MainWindowHandler.Context.OnlineLobbyControl.RequestGamesList();
-                    MainWindowHandler.Context.OnlineLobbyControl.DisplayFeedBack("Failed to download map");
+                    MainWindowHandler.Context.gOnlineLobbyControl.HandleUIButtons(true);
+                    MainWindowHandler.Context.gOnlineLobbyControl.RequestGamesList();
+                    MainWindowHandler.Context.gOnlineLobbyControl.DisplayFeedBack("Failed to download map");
                     
                 });
             }
@@ -668,7 +668,7 @@ namespace UIHeavyClient
 
             if(groupName == "lobby")
             {
-                OnlineLobbyControl wThis = MainWindowHandler.Context.OnlineLobbyControl;
+                OnlineLobbyControl wThis = MainWindowHandler.Context.gOnlineLobbyControl;
                 wThis.ChatObject.UpdateChat(username, message);
                 MainWindowHandler.mTaskManager.ExecuteTask(() =>
                 {

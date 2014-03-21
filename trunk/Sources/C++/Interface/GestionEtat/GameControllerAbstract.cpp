@@ -261,7 +261,7 @@ void GameControllerAbstract::renderBase( Terrain* pField, RenderSpecific pSpecif
             {
                 pSpecificRender();
             }
-            else
+            else if(pField)
             {
                 pField->renderField();
             }
@@ -270,17 +270,20 @@ void GameControllerAbstract::renderBase( Terrain* pField, RenderSpecific pSpecif
             glDisable(GL_LIGHTING);
 
 #if BOX2D_DEBUG
-            glPushMatrix();
-            glPushAttrib(GL_ALL_ATTRIB_BITS);
-
-            auto world = pField->GetWorld();
-            if(world)
+            if( pField )
             {
-                world->DrawDebugData();
+                glPushMatrix();
+                glPushAttrib( GL_ALL_ATTRIB_BITS );
+
+                auto world = pField->GetWorld();
+                if( world )
+                {
+                    world->DrawDebugData();
+                }
+                // Restauration de la matrice.
+                glPopAttrib();
+                glPopMatrix();
             }
-            // Restauration de la matrice.
-            glPopAttrib();
-            glPopMatrix();
 #endif
         }
         if(nbViewPort>1)

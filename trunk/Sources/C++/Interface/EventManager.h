@@ -28,6 +28,7 @@ enum EtatGestion{
 	ETAT_PARTIE_RAPIDE_TERMINEE,
     ETAT_PARTIE_TOURNOI_TERMINEE,
     ETAT_MODE_SIMULATION,
+    ETAT_MODE_GAME_OF_LIFE,
 };
 
 enum CameraPressedDirections

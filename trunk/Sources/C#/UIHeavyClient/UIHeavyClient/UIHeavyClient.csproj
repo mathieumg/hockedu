@@ -111,24 +111,28 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AIOptionControl.xaml.cs">
+    <Compile Include="MainAppScreens\AIOptionControl.xaml.cs">
       <DependentUpon>AIOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="CallbackManager.cs" />
-    <Compile Include="CreditPopup.xaml.cs">
+    <Compile Include="MainAppScreens\CreditPopup.xaml.cs">
       <DependentUpon>CreditPopup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameCreationPrompt.xaml.cs">
+    <Compile Include="MainAppScreens\GameOfLifeControl.xaml.cs">
+      <DependentUpon>GameOfLifeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainAppScreens\RenderingControl.cs" />
+    <Compile Include="Windows\GameCreationPrompt.xaml.cs">
       <DependentUpon>GameCreationPrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PasswordPrompt.xaml.cs">
+    <Compile Include="Windows\PasswordPrompt.xaml.cs">
       <DependentUpon>PasswordPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="RazerUtilities.cs" />
-    <Compile Include="SaveServerMapPrompt.xaml.cs">
+    <Compile Include="Windows\SaveServerMapPrompt.xaml.cs">
       <DependentUpon>SaveServerMapPrompt.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServerMapPrompt.xaml.cs">
+    <Compile Include="Windows\ServerMapPrompt.xaml.cs">
       <DependentUpon>ServerMapPrompt.xaml</DependentUpon>
     </Compile>
     <Compile Include="TcpPing.cs" />
@@ -139,13 +143,13 @@
       <DependentUpon>BonusEditionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Chat.cs" />
-    <Compile Include="KeyboardOptionControl.xaml.cs">
+    <Compile Include="MainAppScreens\KeyboardOptionControl.xaml.cs">
       <DependentUpon>KeyboardOptionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="LoginControl.xaml.cs">
+    <Compile Include="UserControls\LoginControl.xaml.cs">
       <DependentUpon>LoginControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EditionModeControl.xaml.cs">
+    <Compile Include="MainAppScreens\EditionModeControl.xaml.cs">
       <DependentUpon>EditionModeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UserControls\FieldPropertiesControl.xaml.cs">
@@ -154,36 +158,40 @@
     <Compile Include="UserControls\NumericalInputBox.xaml.cs">
       <DependentUpon>NumericalInputBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OnlineLobbyControl.xaml.cs">
+    <Compile Include="MainAppScreens\OnlineLobbyControl.xaml.cs">
       <DependentUpon>OnlineLobbyControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OptionsControl.xaml.cs">
+    <Compile Include="MainAppScreens\OptionsControl.xaml.cs">
       <DependentUpon>OptionsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="RadioOptionControl.xaml.cs">
+    <Compile Include="MainAppScreens\RadioOptionControl.xaml.cs">
       <DependentUpon>RadioOptionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="TaskManager.cs" />
-    <Compile Include="TournamentControl.xaml.cs">
+    <Compile Include="MainAppScreens\TournamentControl.xaml.cs">
       <DependentUpon>TournamentControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utilities.cs" />
-    <Compile Include="WebLogin.xaml.cs">
+    <Compile Include="Windows\WebLogin.xaml.cs">
       <DependentUpon>WebLogin.xaml</DependentUpon>
     </Compile>
-    <Page Include="AIOptionControl.xaml">
+    <Page Include="MainAppScreens\AIOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CreditPopup.xaml">
+    <Page Include="MainAppScreens\CreditPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="SaveServerMapPrompt.xaml">
+    <Page Include="MainAppScreens\GameOfLifeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ServerMapPrompt.xaml">
+    <Page Include="Windows\SaveServerMapPrompt.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\ServerMapPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -191,11 +199,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GameCreationPrompt.xaml">
+    <Page Include="Windows\GameCreationPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PasswordPrompt.xaml">
+    <Page Include="Windows\PasswordPrompt.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,19 +211,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="KeyboardOptionControl.xaml">
+    <Page Include="MainAppScreens\KeyboardOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LoginControl.xaml">
+    <Page Include="UserControls\LoginControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainMenuControl.xaml">
+    <Page Include="MainAppScreens\MainMenuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Windows\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -224,14 +232,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ConsoleManager.cs" />
-    <Compile Include="MainMenuControl.xaml.cs">
+    <Compile Include="MainAppScreens\MainMenuControl.xaml.cs">
       <DependentUpon>MainMenuControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="EditionModeControl.xaml">
+    <Page Include="MainAppScreens\EditionModeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -243,40 +251,40 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OnlineLobbyControl.xaml">
+    <Page Include="MainAppScreens\OnlineLobbyControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OptionsControl.xaml">
+    <Page Include="MainAppScreens\OptionsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="PlayModeControl.xaml">
+    <Page Include="MainAppScreens\PlayModeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="RadioOptionControl.xaml">
+    <Page Include="MainAppScreens\RadioOptionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="TournamentControl.xaml">
+    <Page Include="MainAppScreens\TournamentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WebLogin.xaml">
+    <Page Include="Windows\WebLogin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainWindowHandler.cs" />
-    <Compile Include="OpenGLControl.cs">
+    <Compile Include="UserControls\OpenGLControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="OpenGLControl.Designer.cs">
+    <Compile Include="UserControls\OpenGLControl.Designer.cs">
       <DependentUpon>OpenGLControl.cs</DependentUpon>
     </Compile>
-    <Compile Include="PlayModeControl.xaml.cs">
+    <Compile Include="MainAppScreens\PlayModeControl.xaml.cs">
       <DependentUpon>PlayModeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -292,7 +300,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EmbeddedResource Include="OpenGLControl.resx">
+    <EmbeddedResource Include="UserControls\OpenGLControl.resx">
       <DependentUpon>OpenGLControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">

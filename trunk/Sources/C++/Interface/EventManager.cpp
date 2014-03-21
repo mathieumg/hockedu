@@ -26,6 +26,7 @@
 #include "GameControllerSimulation.h"
 #include "ConfigScene.h"
 #include "GameTime.h"
+#include "GameControllerGoL.h"
 
 std::set<ToucheClavier> pressedKeys;
 
@@ -61,6 +62,7 @@ void EventManager::modifierEtat(const EtatGestion &nouvelEtat)
 		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GameControllerQuickPlayEnd(); break;
         case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GameControllerTournamentEnd(); break;
         case ETAT_MODE_SIMULATION: etatCourant_ = new GameControllerSimulation(); break;
+        case ETAT_MODE_GAME_OF_LIFE: etatCourant_ = new GameControllerGoL( ); break;
 	}
 	checkf(etatCourant_);
 }

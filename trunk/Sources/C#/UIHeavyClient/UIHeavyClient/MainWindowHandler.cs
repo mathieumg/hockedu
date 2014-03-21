@@ -106,7 +106,7 @@ namespace UIHeavyClient
 
             // CallbackContainers
             CallbackContainer wContainerEdition = new CallbackContainer();
-            wContainerEdition.mEditionEventCallback=Context.EditionModeControl.EventCallBack;
+            wContainerEdition.mEditionEventCallback=Context.gEditionModeControl.EventCallBack;
 
             CallbackContainer wContainerPlay = new CallbackContainer();
             wContainerPlay.mMessageReceivedCallback = PlayModeControl.mMessageCallback;
@@ -136,6 +136,7 @@ namespace UIHeavyClient
             CallbackManager.AddState(GameState.GAME_STATE_PLAY, wPlayStateCallBacks, wPlayStateElements);
             CallbackManager.AddState(GameState.GAME_STATE_MAIN_MENU, wMainMenuStateCallBacks, wMainMenuStateElements);
             CallbackManager.AddState(GameState.GAME_STATE_ONLINE_LOBBY, wOnlineStateCallBacks, wOnlineStateElements);
+            CallbackManager.AddState(GameState.GAME_STATE_GOL, new List<CallbackContainer>(), new List<UIElement>());
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -163,12 +164,12 @@ namespace UIHeavyClient
                 if (wSuccess)
                 {
 
-                    Context.WindowContentControl.Content=Context.EditionModeControl;
-                    Context.PlayModeControl.RemoveOpenGL();
-                    Context.EditionModeControl.AppendOpenGL();
-                    Context.EditionModeControl.InitButtons();
-                    Context.EditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
-                    Context.OnlineLobbyControl.ClearOnlineUsers();
+                    Context.gWindowContentControl.Content=Context.gEditionModeControl;
+                    Context.FreeRenderingControl();
+                    Context.gEditionModeControl.ActivateRendering();
+                    Context.gEditionModeControl.InitButtons();
+                    Context.gEditionModeControl.mPropertiesGroupBox.DisplayProperties(RazerKey.RAZER_KEY_NONE);
+                    Context.gOnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                 }
                 else
@@ -181,7 +182,30 @@ namespace UIHeavyClient
                 CallbackManager.RevertChanges();
             }
 
-            Context.EditionModeControl.SetGuidanceInstuction("");
+            Context.gEditionModeControl.SetGuidanceInstuction("");
+        }
+
+
+        public static void GoToGoLMode()
+        {
+            if (CallbackManager.ChangeGameMode(GameState.GAME_STATE_GOL))
+            {
+                if (ActionPerformed(ActionType.ACTION_ALLER_MODE_GOL))
+                {
+                    Context.gWindowContentControl.Content = Context.gGameOfLifeControl;
+                    Context.FreeRenderingControl();
+                    Context.gGameOfLifeControl.ActivateRendering();
+                    CallbackManager.CommitChanges();
+                }
+                else
+                {
+                    CallbackManager.RevertChanges();
+                }
+            }
+            else
+            {
+                CallbackManager.RevertChanges();
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -205,16 +229,16 @@ namespace UIHeavyClient
             {
                 if (ActionPerformed(pAction))
                 {
-                    Context.WindowContentControl.Content=Context.PlayModeControl;
-                    Context.EditionModeControl.RemoveOpenGL();
-                    Context.PlayModeControl.AppendOpenGL();
-                    Context.PlayModeControl.DisplayRadioPlaylists();
-                    Context.PlayModeControl.DisplayRadioVolume();
-                    Context.OnlineLobbyControl.ClearOnlineUsers();
+                    Context.gWindowContentControl.Content=Context.gPlayModeControl;
+                    Context.FreeRenderingControl();
+                    Context.gPlayModeControl.ActivateRendering();
+                    Context.gPlayModeControl.DisplayRadioPlaylists();
+                    Context.gPlayModeControl.DisplayRadioVolume();
+                    Context.gOnlineLobbyControl.ClearOnlineUsers();
                     CallbackManager.CommitChanges();
                     Context.RestartGameMenuHandle(false);
                     Context.ReplayMenuHandle(false);
-                    Context.PlayModeControl.HandleChatVisibility(false);
+                    Context.gPlayModeControl.HandleChatVisibility(false);
                 }
                 else
                 {
@@ -242,13 +266,12 @@ namespace UIHeavyClient
             {
                 if (ActionPerformed(ActionType.ACTION_ALLER_MENU_PRINCIPAL))
                 {
-                    Context.WindowContentControl.Content=Context.MainMenuControl;
+                    Context.gWindowContentControl.Content=Context.gMainMenuControl;
 
-                    Context.MainMenuControl.InitOperations();
-                    Context.EditionModeControl.RemoveOpenGL();
-                    Context.PlayModeControl.RemoveOpenGL();
-                    Context.MainMenuControl.DisplayProfileNames();
-                    Context.OnlineLobbyControl.ClearOnlineUsers();
+                    Context.gMainMenuControl.InitOperations();
+                    Context.FreeRenderingControl();
+                    Context.gMainMenuControl.DisplayProfileNames();
+                    Context.gOnlineLobbyControl.ClearOnlineUsers();
 
                     MainWindowHandler.Context.RestartGameMenuHandle(true);
 
@@ -275,9 +298,9 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToTournamentMenu()
         {
-            Context.WindowContentControl.Content=Context.TournamentControl;
-            Context.TournamentControl.DisplayProfileNames();
-            Context.TournamentControl.SetFocus();
+            Context.gWindowContentControl.Content=Context.gTournamentControl;
+            Context.gTournamentControl.DisplayProfileNames();
+            Context.gTournamentControl.SetFocus();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -292,8 +315,8 @@ namespace UIHeavyClient
             // set callback events and messages
             if (CallbackManager.ChangeGameMode(GameState.GAME_STATE_ONLINE_LOBBY))
             {
-                Context.WindowContentControl.Content = Context.OnlineLobbyControl;
-                Context.OnlineLobbyControl.RequestGamesList();
+                Context.gWindowContentControl.Content = Context.gOnlineLobbyControl;
+                Context.gOnlineLobbyControl.RequestGamesList();
                 CallbackManager.CommitChanges();
             }
             else
@@ -311,8 +334,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToOptionsMenu()
         {
-            Context.WindowContentControl.Content = Context.OptionsControl;
-            Context.OptionsControl.DisplayOptionsValue();
+            Context.gWindowContentControl.Content = Context.gOptionsControl;
+            Context.gOptionsControl.DisplayOptionsValue();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -324,8 +347,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToRadioOptions()
         {
-            Context.WindowContentControl.Content = Context.RadioOptionControl;
-            Context.RadioOptionControl.DisplayPlaylists();
+            Context.gWindowContentControl.Content = Context.gRadioOptionControl;
+            Context.gRadioOptionControl.DisplayPlaylists();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -337,8 +360,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToAIOptions()
         {
-            Context.WindowContentControl.Content = Context.AIOptionControl;
-            Context.AIOptionControl.DisplayAIProfiles();
+            Context.gWindowContentControl.Content = Context.gAIOptionControl;
+            Context.gAIOptionControl.DisplayAIProfiles();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -350,8 +373,8 @@ namespace UIHeavyClient
         ////////////////////////////////////////////////////////////////////////
         public static void GoToKeyboardOption()
         {
-            Context.WindowContentControl.Content = Context.KeyboardOptionControl;
-            Context.KeyboardOptionControl.DisplayPlayerTwoKeys();
+            Context.gWindowContentControl.Content = Context.gKeyboardOptionControl;
+            Context.gKeyboardOptionControl.DisplayPlayerTwoKeys();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -366,7 +389,7 @@ namespace UIHeavyClient
         public static void LoadMapFromLocal(string pMapName)
         {
             LoadMap(pMapName);
-            Context.EditionModeControl.ResetEditionState();
+            Context.gEditionModeControl.ResetEditionState();
         }
 
         ////////////////////////////////////////////////////////////////////////
@@ -381,7 +404,7 @@ namespace UIHeavyClient
         public static void SaveMapToLocal(string pMapName)
         {
             SaveMap(pMapName);
-            Context.EditionModeControl.SetGuidanceInstuction("Map saved to file \"" + pMapName + "\".");
+            Context.gEditionModeControl.SetGuidanceInstuction("Map saved to file \"" + pMapName + "\".");
         }
 
         ////////////////////////////////////////////////////////////////////////

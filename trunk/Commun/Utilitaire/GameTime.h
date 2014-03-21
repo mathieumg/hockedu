@@ -47,7 +47,8 @@ public:
 	/// Permet de mettre la minuterie en pause
     inline void pause(){if(!paused_) {pause_time_ = clock();paused_ = true;}}
     inline void unPause(){if(paused_) {paused_ = false; adjustTime((clock()-pause_time_)/(CLOCKS_PER_SEC/1000.0f));}}
-
+    inline bool isPaused() const{return paused_;}
+    inline void togglePause(){if( paused_ ){unPause();}else{pause();}}
 
 private:
 	/// Le temps initial

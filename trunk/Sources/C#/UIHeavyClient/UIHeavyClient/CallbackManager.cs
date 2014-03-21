@@ -9,7 +9,7 @@ using System.Windows;
 namespace UIHeavyClient
 {
 
-    enum GameState {GAME_STATE_NONE, GAME_STATE_EDITION, GAME_STATE_PLAY, GAME_STATE_MAIN_MENU, GAME_STATE_TOURNAMENT_MENU, GAME_STATE_ONLINE_LOBBY}
+    enum GameState {GAME_STATE_NONE, GAME_STATE_EDITION, GAME_STATE_PLAY, GAME_STATE_MAIN_MENU, GAME_STATE_TOURNAMENT_MENU, GAME_STATE_ONLINE_LOBBY, GAME_STATE_GOL}
 
     // Declaration des prototypes de callbacks
     public delegate bool MessageReceivedCallBack(IntPtr username, IntPtr message, IntPtr groupName);

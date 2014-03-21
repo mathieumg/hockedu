@@ -23,6 +23,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Forms.Integration;
 using System.Runtime.InteropServices;
+using UIHeavyClient.MainAppScreens;
 
 namespace UIHeavyClient
 {
@@ -33,7 +34,7 @@ namespace UIHeavyClient
     /// @author Vincent Lemire
     /// @date 2013-02-06
     ///////////////////////////////////////////////////////////////////////////
-    public partial class PlayModeControl : UserControl
+    public partial class PlayModeControl : UserControl, IRenderingControl
     {
         private WindowsFormsHost mWindowsFormsHost;
         private bool mIsRadioPlaying;
@@ -95,7 +96,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void AppendOpenGL()
+        public void ActivateRendering()
         {
             if (!playControlGrid.Children.Contains(mWindowsFormsHost))
             {
@@ -116,7 +117,7 @@ namespace UIHeavyClient
         ///
         /// @return void.
         ////////////////////////////////////////////////////////////////////////
-        public void RemoveOpenGL()
+        public void DeactivateRendering()
         {
             playControlGrid.Children.Remove(mWindowsFormsHost);
         }
@@ -315,8 +316,8 @@ namespace UIHeavyClient
             {
                 MainWindowHandler.mTaskManager.ExecuteTask(() =>
                 {
-                    MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.Text += "\n" + username + ": " + message;
-                    MainWindowHandler.Context.PlayModeControl.mChatOutputTextBox.ScrollToEnd();
+                    MainWindowHandler.Context.gPlayModeControl.mChatOutputTextBox.Text += "\n" + username + ": " + message;
+                    MainWindowHandler.Context.gPlayModeControl.mChatOutputTextBox.ScrollToEnd();
                 });
             }
             

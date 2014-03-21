@@ -280,6 +280,7 @@
     <ClCompile Include="Interface\GestionEtat\GameControllerAbstract.cpp" />
     <ClCompile Include="Interface\EventManager.cpp" />
     <ClCompile Include="Interface\GestionEtat\GameControllerEdition.cpp" />
+    <ClCompile Include="Interface\GestionEtat\GameControllerGoL.cpp" />
     <ClCompile Include="Interface\GestionEtat\GameControllerMenu.cpp" />
     <ClCompile Include="Interface\GestionEtat\GameControllerQuickPlay.cpp" />
     <ClCompile Include="Interface\GestionEtat\GameControllerQuickPlayEnd.cpp" />
@@ -468,6 +469,7 @@
     <ClInclude Include="Interface\GestionEtat\GameControllerAbstract.h" />
     <ClInclude Include="Interface\EventManager.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerEdition.h" />
+    <ClInclude Include="Interface\GestionEtat\GameControllerGoL.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerMenu.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerQuickPlay.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerQuickPlayEnd.h" />

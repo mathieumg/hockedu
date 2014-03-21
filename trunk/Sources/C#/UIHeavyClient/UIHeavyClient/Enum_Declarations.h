@@ -40,6 +40,7 @@ typedef enum
     , GAME_CONTROLLER_TOURNAMENT
     , GAME_CONTROLLER_MENU
     , GAME_CONTROLLER_SIMULATION
+    , GAME_CONTROLLER_GAME_OF_LIFE
 }
 #if !CSHARP
 GameController
@@ -82,10 +83,11 @@ typedef enum
         ACTION_ALLER_MODE_TOURNOI  ,
         ACTION_ALLER_MENU_PRINCIPAL,
         ACTION_ALLER_MODE_SIMULATION,
+        ACTION_ALLER_MODE_GOL      ,
         ACTION_CAMERA_FIXE         ,
         ACTION_CAMERA_ORBITE       ,
         ACTION_CAMERA_LIBRE        ,
-        ACTION_CAMERA_SPLIT        ,
+        ACTION_CAMERA_SPLIT,
 }
 #if !CSHARP
 ActionType

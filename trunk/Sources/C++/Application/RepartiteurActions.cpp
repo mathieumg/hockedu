@@ -81,6 +81,7 @@ RepartiteurActions::RepartiteurActions()
     banqueActions_[ACTION_ALLER_MODE_TOURNOI]    = &RepartiteurActions::actionBoutonAllerModeTournoi;
     banqueActions_[ACTION_ALLER_MENU_PRINCIPAL]  = &RepartiteurActions::actionBoutonAllerMenuPrincipal;
     banqueActions_[ACTION_ALLER_MODE_SIMULATION] = &RepartiteurActions::actionBoutonAllerModeSimulation;
+    banqueActions_[ACTION_ALLER_MODE_GOL]        = &RepartiteurActions::actionBoutonAllerGameOfLife;
 
     //Fonctions de changement de camera
     banqueActions_[ACTION_CAMERA_FIXE]           = &RepartiteurActions::actionChangerModeCameraFixe;
@@ -535,7 +536,13 @@ bool RepartiteurActions::actionBoutonAllerModeSimulation()
     return retour;
 }
 
-
+bool RepartiteurActions::actionBoutonAllerGameOfLife()
+{
+    // important de signaler le modele avant de faire le changement d'état, car
+    // celui-ci utilise des informations du modèle pour s'initialiser
+    bool retour = FacadeModele::getInstance( )->changeControler( GAME_CONTROLLER_GAME_OF_LIFE );
+    return retour;
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -810,6 +817,8 @@ bool RepartiteurActions::actionPlayInEditor()
     EventManager::modifierEtatSouris(ETAT_SOURIS_PIE_MODE);
     return true;
 }
+
+
 
 
 
