@@ -653,6 +653,9 @@
     <ClCompile Include="Interface\GestionEtat\GameControllerMenu.cpp">
       <Filter>Sources Files\Interface\Game Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDDynamicText.cpp">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1194,6 +1197,9 @@
     </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GameControllerEdition.h">
       <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDDynamicText.h">
+      <Filter>Sources Files\Arbre\Hud</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

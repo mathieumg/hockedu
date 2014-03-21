@@ -9,10 +9,7 @@
 //////////////////////////////////////////////////////////////////////////////
 
 #include "GestionnaireHUD.h"
-#include "HUDSurfaceGL.h"
-#include "HUDTexte.h"
-#include "HUDMultiligne.h"
-#include "HUDElementComparatif.h"
+
 #include "gl/GLU.h"
 #include "Utilitaire.h"
 #include "FacadeModele.h"
@@ -22,10 +19,19 @@
 #include "EventManager.h"
 #include "SourisEtatAbstrait.h"
 #include "GameControllerAbstract.h"
+#include "PlayerAbstract.h"
+#include "Phont.h"
 
 #include "HUDBonus.h"
 #include "HUDForeverAlone.h"
-#include "Phont.h"
+#include "HUDDynamicText.h"
+#include "HUDForeverAlone.h"
+#include "HUDSurfaceGL.h"
+#include "HUDTexte.h"
+#include "HUDMultiligne.h"
+#include "HUDElementComparatif.h"
+
+
 
 // Déclarations de base pour le singleton
 SINGLETON_DECLARATION_CPP(GestionnaireHUD);
@@ -294,11 +300,20 @@ void GestionnaireHUD::creerHUDJeu()
     surfaceJoueurGauche->modifierPosition(0.0f, 0.0f);
     surfaceJoueurGauche->modifierTaille(0.5f, 1.0f);
 
-    HUDTexte* nomJoueurGauche=new HUDTexte(NOM_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
+    HUDDynamicText* nomJoueurGauche = new HUDDynamicText( []( std::stringstream& text ) { 
+        const Partie* game = FacadeModele::getInstance()->obtenirPartieCourante();
+        if(game)text << game->obtenirNomJoueurGauche( );
+        return Vecteur4f( 1, 1, 1, 1 ); 
+    }, false );
+
     nomJoueurGauche->modifierPosition(0.3f,0.4f);
     surfaceJoueurGauche->add(nomJoueurGauche);
 
-    HUDTexte* scoreJoueurGauche=new HUDTexte(POINTAGE_JOUEUR_GAUCHE, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
+    HUDDynamicText* scoreJoueurGauche = new HUDDynamicText( []( std::stringstream& text ) {
+        const Partie* game = FacadeModele::getInstance()->obtenirPartieCourante();
+        if( game )text << game->obtenirPointsJoueurGauche( );
+        return Vecteur4f( 1, 1, 1, 1 );
+    }, false );
     scoreJoueurGauche->modifierPosition(0.4f,0.9f);
     surfaceJoueurGauche->add(scoreJoueurGauche);
 
@@ -324,11 +339,19 @@ void GestionnaireHUD::creerHUDJeu()
     surfaceJoueurDroit->modifierPosition(0.5f, 0.0f);
     surfaceJoueurDroit->modifierTaille(0.5f, 1.0f);
 
-    HUDTexte* nomJoueurDroit=new HUDTexte(NOM_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
+    HUDDynamicText* nomJoueurDroit = new HUDDynamicText( []( std::stringstream& text ) {
+        const Partie* game = FacadeModele::getInstance()->obtenirPartieCourante();
+        if( game )text << game->obtenirNomJoueurDroit( );
+        return Vecteur4f( 1, 1, 1, 1 );
+    }, false );
     nomJoueurDroit->modifierPosition(0.5f,0.4f);
     surfaceJoueurDroit->add(nomJoueurDroit);
 
-    HUDTexte* scoreJoueurDroit=new HUDTexte(POINTAGE_JOUEUR_DROIT, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
+    HUDDynamicText* scoreJoueurDroit = new HUDDynamicText( []( std::stringstream& text ) {
+        const Partie* game = FacadeModele::getInstance()->obtenirPartieCourante();
+        if( game )text << game->obtenirPointsJoueurDroit();
+        return Vecteur4f( 1, 1, 1, 1 );
+    }, false );
     scoreJoueurDroit->modifierPosition(0.6f,0.9f);
     surfaceJoueurDroit->add(scoreJoueurDroit);
 
@@ -369,7 +392,21 @@ void GestionnaireHUD::creerHUDJeu()
     panneauTempsJeu->modifierTaille(0.2f,0.3f);
     panneauScores->add(panneauTempsJeu);
 
-    HUDTexte* texteTempsJeu=new HUDTexte(TEMPS_JEU, Vecteur4f(1.0f,1.0f,1.0f,1.0f));
+    HUDDynamicText* texteTempsJeu = new HUDDynamicText( []( std::stringstream& text ) {
+        float tempsJeu = FacadeModele::getInstance()->obtenirPartieCourante()->obtenirTempsJeu();
+        int nbHeures = (int)tempsJeu / 3600;
+        tempsJeu -= nbHeures * 3600;
+        if( nbHeures > 0 )
+            text << nbHeures << ":";
+        int nbMinutes = (int)tempsJeu / 60;
+        if( nbMinutes > 0 )
+            text << ( ( nbHeures > 0 && nbMinutes < 10 ) ? "0" : "" ) << nbMinutes << ":";
+        tempsJeu -= nbMinutes * 60;
+        tempsJeu = (float)( (int)( tempsJeu * 100 ) );
+        tempsJeu /= 100.0;
+        text << ( ( tempsJeu<10 && nbMinutes > 0 ) ? "0" : "" ) << tempsJeu;
+        return Vecteur4f( 1, 1, 1, 1 );
+    } );
     texteTempsJeu->modifierPosition(0.4f,1.0f);
     panneauTempsJeu->add(texteTempsJeu);
 
@@ -387,7 +424,18 @@ void GestionnaireHUD::creerHUDJeu()
     textePartieTerminee->modifierPosition(0.1f, 0.33f);
     panneauVainqueur->add(textePartieTerminee);
 
-    HUDTexte* texteNomVainqueur = new HUDTexte(NOM_VAINQUEUR, Vecteur4f(1.0f,1.0f,1.0f,1.0f), false);
+    HUDDynamicText* texteNomVainqueur = new HUDDynamicText( []( std::stringstream& text ) {
+            const Partie* game = FacadeModele::getInstance()->obtenirPartieCourante();
+            if( game )
+            {
+                SPPlayerAbstract player = game->obtenirGagnant();
+                if( player )
+                {
+                    text << player->obtenirNom( );
+                }
+            }
+            return Vecteur4f( 1, 1, 1, 1 );
+        }, false );
     texteNomVainqueur->modifierPosition(0.3f, 0.66f);
     panneauVainqueur->add(texteNomVainqueur);
 
@@ -512,8 +560,37 @@ void GestionnaireHUD::creerHUDTournoi()
             caseCourante->modifierTaille(largeurCase, hauteurCase);
             caseCourante->modifierPosition((etage)*1.1f*largeurCase, ((j+1.0f)*espacement) + (j*hauteurCase)+ (pow(2.0f, (int)etage)-1.0f)*(j+1.0f/2.0f)*(hauteurCase+espacement));
 
-            unsigned int indexJoueur = j & 1;
-            HUDTexte* panneauNomJoueur = new HUDTexte(indexPartie, indexJoueur);
+            const unsigned int indexJoueur = j & 1;
+            HUDDynamicText* panneauNomJoueur = new HUDDynamicText( [indexJoueur, indexPartie]( std::stringstream& text ) {
+
+                Vecteur4f color( 1, 1, 1, 1 );
+                SPPlayerAbstract joueur;
+                if( indexPartie > ( Tournoi::nbrParties_ - 1 ) )
+                {
+                    unsigned int index = 0;
+                    joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie( index )->obtenirGagnant();
+                    color = Vecteur4f( 1, 0, 0, 1 ); //red
+                }
+                else if( indexJoueur )
+                {
+                    joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie( indexPartie )->obtenirJoueurDroit();
+                }
+                else
+                {
+                    joueur = FacadeModele::getInstance()->obtenirTournoi()->obtenirPartie( indexPartie )->obtenirJoueurGauche();
+                }
+                if( joueur )
+                {
+                    Vainqueurs chemin = FacadeModele::getInstance()->obtenirTournoi()->obtenirCheminDernierVainqueur();
+                    if( find( chemin.begin(), chemin.end(), Vainqueur( indexPartie, indexJoueur == 1 ? GAGNANT_DROITE : GAGNANT_GAUCHE ) ) != chemin.end() )
+                    {
+                        color = Vecteur4f( 0, 0, 0, 1 ); //black
+                    }
+
+                    text << joueur->obtenirNom() << std::endl;
+                }
+                return color;
+            } );
             panneauNomJoueur->modifierPosition(0.0f, 1.0f);
             caseCourante->add(panneauNomJoueur);
 
@@ -678,6 +755,14 @@ HUDElement* GestionnaireHUD::obtenirRacine( RacineHUD racine )
     case RACINE_TOURNOI: return racineTournoi_;
     };
     return 0;
+}
+
+void GestionnaireHUD::setForeverAloneVisibility( bool pVisible )
+{
+    if( mForeverAlone )
+    {
+        mForeverAlone->modifierVisibilite( pVisible );
+    }
 }
 
 ///////////////////////////////////////////////////////////////////////////

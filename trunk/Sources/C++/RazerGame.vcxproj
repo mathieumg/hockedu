@@ -209,6 +209,7 @@
     <ClCompile Include="Arbre\FieldRunnableStructs.cpp" />
     <ClCompile Include="Arbre\HUD\GestionnaireHUD.cpp" />
     <ClCompile Include="Arbre\HUD\HUDBonus.cpp" />
+    <ClCompile Include="Arbre\HUD\HUDDynamicText.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElement.cpp" />
     <ClCompile Include="Arbre\HUD\HUDElementComparatif.cpp" />
     <ClCompile Include="Arbre\HUD\HUDForeverAlone.cpp" />
@@ -395,6 +396,7 @@
     <ClInclude Include="Arbre\FieldRunnableStructs.h" />
     <ClInclude Include="Arbre\HUD\GestionnaireHUD.h" />
     <ClInclude Include="Arbre\HUD\HUDBonus.h" />
+    <ClInclude Include="Arbre\HUD\HUDDynamicText.h" />
     <ClInclude Include="Arbre\HUD\HUDElement.h" />
     <ClInclude Include="Arbre\HUD\HUDElementComparatif.h" />
     <ClInclude Include="Arbre\HUD\HUDForeverAlone.h" />

@@ -248,8 +248,6 @@ public:
 	/// Accesseurs des points des joueurs
 	int obtenirPointsJoueurGauche() const;
 	int obtenirPointsJoueurDroit() const;
-	int obtenirReferencePointsJoueurGauche() {return pointsJoueurGauche_;}
-	int obtenirReferencePointsJoueurDroit() {return pointsJoueurDroit_;}
 
 	/// Accesseurs des noms des joueurs
 	std::string obtenirNomJoueurGauche() const;

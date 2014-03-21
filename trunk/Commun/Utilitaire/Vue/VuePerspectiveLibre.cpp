@@ -264,7 +264,7 @@ namespace vue {
    ////////////////////////////////////////////////////////////////////////
    void VuePerspectiveLibre::deplacerXYSouris(float deplacementX, float deplacementY)
    {
-       Vecteur2i v(deplacementX,deplacementY);
+       Vecteur2i v((int)deplacementX,(int)deplacementY);
        deplacerXYSouris(v);
    }
 

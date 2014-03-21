@@ -11,7 +11,6 @@
 #pragma once
 #include "Singleton.h"
 #include "glew.h"
-#include "HUDForeverAlone.h"
 
 enum RacineHUD{RACINE_JEU,RACINE_EDITION,RACINE_TOURNOI};
 
@@ -88,7 +87,7 @@ public:
     /// Accessors of mDeltaXOrtho
     inline float getDeltaXOrtho() const { return mDeltaXOrtho; }
 
-    inline void setForeverAloneVisibility(bool pVisible) {if(mForeverAlone) {mForeverAlone->modifierVisibilite(pVisible);}}
+    void setForeverAloneVisibility(bool pVisible);
 };
 
 ///////////////////////////////////////////////////////////////////////////

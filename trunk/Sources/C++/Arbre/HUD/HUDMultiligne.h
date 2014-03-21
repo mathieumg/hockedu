@@ -26,7 +26,7 @@ class HUDMultiligne:public HUDElement
 {
 public:
 	/// Constructeur
-	HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, bool isSmallText = true);
+	HUDMultiligne(const std::string& messageMultiligne, const Vecteur4f& couleur, bool isSmallText = true);
 	/// Destructeur
 	~HUDMultiligne();
 

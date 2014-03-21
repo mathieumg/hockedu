@@ -23,7 +23,7 @@
 /// @return 
 ///
 ////////////////////////////////////////////////////////////////////////
-HUDMultiligne::HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, bool isSmallText)
+HUDMultiligne::HUDMultiligne(const std::string& messageMultiligne, const Vecteur4f& couleur, bool isSmallText)
 {
 	texteMultiligne_=messageMultiligne;
 	int indexDebutLigne=0;
@@ -51,12 +51,6 @@ HUDMultiligne::HUDMultiligne(std::string messageMultiligne, Vecteur4f& couleur, 
 	}
 }
 
-	/**
-
-	std::string texteMultiligne_;
-	ConteneurLignes lignes_;//contient les strings des lignes separees en lignes.
-
-	**/
 
 ///////////////////////////////////////////////////////////////////////////
 /// @}
