@@ -42,14 +42,18 @@ GameControllerAbstract()
 {
 	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
     Vecteur2 p;
-    p.X() = 1;
-    p.Y( ) = 1;
-    mAlives[p] = 0;
-    p.Y( ) = 3;
-    mAlives[p] = 0;
-    p.X() = 1;
-    p.Y() = 2;
-    mAlives[p] = 0;
+    p.X() = 0;
+    p.Y() = 0;
+#define addPos(x) for(int i=0; i<x; ++i) {p.X()++;mAlives[p] = 0;}
+    addPos( 8 );
+    p.X()++;
+    addPos( 5 );
+    p.X( )+=3;
+    addPos( 3 );
+    p.X( ) += 6;
+    addPos( 7 );
+    p.X() += 1;
+    addPos( 5 );
 }
 
 ////////////////////////////////////////////////////////////////////////
