@@ -30,7 +30,7 @@ public:
 	void dessinerHUDJeu();
 	void dessinerHUDEdition();
 	void dessinerHUDTournoi();
-
+    void drawFromRoot( HUDElement* root );
 	/// Visibilité
 	void visible(bool& estVisible);
 

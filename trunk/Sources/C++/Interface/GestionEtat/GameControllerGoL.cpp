@@ -20,6 +20,8 @@
 #include "SoundFMOD.h"
 #include "FacadeCSharp.h"
 #include "GameManager.h"
+#include "HUDMultiligne.h"
+#include "HUDDynamicText.h"
 
 
 const float lengthDot = 20;
@@ -40,7 +42,8 @@ int delai = 100;
 GameControllerGoL::GameControllerGoL() :
 GameControllerAbstract()
 {
-	modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
+    mTool = GOL_TOOL_CREATE;
+    modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
     Vecteur2 p;
     p.X() = 0;
     p.Y() = 0;
@@ -54,7 +57,66 @@ GameControllerAbstract()
     addPos( 7 );
     p.X() += 1;
     addPos( 5 );
-#undef addpos(x)
+#undef addpos
+
+    mHUDRoot = new HUDElement();
+    HUDMultiligne* controls = new HUDMultiligne( "Controls (Right click to to tool)\n\
+Space : Pause/Unpause game evolution\n\
+u : Evolve faster\n\
+d : Evolve slower\n\
+c : Clear all\n\
+e : Eraser Tool\n\
+m : Creater Tool", Vecteur4f( 1, 1, 1, 0.7f ) );
+    controls->modifierPosition( 0, 0.6f );
+    controls->modifierTaille( 1, 0.4f );
+    mHUDRoot->add( controls );
+
+    HUDDynamicText* pauseStatus = new HUDDynamicText( [&]( std::stringstream& text ) {
+        if( mTimer.isPaused() )
+        {
+            text << "Paused";
+        }
+        return Vecteur4f( 1, 1, 1, 0.7f );
+    },false );
+    pauseStatus->modifierPosition( 0.45f, 0.5f );
+    mHUDRoot->add( pauseStatus );
+
+    HUDDynamicText* fpsStatus = new HUDDynamicText( [&]( std::stringstream& text ) {
+        if( delai > 16 )
+        {
+            const float fps = 1 / ( delai/1000.f );
+            text << "Speed: " << fps << "fps";
+        }
+        else
+        {
+            text << "Maximum Speed";
+        }
+        return Vecteur4f( 1, 1, 1, 0.7f );
+    }, false );
+    fpsStatus->modifierPosition( 0, 0.05f );
+    mHUDRoot->add( fpsStatus );
+
+
+    HUDDynamicText* toolText = new HUDDynamicText( [&]( std::stringstream& text ) {
+        text << "Right Click button : ";
+        switch( mTool )
+        {
+        case GOL_TOOL_CREATE:
+            text << "Create new dots";
+            break;
+        case GOL_TOOL_ERASE:
+            text << "Erase dots";
+            break;
+        default:
+            break;
+        }
+        return Vecteur4f( 1, 1, 1, 0.7f );
+    } );
+    toolText->modifierPosition( 0.7f, 0.05f );
+    mHUDRoot->add( toolText );
+
+    mHUDRoot->modifierTaille( 1, 1 );
+    mHUDRoot->modifierPosition( 0, 0 );
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -68,7 +130,7 @@ GameControllerAbstract()
 ////////////////////////////////////////////////////////////////////////
 GameControllerGoL::~GameControllerGoL( )
 {
-
+    delete mHUDRoot;
 }
 
 
@@ -91,14 +153,14 @@ void GameControllerGoL::toucheEnfoncee(EvenementClavier& evenementClavier)
     case VJAK_SPACE:
         mTimer.togglePause();
         break;
-    case VJAK_UP:
-        delai += 10;
-        break;
-    case VJAK_DOWN:
-        delai -= 10;
-        break;
     case VJAK_C:
         mAlives.clear();
+        break;
+    case VJAK_M:
+        mTool = GOL_TOOL_CREATE;
+        break;
+    case VJAK_E:
+        mTool = GOL_TOOL_ERASE;
         break;
     default:
         break;
@@ -125,6 +187,7 @@ void GameControllerGoL::toucheRelachee( EvenementClavier& evenementClavier )
 
 
 bool enfonce = false;
+Vecteur2i posEnfonce;
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
 /// @fn void GameControllerGoL::sourisEnfoncee(EvenementSouris& evenementSouris)
@@ -149,16 +212,17 @@ void GameControllerGoL::sourisEnfoncee( EvenementSouris& evenementSouris )
         FacadeModele::getInstance()->convertirClotureAVirtuelle( evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], position );
         position /= lengthDot;
 
-        Vecteur2i pos( position.X(), position.Y() );
+        Vecteur2i pos( (int)position.X(), (int)position.Y() );
         auto it = mAlives.find( pos );
-        if( it != mAlives.end() )
+        if( mTool == GOL_TOOL_ERASE && it != mAlives.end() )
         {
             mAlives.erase( it );
         }
-        else
+        else if(mTool == GOL_TOOL_CREATE )
         {
             mAlives[pos] = 0;
         }
+        posEnfonce = pos;
     }
 }
 
@@ -210,14 +274,18 @@ void GameControllerGoL::sourisDeplacee( EvenementSouris& evenementSouris )
         FacadeModele::getInstance()->convertirClotureAVirtuelle( evenementSouris.obtenirPosition()[VX], evenementSouris.obtenirPosition()[VY], position );
         position /= lengthDot;
 
-        Vecteur2i pos( position.X(), position.Y() );
-        auto it = mAlives.find( pos );
-        if( it != mAlives.end() )
+        Vecteur2i pos( (int)position.X(), (int)position.Y() );
+        if( pos != posEnfonce )
         {
-        }
-        else
-        {
-            mAlives[pos] = 0;
+            auto it = mAlives.find( pos );
+            if( mTool == GOL_TOOL_ERASE && it != mAlives.end() )
+            {
+                mAlives.erase( it );
+            }
+            else if( mTool == GOL_TOOL_CREATE )
+            {
+                mAlives[pos] = 0;
+            }
         }
     }
 }
@@ -242,7 +310,7 @@ void GameControllerGoL::rouletteSouris( EvenementRouletteSouris& evenementRoulet
 class CoordContour : public Vecteur2i
 {
 public:
-    CoordContour( Vecteur2 pos ) :Vecteur2i( pos.X() - 1, pos.Y() ), turn_( 1 )
+    CoordContour( Vecteur2i pos ) :Vecteur2i( pos.X() - 1, pos.Y() ), turn_( 1 )
     {
     }
 
@@ -287,6 +355,31 @@ private:
 ////////////////////////////////////////////////////////////////////////
 void GameControllerGoL::animer( const float& temps )
 {
+    static int inc = 0;
+    if( EventManager::IsKeyPressed( VJAK_U ) )
+    {
+        inc++;
+        if( delai > 5 )
+        {
+            delai--;
+            if( inc > 60 )
+            {
+                delai -= 5;
+            }
+        }
+    }
+    else if( EventManager::IsKeyPressed( VJAK_D ) )
+    {
+        inc++;
+        delai++;
+        if( inc > 60 )
+        {
+            delai += 5;
+        }
+    }
+    else
+        inc = 0;
+
 	SoundFMOD::obtenirInstance()->change_song_if_end();	
 
     if( !mTimer.isPaused( ) && mTimer.Elapsed_Time_ms( ) > delai )
@@ -395,7 +488,7 @@ void GameControllerGoL::afficher()
             glPopAttrib();
             glPopMatrix();
 
-
+            GestionnaireHUD::obtenirInstance()->drawFromRoot( mHUDRoot );
 
         }
     }    

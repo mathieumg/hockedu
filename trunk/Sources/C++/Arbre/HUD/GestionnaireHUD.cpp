@@ -659,39 +659,45 @@ void GestionnaireHUD::creerHUDTournoi()
 ////////////////////////////////////////////////////////////////////////
 void GestionnaireHUD::dessinerHUDTournoi()
 {
-    
+    drawFromRoot( racineTournoi_ );
+}
+void GestionnaireHUD::drawFromRoot( HUDElement* root )
+{
+    if( !root ) return;
+
     // États de la lumière et de la profondeur
     GLboolean lighting_state, depth_test_state;
     // Désactiver le test de profondeur et l'éclairage
-    glGetBooleanv(GL_LIGHTING, &lighting_state);
-    glGetBooleanv(GL_DEPTH_TEST, &depth_test_state);
-    glDisable(GL_DEPTH_TEST);
-    glDisable(GL_LIGHTING);
+    glGetBooleanv( GL_LIGHTING, &lighting_state );
+    glGetBooleanv( GL_DEPTH_TEST, &depth_test_state );
+    glDisable( GL_DEPTH_TEST );
+    glDisable( GL_LIGHTING );
 
-    glPushAttrib(GL_ALL_ATTRIB_BITS);
-    glMatrixMode(GL_PROJECTION);
+    glPushAttrib( GL_ALL_ATTRIB_BITS );
+    glMatrixMode( GL_PROJECTION );
     glPushMatrix();
     glLoadIdentity();
-    gluOrtho2D(0,1,1,0);
-    glMatrixMode(GL_MODELVIEW);
+    gluOrtho2D( 0, 1, 1, 0 );
+    glMatrixMode( GL_MODELVIEW );
     glPushMatrix();
     glLoadIdentity();
-    glLineWidth(3);
-    racineTournoi_->repeindre();
-    glMatrixMode(GL_MODELVIEW);
+    glLineWidth( 3 );
+    root->repeindre( );
+    glMatrixMode( GL_MODELVIEW );
     glPopMatrix(); // MODELVIEW
-    glMatrixMode(GL_PROJECTION);
+    glMatrixMode( GL_PROJECTION );
     glPopMatrix(); // PROJECTION
     glPopAttrib(); // ATTRIBUTS
 
     // Réactiver l'éclairage et le test de profondeur (s'il y a lieu)
-    if (lighting_state == GL_TRUE) {
-        glEnable(GL_LIGHTING);
+    if( lighting_state == GL_TRUE )
+    {
+        glEnable( GL_LIGHTING );
     }
-    if (depth_test_state == GL_TRUE) {
-        glEnable(GL_DEPTH_TEST);
+    if( depth_test_state == GL_TRUE )
+    {
+        glEnable( GL_DEPTH_TEST );
     }
-
 }
 
 ////////////////////////////////////////////////////////////////////////

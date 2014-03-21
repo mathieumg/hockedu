@@ -13,6 +13,13 @@
 #include <map>
 #include "GameTime.h"
 
+enum GolTools
+{
+    GOL_TOOL_CREATE,
+    GOL_TOOL_ERASE
+};
+
+class HUDElement;
 ////////////////////////////////////////////////////////////////////////////
 /// @class GameControllerGoL
 /// @brief Classe qui gère les événement lors du mode jeu Game Of Life
@@ -52,7 +59,8 @@ private:
     typedef std::map<Vecteur2i, int> Cells;
     Cells mAlives, mMaybes;
     GameTime mTimer;
-
+    HUDElement* mHUDRoot;
+    GolTools mTool;
 };
 
 
