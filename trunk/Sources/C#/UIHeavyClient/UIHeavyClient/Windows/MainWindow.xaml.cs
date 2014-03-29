@@ -187,7 +187,6 @@ namespace UIHeavyClient
             OpenGLControl.mLogicalTimer.Stop();
             MainWindowHandler.Cleanup();
             FreeApplicationMemory();
-            ConsoleManager.Hide();
             System.Windows.Application.Current.Shutdown();
         }
 
@@ -266,10 +265,6 @@ namespace UIHeavyClient
         public MainWindow()
         {
             InitializeComponent();
-            // make sure to show console before any call to the dll or we wont
-            // see output
-            ConsoleManager.Show();
-
             SetDisplayMessageCallback(mDisplayMessageCallback);
 
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
