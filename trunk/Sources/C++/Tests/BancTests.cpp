@@ -14,6 +14,7 @@
 #include <cppunit/CompilerOutputter.h>
 #include <cppunit/extensions/TestFactoryRegistry.h>
 #include <cppunit/ui/text/TestRunner.h>
+#include <iostream>
 
 SINGLETON_DECLARATION_CPP(BancTests);
 
@@ -44,8 +45,6 @@ bool BancTests::executer()
   CppUnit::TextUi::TestRunner runner;
   runner.addTest( suite );
 
-  std::stringstream output;
-
   // Indique que nous souhaitons formatter la sortie selon un format qui
   // s'apparente à la sortie d'un compilateur (MSVC++), et que nous
   // souhaitons que la sortie soit réalisée dans le canal standard cerr.
@@ -53,11 +52,10 @@ bool BancTests::executer()
   // d'indiquer les erreurs trouvées par les tests et leur numéro de ligne
   // en tant qu'erreurs survenant au niveau du processus de compilation.
   runner.setOutputter( new CppUnit::CompilerOutputter( &runner.result(),
-      output ) );
+      std::cerr ) );
 
   // Exécuter les tests
   bool res = runner.run();
-  checkf( res, output.str().c_str() );
   return res;
 }
 

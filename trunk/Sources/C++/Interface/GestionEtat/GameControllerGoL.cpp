@@ -22,7 +22,8 @@
 #include "GameManager.h"
 #include "HUDMultiligne.h"
 #include "HUDDynamicText.h"
-
+#include "GoL/GolPattern.h"
+#include "GoL/GolUtils.h"
 
 const float lengthDot = 20;
 int delai = 100;
@@ -42,22 +43,28 @@ int delai = 100;
 GameControllerGoL::GameControllerGoL() :
 GameControllerAbstract()
 {
-    mTool = GOL_TOOL_CREATE;
-    modifierEtatSouris(ETAT_SOURIS_DEPLACER_FENETRE);
-    Vecteur2 p;
-    p.X() = 0;
-    p.Y() = 0;
-#define addPos(x) for(int i=0; i<x; ++i) {p.X()++;mAlives[p] = 0;}
-    addPos( 8 );
-    p.X()++;
-    addPos( 5 );
-    p.X( )+=3;
-    addPos( 3 );
-    p.X( ) += 6;
-    addPos( 7 );
-    p.X() += 1;
-    addPos( 5 );
+    mPattern = GolUtils::decodeRLEFile( "..\\media\\GoLPattern\\jslife\\c2-extended\\c2-0006.lif" );
+    if( !mPattern )
+    {
+        mPattern = new GolPattern();
+        Vecteur2i p;
+        p.X() = 0;
+        p.Y() = 0;
+#define addPos(x) for(int i=0; i<x; ++i) {p.X()++;mPattern->revive(p);}
+        addPos( 8 );
+        p.X()++;
+        addPos( 5 );
+        p.X() += 3;
+        addPos( 3 );
+        p.X() += 6;
+        addPos( 7 );
+        p.X() += 1;
+        addPos( 5 );
 #undef addpos
+    }
+
+    mTool = GOL_TOOL_CREATE;
+    modifierEtatSouris( ETAT_SOURIS_DEPLACER_FENETRE );
 
     mHUDRoot = new HUDElement();
     HUDMultiligne* controls = new HUDMultiligne( "Controls (Right click to to tool)\n\
@@ -130,6 +137,7 @@ m : Creater Tool", Vecteur4f( 1, 1, 1, 0.7f ) );
 ////////////////////////////////////////////////////////////////////////
 GameControllerGoL::~GameControllerGoL( )
 {
+    delete mPattern;
     delete mHUDRoot;
 }
 
@@ -154,7 +162,7 @@ void GameControllerGoL::toucheEnfoncee(EvenementClavier& evenementClavier)
         mTimer.togglePause();
         break;
     case VJAK_C:
-        mAlives.clear();
+        mPattern->clear();
         break;
     case VJAK_M:
         mTool = GOL_TOOL_CREATE;
@@ -213,14 +221,13 @@ void GameControllerGoL::sourisEnfoncee( EvenementSouris& evenementSouris )
         position /= lengthDot;
 
         Vecteur2i pos( (int)position.X(), (int)position.Y() );
-        auto it = mAlives.find( pos );
-        if( mTool == GOL_TOOL_ERASE && it != mAlives.end() )
+        if( mTool == GOL_TOOL_ERASE)
         {
-            mAlives.erase( it );
+            mPattern->kill( pos );
         }
         else if(mTool == GOL_TOOL_CREATE )
         {
-            mAlives[pos] = 0;
+            mPattern->revive( pos );
         }
         posEnfonce = pos;
     }
@@ -277,14 +284,13 @@ void GameControllerGoL::sourisDeplacee( EvenementSouris& evenementSouris )
         Vecteur2i pos( (int)position.X(), (int)position.Y() );
         if( pos != posEnfonce )
         {
-            auto it = mAlives.find( pos );
-            if( mTool == GOL_TOOL_ERASE && it != mAlives.end() )
+            if( mTool == GOL_TOOL_ERASE )
             {
-                mAlives.erase( it );
+                mPattern->kill( pos );
             }
             else if( mTool == GOL_TOOL_CREATE )
             {
-                mAlives[pos] = 0;
+                mPattern->revive( pos );
             }
         }
     }
@@ -306,41 +312,6 @@ void GameControllerGoL::rouletteSouris( EvenementRouletteSouris& evenementRoulet
 	GameControllerAbstract::rouletteSouris(evenementRouletteSouris);
 }
 
-
-class CoordContour : public Vecteur2i
-{
-public:
-    CoordContour( Vecteur2i pos ) :Vecteur2i( pos.X() - 1, pos.Y() ), turn_( 1 )
-    {
-    }
-
-    CoordContour operator++( int )
-    {
-        switch( turn_ )
-        {
-        case 0: vect[VX]--; break;
-        case 1: vect[VY]--; break;		//	   >>>
-        case 2: vect[VX]++; break;		//	 ^ XXX v
-        case 3: vect[VX]++; break;		//	 <-X0X v
-        case 4: vect[VY]++; break;		//	 ^ XXX v
-        case 5: vect[VY]++; break;		//	   <<< 
-        case 6: vect[VX]--; break;
-        case 7: vect[VX]--; break;
-        default: break;
-        }
-        turn_++;
-
-        return *this;
-    }
-
-    bool ContourTerminer()
-    {
-        return turn_ > 8;
-    }
-private:
-    int turn_;
-
-};
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -382,60 +353,12 @@ void GameControllerGoL::animer( const float& temps )
 
 	SoundFMOD::obtenirInstance()->change_song_if_end();	
 
-    if( !mTimer.isPaused( ) && mTimer.Elapsed_Time_ms( ) > delai )
+    const float elapsed = mTimer.Elapsed_Time_ms();
+    if( !mTimer.isPaused( ) && elapsed >= delai )
     {
         mTimer.reset_Time();
-        // Update adjacence
-        for( Cells::iterator it = mAlives.begin(); it != mAlives.end(); ++it )
-        {
-            for( CoordContour c( it->first ); !c.ContourTerminer(); c++ )
-            {
-                if( mAlives.find( c ) != mAlives.end() )
-                {
-                    ++it->second;
-                }
-                else
-                {
-                    // update maybes
-                    Cells::iterator it2 = mMaybes.find( c );
-                    if( it2 == mMaybes.end() )
-                    {
-                        mMaybes[c] = 1;
-                    }
-                    else
-                    {
-                        ++it2->second;
-                    }
-                }
-            }
-        }
-
-        // kill cells
-        for( Cells::iterator it = mAlives.begin(); it != mAlives.end(); /* no increment */ )
-        {
-            const int adj = it->second;
-            if( (unsigned int)( adj - 2 ) > 1 ) // only if adj is 2 or 3
-            {
-                mAlives.erase( it++ );
-            }
-            else
-            {
-                // reset
-                it->second = 0;
-                ++it;
-            }
-        }
-
-        // resume life
-        for( Cells::const_iterator it = mMaybes.begin(); it != mMaybes.end(); ++it )
-        {
-            const int adj = it->second;
-            if( adj == 3 ) // only if adj is 3
-            {
-                mAlives[it->first] = 0;
-            }
-        }
-        mMaybes.clear();
+        mTimer.adjustTime( elapsed - delai );
+        mPattern->evolve();
     }
 }
 
@@ -475,7 +398,8 @@ void GameControllerGoL::afficher()
             glColor3f( 1, 1, 1 );
             //glPointSize( 6 );
             glBegin( GL_QUADS );
-            for( Cells::iterator it = mAlives.begin(); it != mAlives.end(); ++it )
+            const Cells& alives = mPattern->getAliveCells();
+            for( auto it = alives.cbegin(); it != alives.cend(); ++it )
             {
                 const float x = it->first[VX] * lengthDot, y = it->first[VY] * lengthDot;
                 glVertex2f( x, y );

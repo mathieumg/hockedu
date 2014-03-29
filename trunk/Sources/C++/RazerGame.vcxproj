@@ -363,6 +363,7 @@
     <ClCompile Include="Tests\BancTests.cpp" />
     <ClCompile Include="Tests\ConfigSceneTest.cpp" />
     <ClCompile Include="Tests\GestionnaireEvenementsTest.cpp" />
+    <ClCompile Include="Tests\GolTests.cpp" />
     <ClCompile Include="Tests\NoeudAbstraitTest.cpp" />
     <ClCompile Include="Tests\NoeudCompositeTest.cpp" />
     <ClCompile Include="Tests\ProjectionOrthoTest.cpp" />
@@ -547,6 +548,7 @@
     <ClInclude Include="Tests\BancTests.h" />
     <ClInclude Include="Tests\ConfigSceneTest.h" />
     <ClInclude Include="Tests\GestionnaireEvenementsTest.h" />
+    <ClInclude Include="Tests\GolTests.h" />
     <ClInclude Include="Tests\NoeudAbstraitTest.h" />
     <ClInclude Include="Tests\NoeudCompositeTest.h" />
     <ClInclude Include="Tests\ProjectionOrthoTest.h" />

@@ -41,10 +41,6 @@ bool AILearner::setupFile()
     
     mFilePath << "/" << mMapName << "_" << (mAISide == PLAYER_SIDE_LEFT ? "left" : "right") << AI_LEARNER_RAW_DATA_EXTENSION;
 
-//#if !SHIPPING
-    std::cout << "Full path: " << mFilePath.str() << std::endl;
-//#endif
-
     //Change output directory.
     if(changerRepertoireOutput(mFilePath.str()))
     {

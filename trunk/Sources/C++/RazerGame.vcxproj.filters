@@ -655,8 +655,12 @@
     </ClCompile>
     <ClCompile Include="Interface\GestionEtat\GameControllerGoL.cpp">
       <Filter>Sources Files\Interface\Game Controller</Filter>
-    </ClCompile>    <ClCompile Include="Arbre\HUD\HUDDynamicText.cpp">
+    </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDDynamicText.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\GolTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1202,8 +1206,12 @@
     </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GameControllerGoL.h">
       <Filter>Sources Files\Interface\Game Controller</Filter>
-    </ClInclude>    <ClInclude Include="Arbre\HUD\HUDDynamicText.h">
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDDynamicText.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\GolTests.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

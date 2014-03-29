@@ -159,9 +159,6 @@ public:
         mFilePath = std::ostringstream();
         mFilePath << "./AIData/" << mPlayerName;
         FacadePortability::createDirectory(mFilePath.str().substr(2).c_str()); // Create the AIData/AI name directory
-#if !SHIPPING
-        std::cout << "Root path: " <<mFilePath.str() << std::endl;
-#endif
     }
 
     inline void setAINAme(std::string pAiName);

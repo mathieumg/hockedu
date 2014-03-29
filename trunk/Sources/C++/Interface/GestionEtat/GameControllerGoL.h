@@ -20,6 +20,7 @@ enum GolTools
 };
 
 class HUDElement;
+class GolPattern;
 ////////////////////////////////////////////////////////////////////////////
 /// @class GameControllerGoL
 /// @brief Classe qui gère les événement lors du mode jeu Game Of Life
@@ -56,8 +57,7 @@ public:
 
 
 private:
-    typedef std::map<Vecteur2i, int> Cells;
-    Cells mAlives, mMaybes;
+    GolPattern* mPattern;
     GameTime mTimer;
     HUDElement* mHUDRoot;
     GolTools mTool;

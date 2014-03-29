@@ -11,6 +11,9 @@
     <Filter Include="Sources Files\Observer">
       <UniqueIdentifier>{69f37242-4c71-42aa-956c-9da3a2060800}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\GoL">
+      <UniqueIdentifier>{1e0c016b-0e57-47ac-b496-bec5c7063b03}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Vue\Camera.cpp">
@@ -115,6 +118,12 @@
     </ClCompile>
     <ClCompile Include="AnimationCamera.cpp">
       <Filter>Sources Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GoL\GolUtils.cpp">
+      <Filter>Sources Files\GoL</Filter>
+    </ClCompile>
+    <ClCompile Include="GoL\GolPattern.cpp">
+      <Filter>Sources Files\GoL</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -276,6 +285,12 @@
     </ClInclude>
     <ClInclude Include="IRenderComponent.h">
       <Filter>Sources Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GoL\GolPattern.h">
+      <Filter>Sources Files\GoL</Filter>
+    </ClInclude>
+    <ClInclude Include="GoL\GolUtils.h">
+      <Filter>Sources Files\GoL</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
