@@ -54,7 +54,7 @@ public:
 	/// Permet d'effectuer l'affichage specifique a l'etat
 	virtual void afficher();
 	virtual void miseAJourEvenementsRepetitifs( float deltaTemps );
-
+    void loadPattern( char* path );
 
 private:
     GolPattern* mPattern;

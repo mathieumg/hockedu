@@ -20,8 +20,6 @@
 
 #include "FreeImage.h"
 
-#include "VueOrtho.h"
-
 #include "Camera.h"
 #include "Projection.h"
 #include "LignePointillee.h"

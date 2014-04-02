@@ -1,6 +1,6 @@
 /// Il ne pose pas de probleme de faire les includes das le .h car uniquement le .cpp inclut ce fichier
 /// ce qui facilite les declarations des fonctions.
-
+#pragma once
 #include "BancTests.h"
 #include "QueueThreadSafe.h"
 #include <ctime>
@@ -74,6 +74,8 @@ extern "C"
         char* needPasswordString;
     };
 
+
+    __declspec( dllexport ) void LoadGoLPattern( char* path );
     __declspec(dllexport) void InitOpenGL(HWND hWnd);
     __declspec(dllexport) void FreeApplicationMemory( );
     __declspec(dllexport) void RenderOpenGL();

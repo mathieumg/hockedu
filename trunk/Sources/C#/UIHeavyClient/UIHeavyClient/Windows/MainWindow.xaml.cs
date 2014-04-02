@@ -122,6 +122,9 @@ namespace UIHeavyClient
         [DllImport(@"RazerGame.dll")]
         public static extern void SetDisplayMessageCallback(DisplayMessageCallback c);
 
+        [DllImport(@"RazerGame.dll")]
+        public static extern void LoadGoLPattern(String path);
+
         static DisplayMessageCallback mDisplayMessageCallback = DisplayMessage;
 
         public static void DisplayMessage(string message)
@@ -266,7 +269,6 @@ namespace UIHeavyClient
         {
             InitializeComponent();
             SetDisplayMessageCallback(mDisplayMessageCallback);
-
             System.Windows.Application.Current.ShutdownMode = ShutdownMode.OnExplicitShutdown;
 #if !SHIPPING
 
@@ -275,6 +277,12 @@ namespace UIHeavyClient
             debugMenu.Header = "Debug";
             MenuBar.Items.Add(debugMenu);
 
+            {
+                System.Windows.Controls.MenuItem golPattern = new System.Windows.Controls.MenuItem();
+                golPattern.Header = "Load GoL Pattern";
+                golPattern.Click += golPattern_Click;
+                debugMenu.Items.Add(golPattern);
+            }
             {
                 System.Windows.Controls.MenuItem SplitView = new System.Windows.Controls.MenuItem();
                 SplitView.Header = "Split View";
@@ -369,6 +377,17 @@ namespace UIHeavyClient
             this.Loaded += CreateUserControl;
             this.KeyDown += MainWindow_KeyDown;
             this.KeyUp += MainWindow_KeyUp;
+        }
+
+        void golPattern_Click(object sender, RoutedEventArgs e)
+        {
+            string path;
+            OpenFileDialog file = new OpenFileDialog();
+            if (file.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                path = file.FileName;
+                LoadGoLPattern(path);
+            }
         }
 
         ////////////////////////////////////////////////////////////////////////

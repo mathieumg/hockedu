@@ -18,7 +18,6 @@
 #include "GameControllerAbstract.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
-#include "FacadeCSharp.h"
 #include "GameManager.h"
 
 
@@ -73,11 +72,6 @@ GameControllerQuickPlay::~GameControllerQuickPlay()
 void GameControllerQuickPlay::toucheEnfoncee(EvenementClavier& evenementClavier)
 {
 	ToucheClavier touche = evenementClavier.obtenirTouche();
-
-	if(touche == VJAK_F1)
-    {
-        TestTrajectoryPredictionDLL();
-    }
 
 	// VERIF ETAT PAUSE
 	if(touche==VJAK_SHIFT)

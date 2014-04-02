@@ -18,12 +18,12 @@
 #include "GameControllerAbstract.h"
 #include "SourisEtatAbstrait.h"
 #include "SoundFMOD.h"
-#include "FacadeCSharp.h"
 #include "GameManager.h"
 #include "HUDMultiligne.h"
 #include "HUDDynamicText.h"
 #include "GoL/GolPattern.h"
 #include "GoL/GolUtils.h"
+#include "Vue/VueOrtho.h"
 
 const float lengthDot = 20;
 int delai = 100;
@@ -43,6 +43,20 @@ int delai = 100;
 GameControllerGoL::GameControllerGoL() :
 GameControllerAbstract()
 {
+    vue::Camera cameraCourante = FacadeModele::getInstance()->obtenirVue()->obtenirCamera();
+    int xMinCourant, yMinCourant, xMaxCourant, yMaxCourant;
+    FacadeModele::getInstance()->obtenirVue()->obtenirProjection().obtenirCoordonneesCloture( xMinCourant, xMaxCourant, yMinCourant, yMaxCourant );
+
+
+    vue::VueOrtho* nouvelleVue = new vue::VueOrtho(
+        cameraCourante,
+        0, 300, 0, 400,
+        180, 50000, /*ZoomInMax*/10, /*ZoomOutMax*/1500000, 1.25,
+        -150, 150, -150, 150 );
+    nouvelleVue->redimensionnerFenetre( Vecteur2i( xMinCourant, yMinCourant ), Vecteur2i( xMaxCourant, yMaxCourant ) );
+
+    FacadeModele::getInstance()->modifierVue( nouvelleVue );
+
     mPattern = GolUtils::decodeRLEFile( "..\\media\\GoLPattern\\jslife\\c2-extended\\c2-0006.lif" );
     if( !mPattern )
     {
@@ -421,6 +435,16 @@ void GameControllerGoL::afficher()
 void GameControllerGoL::miseAJourEvenementsRepetitifs( float deltaTemps )
 {
 	GameControllerAbstract::CameraMovementFromKeyPressed(deltaTemps);
+}
+
+void GameControllerGoL::loadPattern( char* path )
+{
+    GolPattern* pattern = GolUtils::decodeRLEFile( path );
+    if( pattern )
+    {
+        delete mPattern;
+        mPattern = pattern;
+    }
 }
 
 
