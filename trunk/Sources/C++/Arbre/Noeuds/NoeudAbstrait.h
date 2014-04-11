@@ -136,7 +136,7 @@ public:
 	/// Accueil un visiteur
 	virtual void acceptVisitor( VisiteurNoeud& v);
 	/// Met a jour la matrice de transformations
-	virtual void updateMatrice();
+	void updateMatrice();
 
     /// reverts and delete all modifiers
     void DumpModifiers();

@@ -671,6 +671,9 @@
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Bonus.cpp">
       <Filter>Sources Files\Render\OpenGL2</Filter>
     </ClCompile>
+    <ClCompile Include="Render\RenderComponentManager.cpp">
+      <Filter>Sources Files\Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1224,6 +1227,9 @@
     </ClInclude>
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2Bonus.h">
       <Filter>Sources Files\Render\OpenGL2</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderComponentManager.h">
+      <Filter>Sources Files\Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,7 @@
 #include "Utilitaire.h"
 #include "Terrain.h"
 #include "BonusModifierAbstract.h"
+#include "../RenderComponentManager.h"
 
 
 GLuint NoeudAbstrait::mIdGlCounter = 1;
@@ -58,7 +59,7 @@ NoeudAbstrait::NoeudAbstrait(
     mSkinKey(nodeKey),
     mRenderComponent(NULL)
 {
-    mRenderComponent = GestionnaireModeles::obtenirInstance()->createRenderComponent( this );
+    mRenderComponent = RenderComponentManager::obtenirInstance()->createRenderComponent( this,nodeKey );
     mNodeName = RazerGameUtilities::KeyToString( mNodeKey );
 	mScale[VX] = 1;
 	mScale[VY] = 1;
