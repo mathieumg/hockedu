@@ -105,6 +105,9 @@
     <Filter Include="Sources Files\Interface\Game Controller">
       <UniqueIdentifier>{708b9294-0b82-4e15-8d73-ab7618065a3c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Render\OpenGL2">
+      <UniqueIdentifier>{2e008282-4589-4879-ac85-4cf09ea3e4e5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -629,9 +632,6 @@
     <ClCompile Include="Reseau\PacketsDefinitions.cpp">
       <Filter>Sources Files\Reseau</Filter>
     </ClCompile>
-    <ClCompile Include="Render\RenderOpenGL2.cpp">
-      <Filter>Sources Files\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Interface\GestionEtat\GameControllerAbstract.cpp">
       <Filter>Sources Files\Interface\Game Controller</Filter>
     </ClCompile>
@@ -664,6 +664,12 @@
     </ClCompile>
     <ClCompile Include="Tests\GolTests.cpp">
       <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2.cpp">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Bonus.cpp">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -1180,9 +1186,6 @@
     <ClInclude Include="Reseau\PacketsDefinitions.h">
       <Filter>Sources Files\Reseau</Filter>
     </ClInclude>
-    <ClInclude Include="Render\RenderOpenGL2.h">
-      <Filter>Sources Files\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Interface\GestionEtat\GameControllerAbstract.h">
       <Filter>Sources Files\Interface\Game Controller</Filter>
     </ClInclude>
@@ -1215,6 +1218,12 @@
     </ClInclude>
     <ClInclude Include="Tests\GolTests.h">
       <Filter>Sources Files\Tests</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\OpenGL2\RenderOpenGL2.h">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\OpenGL2\RenderOpenGL2Bonus.h">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
