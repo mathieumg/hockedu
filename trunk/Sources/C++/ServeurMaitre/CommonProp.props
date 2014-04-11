@@ -9,7 +9,7 @@
     </ClCompile>
     <Link>
       <AdditionalDependencies>wsock32.lib;enet64.lib;Winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>../../../Commun/Externe/enet-1.3.7;../../../Commun/Externe/MySql++/lib</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>../../../Commun/Externe/enet-1.3.7;../../../Commun/Externe/MySql++/lib;../../../Commun/Utilitaire/lib</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup />
