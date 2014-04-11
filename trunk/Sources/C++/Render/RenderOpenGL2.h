@@ -4,7 +4,7 @@
 #include "Vecteur.h"
 #include "glew.h"
 
-typedef void( *OpenGL2RenderFunction )( RenderOpenGL2* );
+typedef void( *OpenGL2RenderFunction )( class RenderOpenGL2* );
 class RenderOpenGL2 : public IRenderComponent
 {
 public:
@@ -21,5 +21,5 @@ private:
     static GLuint mIdGlCounter;
     OpenGL2RenderFunction mRenderFunction;
 private:
-    static void renderNormalNode( RenderOpenGL2* );
+    static void renderNormalNode( const RenderOpenGL2* );
 };

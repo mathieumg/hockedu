@@ -9,8 +9,9 @@ GLuint RenderOpenGL2::mIdGlCounter = 1;
 
 bool renderFunctionInitialized = false;
 std::map<RazerKey, OpenGL2RenderFunction> renderFunctions;
+void PopulateRenderFunctionMap();
 
-RenderOpenGL2::RenderOpenGL2():
+RenderOpenGL2::RenderOpenGL2() :
   mScale( 1, 1, 1 )
 , mModePolygones(GL_FILL)
 , mGlId( mIdGlCounter++ )
@@ -34,7 +35,7 @@ void RenderOpenGL2::render() const
 {
     if( mNode->isVisible() )
     {
-        
+        renderNormalNode( this );
     }
 }
 
@@ -44,7 +45,7 @@ void RenderOpenGL2::updateComponent()
 }
 
 
-void RenderOpenGL2::renderNormalNode( RenderOpenGL2* pThis )
+void RenderOpenGL2::renderNormalNode( const RenderOpenGL2* pThis )
 {
     // Assignation du mode d'affichage des polygones
     //glPolygonMode( GL_FRONT_AND_BACK, mModePolygones );
