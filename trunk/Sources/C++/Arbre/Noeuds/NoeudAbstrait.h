@@ -121,11 +121,13 @@ public:
 	/// Affiche le noeud.
 	virtual void render() const;
 	/// Affiche le noeud de manière concrète.
-	virtual void renderReal() const;
+	void renderReal() const;
+    virtual void DrawChild() const{}
     /// Fonction appeler dans render concret pour faire le
     /// rendu OpenGL, uniquement utilisé sous APPLE.
     /// utiliser les liste d'affichage pour windows
     virtual void renderOpenGLES() const;
+    void attachRenderComponent();
 	/// Anime le noeud.
 	virtual void tick( const float& dt );
     /// node tick received when actually playing the game (simulation running)

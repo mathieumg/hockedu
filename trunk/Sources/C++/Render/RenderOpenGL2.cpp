@@ -3,17 +3,22 @@
 #include <NoeudAbstrait.h>
 #include "AideGL.h"
 #include <map>
+#include "FacadeModele.h"
+#include "NodeBonus.h"
 
 GLuint RenderOpenGL2::mIdGlCounter = 1;
 
-
 bool renderFunctionInitialized = false;
 std::map<RazerKey, OpenGL2RenderFunction> renderFunctions;
-void PopulateRenderFunctionMap();
+
+void RenderOpenGL2::PopulateRenderFunctionMap()
+{
+    renderFunctions[RAZER_KEY_BONUS] = RenderOpenGL2::renderBonus;
+}
+
 
 RenderOpenGL2::RenderOpenGL2() :
-  mScale( 1, 1, 1 )
-, mModePolygones(GL_FILL)
+mModePolygones(GL_FILL)
 , mGlId( mIdGlCounter++ )
 {
     if( !renderFunctionInitialized )
@@ -35,15 +40,38 @@ void RenderOpenGL2::render() const
 {
     if( mNode->isVisible() )
     {
-        renderNormalNode( this );
+        auto it = renderFunctions.find(mNode->getKey());
+        if( it != renderFunctions.cend() )
+        {
+            it->second( this );
+        }
+        else
+        {
+            renderNormalNode( this );
+        }
     }
 }
 
 void RenderOpenGL2::updateComponent()
 {
-
+    updateMatrice();
 }
 
+void RenderOpenGL2::updateMatrice( )
+{
+    glMatrixMode( GL_MODELVIEW );
+    glPushMatrix();
+    glLoadIdentity();
+    const float angle = mNode->getAngle();
+    Vecteur3 scale;
+    mNode->getScale(scale);
+    glRotatef( angle, 0.0, 0.0, 1.0 );
+    glScalef( scale[VX], scale[VY], scale[VZ] );
+
+    glGetFloatv( GL_MODELVIEW_MATRIX, mTransformationMatrix ); // Savegarde de la matrice courante dans le noeud
+
+    glPopMatrix();
+}
 
 void RenderOpenGL2::renderNormalNode( const RenderOpenGL2* pThis )
 {
@@ -98,7 +126,54 @@ void RenderOpenGL2::renderNormalNode( const RenderOpenGL2* pThis )
 
 
 
-void PopulateRenderFunctionMap()
+void RenderOpenGL2::renderBonus( const RenderOpenGL2* pThis )
 {
+    NodeBonus* bonus = (NodeBonus*)pThis->mNode;
+    if( bonus->containsModifiers() )
+    {
+        return;
+    }
 
+    glDisable( GL_LIGHTING );
+    FacadeModele::getInstance()->DeActivateShaders();
+    // static to make all bonus hover at the same height
+    const float zTranslated = bonus->getRadius()*1.5f + sin( bonus->getHeightAngle() )*3.f;
+    glPushMatrix();
+    glTranslatef( 0, 0, zTranslated );
+
+    GLboolean blendEnabled = glIsEnabled( GL_BLEND );
+    glEnable( GL_BLEND );
+    renderNormalNode( pThis );
+    if( !blendEnabled )
+    {
+        glDisable( GL_BLEND );
+    }
+    glPopMatrix();
+
+    glEnable( GL_LIGHTING );
+    FacadeModele::getInstance()->ActivateShaders();
+
+    GLint renderMode;
+    glGetIntegerv( GL_RENDER_MODE, &renderMode );
+    if( renderMode == GL_SELECT )
+    {
+        // dont draw emptyBonus model when selecting
+        return;
+    }
+
+    GLuint liste;
+    GestionnaireModeles::obtenirInstance()->obtenirListe( RAZER_KEY_EMPTY_BONUS, liste );
+    // Si aucune liste n'est trouvé, on sort de la fonction.
+    if( liste == NULL )
+        return;
+
+    glPushMatrix();
+    glPushAttrib( GL_ALL_ATTRIB_BITS );
+    Vecteur3 pos = bonus->getPosition();
+    // Descend la platforme pour ne voir que la surface
+    glTranslatef( pos[0], pos[1], pos[2] );
+    glCallList( liste );
+
+    glPopAttrib();
+    glPopMatrix();
 }

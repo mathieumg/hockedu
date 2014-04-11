@@ -55,11 +55,11 @@ NoeudAbstrait::NoeudAbstrait(
     mField(NULL),
     mWorld(NULL),
     mNodeKey(nodeKey),
-    mSkinKey(nodeKey)
+    mSkinKey(nodeKey),
+    mRenderComponent(NULL)
 {
+    mRenderComponent = GestionnaireModeles::obtenirInstance()->createRenderComponent( this );
     mNodeName = RazerGameUtilities::KeyToString( mNodeKey );
-    mRenderComponent = GestionnaireModeles::obtenirInstance( )->createRenderComponent();
-    mRenderComponent->setNode( this );
 	mScale[VX] = 1;
 	mScale[VY] = 1;
 	mScale[VZ] = 1;
@@ -106,6 +106,14 @@ NoeudAbstrait::~NoeudAbstrait()
         delete *it;
     }
 }
+
+void ////////////////////////////////////////////////////////////////////////
+NoeudAbstrait::attachRenderComponent()
+{
+    delete mRenderComponent;
+    mRenderComponent = GestionnaireModeles::obtenirInstance()->createRenderComponent( this );
+}
+
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -478,13 +486,13 @@ void NoeudAbstrait::render() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::renderReal() const
 {
-    mRenderComponent->render( );
+    if(mRenderComponent )mRenderComponent->render( );
     // Renders all the modifiers present on the node
     for( auto it = mModifiers.begin(); it != mModifiers.end(); ++it )
     {
         ( *it )->render();
     }
-    
+    DrawChild();
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -614,16 +622,7 @@ float NoeudAbstrait::getAngle() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudAbstrait::updateMatrice()
 {
-    glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glRotatef(mAngle, 0.0, 0.0, 1.0);
-	glScalef(mScale[VX], mScale[VY], mScale[VZ]);
-	
-	glGetFloatv(GL_MODELVIEW_MATRIX, mTransformationMatrix); // Savegarde de la matrice courante dans le noeud
-
-	glPopMatrix();
+    if( mRenderComponent )mRenderComponent->updateComponent( );
 }
 
 ////////////////////////////////////////////////////////////////////////

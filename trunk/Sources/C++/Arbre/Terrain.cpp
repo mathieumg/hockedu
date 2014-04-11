@@ -512,7 +512,7 @@ void Terrain::initialiserArbreRendu()
     }
 
     // Ajout d'une table de base au terrain
-    mTable = new NoeudTable();
+    mTable = (NoeudTable*)mLogicTree->creerNoeud( RAZER_KEY_TABLE );
     mLogicTree->add(mTable);
 
     // Permet de rediriger les bandes extérieur de la table vers le groupe  gMuret
@@ -738,7 +738,7 @@ void Terrain::createRandomField(const std::string& nom)
 #define AddAccel(x,y,acc,e)                                                             \
     if(rand()&1)                                                                        \
     {                                                                                   \
-    NoeudAccelerateur* a = new NoeudAccelerateur(); \
+    NoeudAccelerateur* a = (NoeudAccelerateur*)mLogicTree->creerNoeud( RAZER_KEY_BOOST ); \
     a->setPosition(Vecteur3((float)x,(float)y));                                        \
     a->modifierBonusAccel((float)acc);                                                  \
     a->setScale(Vecteur3((float)e,(float)e,1));                                         \
@@ -756,7 +756,7 @@ void Terrain::createRandomField(const std::string& nom)
 #define AddPortal(x,y,e)                                                              \
     if(rand()&1)                                                                      \
     {                                                                                 \
-    NoeudPortail* a = new NoeudPortail();              \
+    NoeudPortail* a = (NoeudPortail*)mLogicTree->creerNoeud( RAZER_KEY_PORTAL );      \
     a->setPosition(Vecteur3((float)x,(float)y));                                      \
     a->setScale(Vecteur3((float)e,(float)e,1));                                       \
     mTable->add(a);                                                                   \
@@ -773,7 +773,7 @@ void Terrain::createRandomField(const std::string& nom)
     {                                                                                           \
         if(IsGameField())                                                                       \
         {                                                                                       \
-            NoeudMuret* muret = new NoeudMuret();                  \
+            NoeudMuret* muret = (NoeudMuret*)mLogicTree->creerNoeud( RAZER_KEY_WALL );          \
             muret->setScale(Vecteur3(1,(float)e,1));                                            \
             muret->assignerPositionCoin(1,Vecteur3((float)x1,(float)y1));                       \
             muret->assignerPositionCoin(2,Vecteur3((float)x2,(float)y2));                       \
@@ -782,7 +782,7 @@ void Terrain::createRandomField(const std::string& nom)
         }                                                                                       \
         else                                                                                    \
         {                                                                                       \
-            NodeWallEdition* wall = new NodeWallEdition();         \
+            NodeWallEdition* wall = (NodeWallEdition*)mLogicTree->creerNoeud( RAZER_KEY_WALL ); \
             NodeControlPoint* p1 = new NodeControlPoint();\
             NodeControlPoint* p2 = new NodeControlPoint();\
             wall->add(p1);                                                                      \

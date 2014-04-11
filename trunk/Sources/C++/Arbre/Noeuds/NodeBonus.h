@@ -57,7 +57,10 @@ public:
     inline BonusType getBonusType() const {return mBonusType;}
 
     BonusType generateNewBonusType() const;
-
+    float getHeightAngle() const
+    {
+        return mHeightAngle;
+    }
 private:
     float mSpawnTimeDelaiTotal;// in sec
     bool mCounting;
@@ -67,6 +70,8 @@ private:
     BonusType mBonusType;
 
     float mHeightAngle;
+    
+
 };
 
 

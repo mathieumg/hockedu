@@ -16,6 +16,7 @@
 #include "AideGL.h"
 #include "Runnable.h"
 #include "RenderOpenGL2.h"
+#include <iostream>
 
 // pour le warning sur getenv();
 #pragma warning(disable:4996)
@@ -397,9 +398,11 @@ void GestionnaireModeles::ReloadModels()
     initialiser();
 }
 
-IRenderComponent* GestionnaireModeles::createRenderComponent() const
+IRenderComponent* GestionnaireModeles::createRenderComponent( NoeudAbstrait* node ) const
 {
-    return new RenderOpenGL2();
+    IRenderComponent* component = new RenderOpenGL2();
+    component->setNode( node );
+    return component;
 }
 
 

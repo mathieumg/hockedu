@@ -4,11 +4,14 @@ class NoeudAbstrait;
 class IRenderComponent
 {
 public:
-    virtual ~IRenderComponent(){}
+    // Interface
     virtual void render() const = 0;
     virtual void updateComponent() = 0;
+
+public:
+    virtual ~IRenderComponent(){}
     inline void setNode( NoeudAbstrait* n ){mNode = n;}
 protected:
-    class NoeudAbstrait* mNode;
+    const NoeudAbstrait* mNode;
 };
 

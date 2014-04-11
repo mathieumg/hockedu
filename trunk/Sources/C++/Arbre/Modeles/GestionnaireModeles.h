@@ -15,7 +15,7 @@
 #include "Enum_Declarations.h"
 
 typedef RazerKey Modele3DKey;
-
+class NoeudAbstrait;
 ///////////////////////////////////////////////////////////////////////////
 /// @class GestionnaireModeles
 /// @brief Classe qui initialise la banque de modele et permet l'accès à 
@@ -44,7 +44,7 @@ public:
 	void initialiser();
 
     // creates a new render component 
-    class IRenderComponent* createRenderComponent() const;
+    class IRenderComponent* createRenderComponent( NoeudAbstrait *) const;
 
     bool isStillLoadingModel() const;
 
