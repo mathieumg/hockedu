@@ -269,6 +269,17 @@ public:
 		return *this;
 	}
 
+    inline bool operator<( const Vecteur<T, N>& v ) const
+    {
+        for( int i = 0; i < N; i++ )
+        {
+            if( vect[i] != v.vect[i] )
+            {
+                return vect[i] < v.vect[i];
+            }
+        }
+        return false;
+    }
 
 	////////////////////////////////////////////////////////////////////////////
 	///
@@ -659,6 +670,7 @@ public:
 		return out;
 	}
 
+    
 
 	////////////////////////////////////////////////////////////////////////////
 	///

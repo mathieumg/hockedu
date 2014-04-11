@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="UIHeavyClient.MainMenuControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="578" Width="Auto" Height="Auto" d:DesignWidth="846">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="326*" />
+            <ColumnDefinition Width="202*" />
+            <ColumnDefinition Width="318*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" />
+            <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
+        </Grid.RowDefinitions>
+        <Image  Height="100" Source="HockeduLogo.png" Name="mLogo" Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left" Width="370" Grid.ColumnSpan="2" />
+        <Button Content="Edition Mode" Margin="12" Name="mEditionModeButton" Click="editionModeButton_Click" Grid.Row="1" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Quick Play" Margin="12" Name="mQuickPlayButton" Click="quickPlayButton_Click" Grid.Row="2" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Tournament" Margin="12" Name="mTournamentButton" Click="tournamentButton_Click" Grid.Row="3" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Online Mode" Margin="12" Name="mOnlineModeButton" Click="onlineModeButton_Click" Grid.Row="4" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Options" Margin="12" Name="mOptionButton" Click="optionButton_Click" Grid.Row="5" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Game Of Life" Margin="12" Name="mGoLButton" Click="mGoLButton_Click" Grid.Row="6" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Button Content="Unit Tests" Margin="12" Name="mUnitTestButton" Grid.Row="7" Background="Black" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" FontSize="20" Grid.Column="1" />
+        <Label Content="" Grid.Row="7" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="0" Grid.ColumnSpan="3" />
+        <GroupBox Header="Quick Play" Margin="14,55,0,0" Name="mQuickPlayGroupBox" Foreground="White" Height="217" VerticalAlignment="Top" Grid.Column="2" HorizontalAlignment="Left" Width="292" Grid.RowSpan="4">
+            <Grid Height="Auto" Width="Auto" Name="mQuickPlayGrid">
+                <Button Content="Go!" Height="23" HorizontalAlignment="Left" Margin="233,167,0,0" Name="mQuickPlayGoButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayGoButton_Click" IsDefault="True" />
+                <Button Content="Cancel" Height="23" HorizontalAlignment="Left" Margin="182,167,0,0" Name="mQuickPlayCancelButton" VerticalAlignment="Top" Width="43" Background="Black" Foreground="White" Click="mQuickPlayCancelButton_Click" />
+                <Label Content="Choose your opponent" Height="Auto" HorizontalAlignment="Left" Margin="6,6,0,0" Name="mOpponentLabel" VerticalAlignment="Top" Foreground="White" />
+                <Label Content="Choose a map" Height="Auto" HorizontalAlignment="Left" Margin="6,95,0,0" Name="mMapLabel" VerticalAlignment="Top" Width="Auto" Foreground="White" />
+                <RadioButton Content="Human Player" Height="16" HorizontalAlignment="Left" Margin="16,42,0,0" Name="mHumanRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" IsChecked="True" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <RadioButton Content="AI" Height="16" HorizontalAlignment="Left" Margin="16,57,0,0" Name="mAIRadio" VerticalAlignment="Top" GroupName="rgOpponentRadios" Foreground="White" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+                <ComboBox Height="23" HorizontalAlignment="Left" Margin="115,57,0,0" Name="mAIComboBox" VerticalAlignment="Top" Width="120" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" IsEnabled="{Binding ElementName=mAIRadio, Path=IsChecked}" />
+                <TextBox Height="23" HorizontalAlignment="Left" Margin="6,122,0,0" Name="mMapTextBox" VerticalAlignment="Top" Width="120" Background="Black" Foreground="White" />
+                <Button Content="Browse" Height="23" HorizontalAlignment="Right" Margin="0,122,64,0" Name="button1" VerticalAlignment="Top" Width="75" Foreground="White" Background="Black" Click="button1_Click" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Grid.Row="4" Grid.RowSpan="4" Header="Connection" Height="247" HorizontalAlignment="Left" Margin="14,12,0,0" Name="mOnlineGroupBox" VerticalAlignment="Top" Width="292" Foreground="White" Background="Black">
+            <!-- Content controls use to display user controls -->
+            <ContentControl Name="mOnlineContentControl" Grid.ColumnSpan="2" Grid.RowSpan="2" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Background="Black"></ContentControl>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -75,7 +75,8 @@ public:
 	///Fonction d'action pour dupliquer
 	bool actionBoutonDupliquer();
 	///Fonction pour aller en mode jeu
-	bool actionBoutonAllerModeJeu();
+    bool actionBoutonAllerModeJeu();
+    bool actionBoutonAllerGameOfLife();
 	///Fonction pour aller en mode édition
 	bool actionBoutonAllerModeEdition();
 	bool actionBoutonAllerModeEditionOnline();

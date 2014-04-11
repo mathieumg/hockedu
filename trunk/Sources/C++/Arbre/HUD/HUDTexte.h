@@ -11,7 +11,6 @@
 #pragma once
 #include "HUDElement.h"
 #include <string>
-enum TypeTexte {TEXTE, POINTAGE_JOUEUR_GAUCHE, POINTAGE_JOUEUR_DROIT, NOM_JOUEUR_GAUCHE, NOM_JOUEUR_DROIT, TEMPS_JEU, NOM_VAINQUEUR, NOM_OUTIL_MODE_EDITION, AIDE_OUTIL_MODE_EDITION, TOURNOI_JOUEUR};
 
 ///////////////////////////////////////////////////////////////////////////
 /// @class HUDTexte
@@ -23,30 +22,23 @@ enum TypeTexte {TEXTE, POINTAGE_JOUEUR_GAUCHE, POINTAGE_JOUEUR_DROIT, NOM_JOUEUR
 class HUDTexte: public HUDElement
 {
 public : 
-	/// Constructeurs par paramètres
-	HUDTexte(std::string texte, Vecteur4f& couleur, bool isSmallText = true);
-	HUDTexte(TypeTexte typeTexte, Vecteur4f& couleur,bool isSmallText = true);
-	HUDTexte(unsigned int& idPartie, unsigned int& joueur, Vecteur4f& couleur = Vecteur4f(0.0f, 0.0f, 0.0f, 1.0f), Vecteur4f& couleurSiGagnantPartie = Vecteur4f(1.0f, 0.0f, 0.0f, 1.0f), bool isSmallText = true);
+    /// Constructeurs par paramètres
+    HUDTexte(const std::string& texte,const Vecteur4f& couleur, bool isSmallText = true);
 
-	/// Appliquer une couleur
-	virtual void peindreElement();
+    /// Appliquer une couleur
+    virtual void peindreElement();
 
     /// Accessors of message_
-    inline std::string getMessage() const { return message_; }
-    inline void setMessage(const std::string& val) { message_ = val; }
+    inline std::string getMessage() const { return mText; }
+    inline void setMessage(const std::string& val) { mText = val; }
 private :
-	/// Le texte à afficher
-	std::string message_;
+    /// Le texte à afficher
+    std::string mText;
 
-    /// Le type de texte
-	TypeTexte typeTexte_;
-	/// La police de caractère
+    /// La police de caractère
     bool mIsSmallText;
-	/// La couleur du texte
-	Vecteur4f couleur_;
-	Vecteur4f couleurSiGagnantPartie_;
-	unsigned int indexPartie_;
-	unsigned int indexJoueur_;
+    /// La couleur du texte
+    Vecteur4f mColor;
 };
 
 ///////////////////////////////////////////////////////////////////////////

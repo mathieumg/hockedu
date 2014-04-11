@@ -24,9 +24,6 @@
     <Filter Include="Sources Files\Interface\EtatSouris">
       <UniqueIdentifier>{50dbe0d8-df1e-4994-8354-16654ee64e79}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Sources Files\Interface\GestionEtat">
-      <UniqueIdentifier>{708b9294-0b82-4e15-8d73-ab7618065a3c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Sources Files\Configuration">
       <UniqueIdentifier>{737950f1-92e0-48cc-99df-484ed3bae29b}</UniqueIdentifier>
     </Filter>
@@ -105,6 +102,9 @@
     <Filter Include="Sources Files\Render">
       <UniqueIdentifier>{0229b755-9e70-4b70-aad9-53665200f096}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Sources Files\Interface\Game Controller">
+      <UniqueIdentifier>{708b9294-0b82-4e15-8d73-ab7618065a3c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application\FacadeModele.cpp">
@@ -151,15 +151,6 @@
     </ClCompile>
     <ClCompile Include="Interface\EtatSouris\SourisEtatZoomElastique.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatAbstrait.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeJeu.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeEdition.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\Noeuds\NoeudPortail.cpp">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
@@ -245,12 +236,6 @@
     <ClCompile Include="Tests\TournoiTest.cpp">
       <Filter>Sources Files\Tests</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Visiteur\VisiteurEstSelectione.cpp">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClCompile>
@@ -310,12 +295,6 @@
     </ClCompile>
     <ClCompile Include="Interface\EtatSouris\SourisEtatOrbit.cpp">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClCompile>
     <ClCompile Include="Arbre\HUD\HUDMultiligne.cpp">
       <Filter>Sources Files\Arbre\Hud</Filter>
@@ -488,9 +467,6 @@
     <ClCompile Include="Application\GameManager.cpp">
       <Filter>Sources Files\Jeu</Filter>
     </ClCompile>
-    <ClCompile Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.cpp">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClCompile>
     <ClCompile Include="Arbre\Usines\BonusModifierFactory.cpp">
       <Filter>Sources Files\Arbre\Bonus</Filter>
     </ClCompile>
@@ -656,6 +632,39 @@
     <ClCompile Include="Render\RenderOpenGL2.cpp">
       <Filter>Sources Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerAbstract.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerQuickPlay.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerQuickPlayEnd.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerSimulation.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerTournament.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerTournamentEnd.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerEdition.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerMenu.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface\GestionEtat\GameControllerGoL.cpp">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Arbre\HUD\HUDDynamicText.cpp">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="Tests\GolTests.cpp">
+      <Filter>Sources Files\Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -690,15 +699,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Noeuds\NoeudPortail.h">
       <Filter>Sources Files\Arbre\Noeuds</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeJeu.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatAbstrait.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeEdition.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatAbstrait.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
@@ -802,12 +802,6 @@
     <ClInclude Include="Tests\TournoiTest.h">
       <Filter>Sources Files\Tests</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatMenuPrincipal.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeTournoi.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
     <ClInclude Include="Arbre\Visiteur\VisiteurEstSelectione.h">
       <Filter>Sources Files\Arbre\Visiteur</Filter>
     </ClInclude>
@@ -867,12 +861,6 @@
     </ClInclude>
     <ClInclude Include="Interface\EtatSouris\SourisEtatOrbit.h">
       <Filter>Sources Files\Interface\EtatSouris</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieRapideTerminee.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatPartieTournoiTerminee.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\HUD\HUDMultiligne.h">
       <Filter>Sources Files\Arbre\Hud</Filter>
@@ -1032,9 +1020,6 @@
     </ClInclude>
     <ClInclude Include="Application\GameManager.h">
       <Filter>Sources Files\Jeu</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\GestionEtat\GestionnaireEtatModeSimulation.h">
-      <Filter>Sources Files\Interface\GestionEtat</Filter>
     </ClInclude>
     <ClInclude Include="Arbre\Usines\BonusModifierFactory.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
@@ -1197,6 +1182,39 @@
     </ClInclude>
     <ClInclude Include="Render\RenderOpenGL2.h">
       <Filter>Sources Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerAbstract.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerMenu.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerQuickPlay.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerQuickPlayEnd.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerSimulation.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerTournament.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerTournamentEnd.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerEdition.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\GestionEtat\GameControllerGoL.h">
+      <Filter>Sources Files\Interface\Game Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Arbre\HUD\HUDDynamicText.h">
+      <Filter>Sources Files\Arbre\Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Tests\GolTests.h">
+      <Filter>Sources Files\Tests</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

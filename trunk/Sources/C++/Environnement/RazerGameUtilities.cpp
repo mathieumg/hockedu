@@ -14,7 +14,7 @@
 #if WIN32
 #include "GestionnaireModeles.h"
 #include "EventManager.h"
-#include "GestionnaireEtatAbstrait.h"
+#include "GameControllerAbstract.h"
 #elif __APPLE__
 #endif
 

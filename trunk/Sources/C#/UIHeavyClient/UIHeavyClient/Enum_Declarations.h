@@ -44,6 +44,25 @@ AssertHandleMode
 ;
 
 #if CSHARP
+public enum GameController
+#else
+typedef enum
+#endif
+{
+    GAME_CONTROLLER_EDITION
+    , GAME_CONTROLLER_EDITION_LOAD_DEFAULT
+    , GAME_CONTROLLER_GAME
+    , GAME_CONTROLLER_TOURNAMENT
+    , GAME_CONTROLLER_MENU
+    , GAME_CONTROLLER_SIMULATION
+    , GAME_CONTROLLER_GAME_OF_LIFE
+}
+#if !CSHARP
+GameController
+#endif
+;
+
+#if CSHARP
 public enum ActionType
 #else
 typedef enum
@@ -79,10 +98,11 @@ typedef enum
         ACTION_ALLER_MODE_TOURNOI  ,
         ACTION_ALLER_MENU_PRINCIPAL,
         ACTION_ALLER_MODE_SIMULATION,
+        ACTION_ALLER_MODE_GOL      ,
         ACTION_CAMERA_FIXE         ,
         ACTION_CAMERA_ORBITE       ,
         ACTION_CAMERA_LIBRE        ,
-        ACTION_CAMERA_SPLIT        ,
+        ACTION_CAMERA_SPLIT,
 }
 #if !CSHARP
 ActionType

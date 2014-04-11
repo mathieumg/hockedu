@@ -158,6 +158,8 @@
     <ClCompile Include="EtatOpenGL.cpp" />
     <ClCompile Include="ExceptionJeu.cpp" />
     <ClCompile Include="GameTime.cpp" />
+    <ClCompile Include="GoL\GolPattern.cpp" />
+    <ClCompile Include="GoL\GolUtils.cpp" />
     <ClCompile Include="LumiereAbstraite.cpp" />
     <ClCompile Include="LumiereAmbiante.cpp" />
     <ClCompile Include="LumiereDirectionnelle.cpp" />
@@ -200,6 +202,8 @@
     <ClInclude Include="ExceptionJeu.h" />
     <ClInclude Include="Flags.h" />
     <ClInclude Include="GameTime.h" />
+    <ClInclude Include="GoL\GolPattern.h" />
+    <ClInclude Include="GoL\GolUtils.h" />
     <ClInclude Include="IRenderComponent.h" />
     <ClInclude Include="LignePointillee.h" />
     <ClInclude Include="LumiereAbstraite.h" />

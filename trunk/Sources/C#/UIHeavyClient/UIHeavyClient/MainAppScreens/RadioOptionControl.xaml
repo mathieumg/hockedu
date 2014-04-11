@@ -1,0 +1,61 @@
+﻿<UserControl x:Class="UIHeavyClient.RadioOptionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="574" d:DesignWidth="867">
+    <Grid Name="mGrid" Height="Auto" Background="Black" Width="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="153*" />
+            <ColumnDefinition Width="189*" />
+            <ColumnDefinition Width="525*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100*" MinHeight="100" MaxHeight="100" />
+            <RowDefinition Height="446*" />
+            <RowDefinition Height="70*" MinHeight="70" MaxHeight="70" />
+        </Grid.RowDefinitions>
+        <Label Content="RADIO CONFIGURATION" HorizontalAlignment="Stretch" Margin="0,0,8,8" Name="mTitleLabel" VerticalAlignment="Stretch" Width="Auto" Foreground="White" FontFamily="Arial" FontWeight="Bold" FontStretch="Normal" FontSize="72" Grid.ColumnSpan="3" />
+        <Label Content="" Grid.Row="2" Height="Auto" HorizontalAlignment="Right" Margin="0,14,0,12" Name="mGuidanceLabel" VerticalAlignment="Center" Width="Auto" FontFamily="Times New Roman" Foreground="#FF00D500" FontSize="24" Grid.Column="2" />
+        <Button Content="Option Menu" Grid.Row="2" Margin="12" Name="mBackToOptionButton" Background="Black" Foreground="White" Click="mBackToOptionButton_Click" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" />
+        <Button Content="Main Menu" Margin="12" Name="mBackToMainButton" Grid.Row="2" Background="Black" Foreground="White" Click="mBackToMainButton_Click" FontSize="18" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" />
+        <GroupBox Grid.Row="1" Header="Current Playlists" Margin="12" Name="mCurrentPlaylistsGroupBox" Foreground="White" Grid.ColumnSpan="2">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="312*" />
+                    <RowDefinition Height="41*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="140*" />
+                    <ColumnDefinition Width="159*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Add New" Margin="12,5" Name="mPlaylistAddButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Column="1" Grid.Row="1" Click="mPlaylistAddButton_Click" />
+                <Button Content="Delete" Margin="12,5" Name="mPlaylistDeleteButton" Background="Black" Foreground="White" FontSize="16" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="1" Click="mPlaylistDeleteButton_Click" />
+                <ListView Margin="12" Name="mPlaylistsListView" Background="Black" Foreground="White" Grid.ColumnSpan="2" SelectionChanged="mCurrentPlaylistsList_SelectionChanged" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Playlist Edition" Margin="12" Name="mSongsEditGroupBox" Foreground="White" >
+            <Grid Height="Auto">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="120*" />
+                    <ColumnDefinition Width="120*" />
+                    <ColumnDefinition Width="249*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40*" />
+                    <RowDefinition Height="36*" />
+                    <RowDefinition Height="246*" />
+                    <RowDefinition Height="44*" />
+                </Grid.RowDefinitions>
+                <Label Content="Playlist's Name :" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mPlaylistNameLabel" />
+                <TextBox Margin="5,5,148,0" Name="mPlaylistNameTextBox" Background="Black" Foreground="White" Grid.Column="1" MaxLength="255" Grid.ColumnSpan="2" Height="29" VerticalAlignment="Top" />
+                <Button Background="Black" Content="Add New" FontSize="16" Foreground="White" Margin="5,5,4,5" Name="mSongAddButton" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" Grid.Column="1" Click="mSongAddButton_Click" />
+                <Button Background="Black" Content="Delete" FontSize="16" Foreground="White" Margin="5" Name="mSongDeleteButton" MouseEnter="DisplayGuidanceMessages" MouseLeave="ClearGuidanceMessages" Grid.Row="3" Click="mSongDeleteButton_Click" />
+                <ListView Background="Black" Foreground="White" Margin="5" Name="mSongsListView" Grid.Row="2" Grid.ColumnSpan="3"/>
+                <Label Content="Playlist's Songs :" Foreground="White" HorizontalAlignment="Left" Margin="5,5,0,5" Name="mSongsListLabel" Grid.Row="1" />
+                <Button Background="Black" Content="Save" FontSize="16" Foreground="White" Margin="2,6,137,4" Name="mSaveButton" Grid.Row="3" Grid.Column="2" Click="mSaveButton_Click" />
+            </Grid>
+        </GroupBox>
+    </Grid>
+</UserControl>

@@ -13,23 +13,24 @@
 #endif
 
 #include "EventManager.h"
-#include "GestionnaireEtatModeEdition.h"
-#include "GestionnaireEtatModeJeu.h"
+#include "GameControllerEdition.h"
+#include "GameControllerQuickPlay.h"
 #include "SoundFMOD.h"
 #include "CodesEvenements.h"
 #include "FacadeModele.h"
 #include "Vue.h"
-#include "GestionnaireEtatMenuPrincipal.h"
-#include "GestionnaireEtatModeTournoi.h"
-#include "GestionnaireEtatPartieRapideTerminee.h"
-#include "GestionnaireEtatPartieTournoiTerminee.h"
-#include "GestionnaireEtatModeSimulation.h"
+#include "GameControllerMenu.h"
+#include "GameControllerTournament.h"
+#include "GameControllerQuickPlayEnd.h"
+#include "GameControllerTournamentEnd.h"
+#include "GameControllerSimulation.h"
 #include "ConfigScene.h"
 #include "GameTime.h"
+#include "GameControllerGoL.h"
 
 std::set<ToucheClavier> pressedKeys;
 
-GestionnaireEtatAbstrait* EventManager::etatCourant_ = new GestionnaireEtatMenuPrincipal(); 
+GameControllerAbstract* EventManager::etatCourant_ = new GameControllerMenu(); 
 Flags<char,NB_CAMERA_PRESSED_DIRECTIONS> EventManager::mCameraDirection;
 Flags<char,NB_MALLET_PRESSED_DIRECTIONS> EventManager::mMalletDirection;
 Vecteur2i EventManager::mMouseScreenPos;
@@ -38,7 +39,7 @@ GameTime* EventManager::mDoubleClickTimer = new GameTime(false);
 const float DoubleClickDelay = 500; // in ms
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///
-/// @fn void GestionnaireEvenements::modifierEtat(GestionnaireEtatAbstrait* nouvelEtat)
+/// @fn void GestionnaireEvenements::modifierEtat(GameControllerAbstract* nouvelEtat)
 ///
 /// Fonction qui gère la modification de l'état du programme.
 ///
@@ -54,13 +55,14 @@ void EventManager::modifierEtat(const EtatGestion &nouvelEtat)
     etatCourant_ = NULL;
 	switch(nouvelEtat)
 	{
-		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GestionnaireEtatMenuPrincipal(); break;
-		case ETAT_MODE_EDITION: etatCourant_ = new GestionnaireEtatModeEdition(FacadeModele::getInstance()->getEditionField()); break;
-        case ETAT_MODE_JEU: etatCourant_ = new GestionnaireEtatModeJeu(FacadeModele::getInstance()->obtenirPartieCouranteId()); break;
-        case ETAT_MODE_TOURNOI: etatCourant_ = new GestionnaireEtatModeTournoi(FacadeModele::getInstance()->obtenirTournoi()); break;
-		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GestionnaireEtatPartieRapideTerminee(); break;
-        case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GestionnaireEtatPartieTournoiTerminee(); break;
-        case ETAT_MODE_SIMULATION: etatCourant_ = new GestionnaireEtatModeSimulation(); break;
+		case ETAT_MENU_PRINCIPAL: etatCourant_ = new GameControllerMenu(); break;
+		case ETAT_MODE_EDITION: etatCourant_ = new GameControllerEdition(FacadeModele::getInstance()->getEditionField()); break;
+        case ETAT_MODE_JEU: etatCourant_ = new GameControllerQuickPlay(FacadeModele::getInstance()->obtenirPartieCouranteId()); break;
+        case ETAT_MODE_TOURNOI: etatCourant_ = new GameControllerTournament(FacadeModele::getInstance()->obtenirTournoi()); break;
+		case ETAT_PARTIE_RAPIDE_TERMINEE: etatCourant_ = new GameControllerQuickPlayEnd(); break;
+        case ETAT_PARTIE_TOURNOI_TERMINEE: etatCourant_ = new GameControllerTournamentEnd(); break;
+        case ETAT_MODE_SIMULATION: etatCourant_ = new GameControllerSimulation(); break;
+        case ETAT_MODE_GAME_OF_LIFE: etatCourant_ = new GameControllerGoL( ); break;
 	}
 	checkf(etatCourant_);
 }

@@ -20,6 +20,16 @@
 #include "PlayerReinforcementAI.h"
 #include <sstream>
 #include "..\Reseau\Paquets\PaquetRondelle.h"
+#include "GameControllerGoL.h"
+
+void LoadGoLPattern( char* path )
+{
+    GameControllerGoL* controller = dynamic_cast<GameControllerGoL*>( EventManager::etatCourant_ );
+    if( controller )
+    {
+        controller->loadPattern( path );
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
