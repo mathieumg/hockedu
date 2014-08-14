@@ -444,7 +444,7 @@ namespace HttpHockeduRequests
                     }
                 };
             }
-            catch ( System.Exception e )
+            catch ( System.Exception )
             {
                 wParams.callback( UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR );
             }
@@ -537,7 +537,7 @@ namespace HttpHockeduRequests
                 };
 
             }
-            catch ( System.Exception ex )
+            catch ( System.Exception )
             {
                 wParams.callback( UploadOperationStatus.UPLOAD_FAILED_UNKNOWN_ERROR );
             }

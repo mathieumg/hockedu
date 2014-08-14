@@ -114,6 +114,12 @@ public:
    /// 3 pour les NoeudPoint
    static const int NB_VERTICAL_VERTICES = 3;
    static const unsigned int NB_BANDES = 8;
+   static const int TABLE_CORNER_COUNT = 4;
+   static const float Z_HEIGHT_TABLE_SURFACE;               // hauteur en z ou ce trouve la surface de la table
+   static const float Z_HEIGHT_TABLE_BOARDS;               // hauteur en z ou ce trouve le top de la bordure de la table
+   static const float Z_HEIGHT_TABLE_EXTERIOR_BORDERS;      // hauteur en z ou ce trouve le top du contour exterieur de la table
+   static const float Z_HEIGHT_TABLE_UNDER;                 // hauteur en z du dessous de la table
+   static const float Z_HEIGHT_TABLE_BOTTOM;                // hauteur en z du bas des pieds de la table
 private:
    ///Création du vecteur qui contient les points
    std::vector<NoeudPoint*> vecteurPoint_;
@@ -133,9 +139,10 @@ private:
    CouplePoint droiteMuret_[NB_BANDES];
    NodeWallAbstract* bande_[NB_BANDES];
 
-
    Vecteur3 mTableVertices[NB_HORIZONTAL_VERTICES][NB_VERTICAL_VERTICES];
-   GLuint* mListRenderCorners;
+   // all locations of the arc + the corner, the corner is at index 0
+   Vecteur2f** mCornerArcLocations;
+   int        mCornerArcLocationCount[TABLE_CORNER_COUNT];
    static ListeIndexPoints listeIndexPointsModeleTable_;
    
    BonusProperty mBonusProperties[NB_BONUS_TYPE];
@@ -143,7 +150,10 @@ private:
 /// Accesseurs
 public:
 
-	/// Accesseur de point dans le vecteurPoint
+    const Vecteur3** GetTableVertices() const { return (const Vecteur3**)mTableVertices; }
+    // Corner Arc location accessor, count is 0 if array is invalid
+    void GetCornerArcLocations( int cornerIndex, Vecteur2f*& locations, int& count );
+    /// Accesseur de point dans le vecteurPoint
 	NoeudPoint* obtenirPoint( int typePosPoint);
 	/// Accesseur des Buts
 	NoeudBut* obtenirBut( int joueur ) const;

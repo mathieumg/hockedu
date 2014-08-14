@@ -38,14 +38,13 @@
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3( 300, 150 );
 const float NoeudTable::rayonCercleCentre_ = 25;
-const float Z_HEIGHT_TABLE_SURFACE = -1;               // hauteur en z ou ce trouve la surface de la table
-const float Z_HEIGHT_TABLE_BOARDS = 16;                // hauteur en z ou ce trouve le top de la bordure de la table
-const float Z_HEIGHT_TABLE_EXTERIOR_BORDERS = 11;      // hauteur en z ou ce trouve le top du contour exterieur de la table
-const float Z_HEIGHT_TABLE_UNDER = -73;                // hauteur en z du dessous de la table
-const float Z_HEIGHT_TABLE_BOTTOM = -133;              // hauteur en z du bas des pieds de la table
+const float NoeudTable::Z_HEIGHT_TABLE_SURFACE = -1;               // hauteur en z ou ce trouve la surface de la table
+const float NoeudTable::Z_HEIGHT_TABLE_BOARDS = 16;                // hauteur en z ou ce trouve le top de la bordure de la table
+const float NoeudTable::Z_HEIGHT_TABLE_EXTERIOR_BORDERS = 11;      // hauteur en z ou ce trouve le top du contour exterieur de la table
+const float NoeudTable::Z_HEIGHT_TABLE_UNDER = -73;                // hauteur en z du dessous de la table
+const float NoeudTable::Z_HEIGHT_TABLE_BOTTOM = -133;              // hauteur en z du bas des pieds de la table
 
 
-const int nbCorners = 4;
 const int nodeHeight[3] = { 0, NoeudTable::NB_VERTICAL_VERTICES >> 1, NoeudTable::NB_VERTICAL_VERTICES - 1 };
 const int nodeWidth[3] = { 0, NoeudTable::NB_HORIZONTAL_VERTICES >> 1, NoeudTable::NB_HORIZONTAL_VERTICES - 1 };
 
@@ -322,7 +321,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable()
-: NoeudComposite( RAZER_KEY_TABLE ), mFrictionRatio( 0.3f ), mListRenderCorners( 0 )
+: NoeudComposite( RAZER_KEY_TABLE ), mFrictionRatio( 0.3f ), mCornerArcLocations(nullptr)
 {
     for( int i = 0; i < NB_BONUS_TYPE; ++i )
     {
@@ -460,9 +459,14 @@ NoeudTable::NoeudTable()
 NoeudTable::~NoeudTable()
 {
     replacerModele();
-    if( mListRenderCorners )
+    
+    if( mCornerArcLocations )
     {
-        glDeleteLists( *mListRenderCorners, nbCorners );
+        for (int i = 0; i < TABLE_CORNER_COUNT ; ++i)
+        {
+            delete[] mCornerArcLocations[i];
+        }
+        delete[] mCornerArcLocations;
     }
 }
 
@@ -480,125 +484,125 @@ NoeudTable::~NoeudTable()
 void NoeudTable::renderReal() const
 {
 
-    // Appel à la version de la classe de base pour l'affichage des enfants.
-    //NoeudComposite::renderReal();
-    DrawChild();
-    {
-#if WIN32
-        GLint renderMode;
-        glGetIntegerv( GL_RENDER_MODE, &renderMode );
-        if( renderMode == GL_SELECT )
-        {
-            // dont draw table when selecting
-            return;
-        }
-
-        Modele3D* pModel = getModel();
-        if( pModel )
-        {
-            // render corners
-            if( mListRenderCorners )
-            {
-                glPushMatrix();
-                glPushAttrib( GL_ALL_ATTRIB_BITS );
-                if( pModel->appliquerMateriau( "GreenTeam" ) )
-                {
-                    glPushMatrix();
-                    glCallList( mListRenderCorners[1] );
-                    glPopMatrix();
-
-                    glPushMatrix();
-                    glCallList( mListRenderCorners[2] );
-                    glPopMatrix();
-
-                    // car la fonction appliquer materiau fait un push matrix dans le mode Texture
-                    glMatrixMode( GL_TEXTURE );
-                    glPopMatrix();
-                    glMatrixMode( GL_MODELVIEW );
-                }
-                if( pModel->appliquerMateriau( "RedTeam" ) )
-                {
-                    glPushMatrix();
-                    glCallList( mListRenderCorners[0] );
-                    glPopMatrix();
-                    glPushMatrix();
-                    glCallList( mListRenderCorners[3] );
-                    glPopMatrix();
-
-                    // car la fonction appliquer materiau fait un push matrix dans le mode Texture
-                    glMatrixMode( GL_TEXTURE );
-                    glPopMatrix();
-                    glMatrixMode( GL_MODELVIEW );
-                }
-                glPopAttrib();
-                glPopMatrix();
-            }
-
-            glPushMatrix();
-            glPushAttrib( GL_ALL_ATTRIB_BITS );
-            pModel->dessiner( true );
-            glPopAttrib();
-            glPopMatrix();
-        }
-
-        glColor4f( 1.0f, 0.0f, 1.0f, 1.0f );
-
-        // États de la lumière 
-        GLboolean lighting_state;
-        // Désactiver l'éclairage
-        glGetBooleanv( GL_LIGHTING, &lighting_state );
-        glDisable( GL_LIGHTING );
-
-        FacadeModele::getInstance()->DeActivateShaders();
-        {
-            static const float moitieLargeurLigne = 1.0f;
-            glPushAttrib( GL_ALL_ATTRIB_BITS );
-            glPushMatrix();
-            glColor3f( 0.0, 0.0, 1.0 );
-            glBegin( GL_QUADS );
-
-            // dessin des lignes verticals dans la table
-            for( int i = 1; i < NB_HORIZONTAL_VERTICES - 1; ++i )
-            {
-                for( int j = 0; j < NB_VERTICAL_VERTICES - 1; ++j )
-                {
-                    // Dessin des lignes verticales de la table
-                    const Vecteur3& cur = mTableVertices[i][j];
-                    const Vecteur3& down = mTableVertices[i][j + 1];
-                    glVertex3f( cur[VX] + moitieLargeurLigne, cur[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
-                    glVertex3f( cur[VX] - moitieLargeurLigne, cur[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
-                    glVertex3f( down[VX] - moitieLargeurLigne, down[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
-                    glVertex3f( down[VX] + moitieLargeurLigne, down[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
-                }
-            }
-
-            glEnd();
-            glPopMatrix();
-            GLUquadric* cercleCentre_ = gluNewQuadric();
-            GLUquadric* centre_ = gluNewQuadric();
-            // Dessin du cercle au centre de la table
-
-            glPushMatrix();
-            glColor3f( 1.0, 0.0, 0.0 );
-            gluDisk( cercleCentre_, rayonCercleCentre_ - 1, rayonCercleCentre_ + 1, 32, 32 );
-            gluDisk( centre_, 0, 2, 32, 32 );
-            glPopMatrix();
-
-            glPopAttrib();
-            gluDeleteQuadric( centre_ );
-            gluDeleteQuadric( cercleCentre_ );
-        }
-        FacadeModele::getInstance()->ActivateShaders();
-
-        // Réactiver l'éclairage et (s'il y a lieu)
-        if( lighting_state == GL_TRUE )
-        {
-            glEnable( GL_LIGHTING );
-        }
-#else
-        renderOpenGLES();
-#endif
-    }
+//     // Appel à la version de la classe de base pour l'affichage des enfants.
+//     //NoeudComposite::renderReal();
+//     DrawChild();
+//     {
+// #if WIN32
+//         GLint renderMode;
+//         glGetIntegerv( GL_RENDER_MODE, &renderMode );
+//         if( renderMode == GL_SELECT )
+//         {
+//             // dont draw table when selecting
+//             return;
+//         }
+// 
+//         Modele3D* pModel = getModel();
+//         if( pModel )
+//         {
+//             // render corners
+//             if( mListRenderCorners )
+//             {
+//                 glPushMatrix();
+//                 glPushAttrib( GL_ALL_ATTRIB_BITS );
+//                 if( pModel->appliquerMateriau( "GreenTeam" ) )
+//                 {
+//                     glPushMatrix();
+//                     glCallList( mListRenderCorners[1] );
+//                     glPopMatrix();
+// 
+//                     glPushMatrix();
+//                     glCallList( mListRenderCorners[2] );
+//                     glPopMatrix();
+// 
+//                     // car la fonction appliquer materiau fait un push matrix dans le mode Texture
+//                     glMatrixMode( GL_TEXTURE );
+//                     glPopMatrix();
+//                     glMatrixMode( GL_MODELVIEW );
+//                 }
+//                 if( pModel->appliquerMateriau( "RedTeam" ) )
+//                 {
+//                     glPushMatrix();
+//                     glCallList( mListRenderCorners[0] );
+//                     glPopMatrix();
+//                     glPushMatrix();
+//                     glCallList( mListRenderCorners[3] );
+//                     glPopMatrix();
+// 
+//                     // car la fonction appliquer materiau fait un push matrix dans le mode Texture
+//                     glMatrixMode( GL_TEXTURE );
+//                     glPopMatrix();
+//                     glMatrixMode( GL_MODELVIEW );
+//                 }
+//                 glPopAttrib();
+//                 glPopMatrix();
+//             }
+// 
+//             glPushMatrix();
+//             glPushAttrib( GL_ALL_ATTRIB_BITS );
+//             pModel->dessiner( true );
+//             glPopAttrib();
+//             glPopMatrix();
+//         }
+// 
+//         glColor4f( 1.0f, 0.0f, 1.0f, 1.0f );
+// 
+//         // États de la lumière 
+//         GLboolean lighting_state;
+//         // Désactiver l'éclairage
+//         glGetBooleanv( GL_LIGHTING, &lighting_state );
+//         glDisable( GL_LIGHTING );
+// 
+//         FacadeModele::getInstance()->DeActivateShaders();
+//         {
+//             static const float moitieLargeurLigne = 1.0f;
+//             glPushAttrib( GL_ALL_ATTRIB_BITS );
+//             glPushMatrix();
+//             glColor3f( 0.0, 0.0, 1.0 );
+//             glBegin( GL_QUADS );
+// 
+//             // dessin des lignes verticals dans la table
+//             for( int i = 1; i < NB_HORIZONTAL_VERTICES - 1; ++i )
+//             {
+//                 for( int j = 0; j < NB_VERTICAL_VERTICES - 1; ++j )
+//                 {
+//                     // Dessin des lignes verticales de la table
+//                     const Vecteur3& cur = mTableVertices[i][j];
+//                     const Vecteur3& down = mTableVertices[i][j + 1];
+//                     glVertex3f( cur[VX] + moitieLargeurLigne, cur[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
+//                     glVertex3f( cur[VX] - moitieLargeurLigne, cur[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
+//                     glVertex3f( down[VX] - moitieLargeurLigne, down[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
+//                     glVertex3f( down[VX] + moitieLargeurLigne, down[VY], Z_HEIGHT_TABLE_SURFACE + 1 );
+//                 }
+//             }
+// 
+//             glEnd();
+//             glPopMatrix();
+//             GLUquadric* cercleCentre_ = gluNewQuadric();
+//             GLUquadric* centre_ = gluNewQuadric();
+//             // Dessin du cercle au centre de la table
+// 
+//             glPushMatrix();
+//             glColor3f( 1.0, 0.0, 0.0 );
+//             gluDisk( cercleCentre_, rayonCercleCentre_ - 1, rayonCercleCentre_ + 1, 32, 32 );
+//             gluDisk( centre_, 0, 2, 32, 32 );
+//             glPopMatrix();
+// 
+//             glPopAttrib();
+//             gluDeleteQuadric( centre_ );
+//             gluDeleteQuadric( cercleCentre_ );
+//         }
+//         FacadeModele::getInstance()->ActivateShaders();
+// 
+//         // Réactiver l'éclairage et (s'il y a lieu)
+//         if( lighting_state == GL_TRUE )
+//         {
+//             glEnable( GL_LIGHTING );
+//         }
+// #else
+//         renderOpenGLES();
+// #endif
+//     }
 
 
 }
@@ -1414,23 +1418,6 @@ void NoeudTable::updatePhysicBody()
                     }
                 }
             }
-
-            // ligne intermediaire horizontale, pas utilisé pour l'instant
-            //             if(j<3)
-            //             {
-            //                 auto nbIntermediate = nodeHeight[j+1]-nodeHeight[j]-1;
-            //                 if(nbIntermediate != 0)
-            //                 {
-            //                     auto w = mTableVertices[nodeWidth[i]][nodeHeight[j+1]] - mTableVertices[nodeWidth[i]][nodeHeight[j]];
-            //                     w /= (float)nbIntermediate+1;
-            //                     auto pos = mTableVertices[nodeWidth[i]][nodeHeight[j]];
-            //                     for(int l=nodeHeight[j]+1; l<nodeHeight[j+1]; ++l)
-            //                     {
-            //                         pos += w;
-            //                         mTableVertices[nodeWidth[i]][l] = pos;
-            //                     }
-            //                 }
-            //             }
         }
     }
 
@@ -1494,7 +1481,7 @@ void NoeudTable::updatePhysicBody()
         // second position : ending angle
         // last position : corner's position
         // will start the modeling from the first position passing by the corner and ending at the second position
-        Vecteur2 Corners[][3] =
+        const Vecteur2 Corners[][3] =
         {
             // haut droite
             {
@@ -1522,25 +1509,23 @@ void NoeudTable::updatePhysicBody()
             },
 
         };
-        /// here assumes the array above is not empty
 
-        if( mListRenderCorners )
+        if( !mCornerArcLocations )
         {
-            glDeleteLists( *mListRenderCorners, nbCorners );
+            mCornerArcLocations = new Vecteur2f*[TABLE_CORNER_COUNT];
+            for( int i = 0; i < TABLE_CORNER_COUNT; ++i )
+            {
+                mCornerArcLocations[i] = 0;
+            }
         }
-        else
+        for( int i = 0; i < TABLE_CORNER_COUNT; ++i )
         {
-            mListRenderCorners = new GLuint[nbCorners];
+            delete[] mCornerArcLocations[i];
         }
-        mListRenderCorners[0] = glGenLists( 1 );
-        mListRenderCorners[1] = glGenLists( 1 );
-        mListRenderCorners[2] = glGenLists( 1 );
-        mListRenderCorners[3] = glGenLists( 1 );
-
+        
         /// Create round corner for the table
-        for( int i = 0; i < nbCorners; ++i )
+        for( int i = 0; i < TABLE_CORNER_COUNT; ++i )
         {
-            glNewList( mListRenderCorners[i], GL_COMPILE );
             Vecteur2 posMid1 = Corners[i][0];//pHautMilieu->getPosition();
             Vecteur2 posMid2 = Corners[i][1];//pMilieuGauche->getPosition();
             Vecteur2 posCorner = Corners[i][2];//pHautGauche->getPosition();
@@ -1606,13 +1591,18 @@ void NoeudTable::updatePhysicBody()
                     myFixtureDef.density = 1;
                     myFixtureDef.restitution = 0.75f;  // TODO:: not hardcoded value, use surrounding boards to eval rebound ratio
                     RazerGameUtilities::ApplyFilters( myFixtureDef, RAZER_KEY_RINK_BOARD, IsInGame() );
-                    const float invRatio = 1.f / utilitaire::ratioWorldToBox2D;
-                    glScalef( invRatio, invRatio, 1 );
-                    glBegin( GL_QUAD_STRIP );
 
-                    glVertex3f( p1.x, p1.y, Z_HEIGHT_TABLE_BOARDS );
-                    glVertex3f( p1.x, p1.y, Z_HEIGHT_TABLE_SURFACE );
-                    for( float curAngle = startingAngle; curAngle < endAngle; curAngle += deltaAngle )
+                    // all locations of the arc + the corner, the corner is at index 0
+                    const int nbLocations = (int)(( endAngle - startingAngle ) / deltaAngle + 1) + 1;
+                    mCornerArcLocationCount[i] = nbLocations;
+                    mCornerArcLocations[i] = new Vecteur2f[nbLocations];
+
+                    const float invRatio = 1.f / utilitaire::ratioWorldToBox2D;
+
+                    int iArcLoc = 0;
+                    mCornerArcLocations[i][iArcLoc++] = posCorner;
+                    mCornerArcLocations[i][iArcLoc++] = Vecteur2f( p1.x*invRatio, p1.y*invRatio );
+                    for( float curAngle = startingAngle + deltaAngle; curAngle < endAngle; curAngle += deltaAngle )
                     {
                         p2.x = ( cos( curAngle )*radius );
                         p2.y = ( sin( curAngle )*radius );
@@ -1622,37 +1612,15 @@ void NoeudTable::updatePhysicBody()
                         mPhysicBody->CreateFixture( &myFixtureDef ); //add a fixture to the body
                         p1 = p2;
 
-                        glVertex3f( p1.x, p1.y, Z_HEIGHT_TABLE_BOARDS );
-                        glVertex3f( p1.x, p1.y, Z_HEIGHT_TABLE_SURFACE );
+                        mCornerArcLocations[i][iArcLoc++] = Vecteur2f( p1.x*invRatio, p1.y*invRatio );
                     }
                     utilitaire::VEC3_TO_B2VEC( endPoint, p2 );
                     line.Set( p1, p2 );
                     mPhysicBody->CreateFixture( &myFixtureDef ); //add a fixture to the body
-                    glVertex3f( p2.x, p2.y, Z_HEIGHT_TABLE_BOARDS );
-                    glVertex3f( p2.x, p2.y, Z_HEIGHT_TABLE_SURFACE );
-                    glEnd();
-
-                    glBegin( GL_TRIANGLE_FAN );
-                    utilitaire::VEC3_TO_B2VEC( posCorner, p2 );
-                    // initial point for the triangle fan
-                    glVertex3f( p2.x, p2.y, Z_HEIGHT_TABLE_BOARDS );
-
-                    utilitaire::VEC3_TO_B2VEC( startingPoint, p1 );
-                    glVertex3f( p1.x, p1.y, Z_HEIGHT_TABLE_BOARDS );
-                    for( float curAngle = startingAngle; curAngle < endAngle; curAngle += deltaAngle )
-                    {
-                        p2.x = ( cos( curAngle )*radius );
-                        p2.y = ( sin( curAngle )*radius );
-                        p2 += mid;
-                        glVertex3f( p2.x, p2.y, Z_HEIGHT_TABLE_BOARDS );
-                    }
-                    utilitaire::VEC3_TO_B2VEC( endPoint, p2 );
-                    glVertex3f( p2.x, p2.y, Z_HEIGHT_TABLE_BOARDS );
-
-                    glEnd();
+                    mCornerArcLocations[i][iArcLoc++] = Vecteur2f( p2.x*invRatio, p2.y*invRatio );
+                    checkf( iArcLoc == nbLocations );
                 }
             }
-            glEndList();
         }
 
 
@@ -1713,6 +1681,21 @@ BonusType NoeudTable::getRandomBonus() const
         return NB_BONUS_TYPE;
     }
     return mAvailableBonuses[rand() % mAvailableBonuses.size()].type;
+}
+
+void NoeudTable::GetCornerArcLocations( int cornerIndex, Vecteur2f*& locations, int& count )
+{
+    if( mCornerArcLocationCount && cornerIndex < TABLE_CORNER_COUNT )
+    {
+        checkf( mCornerArcLocations[cornerIndex] );
+        locations = mCornerArcLocations[cornerIndex];
+        count = mCornerArcLocationCount[cornerIndex];
+    }
+    else
+    {
+        locations = nullptr;
+        count = 0;
+    }
 }
 
 

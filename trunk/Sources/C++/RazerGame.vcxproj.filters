@@ -674,6 +674,9 @@
     <ClCompile Include="Render\RenderComponentManager.cpp">
       <Filter>Sources Files\Render</Filter>
     </ClCompile>
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Table.cpp">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application\FacadeModele.h">
@@ -1230,6 +1233,9 @@
     </ClInclude>
     <ClInclude Include="Render\RenderComponentManager.h">
       <Filter>Sources Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\OpenGL2\RenderOpenGL2Table.h">
+      <Filter>Sources Files\Render\OpenGL2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

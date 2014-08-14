@@ -126,7 +126,7 @@
       <TargetEnvironment>X64</TargetEnvironment>
     </Midl>
     <ClCompile>
-      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;CREATING_DLL;WIN32;NDEBUG;_WINDOWS;_USRDLL;RazerGame_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>$(DEVNAME)_DEBUG_=1;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
       <PrecompiledHeader>
@@ -311,6 +311,7 @@
     <ClCompile Include="Physics\ForceField.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Bonus.cpp" />
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Table.cpp" />
     <ClCompile Include="Render\RenderComponentManager.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
     <ClCompile Include="Reseau\ControllerCSharp.cpp" />
@@ -506,6 +507,7 @@
     <ClInclude Include="Physics\ForceField.h" />
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2.h" />
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2Bonus.h" />
+    <ClInclude Include="Render\OpenGL2\RenderOpenGL2Table.h" />
     <ClInclude Include="Render\RenderComponentManager.h" />
     <ClInclude Include="Reseau\CommunicateurReseau.h" />
     <ClInclude Include="Reseau\ControllerCPP.h" />
