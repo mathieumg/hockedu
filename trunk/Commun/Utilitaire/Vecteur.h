@@ -64,6 +64,14 @@ template <class T = float, const int N = 3>
 class Vecteur
 {
 public:
+    __declspec ( property ( put = SetX, get = GetX ) )
+        T x;
+    __declspec ( property ( put = SetY, get = GetY ) )
+        T y;
+    __declspec ( property ( put = SetZ, get = GetZ ) )
+        T z;
+    __declspec ( property ( put = SetW, get = GetW ) )
+        T w;
 	////////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn inline Vecteur()
@@ -166,9 +174,43 @@ public:
     {
         return vect[VZ];
     }
-    inline const T& W ()const
+    inline const T& W () const
     {
         return vect[VW];
+    }
+
+    inline const T GetX() const
+    {
+        return vect[VX];
+    }
+    inline const T GetY() const
+    {
+        return vect[VY];
+    }
+    inline const T GetZ() const
+    {
+        return vect[VZ];
+    }
+    inline const T GetW() const
+    {
+        return vect[VW];
+    }
+
+    inline const void SetX(T v) const
+    {
+        return vect[VX] = v;
+    }
+    inline const void SetY( T v ) const
+    {
+        return vect[VY] = v;
+    }
+    inline const void SetZ( T v ) const
+    {
+        return vect[VZ] = v;
+    }
+    inline const void SetW( T v ) const
+    {
+        return vect[VW] = v;
     }
 
 	////////////////////////////////////////////////////////////////////////////
@@ -883,7 +925,7 @@ template<class T>
 class Vecteur2D: public Vecteur<T, 2>
 {
 public:
-	////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn inline Vecteur2D( const Vecteur2D<T2>& u )
 	///
@@ -1077,7 +1119,7 @@ public:
 	////////////////////////////////////////////////////////////////////////////
 	template<class T2>
 	inline Vecteur3D ( const Vecteur3D<T2>& u )
-		: Vecteur<T, 3> ( u )
+        : Vecteur<T, 3>( u )
 	{
 	}
 

@@ -99,7 +99,7 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 
 
 // Fonction pour faire la verification
-#if !SHIPPING
+#ifdef _DEBUG
 #define checkf(expr, ...)   { if(!(expr)) appFailAssert( #expr, __FILE__, __LINE__, ##__VA_ARGS__ ); }
 #define checkOpenGl {GLenum err = glGetError(); checkf(!err,"OpenGL error %s\n", aidegl::obtenirMessageErreur(err).c_str());}
 #else
