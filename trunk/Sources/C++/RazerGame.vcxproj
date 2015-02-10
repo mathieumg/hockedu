@@ -561,18 +561,18 @@
   <ItemGroup>
     <CustomBuild Include="Reseau\BuildPacketsDefinitions.py">
       <FileType>Document</FileType>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">call "$(SolutionDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Reseau\PacketsDefinitions.h;$(SolutionDir)\Reseau\PacketsDefinitions.cpp</Outputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">call "$(ProjectDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Reseau\PacketsDefinitions.h;$(ProjectDir)\Reseau\PacketsDefinitions.cpp</Outputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Packets Definitions</Message>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)\Reseau\Packets.def</AdditionalInputs>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">call "$(SolutionDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
-      <Command Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">call "$(SolutionDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)\Reseau\Packets.def</AdditionalInputs>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">call "$(ProjectDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">call "$(ProjectDir)\BuildPacketsDefinitionsCmd.bat" %(FullPath) </Command>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Packets Definitions</Message>
       <Message Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">Building Packets Definitions</Message>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\Reseau\PacketsDefinitions.h;$(SolutionDir)\Reseau\PacketsDefinitions.cpp</Outputs>
-      <Outputs Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(SolutionDir)\Reseau\PacketsDefinitions.h;$(SolutionDir)\Reseau\PacketsDefinitions.cpp</Outputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)\Reseau\Packets.def</AdditionalInputs>
-      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(SolutionDir)\Reseau\Packets.def</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Reseau\PacketsDefinitions.h;$(ProjectDir)\Reseau\PacketsDefinitions.cpp</Outputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(ProjectDir)\Reseau\PacketsDefinitions.h;$(ProjectDir)\Reseau\PacketsDefinitions.cpp</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)\Reseau\Packets.def</AdditionalInputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Shipping|x64'">$(ProjectDir)\Reseau\Packets.def</AdditionalInputs>
     </CustomBuild>
     <None Include="Reseau\Packets.def" />
   </ItemGroup>
