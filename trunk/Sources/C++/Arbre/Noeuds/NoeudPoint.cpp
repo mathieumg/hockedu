@@ -52,14 +52,10 @@ NoeudPoint::NoeudPoint( float coordX, float coordY, TypePosPoint typePosNoeud)
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
 
-    /// affichage du noeud avec le modele du control point
-    //setDefaultNodeKey(RAZER_KEY_CONTROL_POINT);
-
-
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
     // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
-    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, 0));
+    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, 25.f));
 	modifierPositionInitiale(mPosition);
 }
 
@@ -137,16 +133,6 @@ void NoeudPoint::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::tick( const float& temps )
 {
-	//mAngle = (float)((int)(mAngle+temps*500.0f)%360);
-	//updateMatrice();
-
-// #if WIN32
-// 	glPushMatrix();
-// 	glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
-// 	glRotated(90, 1.0, 0.0, 0.0);
-// 	glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
-// 	glPopMatrix(); // Recuperation de la matrice d'origine
-// #endif
 
 }
 

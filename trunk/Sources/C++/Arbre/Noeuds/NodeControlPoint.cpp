@@ -48,6 +48,8 @@ CreateListDelegateImplementation(ControlPoint)
     return liste;
 }
 
+static const float NODE_Z_BASE_POSITION = 20.f;
+
 ////////////////////////////////////////////////////////////////////////
 ///
 /// @fn  NodeControlPoint::NodeControlPoint( const std::string& typeNoeud )
@@ -82,10 +84,6 @@ NodeControlPoint::~NodeControlPoint()
 
 void NodeControlPoint::renderReal() const
 {
-//#if WIN32
-    const float zTranslated = 20.f+sin(mHeightAngle)*3.f;
-    glTranslatef(0,0,zTranslated);
-//#endif
     glColor4f(1.0f,0.84f,0.0f,1.0f);
     // Appel à la version de la classe de base pour l'affichage des enfants.
     NoeudAbstrait::renderReal();
@@ -106,19 +104,10 @@ void NodeControlPoint::tick( const float& temps )
 {
     if(isVisible())
     {
-        //setAngle((float)((int)(mAngle+temps*500.0f)%360));
-        mHeightAngle += temps*3;
-        //updateMatrice();
+        mHeightAngle += temps * 3;
+        const float zTranslated = NODE_Z_BASE_POSITION + sin( mHeightAngle )*3.f;
+        mPosition.Z() = zTranslated;
     }
-
-//     mAngle = (float)((int)(mAngle+temps*500.0f)%360);
-//     updateMatrice();
-// 
-//     glPushMatrix();
-//     glLoadMatrixd(matrice_); // Chargement de la matrice du noeud
-//     glRotated(90, 1.0, 0.0, 0.0);
-//     glGetDoublev(GL_MODELVIEW_MATRIX, matrice_); // Savegarde de la matrice courante dans le noeud
-//     glPopMatrix(); // Recuperation de la matrice d'origine
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -223,6 +212,7 @@ bool PositionScopedBool = false;
 void NodeControlPoint::setPosition( const Vecteur3& positionRelative )
 {
     Super::setPosition(positionRelative);
+    mPosition[VZ] = NODE_Z_BASE_POSITION;
     PositionSubject::signalObservers();
 }
 

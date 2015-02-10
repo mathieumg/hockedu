@@ -37,7 +37,7 @@
 
 ListeIndexPoints NoeudTable::listeIndexPointsModeleTable_ = ListeIndexPoints();
 const Vecteur3 NoeudTable::DEFAULT_SIZE = Vecteur3( 300, 150 );
-const float NoeudTable::rayonCercleCentre_ = 25;
+const float NoeudTable::RAYON_CERCLE_CENTRE = 25;
 const float NoeudTable::Z_HEIGHT_TABLE_SURFACE = -1;               // hauteur en z ou ce trouve la surface de la table
 const float NoeudTable::Z_HEIGHT_TABLE_BOARDS = 16;                // hauteur en z ou ce trouve le top de la bordure de la table
 const float NoeudTable::Z_HEIGHT_TABLE_EXTERIOR_BORDERS = 11;      // hauteur en z ou ce trouve le top du contour exterieur de la table
@@ -321,7 +321,7 @@ int NoeudTable::expectedChildCount()
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudTable::NoeudTable()
-: NoeudComposite( RAZER_KEY_TABLE ), mFrictionRatio( 0.3f ), mCornerArcLocations(nullptr)
+: NoeudComposite( RAZER_KEY_TABLE ), mFrictionRatio( 0.3f ), mCornerArcLocations( nullptr )
 {
     for( int i = 0; i < NB_BONUS_TYPE; ++i )
     {
@@ -726,6 +726,11 @@ void NoeudTable::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudTable::tick( const float& temps )
 {
+    if( mIsDirty )
+    {
+        forceFullUpdate();
+        SetIsDirty(false);
+    }
     // Appel à la version de la classe de base pour l'animation des enfants.
     NoeudComposite::tick( temps );
 }
@@ -1297,6 +1302,7 @@ GroupeTripleAdresseFloat NoeudTable::trouverVertex( const aiScene* scene, const 
         const aiMesh* mesh = scene->mMeshes[noeud->mMeshes[i]];
         for( unsigned int j = 0; j < mesh->mNumFaces; j++ )
         {
+            if( !mesh->mFaces ) continue;
             const aiFace* face = &mesh->mFaces[j];
             for( unsigned int k = 0; k < face->mNumIndices; k++ )
             {
@@ -1521,6 +1527,7 @@ void NoeudTable::updatePhysicBody()
         for( int i = 0; i < TABLE_CORNER_COUNT; ++i )
         {
             delete[] mCornerArcLocations[i];
+            mCornerArcLocations[i] = 0;
         }
         
         /// Create round corner for the table
@@ -1602,7 +1609,7 @@ void NoeudTable::updatePhysicBody()
                     int iArcLoc = 0;
                     mCornerArcLocations[i][iArcLoc++] = posCorner;
                     mCornerArcLocations[i][iArcLoc++] = Vecteur2f( p1.x*invRatio, p1.y*invRatio );
-                    for( float curAngle = startingAngle + deltaAngle; curAngle < endAngle; curAngle += deltaAngle )
+                    for( float curAngle = startingAngle + deltaAngle; curAngle < endAngle && iArcLoc+1 < nbLocations; curAngle += deltaAngle )
                     {
                         p2.x = ( cos( curAngle )*radius );
                         p2.y = ( sin( curAngle )*radius );
@@ -1644,7 +1651,7 @@ void NoeudTable::updateObserver( const  PositionSubject* pSubject )
 {
     if( !isWorldLocked() )
     {
-        updatePhysicBody();
+        SetIsDirty(true);
     }
 }
 
@@ -1685,16 +1692,18 @@ BonusType NoeudTable::getRandomBonus() const
 
 void NoeudTable::GetCornerArcLocations( int cornerIndex, Vecteur2f*& locations, int& count )
 {
-    if( mCornerArcLocationCount && cornerIndex < TABLE_CORNER_COUNT )
+    count = 0;
+    if( mCornerArcLocations && cornerIndex < TABLE_CORNER_COUNT )
     {
-        checkf( mCornerArcLocations[cornerIndex] );
         locations = mCornerArcLocations[cornerIndex];
-        count = mCornerArcLocationCount[cornerIndex];
+        if( locations )
+        {
+            count = mCornerArcLocationCount[cornerIndex];
+        }
     }
     else
     {
         locations = nullptr;
-        count = 0;
     }
 }
 

@@ -1,6 +1,5 @@
 #pragma once
 
-
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32) && !defined(__CYGWIN__)
 #define WINDOWS 1
 #elif __linux__
@@ -106,6 +105,35 @@ void __cdecl appFailAssertFunc( const char* Expr, const char* File, int Line, co
 #define checkf(expr, ...)
 #define checkOpenGl 
 #endif
+#define Assert checkf
+#define CompileAssert(expr) static_assert(expr,"");
+#define CompileAssertMsg(expr,msg) static_assert(expr,msg);
+
+#ifndef INT_TYPES_DEF
+#define INT_TYPES_DEF
+typedef unsigned long long uint64;
+typedef unsigned int uint;
+typedef uint uint32;
+typedef unsigned short uint16;
+typedef unsigned char uint8;
+
+typedef signed long long int64;
+typedef signed int int32;
+typedef signed short int16;
+typedef signed char int8;
+
+typedef float float32;
+typedef double float64;
+#endif
+
+CompileAssert( sizeof( uint64 ) == 8 );
+CompileAssert( sizeof( uint32 ) == 4 );
+CompileAssert( sizeof( uint16 ) == 2 );
+CompileAssert( sizeof( uint8  ) == 1 );
+CompileAssert( sizeof(  int64 ) == 8 );
+CompileAssert( sizeof(  int32 ) == 4 );
+CompileAssert( sizeof(  int16 ) == 2 );
+CompileAssert( sizeof(  int8  ) == 1 );
 
 #ifndef WINDOWS
 #define sprintf_s sprintf

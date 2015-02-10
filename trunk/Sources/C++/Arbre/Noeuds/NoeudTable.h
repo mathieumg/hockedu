@@ -120,6 +120,7 @@ public:
    static const float Z_HEIGHT_TABLE_EXTERIOR_BORDERS;      // hauteur en z ou ce trouve le top du contour exterieur de la table
    static const float Z_HEIGHT_TABLE_UNDER;                 // hauteur en z du dessous de la table
    static const float Z_HEIGHT_TABLE_BOTTOM;                // hauteur en z du bas des pieds de la table
+   static const float RAYON_CERCLE_CENTRE;
 private:
    ///Création du vecteur qui contient les points
    std::vector<NoeudPoint*> vecteurPoint_;
@@ -133,6 +134,9 @@ private:
 
    /// Coefficient de friction de la surface de la table, sauvegarder en XML
    float mFrictionRatio; // usually between 0 and 1
+
+   // Updates model and physics when flag is true
+   bool mIsDirty;
 
    /// Informations sur les 8 points modifiables
    typedef std::pair<TypePosPoint,TypePosPoint> CouplePoint;
@@ -149,8 +153,9 @@ private:
    std::vector<BonusProperty> mAvailableBonuses;
 /// Accesseurs
 public:
-
-    const Vecteur3** GetTableVertices() const { return (const Vecteur3**)mTableVertices; }
+    bool IsDirty() const { return mIsDirty; }
+   void SetIsDirty( bool val ) { mIsDirty = val; }
+    const Vecteur3& GetTableVertices(int i, int j) const { return mTableVertices[i][j]; }
     // Corner Arc location accessor, count is 0 if array is invalid
     void GetCornerArcLocations( int cornerIndex, Vecteur2f*& locations, int& count );
     /// Accesseur de point dans le vecteurPoint
@@ -173,7 +178,6 @@ public:
 
 	/// Accesseur des groupes de la table
 	NoeudGroupe* obtenirGroupe(RazerKey typeEnfant);
-	static const float rayonCercleCentre_;
 };
 
 

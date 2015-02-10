@@ -188,8 +188,8 @@ bool Phont::print(GLfloat vp_x, GLfloat vp_y, bool keep_gl, const char* format, 
 	
 	// Imprimer la chaine
 	glPushMatrix();
-		glTranslatef(0.0, (GLfloat) common_.line_height, 0.0);
-		glTranslatef((GLfloat) vp_x * (viewport[2] - 1.0f), (GLfloat) vp_y * (viewport[3] - 1.0), 0.0f);
+		glTranslatef(0.0f, (GLfloat) common_.line_height, 0.0f);
+		glTranslatef((GLfloat) vp_x * (viewport[2] - 1.0f), (GLfloat) vp_y * (viewport[3] - 1.0f), 0.0f);
 		glScalef(scale_,scale_,1);
 		glListBase(cl_base_);
 		glCallLists((GLsizei)strlen(buf), GL_UNSIGNED_BYTE, buf);

@@ -1,6 +1,7 @@
 #include "RenderComponentManager.h"
 #include "RenderOpenGL2.h"
 #include "RenderOpenGL2Bonus.h"
+#include "RenderOpenGL2Table.h"
 
 
 SINGLETON_DECLARATION_CPP( RenderComponentManager );
@@ -16,7 +17,7 @@ RenderComponentManager::RenderComponentManager()
     }
 #define createFactory(type,key) factories[key] = []()->IRenderComponent*{return new type;};
     createFactory( RenderOpenGL2, RAZER_KEY_PORTAL );
-    createFactory( RenderOpenGL2, RAZER_KEY_TABLE );
+    createFactory( RenderOpenGL2Table, RAZER_KEY_TABLE );
     createFactory( RenderOpenGL2, RAZER_KEY_TABLE_CONTROL_POINT );
     createFactory( RenderOpenGL2, RAZER_KEY_CONTROL_POINT );
     createFactory( RenderOpenGL2, RAZER_KEY_WALL );

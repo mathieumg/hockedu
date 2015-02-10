@@ -64,14 +64,6 @@ template <class T = float, const int N = 3>
 class Vecteur
 {
 public:
-    __declspec ( property ( put = SetX, get = GetX ) )
-        T x;
-    __declspec ( property ( put = SetY, get = GetY ) )
-        T y;
-    __declspec ( property ( put = SetZ, get = GetZ ) )
-        T z;
-    __declspec ( property ( put = SetW, get = GetW ) )
-        T w;
 	////////////////////////////////////////////////////////////////////////////
 	///
 	/// @fn inline Vecteur()

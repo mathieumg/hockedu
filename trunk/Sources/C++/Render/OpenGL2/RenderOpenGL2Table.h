@@ -4,7 +4,8 @@
 
 class RenderOpenGL2Table : public RenderOpenGL2
 {
-    GLuint* mListRenderCorners;
+    uint mListRenderCorners;
+    uint mTableLinesList;
 public:
     RenderOpenGL2Table();
     ~RenderOpenGL2Table();
