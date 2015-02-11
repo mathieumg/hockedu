@@ -1,1 +1,4 @@
 /*.vcxproj.user
+/Debug
+/lib
+/x64

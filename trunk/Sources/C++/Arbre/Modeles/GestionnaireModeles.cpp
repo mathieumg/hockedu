@@ -87,12 +87,12 @@ TamponNomModele tamponGlobal;
 ////////////////////////////////////////////////////////////////////////
 GestionnaireModeles* GestionnaireModeles::obtenirInstance()
 {
-	if (instance_ == 0)
-	{
-		instance_ = new GestionnaireModeles();
-	}
+    if (instance_ == 0)
+    {
+        instance_ = new GestionnaireModeles();
+    }
 
-	return instance_;
+    return instance_;
 }
 
 
@@ -122,12 +122,12 @@ GestionnaireModeles::GestionnaireModeles()
 ////////////////////////////////////////////////////////////////////////
 GestionnaireModeles::~GestionnaireModeles()
 {
-	for_each(banqueModeles.begin(), banqueModeles.end(), utilitaire::LibererMappe());
-	for (BanqueListes::iterator i = banqueListes.begin(); i!= banqueListes.end(); i++)
-	{
-		if(i->second != 0)
-			glDeleteLists(i->second,1);
-	}
+    for_each(banqueModeles.begin(), banqueModeles.end(), utilitaire::LibererMappe());
+    for (BanqueListes::iterator i = banqueListes.begin(); i!= banqueListes.end(); i++)
+    {
+        if(i->second != 0)
+            glDeleteLists(i->second,1);
+    }
     if(mHouseList && !ConfigScene::obtenirInstance()->GetIsHouseDisplay())
     {
         glDeleteLists(mHouseList,1);
@@ -145,8 +145,8 @@ GestionnaireModeles::~GestionnaireModeles()
 ////////////////////////////////////////////////////////////////////////
 Modele3D* GestionnaireModeles::obtenirModele( Modele3DKey key )
 {
-	if(banqueModeles.find(key) != banqueModeles.end())
-		return banqueModeles[key];
+    if(banqueModeles.find(key) != banqueModeles.end())
+        return banqueModeles[key];
     return NULL;
 }
 
@@ -250,8 +250,8 @@ GLuint GestionnaireModeles::CreerListe( Modele3D* pModel, bool avecTexture /*= t
 void GestionnaireModeles::obtenirListe( Modele3DKey key, GLuint& liste )
 {
     liste = NULL;
-	if(banqueListes.find(key) != banqueListes.end())
-	    liste = banqueListes[key];
+    if(banqueListes.find(key) != banqueListes.end())
+        liste = banqueListes[key];
 }
 
 
@@ -295,16 +295,16 @@ void GestionnaireModeles::recharger( Modele3DKey type )
 void GestionnaireModeles::initialiser()
 {
     // La piece en premier pour qu'elle soit loader en dernier
-    //tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_HOUSE              , "piece"                      , RazerGameUtilities::CreateListDelegateHouse            ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOALER             , "Goaler/Goaler"              , RazerGameUtilities::CreateListDelegateGoaler           ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_FAN                , "Fan"                        , RazerGameUtilities::CreateListDelegateFan              ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PAUSE              , "pause"                                                                               ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_1            , "1"                                                                                   ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_2            , "2"                                                                                   ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_3            , "3"                                                                                   ));
+    tamponGlobal.vec.push_back( ModelToLoad( RAZER_KEY_HOUSE, "Piece", RazerGameUtilities::CreateListDelegateHouse ) );
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_ZAMBONI            , "zamboni"                    , RazerGameUtilities::CreateListDelegateZamboni          ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_EMPTY_BONUS        , "EmptyBonus"                 , RazerGameUtilities::CreateListDelegateEmptyBonus       ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_BONUS              , ""                           , RazerGameUtilities::CreateListDelegateBonus            ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOALER             , "Goaler/Goaler"              , RazerGameUtilities::CreateListDelegateGoaler           ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_FAN                , "Fan"                        , RazerGameUtilities::CreateListDelegateFan              ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PAUSE              , "pause"                                                                               ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_1            , "1"                                                                                   ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_2            , "2"                                                                                   ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MODEL_3            , "3"                                                                                   ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_GOAL               , "but_milieu"                 , RazerGameUtilities::CreateListDelegateGoal             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_WALL               , "muret"                      , RazerGameUtilities::CreateListDelegateWall             ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_PORTAL             , "portail"                    , RazerGameUtilities::CreateListDelegatePortal           ));
@@ -315,9 +315,8 @@ void GestionnaireModeles::initialiser()
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_MALLET             , "maillet"                    , RazerGameUtilities::CreateListDelegateMallet           ));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE_CONTROL_POINT, "control_point/control_point", RazerGameUtilities::CreateListDelegateTableControlPoint));
     tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_CONTROL_POINT      , "control_point/control_point", RazerGameUtilities::CreateListDelegateControlPoint     ));
-	tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE              , "table"                      , RazerGameUtilities::CreateListDelegateTable            ));
+    tamponGlobal.vec.push_back(ModelToLoad(RAZER_KEY_TABLE              , "table"                      , RazerGameUtilities::CreateListDelegateTable            ));
 
-    
     DataThreadModels* dataWorkerModel = new DataThreadModels();
     dataWorkerModel->tampon = &tamponGlobal;
     dataWorkerModel->dc = FacadeModele::getInstance()->obtenirHDC();
@@ -355,12 +354,8 @@ void GestionnaireModeles::initialiser()
         // pour ne pas recreer le context OpenGL
         dataWorkerModel->glrc = NULL;
         dataWorkerModel->dc = NULL;
-	    WorkerLoadModel(dataWorkerModel);
+        WorkerLoadModel(dataWorkerModel);
     }
-
-
-
-
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -420,7 +415,7 @@ IRenderComponent* GestionnaireModeles::createRenderComponent( NoeudAbstrait* nod
 ////////////////////////////////////////////////////////////////////////
 DWORD WINAPI WorkerLoadModel( LPVOID arg )
 {
-	DataThreadModels* data = (DataThreadModels*) arg;
+    DataThreadModels* data = (DataThreadModels*) arg;
     TamponNomModele* tampon = data->tampon;
 
     if(data->glrc)
@@ -434,8 +429,8 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         }
     }
 
-	while(tampon->vec.size())
-	{
+    while(tampon->vec.size())
+    {
         ModelToLoad& modelInfo = tampon->vec.back();
 
         const string& modelName = modelInfo.mModelName;
@@ -444,11 +439,14 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         if(modelName.size())
         {
             modele = new Modele3D();
-            if(!modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA+modelName+RazerGameUtilities::NOM_EXTENSION))
+            if( !modele->charger(RazerGameUtilities::NOM_DOSSIER_MEDIA + modelName + RazerGameUtilities::NOM_EXTENSION) )
             {
                 delete modele;
                 modele = NULL;
             }
+#if _DEBUG
+            printf( "Model %s[%d] loaded\n", modelName.c_str(), modelInfo.mKey );
+#endif
         }
         
         GLuint liste = 0;
@@ -460,6 +458,12 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         {
             liste = GestionnaireModeles::CreerListe(modele);
         }
+#if _DEBUG
+        if( liste )
+        {
+            printf( "Model %s[%d] list created\n", modelName.c_str(), modelInfo.mKey );
+        }
+#endif
 
         auto key = modelInfo.mKey;
         RazerGameUtilities::RunOnUpdateThread(new Runnable([key,modele,liste](Runnable*) -> void {
@@ -477,10 +481,10 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
         // pop plus tard car on garde une reference sur l'item
         tampon->vec.pop_back();
     }
-	
+    
     delete data;
 
-	return TRUE;
+    return TRUE;
 }
 
 CreateListDelegateImplementation(House)

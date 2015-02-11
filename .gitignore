@@ -1,1 +1,4 @@
 # git ignore file
+*.user
+*sdf
+*suo
