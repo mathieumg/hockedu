@@ -293,7 +293,7 @@ void Terrain::renderField()
         mNewNodeTree->render();
     if(getZoneEdition())
         getZoneEdition()->afficher();
-    if(mRenderTree)
+    if( mRenderTree )
         mRenderTree->render();
     /*
 
@@ -486,18 +486,7 @@ void Terrain::initialiserArbreRendu()
         mLogicTree->empty();
     }
 
-    if(!mRenderTree)
-    {
-        mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NodeModelRender(RAZER_KEY_HOUSE);
-        piece->setSkinKey(RAZER_KEY_HOUSE);
-        mRenderTree->add(piece);
-        if(IsGameField())
-        {
-            mZamboni = new NodeModelRender(RAZER_KEY_ZAMBONI);
-            mRenderTree->add(mZamboni);
-        }
-    }
+    initRenderTree();
     if(!mGame)
     {
         if(!mNewNodeTree)
@@ -535,18 +524,8 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     libererMemoire();
     
     // Initialisation des arbres de rendus
-    if(!mRenderTree)
-    {
-        mRenderTree = new ArbreRendu(this);
-        NoeudAbstrait* piece = new NodeModelRender( RAZER_KEY_HOUSE );
-        piece->setSkinKey(RAZER_KEY_HOUSE);
-        mRenderTree->add(piece);
-        if(IsGameField())
-        {
-            mZamboni = new NodeModelRender( RAZER_KEY_ZAMBONI );
-            mRenderTree->add(mZamboni);
-        }
-    }
+    initRenderTree();
+
     if(!mGame)
     {
         if(!mNewNodeTree)
@@ -654,6 +633,20 @@ bool Terrain::initialiserXml( const XmlElement* element, bool fromDocument /*= t
     return true;
 }
 
+void Terrain::initRenderTree()
+{
+    if( !mRenderTree )
+    {
+        mRenderTree = new ArbreRendu( this );
+        NoeudAbstrait* piece = new NodeModelRender( RAZER_KEY_HOUSE );
+        mRenderTree->add( piece );
+        if( IsGameField() )
+        {
+            mZamboni = new NodeModelRender( RAZER_KEY_ZAMBONI );
+            mRenderTree->add( mZamboni );
+        }
+    }
+}
 
 ////////////////////////////////////////////////////////////////////////
 ///
@@ -3020,7 +3013,6 @@ void Terrain::setPuckZone( PuckZone pVal )
     }
 #endif //BOX2D_PLAY
 }
-
 
 
 #if MIKE_DEBUG_

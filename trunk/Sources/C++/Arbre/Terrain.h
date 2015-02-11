@@ -83,6 +83,8 @@ public:
 	/// Permet d'initialiser le terrain avec ces éléments a partir d'un noeud XML
     bool initialiserXml( const XmlElement* element, bool fromDocument = true, bool correctErrors = true );
 
+    void initRenderTree();
+
 	/// Remet le terrain a son etat de base
 	void reinitialiser();
 
