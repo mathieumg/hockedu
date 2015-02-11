@@ -97,11 +97,12 @@ public:
     inline float getLength() const {return mGoalLength;}
 
     static const Vecteur3 DEFAULT_SIZE;
-    
+    const Vecteur3 getBottomPosition() const { return mBottomPosition; }
+    const Vecteur3 getTopPosition() const { return mTopPosition; }
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;
-	/// Pointeur sur le coin en haut
+    /// Pointeur sur le coin en haut
 	NoeudPoint* coinHaut_;
 	/// Pointeur sur le coin en bas
 	NoeudPoint* coinBas_;
@@ -110,13 +111,12 @@ private:
 	/// Pointeur sur le but adverse
 	NoeudBut* butAdverse_;
 	/// Position du point extérieur du but
-	mutable Vecteur3 mTopPosition, mBottomPosition;
+    mutable Vecteur3 mTopPosition, mBottomPosition;
     /// Longueur du but
     float mGoalLength;
 
     class b2Body* mPuckCatcher;
     float mCachedPuckRadius;
-
 };
 
 

@@ -268,46 +268,45 @@ NoeudAbstrait::PaireVect3 NoeudBut::obtenirZoneOccupee() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudBut::updateLongueur(float facteurModificationEchelle)
 {
-	mScale[VX]*=facteurModificationEchelle;
+    mScale[VX] *= facteurModificationEchelle;
 
-	const Vecteur3& pos = getPosition();
+    const Vecteur3& pos = getPosition();
 
-	Vecteur3 deltaHaut=(coinHaut_->getPosition()-pos)*0.85f;
-	float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
-	Vecteur3 deltaBas=(coinBas_->getPosition()-pos)*0.85f;
-	float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
-	float longueur=mScale[VX]*DEFAULT_SIZE[VX];
-	if(longueur>longueurHaut)
-	{
-		longueur=longueurHaut;
-		mScale[VX] = longueur/DEFAULT_SIZE[VX];
-	}
-	if(longueur>longueurBas)
-	{
-		longueur=longueurBas;
-		mScale[VX] = longueur/DEFAULT_SIZE[VX];
-	}
+    Vecteur3 deltaHaut = ( coinHaut_->getPosition() - pos )*0.85f;
+    float longueurHaut = deltaHaut.norme(); // Valeur pour ne pas que les but empiete sur les bandes
+    Vecteur3 deltaBas = ( coinBas_->getPosition() - pos )*0.85f;
+    float longueurBas = deltaBas.norme();	// Valeur pour ne pas que les but empiete sur les bandes
+    float longueur = mScale[VX] * DEFAULT_SIZE[VX];
+    if( longueur > longueurHaut )
+    {
+        longueur = longueurHaut;
+        mScale[VX] = longueur / DEFAULT_SIZE[VX];
+    }
+    if( longueur > longueurBas )
+    {
+        longueur = longueurBas;
+        mScale[VX] = longueur / DEFAULT_SIZE[VX];
+    }
 
-	float ratioHaut = longueur/longueurHaut;
-	float ratioBas = longueur/longueurBas;
+    float ratioHaut = longueur / longueurHaut;
+    float ratioBas = longueur / longueurBas;
 
-    float	
-        deltaXhaut = deltaHaut[VX]*ratioHaut,
-        deltaXbas = deltaBas[VX]*ratioBas,
-        deltaYhaut = deltaHaut[VY]*ratioHaut,
-        deltaYbas = deltaBas[VY]*ratioBas;
+    float
+        deltaXhaut = deltaHaut[VX] * ratioHaut,
+        deltaXbas = deltaBas[VX] * ratioBas,
+        deltaYhaut = deltaHaut[VY] * ratioHaut,
+        deltaYbas = deltaBas[VY] * ratioBas;
 
-	mTopPosition[VX] = pos[VX]+deltaXhaut;
-	mTopPosition[VY] = pos[VY]+deltaYhaut;
-	mBottomPosition[VX] = pos[VX]+deltaXbas;
-	mBottomPosition[VY] = pos[VY]+deltaYbas;
-	mGoalLength = longueur;
+    mTopPosition[VX] = pos[VX] + deltaXhaut;
+    mTopPosition[VY] = pos[VY] + deltaYhaut;
+    mBottomPosition[VX] = pos[VX] + deltaXbas;
+    mBottomPosition[VY] = pos[VY] + deltaYbas;
+    mGoalLength = longueur;
 
-    mBottomAngle = utilitaire::RAD_TO_DEG(atan2(deltaYbas, deltaXbas)), 
-    mTopAngle = utilitaire::RAD_TO_DEG(atan2(deltaYhaut, deltaXhaut));
-    
+    mBottomAngle = utilitaire::RAD_TO_DEG( atan2( deltaYbas, deltaXbas ) );
+    mTopAngle = utilitaire::RAD_TO_DEG( atan2( deltaYhaut, deltaXhaut ) );
 
-	updateMatrice();
+    updateMatrice();
     updatePhysicBody();
     PositionSubject::signalObservers();
 }

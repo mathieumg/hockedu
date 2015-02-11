@@ -311,6 +311,9 @@
     <ClCompile Include="Physics\ForceField.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Bonus.cpp" />
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Goal.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Table.cpp" />
     <ClCompile Include="Render\RenderComponentManager.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
@@ -507,6 +510,7 @@
     <ClInclude Include="Physics\ForceField.h" />
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2.h" />
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2Bonus.h" />
+    <ClInclude Include="Render\OpenGL2\RenderOpenGL2Goal.h" />
     <ClInclude Include="Render\OpenGL2\RenderOpenGL2Table.h" />
     <ClInclude Include="Render\RenderComponentManager.h" />
     <ClInclude Include="Reseau\CommunicateurReseau.h" />
