@@ -23,6 +23,7 @@
 
 
 const float NoeudPoint::DEFAULT_RADIUS = 10;
+const float CONTROL_POINT_HEIGHT = 25.f;
 
 CreateListDelegateImplementation(TableControlPoint)
 {
@@ -47,7 +48,7 @@ CreateListDelegateImplementation(TableControlPoint)
 ///
 ////////////////////////////////////////////////////////////////////////
 NoeudPoint::NoeudPoint( float coordX, float coordY, TypePosPoint typePosNoeud)
-	: NoeudComposite(RAZER_KEY_TABLE_CONTROL_POINT) , longueurCote_(2.0f), typePosNoeud_(typePosNoeud),mCanBeVisited(true)
+    : NoeudComposite( RAZER_KEY_TABLE_CONTROL_POINT ), longueurCote_( 2.0f ), typePosNoeud_( typePosNoeud ), mCanBeVisited( true ), mHeightAngle( 0 )
 {
     /// les noeuds points ne peuvent etre supprimer
     mFlags.SetFlag(false,NODEFLAGS_CAN_BE_DELETED);
@@ -55,7 +56,7 @@ NoeudPoint::NoeudPoint( float coordX, float coordY, TypePosPoint typePosNoeud)
     // Assigner le rayon par défaut le plus tot possible car la suite peut en avoir besoin
     setDefaultRadius(DEFAULT_RADIUS);
     // Il ne faut aps utiliser le modificateur de position relative, car il ne faut pas affecter le modele 3D a la construction des points
-    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, 25.f));
+    NoeudAbstrait::setPosition(Vecteur3(coordX,coordY, CONTROL_POINT_HEIGHT));
 	modifierPositionInitiale(mPosition);
 }
 
@@ -133,7 +134,12 @@ void NoeudPoint::renderOpenGLES() const
 ////////////////////////////////////////////////////////////////////////
 void NoeudPoint::tick( const float& temps )
 {
-
+    if( isVisible() )
+    {
+        mHeightAngle += temps * 3;
+        const float zTranslated = CONTROL_POINT_HEIGHT + sin( mHeightAngle )*3.f;
+        mPosition.Z() = zTranslated;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -380,11 +386,13 @@ const GroupeTripleAdresseFloat* NoeudPoint::obtenirListePointsAChanger() const
 /// @return void
 ///
 ////////////////////////////////////////////////////////////////////////
-void NoeudPoint::setPosition( const Vecteur3& positionRelative )
+void NoeudPoint::setPosition( const Vecteur3& pos )
 {
-    move3DModel(positionRelative);
+    Vecteur3 adjustedPos( pos );
+    adjustedPos.SetZ( CONTROL_POINT_HEIGHT );
+    move3DModel(adjustedPos);
     // assigner la position du point en premier pour que la table puisse l'utiliser à sa mise a jour
-    NoeudAbstrait::setPosition(positionRelative);
+    NoeudAbstrait::setPosition(adjustedPos);
     PositionSubject::signalObservers();
 }
 

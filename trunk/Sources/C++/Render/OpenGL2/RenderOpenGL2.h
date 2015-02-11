@@ -2,6 +2,7 @@
 
 #include "IRenderComponent.h"
 #include "Vecteur.h"
+#include "Enum_Declarations.h"
 
 class RenderOpenGL2 : public IRenderComponent
 {
@@ -10,6 +11,9 @@ public:
     virtual void render() const;
     virtual void updateComponent( );
 
+#if _DEBUG
+    RazerKey mKey;
+#endif
 protected:
     /// Polygon draw type, constant for now since we dont need to change it
     const unsigned int  mModePolygones;

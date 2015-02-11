@@ -271,6 +271,9 @@ void NodeWallAbstract::updateWallProperties()
         mScale = echelle;
         mAngle = angle;
     }
+    // Force the wall to be on the ground
+    mPosition[VZ] = 0;
+
     // necessaire pour s'assurer de l'integrite des proprietes
     // physiques et d'affichage
     updateMatrice();

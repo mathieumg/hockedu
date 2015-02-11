@@ -188,21 +188,21 @@ public:
         return vect[VW];
     }
 
-    inline const void SetX(T v) const
+    inline void SetX(T v)
     {
-        return vect[VX] = v;
+        vect[VX] = v;
     }
-    inline const void SetY( T v ) const
+    inline void SetY( T v )
     {
-        return vect[VY] = v;
+        vect[VY] = v;
     }
-    inline const void SetZ( T v ) const
+    inline void SetZ( T v )
     {
-        return vect[VZ] = v;
+        vect[VZ] = v;
     }
-    inline const void SetW( T v ) const
+    inline void SetW( T v )
     {
-        return vect[VW] = v;
+        vect[VW] = v;
     }
 
 	////////////////////////////////////////////////////////////////////////////

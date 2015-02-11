@@ -129,6 +129,9 @@ private:
 	GroupeTripleAdresseFloat listePointsAChanger_;
 	/// Position initiale du noeud
 	Vecteur3 positionInitiale_;
+    
+    // Animation Z movement
+    float mHeightAngle;
 	
 };
 ///////////////////////////////////////////////////////////////////////////////

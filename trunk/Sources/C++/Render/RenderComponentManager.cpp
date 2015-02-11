@@ -15,7 +15,13 @@ RenderComponentManager::RenderComponentManager()
     {
         factories[i] = 0;
     }
-#define createFactory(type,key) factories[key] = []()->IRenderComponent*{return new type;};
+
+#if _DEBUG
+    #define createComponent(type, key) auto component = new type(); component->mKey = key; return component;
+#else
+    #define createComponent(type, key) return new type();
+#endif
+#define createFactory(type,key) factories[key] = []()->IRenderComponent*{createComponent(type, key)};
     createFactory( RenderOpenGL2, RAZER_KEY_PORTAL );
     createFactory( RenderOpenGL2Table, RAZER_KEY_TABLE );
     createFactory( RenderOpenGL2, RAZER_KEY_TABLE_CONTROL_POINT );
