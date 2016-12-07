@@ -15,8 +15,8 @@
 
 
 #ifndef __APPLE__
-#include <hash_map>
-#define HashMap std::hash_map
+#include <unordered_map>
+#define HashMap std::unordered_map
 
 #else
 

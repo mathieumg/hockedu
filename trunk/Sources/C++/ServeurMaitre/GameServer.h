@@ -4,11 +4,11 @@
 #include <ext/hash_map>
 namespace std {using namespace __gnu_cxx; }
 #elif defined(WIN32)
-#include <hash_map>
+#include <unordered_map>
 #endif
 
 class PartieServeurs;
-typedef std::hash_map<int, PartieServeurs*> GamesContainer;
+typedef std::unordered_map<int, PartieServeurs*> GamesContainer;
 
 class GameServer
 {

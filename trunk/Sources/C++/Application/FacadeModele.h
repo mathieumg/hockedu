@@ -19,7 +19,7 @@
 
 #include "GameTime.h"
 #include <queue>
-#include <hash_map>
+#include <unordered_map>
 #include "Enum_Declarations.h"
 
 class VisiteurNoeud;
@@ -300,8 +300,6 @@ private:
     /// Password temporaire pour la creation d'une partie en reseau
     std::string mGameCreationPassword;
     
-
-    //std::hash_map<PartieId,Partie*> mGames;
 
 	/// Objet contenant le temps ecouler en temps reel
 	//GameTime temps_;

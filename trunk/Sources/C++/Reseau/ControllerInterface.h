@@ -10,7 +10,7 @@
 
 #pragma once
 #ifdef WINDOWS
-#include <hash_map>
+#include <unordered_map>
 #elif defined(LINUX)
 #include <ext/hash_map>
 namespace std {using namespace __gnu_cxx; }
@@ -55,7 +55,7 @@ public:
     virtual Partie* getGame(int pGameId);
 
 protected:
-    std::hash_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;
+    std::unordered_map<PaquetTypes, PaquetRunnableFunc> mPaquetRunnables;
 
 };
 

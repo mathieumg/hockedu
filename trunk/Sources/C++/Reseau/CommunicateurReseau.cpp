@@ -1191,7 +1191,7 @@ void * CommunicateurReseau::receivingUDPThreadRoutine( void *arg )
     PacketReader wPacketReader;
     wPacketReader.setCurrentByteOrder(BO_LITTLE_ENDIAN);
 
-    std::hash_map<std::string, int> wMapNoSequence;
+    std::unordered_map<std::string, int> wMapNoSequence;
 
     try
     {
