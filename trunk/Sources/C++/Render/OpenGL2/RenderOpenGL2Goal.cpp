@@ -4,6 +4,7 @@
 #include "FacadeModele.h"
 #include "NoeudBut.h"
 #include "Utilitaire.h"
+#include "BonusModifierAbstract.h"
 
 void RenderOpenGL2Goal::render() const
 {
@@ -46,7 +47,7 @@ void RenderOpenGL2Goal::render() const
         glPushMatrix();
         glTranslatef( translateX, 0, 0 );
         // Renders all the modifiers present on the node
-        for( auto it = goal->mModifiers.begin(); it != mModifiers.end(); ++it )
+        for( auto it = goal->getModifiers().begin(); it != goal->getModifiers().end(); ++it )
         {
             ( *it )->render();
         }
@@ -57,7 +58,7 @@ void RenderOpenGL2Goal::render() const
         // Dessin de la partie ajustable en bas
         glPushMatrix();
         glTranslatef( posBas[VX], posBas[VY], 0 );
-        glRotatef( goal->mBottomAngle, 0, 0, 1 );
+        glRotatef( goal->getBottomAngle(), 0, 0, 1 );
         glMultMatrixf( mTransformationMatrix );
         if( goal->obtenirJoueur() == 1 )
         {
@@ -82,7 +83,7 @@ void RenderOpenGL2Goal::render() const
         // Dessin de la partie ajustable en haut
         glPushMatrix();
         glTranslatef( posHaut[VX], posHaut[VY], 0 );
-        glRotatef( goal->mTopAngle, 0, 0, 1 );
+        glRotatef( goal->getTopAngle(), 0, 0, 1 );
         glMultMatrixf( mTransformationMatrix );
         if( goal->obtenirJoueur() == 2 )
         {

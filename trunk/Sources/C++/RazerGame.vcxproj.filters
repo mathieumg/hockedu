@@ -928,9 +928,6 @@
     <ClInclude Include="Reseau\Socket.h">
       <Filter>Sources Files\Reseau\Global</Filter>
     </ClInclude>
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h">
-      <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
-    </ClInclude>
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h">
       <Filter>Sources Files\Reseau\Global\PaquetHandlers</Filter>
     </ClInclude>
@@ -1185,9 +1182,6 @@
     </ClInclude>
     <ClInclude Include="Arbre\Bonus\BonusModifierSpawnPuck.h">
       <Filter>Sources Files\Arbre\Bonus</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ObserverFacade.h">
-      <Filter>Sources Files\Interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\Commun\Utilitaire\AnimationNodePosition.h">
       <Filter>Sources Files\Arbre</Filter>

@@ -99,6 +99,8 @@ public:
     static const Vecteur3 DEFAULT_SIZE;
     const Vecteur3 getBottomPosition() const { return mBottomPosition; }
     const Vecteur3 getTopPosition() const { return mTopPosition; }
+    const float getBottomAngle() const { return mBottomAngle; }
+    const float getTopAngle() const { return mTopAngle; }
 private:
 	/// Attribut disant si le but est au joueur1 ou joueur 2 par un int, 1 ou 2
 	int joueur_;

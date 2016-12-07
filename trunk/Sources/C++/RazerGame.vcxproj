@@ -311,9 +311,7 @@
     <ClCompile Include="Physics\ForceField.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Bonus.cpp" />
-    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Goal.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="Render\OpenGL2\RenderOpenGL2Goal.cpp" />
     <ClCompile Include="Render\OpenGL2\RenderOpenGL2Table.cpp" />
     <ClCompile Include="Render\RenderComponentManager.cpp" />
     <ClCompile Include="Reseau\CommunicateurReseau.cpp" />
@@ -486,7 +484,6 @@
     <ClInclude Include="Interface\GestionEtat\GameControllerSimulation.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerTournament.h" />
     <ClInclude Include="Interface\GestionEtat\GameControllerTournamentEnd.h" />
-    <ClInclude Include="Interface\ObserverFacade.h" />
     <ClInclude Include="Jeu\AI\AIMaillet.h" />
     <ClInclude Include="Jeu\AI\AIStrat.h" />
     <ClInclude Include="Jeu\AI\AIStratDefensive.h" />
@@ -533,7 +530,6 @@
     <ClInclude Include="Reseau\PacketReader.h" />
     <ClInclude Include="Reseau\PacketsDefinitions.h" />
     <ClInclude Include="Reseau\PaquetHandlers\PacketHandler.h" />
-    <ClInclude Include="Reseau\PaquetHandlers\PacketHandlerLoginInfo.h" />
     <ClInclude Include="Reseau\PaquetRunnable.h" />
     <ClInclude Include="Reseau\PaquetRunnableClientLourd.h" />
     <ClInclude Include="Reseau\PaquetRunnableServeurJeu.h" />

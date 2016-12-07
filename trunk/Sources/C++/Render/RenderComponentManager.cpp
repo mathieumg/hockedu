@@ -2,6 +2,8 @@
 #include "RenderOpenGL2.h"
 #include "RenderOpenGL2Bonus.h"
 #include "RenderOpenGL2Table.h"
+#include "RenderOpenGL2Goal.h"
+#include "GestionnaireModeles.h"
 
 
 SINGLETON_DECLARATION_CPP( RenderComponentManager );
@@ -31,7 +33,8 @@ RenderComponentManager::RenderComponentManager()
     createFactory( RenderOpenGL2, RAZER_KEY_MALLET );
     createFactory( RenderOpenGL2Bonus, RAZER_KEY_BONUS );
     createFactory( RenderOpenGL2, RAZER_KEY_BOOST );
-    createFactory( RenderOpenGL2, RAZER_KEY_GOAL );
+    createFactory( RenderOpenGL2, RAZER_KEY_HOUSE );
+    createFactory( RenderOpenGL2Goal, RAZER_KEY_GOAL );
 }
 
 

@@ -116,7 +116,7 @@ bool BonusModifierBlockGoal::Apply()
 {
     if(mOwner)
     {
-        auto existingModifiers = mOwner->GetModifiers();
+        auto existingModifiers = mOwner->getModifiers();
         // recherche pour un bonus déjà présent
         for(auto it = existingModifiers.begin(); it != existingModifiers.end(); ++it)
         {

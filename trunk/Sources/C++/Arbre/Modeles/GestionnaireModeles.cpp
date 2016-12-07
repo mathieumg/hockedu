@@ -489,7 +489,8 @@ DWORD WINAPI WorkerLoadModel( LPVOID arg )
 
 CreateListDelegateImplementation(House)
 {
-    unsigned int liste = GestionnaireModeles::CreerListe(pModel);
+    unsigned int liste = RazerGameUtilities::CreateListSphereDefault(pModel, 60000.f);
+    //unsigned int liste = GestionnaireModeles::CreerListe(pModel);
 
     GestionnaireModeles::obtenirInstance()->mHouseList = liste;
 

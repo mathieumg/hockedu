@@ -346,10 +346,7 @@ public:
         auto res = mModifiers.insert(pModifier);
         return res.second;
     }
-    inline const ModifiersContainer& GetModifiers()const
-    {
-        return mModifiers;
-    }
+    const ModifiersContainer& getModifiers() const {return mModifiers;}
 	/// Change le mode d'affichage des polygones.
 	virtual void cyclePolygonMode( bool estForce );
 	/// Assigne le mode d'affichage des polygones.
