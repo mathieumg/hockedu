@@ -15,7 +15,7 @@
 #include <ext/hash_map>
 namespace std {using namespace __gnu_cxx; }
 #elif defined(WIN32)
-#include <hash_map>
+#include <unordered_map>
 #endif
 #include "../Jeu/Partie.h"
 #include <vector>
@@ -77,7 +77,7 @@ private:
 
     int mMaximumGameCount;
 
-    std::hash_map<int, Partie*> mListePartiesParId;
+    std::unordered_map<int, Partie*> mListePartiesParId;
 
     std::vector<GameAddedCallback> mGameAddedCallbacks;
     std::vector<GameUpdateCallback> mGameUpdatedCallbacks;

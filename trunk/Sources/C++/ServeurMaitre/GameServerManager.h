@@ -4,13 +4,13 @@
 #include <ext/hash_map>
 namespace std {using namespace __gnu_cxx; }
 #elif defined(WIN32)
-#include <hash_map>
+#include <unordered_map>
 #endif
 #include "../Reseau/ObjetsGlobaux/PartieServeurs.h"
 
 
 class GameServer;
-typedef std::hash_map<unsigned int, GameServer*> GameServersContainer;
+typedef std::unordered_map<unsigned int, GameServer*> GameServersContainer;
 
 class GameServerManager: public Singleton<GameServerManager>
 {

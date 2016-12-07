@@ -43,7 +43,7 @@ private:
 
     virtual void getPlayersInGame( int pGameId, std::vector<std::string>& pPlayerList );
 
-    std::hash_map<EventCodes, EventTypeHandler> mEventTypeHandlers;
+    std::unordered_map<EventCodes, EventTypeHandler> mEventTypeHandlers;
 };
 
 
